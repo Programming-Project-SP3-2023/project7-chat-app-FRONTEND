@@ -1,10 +1,21 @@
+/**
+ * React main component module
+ */
+
+// Dependencies
+import { Routes, Route } from "react-router-dom";
+
+// Components
+import Home from "./base/Home";
+import Header from "./base/Header";
+
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Echo</h1>
-        <h2>Chat Project</h2>
-      </header>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
     </div>
   );
 }
