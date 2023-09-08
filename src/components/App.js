@@ -14,6 +14,9 @@ import Profile from "./profile/Profile";
 import Channels from "./channels/Channels";
 import Search from "./search/Search";
 import Footer from "./base/Footer";
+import NotFound from "./base/NotFound";
+import CreateNewChannel from "./channels/CreateNewChannel";
+import JoinChannel from "./channels/JoinChannel";
 
 function App() {
   return (
@@ -21,11 +24,16 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/channels" element={<Channels />} />
-        <Route path="/search" element={<Search />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="channels">
+          <Route path="" element={<Channels />} />
+          <Route path="create-new" element={<CreateNewChannel />} />
+          <Route path="join" element={<JoinChannel />} />
+        </Route>
+        <Route path="search" element={<Search />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </div>
