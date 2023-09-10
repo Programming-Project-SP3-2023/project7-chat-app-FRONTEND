@@ -2,3 +2,113 @@
 
 // Before using, start compiler from terminal in the static folder with command
 // sass --watch style.scss:style.css
+
+// COLORS
+
+// MIXINS
+@mixin flex-row($justify-content: space-around, $align-items: center) {
+  display: flex;
+  flex-direction: row;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin flex-column($justify-content: space-around, $align-items: center) {
+  display: flex;
+  flex-direction: column;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+/* ---------------------------- GENERAL STYLING ---------------------------- */
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.main-section {
+  height: fit-content;
+  min-height: 80vh;
+  width: 100%;
+  padding: 2%;
+}
+
+h1 {
+  font-size: 50px;
+}
+
+h2 {
+  font-size: 40px;
+}
+
+p {
+  font-size: 20px;
+}
+
+.MuiButton-contained {
+  text-transform: initial !important;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.error-message{
+    color: red;
+    font-size: 15px;
+}
+
+/* ---------------------------- HEADER & FOOTER ---------------------------- */
+
+header,
+footer {
+  min-height: 10vh;
+  height: 100px;
+  width: 100%;
+  padding: 1%;
+  @include flex-row();
+  border: 1px solid black;
+}
+
+/* ---------------------------- LOGIN PAGE ---------------------------- */
+
+#login-screen {
+  @include flex-column(center, center);
+  gap: 50px;
+}
+
+#login-form {
+  @include flex-column(center, flex-start);
+  gap: 15px;
+  width: 500px;
+
+  .MuiTextField-root {
+    margin-bottom: 5%;
+  }
+}
+
+#login-button-div {
+  width: 100%;
+  @include flex-row(flex-end, center);
+}
+
+#login-btn {
+  width: 100px;
+}
+
+#login-link {
+  a {
+    margin: 0 3px !important;
+  }
+}
