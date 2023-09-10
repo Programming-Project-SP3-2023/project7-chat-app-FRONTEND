@@ -76,7 +76,6 @@ const Signup = () => {
             onChange={(event) => setName(event.target.value)}
             type="text"
             label="Name"
-            size="small"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -94,7 +93,6 @@ const Signup = () => {
             onChange={(event) => setEmail(event.target.value)}
             type="email"
             label="Email Address"
-            size="small"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -112,7 +110,6 @@ const Signup = () => {
             type="date"
             onChange={(event) => setDateOfBirth(event.target.value)}
             placeholder="Date of Birth"
-            size="small"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -130,7 +127,6 @@ const Signup = () => {
             type="password"
             onChange={(event) => setPassword(event.target.value)}
             label="Password"
-            size="small"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -148,7 +144,6 @@ const Signup = () => {
             onChange={(event) => setConfirmPassword(event.target.value)}
             type="password"
             label="Repeat Password"
-            size="small"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
