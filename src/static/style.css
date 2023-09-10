@@ -14,9 +14,9 @@ body {
 .main-section {
   height: -moz-fit-content;
   height: fit-content;
-  min-height: 80vh;
+  min-height: 100vh;
   width: 100%;
-  padding: 2%;
+  padding: 150px 2% 100px;
 }
 
 h1 {
@@ -27,12 +27,23 @@ h2 {
   font-size: 40px;
 }
 
-p {
-  font-size: 20px;
+p, span {
+  font-size: 18px;
 }
 
 .MuiButton-contained {
   text-transform: initial !important;
+}
+
+.MuiButton-contained:hover, a:hover {
+  transform: translateY(-2px);
+  transform: scale(1.03);
+  transition: 0.3s linear;
+}
+
+.MuiTextField-root {
+  background-color: white;
+  border-radius: 5px;
 }
 
 a {
@@ -49,18 +60,129 @@ a {
 header,
 footer {
   min-height: 10vh;
-  height: 100px;
   width: 100%;
   padding: 1%;
+  position: fixed;
+  z-index: 2;
+}
+
+header {
+  height: 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+header #logo-container {
+  width: 40%;
+  height: 100%;
+  cursor: pointer;
+}
+header #logo-container img {
+  object-fit: contain;
+  max-height: 100%;
+}
+
+@keyframes logo-hover {
+  10% {
+    transform: translateX(25px);
+  }
+  30% {
+    transform: translateX(-20px);
+  }
+  50% {
+    transform: translateX(15px);
+  }
+  70% {
+    transform: translateX(-10px);
+  }
+  85% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+#logo-container:hover {
+  animation-name: logo-hover;
+  animation-duration: 1.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+}
+
+footer {
+  height: 100px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  border: 1px solid black;
+  bottom: 0;
+}
+
+/* ---------------------------- HOMEPAGE ---------------------------- */
+#home-screen {
+  background-color: #d2d2d2;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+#home-screen #home-bg-shape {
+  background-color: #799cb1;
+  width: 170%;
+  height: 170%;
+  position: absolute;
+  top: 15%;
+  left: -80%;
+  z-index: -1;
+  transform: rotateZ(40deg);
+}
+#home-screen #home-login-btn,
+#home-screen #home-signup-btn {
+  width: 300px;
+  font-size: 20px;
+}
+#home-screen #home-login-btn {
+  background-color: #495057;
+}
+#home-screen #home-signup-btn {
+  background-color: #253d5b;
+}
+#home-screen .home-btns {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: absolute;
+  right: 8%;
+  bottom: 20%;
 }
 
 /* ---------------------------- LOGIN PAGE ---------------------------- */
 #login-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding-right: 15%;
+  background-color: #d2d2d2;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+#login-screen #login-bg-shape {
+  background-color: #799cb1;
+  width: 2000px;
+  height: 2000px;
+  position: absolute;
+  bottom: -530px;
+  left: 40%;
+  z-index: -1;
+  transform: rotateZ(90deg);
+  border-radius: 60%;
+}
+
+#login-form-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -89,11 +211,14 @@ footer {
 }
 
 #login-btn {
-  width: 100px;
+  width: 200px;
+  font-size: 18px;
+  background-color: #253d5b;
 }
 
 #login-link a {
-  margin: 0 3px !important;
+  margin: 0 4px !important;
+  color: white;
 }
 
 /* ---------------------------- SignUp PAGE ---------------------------- */

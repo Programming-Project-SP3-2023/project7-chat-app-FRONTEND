@@ -4,6 +4,10 @@
 // sass --watch style.scss:style.css
 
 // COLORS
+$echo-lightblue: #799cb1;
+$echo-darkblue: #253d5b;
+$echo-lightgrey: #d2d2d2;
+$echo-darkgrey: #495057;
 
 // MIXINS
 @mixin flex-row($justify-content: space-around, $align-items: center) {
@@ -38,9 +42,9 @@ body {
 
 .main-section {
   height: fit-content;
-  min-height: 80vh;
+  min-height: 100vh;
   width: 100%;
-  padding: 2%;
+  padding: 150px 2% 100px;
 }
 
 h1 {
@@ -51,12 +55,23 @@ h2 {
   font-size: 40px;
 }
 
-p {
-  font-size: 20px;
+p, span {
+  font-size: 18px;
 }
 
 .MuiButton-contained {
   text-transform: initial !important;
+}
+
+.MuiButton-contained:hover, a:hover {
+  transform: translateY(-2px);
+  transform: scale(1.03);
+  transition: 0.3s linear;
+}
+
+.MuiTextField-root {
+  background-color: white;
+  border-radius: 5px;
 }
 
 a {
@@ -74,16 +89,128 @@ a {
 header,
 footer {
   min-height: 10vh;
-  height: 100px;
   width: 100%;
   padding: 1%;
+  position: fixed;
+  z-index: 2;
+}
+
+header {
+  height: 200px;
+  @include flex-row(flex-start, center);
+
+  #logo-container {
+    width: 40%;
+    height: 100%;
+    cursor: pointer;
+
+    img {
+      object-fit: contain;
+      max-height: 100%;
+    }
+  }
+}
+
+// Logo animation
+@keyframes logo-hover {
+  10% {
+    transform: translateX(25px);
+  }
+  30% {
+    transform: translateX(-20px);
+  }
+  50% {
+    transform: translateX(15px);
+  }
+  70% {
+    transform: translateX(-10px);
+  }
+  85% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+#logo-container:hover {
+  animation-name: logo-hover;
+  animation-duration: 1.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+}
+
+footer {
+  height: 100px;
   @include flex-row();
-  border: 1px solid black;
+  bottom: 0;
+}
+
+/* ---------------------------- HOMEPAGE ---------------------------- */
+#home-screen {
+  background-color: $echo-lightgrey;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+
+  #home-bg-shape {
+    background-color: $echo-lightblue;
+    width: 170%;
+    height: 170%;
+    position: absolute;
+    top: 15%;
+    left: -80%;
+    z-index: -1;
+    transform: rotateZ(40deg);
+  }
+
+  #home-login-btn,
+  #home-signup-btn {
+    width: 300px;
+    font-size: 20px;
+  }
+
+  #home-login-btn {
+    background-color: $echo-darkgrey;
+  }
+
+  #home-signup-btn {
+    background-color: $echo-darkblue;
+  }
+
+  .home-btns {
+    @include flex-column(center, center);
+    gap: 20px;
+    position: absolute;
+    right: 8%;
+    bottom: 20%;
+  }
 }
 
 /* ---------------------------- LOGIN PAGE ---------------------------- */
 
 #login-screen {
+  @include flex-column(center, flex-end);
+  padding-right: 15%;
+  background-color: $echo-lightgrey;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+
+  #login-bg-shape {
+    background-color: $echo-lightblue;
+    width: 2000px;
+    height: 2000px;
+    position: absolute;
+    bottom: -530px;
+    left: 40%;
+    z-index: -1;
+    transform: rotateZ(90deg);
+    border-radius: 60%;
+  }
+}
+
+#login-form-container {
   @include flex-column(center, center);
   gap: 50px;
 }
@@ -104,12 +231,15 @@ footer {
 }
 
 #login-btn {
-  width: 100px;
+  width: 200px;
+  font-size: 18px;
+  background-color: $echo-darkblue;
 }
 
 #login-link {
   a {
-    margin: 0 3px !important;
+    margin: 0 4px !important;
+    color: white;
   }
 }
 
