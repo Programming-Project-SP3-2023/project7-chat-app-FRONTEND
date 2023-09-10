@@ -60,13 +60,13 @@ p {
 }
 
 a {
-    text-decoration: none;
-    cursor: pointer;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.error-message{
-    color: red;
-    font-size: 15px;
+.error-message {
+  color: red;
+  font-size: 15px;
 }
 
 /* ---------------------------- HEADER & FOOTER ---------------------------- */
@@ -111,4 +111,36 @@ footer {
   a {
     margin: 0 3px !important;
   }
+}
+
+/* ---------------------------- SignUp PAGE ---------------------------- */
+
+#sign-up-screen {
+  background-color: #013a6b;
+  background-image: -webkit-linear-gradient(138deg, #759ab0 60%, #d2d1d4 40%);
+  @include flex-column(center, center);
+  gap: 50px;
+}
+
+#sign-up-form {
+  @include flex-column(center, center);
+  gap: 15px;
+  width: 500px;
+
+  .MuiTextField-root {
+    margin-bottom: 5%;
+  }
+}
+
+#registration-btn-div {
+  @include flex-column(center, center);
+  gap: 20px;
+}
+
+#sign-up-btn {
+  width: 100px;
+}
+
+#cancel-sign-up-btn {
+  width: 100px;
 }

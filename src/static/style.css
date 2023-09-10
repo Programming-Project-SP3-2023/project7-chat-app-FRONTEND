@@ -12,6 +12,7 @@ body {
 }
 
 .main-section {
+  height: -moz-fit-content;
   height: fit-content;
   min-height: 80vh;
   width: 100%;
@@ -95,4 +96,41 @@ footer {
   margin: 0 3px !important;
 }
 
-/*# sourceMappingURL=style.css.map */
+/* ---------------------------- SignUp PAGE ---------------------------- */
+#sign-up-screen {
+  background-color: #013a6b;
+  background-image: -webkit-linear-gradient(138deg, #759ab0 60%, #d2d1d4 40%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+
+#sign-up-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 500px;
+}
+#sign-up-form .MuiTextField-root {
+  margin-bottom: 5%;
+}
+
+#registration-btn-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+#sign-up-btn {
+  width: 100px;
+}
+
+#cancel-sign-up-btn {
+  width: 100px;
+}/*# sourceMappingURL=style.css.map */
