@@ -2,6 +2,7 @@
  * Header component
  */
 
+import { useEffect, useState } from "react";
 import ECHO_LOGO from "../../assets/echo_logo.png";
 import { Link } from "@mui/material";
 
@@ -9,9 +10,16 @@ import { Link } from "@mui/material";
  * Builds and renders the header component
  * @returns Header component render
  */
-const Header = () => {
+const Header = ({isLoggedIn}) => {
+
+  const [headerId, setHeaderId] = useState("header");
+
+  useEffect(() => {
+    setHeaderId(isLoggedIn ? "header-dark" : "header");
+  }, [isLoggedIn])
+
   return (
-    <header id="header">
+    <header id={headerId}>
       <div id="logo-container">
         <Link href="/">
         <img src={ECHO_LOGO} alt="Echo - a professional chat tool" />
