@@ -283,4 +283,43 @@ footer {
   width: 100px;
 }
 
+/* ---------------------------- SIDE MENU ---------------------------- */
+#side-menu .MuiDrawer-paper {
+  top: unset;
+  width: 12%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #253d5b;
+  border: 0;
+}
+#side-menu .MuiList-root {
+  padding-top: 0;
+}
+#side-menu .MuiListItemIcon-root {
+  min-width: unset !important;
+}
+#side-menu .MuiListItem-root {
+  justify-content: center;
+  text-align: center;
+  height: 150px;
+  width: 100%;
+  cursor: pointer;
+}
+#side-menu .MuiListItem-root:hover {
+  transition: 0.8s ease-in-out;
+  background-color: white;
+}
+
+#side-menu-item-selected {
+  background-color: white;
+}
+
+/* ---------------------------- DASHBOARD ---------------------------- */
+.dashboard-main {
+  padding-left: 14%;
+  padding-top: 3%;
+}
+
 /*# sourceMappingURL=style.css.map */

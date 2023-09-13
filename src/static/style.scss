@@ -295,3 +295,47 @@ footer {
 #cancel-sign-up-btn {
   width: 100px;
 }
+
+/* ---------------------------- SIDE MENU ---------------------------- */
+
+#side-menu{
+  .MuiDrawer-paper{
+    top: unset;
+    width: 12%;
+    @include flex-column(flex-start, center);
+    background-color: $echo-darkblue;
+    border: 0;
+  } 
+
+  .MuiList-root{
+    padding-top: 0;
+  }
+
+  .MuiListItemIcon-root{
+    min-width: unset !important;
+  }
+
+  .MuiListItem-root{
+    justify-content: center;
+    text-align: center;
+    height: 150px;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .MuiListItem-root:hover{
+    transition: 0.8s ease-in-out;
+    background-color: white;
+  }
+}
+
+#side-menu-item-selected{
+  background-color: white;
+}
+
+
+/* ---------------------------- DASHBOARD ---------------------------- */
+.dashboard-main{
+  padding-left: 14%;
+  padding-top: 3%;
+}
