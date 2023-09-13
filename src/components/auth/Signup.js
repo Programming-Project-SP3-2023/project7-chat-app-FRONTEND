@@ -48,18 +48,27 @@ const Signup = () => {
       // check if password is same as repeat password
     } else {
       // add user to database
-
       const newUser = {
         name: name,
         email: email,
         dateOfBirth: dateOfBirth,
-        password: password,
+        username: "temp",
+        password: password
       };
 
-      // addUserRegistration(newUser)
-      navigate("/Login");
+
+      const response = fetch("http://localhost:4000/Register", {
+        method: "POST",
+        mode: 'cors',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newUser),
+      });
+      navigate("/");
+
     }
-  };
+  }; 
 
   return (
     <section className="main-section" id="sign-up-screen">

@@ -55,7 +55,8 @@ h2 {
   font-size: 40px;
 }
 
-p, span {
+p,
+span {
   font-size: 18px;
 }
 
@@ -63,7 +64,8 @@ p, span {
   text-transform: initial !important;
 }
 
-.MuiButton-contained:hover, a:hover {
+.MuiButton-contained:hover,
+a:hover {
   transform: translateY(-2px);
   transform: scale(1.03);
   transition: 0.3s linear;
@@ -96,9 +98,11 @@ footer {
 }
 
 header {
-  height: 200px;
   @include flex-row(flex-start, center);
+}
 
+#header {
+  height: 200px;
   #logo-container {
     width: 40%;
     height: 100%;
@@ -107,6 +111,23 @@ header {
     img {
       object-fit: contain;
       max-height: 100%;
+    }
+  }
+}
+
+#header-dark {
+  height: 150px;
+  background-color: $echo-darkblue;
+  #logo-container {
+    width: 10%;
+    height: 100%;
+    cursor: pointer;
+    @include flex-column(center, center);
+
+    img {
+      object-fit: contain;
+      max-height: 100%;
+      max-width: 100%;
     }
   }
 }

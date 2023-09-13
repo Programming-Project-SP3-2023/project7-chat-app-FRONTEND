@@ -19,14 +19,24 @@ import CreateNewChannel from "./channels/CreateNewChannel";
 import JoinChannel from "./channels/JoinChannel";
 import Friends from "./profile/Friends";
 import Groups from "./profile/Groups";
+import { getUser } from "../utils/localStorage";
+import { useState, useEffect } from "react";
 
 function App() {
+
+  const user = getUser();
+  const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
+
+  useEffect(() => {
+    setIsLoggedIn(user ? true : false);
+  },[user, isLoggedIn])
+
   return (
     <div className="App">
-      <Header />
+      <Header isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="login" element={<Login />} />
+        <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="signup" element={<Signup />} />
         <Route path="dashboard">
           <Route path="" element={<Dashboard />} />

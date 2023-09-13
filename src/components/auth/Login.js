@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
  * Builds and renders the login component
  * @returns Login component render
  */
-const Login = () => {
+const Login = ({setIsLoggedIn}) => {
   //Props
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -45,6 +45,7 @@ const Login = () => {
       };
       // set user data in local storage
       setUserSession(user);
+      setIsLoggedIn(true);
       // navigate to dashboard
       navigate("/dashboard");
     }
