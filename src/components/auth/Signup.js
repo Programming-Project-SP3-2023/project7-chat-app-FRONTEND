@@ -25,6 +25,7 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
@@ -52,23 +53,21 @@ const Signup = () => {
         name: name,
         email: email,
         dateOfBirth: dateOfBirth,
-        username: "temp",
-        password: password
+        username: username,
+        password: password,
       };
-
 
       const response = fetch("http://localhost:4000/Register", {
         method: "POST",
-        mode: 'cors',
+        mode: "cors",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(newUser),
       });
       navigate("/");
-
     }
-  }; 
+  };
 
   return (
     <section className="main-section" id="sign-up-screen">
@@ -126,6 +125,24 @@ const Signup = () => {
               ),
             }}
           />
+          <p>Username:</p>
+          <TextField
+            fullWidth
+            id="username"
+            variant="outlined"
+            value={name}
+            onChange={(event) => setUsername(event.target.value)}
+            type="text"
+            placeholder="Enter your username"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PersonPinIcon color="primary" />
+                </InputAdornment>
+              ),
+            }}
+          />
+
           <p>Password:</p>
           <TextField
             fullWidth
