@@ -11,8 +11,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// import { Connect } from "react-redux";
-
 /**
  * Builds and renders the signup component
  * @returns Signup component render
@@ -58,6 +56,7 @@ const Signup = () => {
         password: password
       };
 
+
       const response = fetch("http://localhost:4000/Register", {
         method: "POST",
         mode: 'cors',
@@ -67,6 +66,7 @@ const Signup = () => {
         body: JSON.stringify(newUser),
       });
       navigate("/");
+
     }
   }; 
 
@@ -75,6 +75,7 @@ const Signup = () => {
       <h1>Sign Up</h1>
       <form onSubmit={registrationHandler}>
         <FormControl id="sign-up-form">
+          <p>Name:</p>
           <TextField
             fullWidth
             id="name"
@@ -82,7 +83,7 @@ const Signup = () => {
             value={name}
             onChange={(event) => setName(event.target.value)}
             type="text"
-            label="Name"
+            placeholder="Enter your name"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -91,7 +92,7 @@ const Signup = () => {
               ),
             }}
           />
-
+          <p>Email:</p>
           <TextField
             fullWidth
             id="email"
@@ -99,7 +100,7 @@ const Signup = () => {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             type="email"
-            label="Email Address"
+            placeholder="Enter your email address"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -108,7 +109,7 @@ const Signup = () => {
               ),
             }}
           />
-
+          <p>Date of Birth:</p>
           <TextField
             fullWidth
             id="dateOfBirth"
@@ -116,7 +117,7 @@ const Signup = () => {
             value={dateOfBirth}
             type="date"
             onChange={(event) => setDateOfBirth(event.target.value)}
-            placeholder="Date of Birth"
+            placeholder="Enter your date of birth"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -125,7 +126,7 @@ const Signup = () => {
               ),
             }}
           />
-
+          <p>Password:</p>
           <TextField
             fullWidth
             id="password"
@@ -133,7 +134,7 @@ const Signup = () => {
             value={password}
             type="password"
             onChange={(event) => setPassword(event.target.value)}
-            label="Password"
+            placeholder="Enter your password"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -142,7 +143,7 @@ const Signup = () => {
               ),
             }}
           />
-
+          <p>Password Validation:</p>
           <TextField
             fullWidth
             id="confirmPassword"
@@ -150,7 +151,7 @@ const Signup = () => {
             value={confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
             type="password"
-            label="Repeat Password"
+            placeholder="Verify your password"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -166,6 +167,7 @@ const Signup = () => {
               Sign Up
             </Button>
             <Button
+              href="/"
               id="cancel-sign-up-btn"
               className="cancel-btn"
               variant="contained"

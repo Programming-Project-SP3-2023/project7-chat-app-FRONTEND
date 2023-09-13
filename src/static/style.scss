@@ -267,14 +267,19 @@ footer {
 /* ---------------------------- SignUp PAGE ---------------------------- */
 
 #sign-up-screen {
-  background-color: #013a6b;
-  background-image: -webkit-linear-gradient(138deg, #759ab0 60%, #d2d1d4 40%);
+  background-color: $echo-darkblue;
+  background-image: -webkit-linear-gradient(
+    138deg,
+    $echo-lightblue 60%,
+    $echo-lightgrey 40%
+  );
   @include flex-column(center, center);
   gap: 50px;
 }
 
 #sign-up-form {
-  @include flex-column(center, center);
+  @include flex-column(center, flex-start);
+
   gap: 15px;
   width: 500px;
 
@@ -284,14 +289,18 @@ footer {
 }
 
 #registration-btn-div {
-  @include flex-column(center, center);
+  @include flex-column(flex-end, center);
+  width: 100%;
   gap: 20px;
 }
 
 #sign-up-btn {
-  width: 100px;
+  width: 200px;
+  background-color: $echo-darkblue;
 }
 
 #cancel-sign-up-btn {
-  width: 100px;
+  width: 200px;
+  background-color: $echo-lightgrey;
+  color: $echo-darkblue;
 }
