@@ -15,7 +15,7 @@ body {
   height: fit-content;
   min-height: 100vh;
   width: 100%;
-  padding: 150px 2% 100px;
+  padding: 100px 2% 100px;
 }
 
 h1 {
@@ -60,7 +60,7 @@ a {
 /* ---------------------------- HEADER & FOOTER ---------------------------- */
 header,
 footer {
-  min-height: 10vh;
+  min-height: 6vh;
   width: 100%;
   padding: 1%;
   position: fixed;
@@ -75,7 +75,7 @@ header {
 }
 
 #header {
-  height: 200px;
+  height: 100px;
 }
 #header #logo-container {
   width: 40%;
@@ -88,7 +88,7 @@ header {
 }
 
 #header-dark {
-  height: 150px;
+  height: 100px;
   background-color: #253d5b;
 }
 #header-dark #logo-container {
@@ -293,7 +293,7 @@ footer {
   align-items: center;
   border: 0;
   background-color: #799cb1;
-  border-radius: 0 0 10px 0;
+  border-radius: 0 0 20px 0;
   height: fit-content;
 }
 #side-menu .MuiSvgIcon-root {
@@ -351,6 +351,19 @@ footer {
   background-color: #799cb1;
   min-height: fit-content;
   height: 100vh;
+}
+
+#dashboard-header-title {
+  color: white;
+  position: absolute;
+  width: 100vw;
+  top: 0px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
 }
 
 /*# sourceMappingURL=style.css.map */

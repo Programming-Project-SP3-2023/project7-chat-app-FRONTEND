@@ -15,9 +15,12 @@ import { useState } from "react";
 const Dashboard = () => {
   // temporary user for development
   const user = getUser();
+  // separating first two options from groups as in future development
+  // the groups will be pulled from a backend endpoint
   const mainOptions = ["Dashboard", "Friends"];
   const groups = ["Group 1", "Group 2", "Another Group"];
   const options = mainOptions.concat(groups);
+  // state variables
   const [selectedOpt, setSelectedOpt] = useState(0);
 
   /**
@@ -30,13 +33,19 @@ const Dashboard = () => {
 
   return (
     <section className="main-section" id="dashboard">
-      <SideMenu options={options} setSelectedOpt={setSelectedOpt} selectedOpt={selectedOpt} />
+      <div id="dashboard-header-title">
+      <h2>{options[selectedOpt]}</h2>
+      </div>
+      <SideMenu
+        options={options}
+        setSelectedOpt={setSelectedOpt}
+        selectedOpt={selectedOpt}
+      />
       <div className="dashboard-main">
         <h1>Dashboard page</h1>
         <h3>Temporary user testing display:</h3>
         <p>EMAIL: {user && user.email}</p>
         <p>PASSWORD: {user && user.password}</p>
-        <h1> SELECTED OPTION IS {options[selectedOpt]}</h1>
         <Link href="/" onClick={logout}>
           Logout
         </Link>

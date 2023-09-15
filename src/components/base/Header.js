@@ -3,7 +3,7 @@
  */
 
 import { useEffect, useState } from "react";
-import ECHO_LOGO from "../../assets/echo_logo.png";
+import ECHO_LOGO from "../../assets/echo_transparent.png";
 import { Link } from "@mui/material";
 
 /**

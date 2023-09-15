@@ -5,7 +5,7 @@
 import { Drawer, ListItem, Box, List } from "@mui/material";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
-import ECHO_LOGO from "../../assets/echo_logo.png";
+import ECHO_LOGO from "../../assets/echo_transparent.png";
 
 /**
  * Builds and renders the side menu component
