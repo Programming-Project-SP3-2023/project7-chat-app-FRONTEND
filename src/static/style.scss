@@ -298,44 +298,75 @@ footer {
 
 /* ---------------------------- SIDE MENU ---------------------------- */
 
-#side-menu{
-  .MuiDrawer-paper{
+#side-menu {
+  .MuiDrawer-paper {
     top: unset;
     width: 12%;
     @include flex-column(flex-start, center);
-    background-color: $echo-darkblue;
     border: 0;
-  } 
+    background-color: $echo-lightblue;
+    border-radius: 0 0 10px 0;
+    height: fit-content;
+  }
 
-  .MuiList-root{
+  .MuiSvgIcon-root{
+    font-size: 250%;
+  }
+
+  .MuiList-root {
     padding-top: 0;
+    padding-bottom: 0;
   }
 
-  .MuiListItemIcon-root{
-    min-width: unset !important;
-  }
-
-  .MuiListItem-root{
+  .MuiListItem-root {
     justify-content: center;
     text-align: center;
-    height: 150px;
+    max-height: 150px;
+    min-height: 120px;
     width: 100%;
     cursor: pointer;
   }
 
-  .MuiListItem-root:hover{
-    transition: 0.8s ease-in-out;
-    background-color: white;
+  .side-menu-img-container {
+    width: 100%;
+
+    img {
+      object-fit: contain;
+      max-width: 100%;
+    }
   }
 }
 
-#side-menu-item-selected{
-  background-color: white;
+.side-menu-item {
+  background-color: $echo-darkblue;
+  .MuiSvgIcon-root{
+    color: $echo-lightblue;
+  }
 }
 
+#side-menu-item-before {
+  border-radius: 0 0 20px 0;
+}
+
+#side-menu-item-after {
+  border-radius: 0 20px 0 0;
+}
+
+#side-menu-item-selected {
+  background-color: $echo-lightblue;
+  .MuiSvgIcon-root{
+    color: $echo-darkblue;
+  }
+}
 
 /* ---------------------------- DASHBOARD ---------------------------- */
-.dashboard-main{
+.dashboard-main {
   padding-left: 14%;
   padding-top: 3%;
+}
+
+#dashboard {
+  background-color: $echo-lightblue;
+  min-height: fit-content;
+  height: 100vh;
 }

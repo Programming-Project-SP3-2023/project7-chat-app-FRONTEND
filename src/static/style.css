@@ -291,35 +291,66 @@ footer {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: #253d5b;
   border: 0;
+  background-color: #799cb1;
+  border-radius: 0 0 10px 0;
+  height: fit-content;
+}
+#side-menu .MuiSvgIcon-root {
+  font-size: 250%;
 }
 #side-menu .MuiList-root {
   padding-top: 0;
-}
-#side-menu .MuiListItemIcon-root {
-  min-width: unset !important;
+  padding-bottom: 0;
 }
 #side-menu .MuiListItem-root {
   justify-content: center;
   text-align: center;
-  height: 150px;
+  max-height: 150px;
+  min-height: 120px;
   width: 100%;
   cursor: pointer;
 }
-#side-menu .MuiListItem-root:hover {
-  transition: 0.8s ease-in-out;
-  background-color: white;
+#side-menu .side-menu-img-container {
+  width: 100%;
+}
+#side-menu .side-menu-img-container img {
+  object-fit: contain;
+  max-width: 100%;
+}
+
+.side-menu-item {
+  background-color: #253d5b;
+}
+.side-menu-item .MuiSvgIcon-root {
+  color: #799cb1;
+}
+
+#side-menu-item-before {
+  border-radius: 0 0 20px 0;
+}
+
+#side-menu-item-after {
+  border-radius: 0 20px 0 0;
 }
 
 #side-menu-item-selected {
-  background-color: white;
+  background-color: #799cb1;
+}
+#side-menu-item-selected .MuiSvgIcon-root {
+  color: #253d5b;
 }
 
 /* ---------------------------- DASHBOARD ---------------------------- */
 .dashboard-main {
   padding-left: 14%;
   padding-top: 3%;
+}
+
+#dashboard {
+  background-color: #799cb1;
+  min-height: fit-content;
+  height: 100vh;
 }
 
 /*# sourceMappingURL=style.css.map */

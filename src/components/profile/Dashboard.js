@@ -15,8 +15,10 @@ import { useState } from "react";
 const Dashboard = () => {
   // temporary user for development
   const user = getUser();
-  const groups = ["Group 1", "Group 2", "Another Group", "Team 4"];
-  const [selectedGroup, setSelectedGroup] = useState(0);
+  const mainOptions = ["Dashboard", "Friends"];
+  const groups = ["Group 1", "Group 2", "Another Group"];
+  const options = mainOptions.concat(groups);
+  const [selectedOpt, setSelectedOpt] = useState(0);
 
   /**
    * Log user out
@@ -28,13 +30,13 @@ const Dashboard = () => {
 
   return (
     <section className="main-section" id="dashboard">
-      <SideMenu groups={groups} setSelectedGroup={setSelectedGroup} selectedGroup={selectedGroup} />
+      <SideMenu options={options} setSelectedOpt={setSelectedOpt} selectedOpt={selectedOpt} />
       <div className="dashboard-main">
         <h1>Dashboard page</h1>
         <h3>Temporary user testing display:</h3>
         <p>EMAIL: {user && user.email}</p>
         <p>PASSWORD: {user && user.password}</p>
-        <h1> SELECTED GROUP IS {groups[selectedGroup]}</h1>
+        <h1> SELECTED OPTION IS {options[selectedOpt]}</h1>
         <Link href="/" onClick={logout}>
           Logout
         </Link>
