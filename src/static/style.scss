@@ -9,6 +9,9 @@ $echo-darkblue: #253d5b;
 $echo-lightgrey: #d2d2d2;
 $echo-darkgrey: #495057;
 
+$echo-text-bg-user: #a9bcd0;
+$echo-text-bg-other: #f0eff4;
+
 // MIXINS
 @mixin flex-row($justify-content: space-around, $align-items: center) {
   display: flex;
@@ -318,7 +321,7 @@ footer {
     height: fit-content;
   }
 
-  .MuiSvgIcon-root{
+  .MuiSvgIcon-root {
     font-size: 250%;
   }
 
@@ -348,7 +351,7 @@ footer {
 
 .side-menu-item {
   background-color: $echo-darkblue;
-  .MuiSvgIcon-root{
+  .MuiSvgIcon-root {
     color: $echo-lightblue;
   }
 }
@@ -363,7 +366,7 @@ footer {
 
 #side-menu-item-selected {
   background-color: $echo-lightblue;
-  .MuiSvgIcon-root{
+  .MuiSvgIcon-root {
     color: $echo-darkblue;
   }
 }
@@ -380,7 +383,7 @@ footer {
   height: 100vh;
 }
 
-#dashboard-header-title{
+#dashboard-header-title {
   color: white;
   position: absolute;
   width: 100vw;
@@ -388,4 +391,54 @@ footer {
   height: 100px;
   @include flex-column(center, center);
   z-index: 2;
+}
+
+/* ---------------------------- Friends-UI ---------------------------- */
+
+.friends-chat-ui-container {
+  @include flex-row(start, start);
+}
+
+.friends-list {
+  background-color: $echo-text-bg-user;
+  max-width: 300px;
+}
+
+/* ---------------------------- ChatUI ---------------------------- */
+
+.chat-ui-container {
+  background-color: $echo-lightgrey;
+  @include flex-column(space-around, unset);
+  // height: fit-content;
+
+  margin: 0;
+  padding: 2%;
+}
+
+.message {
+  display: block;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+  max-width: 300px;
+  width: fit-content;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.message.user {
+  align-self: flex-start;
+  background-color: $echo-text-bg-user;
+}
+
+.message.other {
+  align-self: flex-end;
+  background-color: $echo-text-bg-other;
+}
+
+#chat-divider {
+  margin-block: 20px;
 }
