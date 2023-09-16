@@ -12,6 +12,7 @@ body {
 }
 
 .main-section {
+  height: -moz-fit-content;
   height: fit-content;
   min-height: 100vh;
   width: 100%;
@@ -83,7 +84,8 @@ header {
   cursor: pointer;
 }
 #header #logo-container img {
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
   max-height: 100%;
 }
 
@@ -101,7 +103,8 @@ header {
   align-items: center;
 }
 #header-dark #logo-container img {
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
   max-height: 100%;
   max-width: 100%;
 }
@@ -246,8 +249,8 @@ footer {
 
 /* ---------------------------- SignUp PAGE ---------------------------- */
 #sign-up-screen {
-  background-color: #013a6b;
-  background-image: -webkit-linear-gradient(138deg, #759ab0 60%, #d2d1d4 40%);
+  background-color: #253d5b;
+  background-image: -webkit-linear-gradient(138deg, #799cb1 60%, #d2d2d2 40%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -259,7 +262,7 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 15px;
   width: 500px;
 }
@@ -270,17 +273,21 @@ footer {
 #registration-btn-div {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  width: 100%;
   gap: 20px;
 }
 
 #sign-up-btn {
-  width: 100px;
+  width: 200px;
+  background-color: #253d5b;
 }
 
 #cancel-sign-up-btn {
-  width: 100px;
+  width: 200px;
+  background-color: #d2d2d2;
+  color: #253d5b;
 }
 
 /* ---------------------------- SIDE MENU ---------------------------- */
@@ -294,6 +301,7 @@ footer {
   border: 0;
   background-color: #799cb1;
   border-radius: 0 0 20px 0;
+  height: -moz-fit-content;
   height: fit-content;
 }
 #side-menu .MuiSvgIcon-root {
@@ -315,7 +323,8 @@ footer {
   width: 100%;
 }
 #side-menu .side-menu-img-container img {
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
   max-width: 100%;
 }
 
@@ -349,6 +358,7 @@ footer {
 
 #dashboard {
   background-color: #799cb1;
+  min-height: -moz-fit-content;
   min-height: fit-content;
   height: 100vh;
 }
@@ -366,4 +376,55 @@ footer {
   z-index: 2;
 }
 
-/*# sourceMappingURL=style.css.map */
+/* ---------------------------- Friends-UI ---------------------------- */
+.friends-chat-ui-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+}
+
+.friends-list {
+  background-color: #a9bcd0;
+  max-width: 300px;
+}
+
+/* ---------------------------- ChatUI ---------------------------- */
+.chat-ui-container {
+  background-color: #d2d2d2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: unset;
+  margin: 0;
+  padding: 2%;
+}
+
+.message {
+  display: block;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+  max-width: 300px;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.message.user {
+  align-self: flex-start;
+  background-color: #a9bcd0;
+}
+
+.message.other {
+  align-self: flex-end;
+  background-color: #f0eff4;
+}
+
+#chat-divider {
+  margin-block: 20px;
+}/*# sourceMappingURL=style.css.map */

@@ -2,11 +2,17 @@
  * Dashboard component
  */
 
-import { Link } from "@mui/material";
+import { Box, Link } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { getUser, resetUserSession } from "../../utils/localStorage";
 import SideMenu from "../partial/SideMenu";
 import { useState } from "react";
+
+// for testing
+import ChatUI from "../DM/ChatUI";
+import Friends from "../profile/Friends";
+
+import Grid from "@mui/material/Grid";
 
 /**
  * Builds and renders the dashboard component
@@ -34,13 +40,14 @@ const Dashboard = () => {
   return (
     <section className="main-section" id="dashboard">
       <div id="dashboard-header-title">
-      <h2>{options[selectedOpt]}</h2>
+        <h2>{options[selectedOpt]}</h2>
       </div>
       <SideMenu
         options={options}
         setSelectedOpt={setSelectedOpt}
         selectedOpt={selectedOpt}
       />
+
       <div className="dashboard-main">
         <h1>Dashboard page</h1>
         <h3>Temporary user testing display:</h3>
@@ -50,6 +57,18 @@ const Dashboard = () => {
           Logout
         </Link>
         <Outlet />
+
+        {/* Testing */}
+        <Box sx={{ height: 600, flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              <Friends />
+            </Grid>
+            <Grid item xs={9}>
+              <ChatUI />
+            </Grid>
+          </Grid>
+        </Box>
       </div>
     </section>
   );
