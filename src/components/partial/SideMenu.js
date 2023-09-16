@@ -5,6 +5,7 @@
 import { Drawer, ListItem, Box, List } from "@mui/material";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import ECHO_LOGO from "../../assets/echo_transparent.png";
 
 /**
@@ -31,7 +32,8 @@ const SideMenu = ({ options, setSelectedOpt, selectedOpt }) => {
               <div className="side-menu-img-container">
                 {index === 0 && <GridViewIcon />}
                 {index === 1 && <PeopleAltOutlinedIcon />}
-                {index > 1 && <img src={ECHO_LOGO} alt={text} />}
+                {index === options.length-1 && <ControlPointOutlinedIcon />}
+                {index > 1 && index < options.length-1 && <img src={ECHO_LOGO} alt={text} />}
               </div>
             </ListItem>
           ))}
