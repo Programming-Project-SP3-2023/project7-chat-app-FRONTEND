@@ -44,6 +44,28 @@ const ChatUI = () => {
       sender: "message_recived",
       userAvatar: ECHO_AVATAR,
     },
+    {
+      user: 0,
+      text: "Hey Captain, when are we getting the new recruits???",
+      sender: "message_recived",
+      userAvatar: ECHO_AVATAR,
+    },
+    {
+      user: 1,
+      text: "Dear Jake, This has yet to be confirmed. Sincerely Raymond Holt",
+      sender: "message_sent",
+    },
+    {
+      user: 1,
+      text: "Dear Jake, Please report to my office immerdiately, there has been a break-in and there are some high profile individuals involved. Sincerely, Raymond Holt",
+      sender: "message_sent",
+    },
+    {
+      user: 0,
+      text: "Hey what do you think of my new photo? Cool right?",
+      sender: "message_recived",
+      userAvatar: ECHO_AVATAR,
+    },
   ];
 
   return (
@@ -84,7 +106,7 @@ const ChatUI = () => {
           id="chat-input"
           variant="outlined"
           label="Type a Message"
-          // onChange={(event) => setSendMessage(event.target.value)}
+          // onChange={(event) => setMessage(event.target.value)}
           type="text"
           placeholder="Type a Message"
           InputProps={{

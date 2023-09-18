@@ -49,14 +49,14 @@ const Dashboard = () => {
       />
 
       <div className="dashboard-main">
-        <h1>Dashboard page</h1>
+        {/* <h1>Dashboard page</h1>
         <h3>Temporary user testing display:</h3>
         <p>EMAIL: {user && user.email}</p>
         <p>PASSWORD: {user && user.password}</p>
         <Link href="/" onClick={logout}>
           Logout
         </Link>
-        <Outlet />
+        <Outlet /> */}
 
         {/* Testing */}
         <Box sx={{ height: 600, flexGrow: 1 }}>
