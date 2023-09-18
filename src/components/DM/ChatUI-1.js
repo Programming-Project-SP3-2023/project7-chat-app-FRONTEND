@@ -46,7 +46,7 @@ const ChatUI = () => {
     },
     {
       user: 0,
-      text: "Hey Captain, when are we getting the new recruits???",
+      text: "Hey Captain, when are we getting the new recruits????",
       sender: "message_recived",
       userAvatar: ECHO_AVATAR,
     },
