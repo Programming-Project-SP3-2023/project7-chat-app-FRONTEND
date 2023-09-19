@@ -426,12 +426,21 @@ footer {
   justify-content: flex-start;
   align-items: center;
   gap: 5%;
+  cursor: pointer;
 }
 .dashboard-main-column .dashboard-menu-item .menu-item-avatar {
   height: 100%;
   width: 20%;
   border: solid 3px #253d5b;
   margin-left: -3px;
+}
+.dashboard-main-column .dashboard-menu-item .MuiSvgIcon-root {
+  margin-left: 10px;
+  font-size: 30px;
+}
+.dashboard-main-column .dashboard-menu-item:hover {
+  transform: scale(105%);
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 /* ---------------------------- Friends-UI ---------------------------- */

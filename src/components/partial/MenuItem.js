@@ -12,10 +12,13 @@ import SAMPLE_PIC_2 from "../../assets/sample-pic-2.jpeg";
  * @returns Dashboard Menu Item component render
  */
 
-const MenuItem = () => {
+const MenuItem = ({friend}) => {
+
+  // TODO - friend profile pic for Avatar component should come from the friend object (API call)
+
   return <div className="dashboard-menu-item">
     <Avatar className="menu-item-avatar" alt="Sample profile" src={SAMPLE_PIC_2} />
-    <span>Sample text</span>
+    <span>{friend.name}</span>
   </div>;
 };
 
