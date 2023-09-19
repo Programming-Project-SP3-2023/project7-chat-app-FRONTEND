@@ -9,64 +9,80 @@ import {
   Box,
   Divider,
   Avatar,
+  FormControl,
 } from "@mui/material";
+import { useState } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
 
+import dayjs from "dayjs";
+// import customParseFormat from "dayjs/plugin/customParseFormat";
+
 import ECHO_AVATAR from "../../assets/1.JPG";
+
+// dayjs.extend(customParseFormat); // utilise the dayjs custom formatting
 
 /**
  * Builds and renders the homepage component
  * @returns Homepage component render
  */
 const ChatUI = () => {
-  // Dummy Messages
-  const messages = [
+  const [messageInput, setMessageInput] = useState("");
+
+  // format date / time
+  const formatDateTime = (timestamp) => {
+    return dayjs(timestamp).format("ddd D MMM | HH:mm");
+  };
+
+  const [messages, setMessages] = useState([
+    // dummy messages
     {
       user: 0,
       text: "Hey Captain, when are we getting the new recruits???",
       sender: "message_recived",
+      timestamp: "2023-07-01 17:03",
+
       userAvatar: ECHO_AVATAR,
     },
     {
       user: 1,
       text: "Dear Jake, This has yet to be confirmed. Sincerely Raymond Holt",
       sender: "message_sent",
+      timestamp: "2023-07-02 17:03",
     },
     {
       user: 1,
       text: "Dear Jake, Please report to my office immerdiately, there has been a break-in and there are some high profile individuals involved. Sincerely, Raymond Holt",
       sender: "message_sent",
+      timestamp: "2023-09-19 17:03",
     },
     {
       user: 0,
       text: "Hey what do you think of my new photo? Cool right?",
       sender: "message_recived",
+      timestamp: "2023-09-19 17:03",
       userAvatar: ECHO_AVATAR,
     },
-    {
-      user: 0,
-      text: "Hey Captain, when are we getting the new recruits????",
-      sender: "message_recived",
-      userAvatar: ECHO_AVATAR,
-    },
-    {
-      user: 1,
-      text: "Dear Jake, This has yet to be confirmed. Sincerely Raymond Holt",
-      sender: "message_sent",
-    },
-    {
-      user: 1,
-      text: "Dear Jake, Please report to my office immerdiately, there has been a break-in and there are some high profile individuals involved. Sincerely, Raymond Holt",
-      sender: "message_sent",
-    },
-    {
-      user: 0,
-      text: "Hey what do you think of my new photo? Cool right?",
-      sender: "message_recived",
-      userAvatar: ECHO_AVATAR,
-    },
-  ];
+  ]);
+
+  const handleMessageSubmit = (event) => {
+    event.preventDefault();
+    console.log("Message Handler");
+
+    const newTimestamp = dayjs(new Date());
+
+    if (messageInput.trim() !== "") {
+      const newMessage = {
+        user: 1,
+        text: messageInput,
+        sender: "message_sent",
+        timestamp: newTimestamp,
+      };
+
+      setMessages([...messages, newMessage]);
+      setMessageInput("");
+    }
+  };
 
   return (
     // need to include time stamp
@@ -87,11 +103,15 @@ const ChatUI = () => {
               message.sender === "message_recived" ? "user" : "other"
             }`}
           >
-            {message.userAvatar && (
-              <Avatar alt={`User ${message.user}`} src={message.userAvatar} />
-            )}
-
-            {message.text}
+            <div className="message-timestamp">
+              {formatDateTime(message.timestamp)}
+            </div>
+            <div className="message-content">
+              {message.userAvatar && (
+                <Avatar alt={`User ${message.user}`} src={message.userAvatar} />
+              )}
+              {message.text}
+            </div>
           </div>
         ))}
 
@@ -100,29 +120,36 @@ const ChatUI = () => {
       </div>
 
       {/* need to have the current text */}
-      <div class="chat-input-container">
-        <TextField
-          fullWidth
-          id="chat-input"
-          variant="outlined"
-          label="Type a Message"
-          // onChange={(event) => setMessage(event.target.value)}
-          type="text"
-          placeholder="Type a Message"
-          InputProps={{
-            endAdornment: (
-              <ButtonGroup>
-                <Button>
-                  <AttachFileIcon color="primary" />
-                </Button>
-                <Button>
-                  <SendIcon />
-                </Button>
-              </ButtonGroup>
-            ),
-          }}
-        />
-      </div>
+      <form onSubmit={handleMessageSubmit}>
+        <FormControl
+          class="chat-input-container"
+          className="chat-input-contaienr"
+        >
+          <div className="chat-input">
+            <TextField
+              fullWidth
+              id="chat-input"
+              variant="outlined"
+              label="Type a Message"
+              onChange={(event) => setMessageInput(event.target.value)}
+              type="text"
+              placeholder="Type a Message"
+              InputProps={{
+                endAdornment: (
+                  <ButtonGroup>
+                    <Button>
+                      <AttachFileIcon color="primary" />
+                    </Button>
+                    <Button type="submit">
+                      <SendIcon />
+                    </Button>
+                  </ButtonGroup>
+                ),
+              }}
+            />
+          </div>
+        </FormControl>
+      </form>
     </Box>
   );
 };

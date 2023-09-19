@@ -414,15 +414,6 @@ footer {
   padding: 2%;
 }
 
-.message {
-  display: block;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 10px;
-  max-width: 300px;
-  width: fit-content;
-}
-
 .chat-messages {
   display: flex;
   height: 60vh;
@@ -432,14 +423,41 @@ footer {
 
 .message.user {
   align-self: flex-start;
-  background-color: $echo-text-bg-user;
+  // background-color: $echo-text-bg-user;
 }
 
 .message.other {
   align-self: flex-end;
+}
+
+.message-content {
+  width: fit-content;
+}
+
+.message-content {
+  display: block;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+  max-width: 300px;
+  width: fit-content;
+}
+
+.message.user .message-content {
+  background-color: $echo-text-bg-user;
+}
+
+.message.other .message-content {
   background-color: $echo-text-bg-other;
 }
 
 #chat-divider {
   margin-block: 20px;
+}
+
+#chat-input-container {
+  width: 100%;
+}
+#chat-input {
+  width: 100%;
 }
