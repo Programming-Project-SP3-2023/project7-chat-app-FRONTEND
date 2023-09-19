@@ -15,7 +15,7 @@ body {
   height: fit-content;
   min-height: 100vh;
   width: 100%;
-  padding: 100px 2% 100px;
+  padding: 100px 2% 0;
 }
 
 h1 {
@@ -444,16 +444,25 @@ footer {
 }
 
 /* ---------------------------- Friends-UI ---------------------------- */
-.friends-chat-ui-container {
+#friends {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: start;
-  align-items: start;
+  justify-content: center;
+  align-items: center;
 }
 
-.friends-list {
-  background-color: #a9bcd0;
-  max-width: 300px;
+.friends-display {
+  height: 100%;
+  width: 25%;
+  background-color: #799cb1;
+}
+
+.friends-chat-area {
+  height: 100%;
+  width: 75%;
+  background-color: #d8dbe2;
 }
 
 /* ---------------------------- ChatUI ---------------------------- */

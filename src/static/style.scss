@@ -48,7 +48,7 @@ body {
   height: fit-content;
   min-height: 100vh;
   width: 100%;
-  padding: 100px 2% 100px;
+  padding: 100px 2% 0;
 }
 
 h1 {
@@ -465,14 +465,24 @@ footer {
 
 /* ---------------------------- Friends-UI ---------------------------- */
 
-.friends-chat-ui-container {
-  @include flex-row(start, start);
+#friends{
+  height: 100%;
+  width: 100%;
+  @include flex-row(center, center);
 }
 
-.friends-list {
-  background-color: $echo-text-bg-user;
-  max-width: 300px;
+.friends-display{
+  height: 100%;
+  width: 25%;
+  background-color: $echo-lightblue;
 }
+
+.friends-chat-area{
+  height: 100%;
+  width: 75%;
+  background-color: $echo-lighterblue;
+}
+
 
 /* ---------------------------- ChatUI ---------------------------- */
 
