@@ -11,6 +11,7 @@ $echo-darkgrey: #495057;
 
 $echo-text-bg-user: #a9bcd0;
 $echo-text-bg-other: #f0eff4;
+$echo-date-color: #8a8a8a;
 
 // MIXINS
 @mixin flex-row($justify-content: space-around, $align-items: center) {
@@ -419,27 +420,36 @@ footer {
   height: 60vh;
   overflow: auto;
   flex-direction: column;
+
+  .message-timestamp {
+    color: $echo-date-color;
+  }
+  .message-content {
+    display: block;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    max-width: 300px;
+    width: fit-content;
+  }
 }
 
 .message.user {
   align-self: flex-start;
-  // background-color: $echo-text-bg-user;
+  .message-timestamp {
+    @include flex-row(left, left);
+  }
 }
 
 .message.other {
   align-self: flex-end;
+
+  .message-timestamp {
+    @include flex-row(right, right);
+  }
 }
 
 .message-content {
-  width: fit-content;
-}
-
-.message-content {
-  display: block;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 10px;
-  max-width: 300px;
   width: fit-content;
 }
 
@@ -448,6 +458,10 @@ footer {
 }
 
 .message.other .message-content {
+  .message-timestamp {
+    @include flex-row(right, right);
+  }
+
   background-color: $echo-text-bg-other;
 }
 
@@ -455,9 +469,6 @@ footer {
   margin-block: 20px;
 }
 
-#chat-input-container {
-  width: 100%;
-}
-#chat-input {
+.chat-input-container {
   width: 100%;
 }

@@ -15,12 +15,10 @@ import { useState } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
 
+// date time formatter
 import dayjs from "dayjs";
-// import customParseFormat from "dayjs/plugin/customParseFormat";
 
 import ECHO_AVATAR from "../../assets/1.JPG";
-
-// dayjs.extend(customParseFormat); // utilise the dayjs custom formatting
 
 /**
  * Builds and renders the homepage component

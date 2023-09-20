@@ -405,26 +405,40 @@ footer {
   overflow: auto;
   flex-direction: column;
 }
-
-.message.user {
-  align-self: flex-start;
+.chat-messages .message-timestamp {
+  color: #8a8a8a;
 }
-
-.message.other {
-  align-self: flex-end;
-}
-
-.message-content {
-  width: -moz-fit-content;
-  width: fit-content;
-}
-
-.message-content {
+.chat-messages .message-content {
   display: block;
   padding: 10px;
   margin: 5px;
   border-radius: 10px;
   max-width: 300px;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.message.user {
+  align-self: flex-start;
+}
+.message.user .message-timestamp {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: left;
+}
+
+.message.other {
+  align-self: flex-end;
+}
+.message.other .message-timestamp {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: right;
+}
+
+.message-content {
   width: -moz-fit-content;
   width: fit-content;
 }
@@ -436,15 +450,17 @@ footer {
 .message.other .message-content {
   background-color: #f0eff4;
 }
+.message.other .message-content .message-timestamp {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: right;
+}
 
 #chat-divider {
   margin-block: 20px;
 }
 
-#chat-input-container {
-  width: 100%;
-}
-
-#chat-input {
+.chat-input-container {
   width: 100%;
 }/*# sourceMappingURL=style.css.map */
