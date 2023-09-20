@@ -27,11 +27,6 @@ import ECHO_AVATAR from "../../assets/1.JPG";
 const ChatUI = () => {
   const [messageInput, setMessageInput] = useState("");
 
-  // format date / time
-  const formatDateTime = (timestamp) => {
-    return dayjs(timestamp).format("ddd D MMM | HH:mm");
-  };
-
   const [messages, setMessages] = useState([
     // dummy messages
     {
@@ -80,6 +75,22 @@ const ChatUI = () => {
       setMessages([...messages, newMessage]);
       setMessageInput("");
     }
+  };
+
+  // format date / time
+  const formatDateTime = (timestamp) => {
+    let formatTimestamp;
+    // get today
+    const today = dayjs();
+    // return only time (if today)
+    if (dayjs(timestamp).isSame(today, "day")) {
+      formatTimestamp = dayjs(timestamp).format("HH:mm");
+      // else return date and time
+    } else {
+      formatTimestamp = dayjs(timestamp).format("ddd D MMM | HH:mm");
+    }
+
+    return formatTimestamp;
   };
 
   return (
