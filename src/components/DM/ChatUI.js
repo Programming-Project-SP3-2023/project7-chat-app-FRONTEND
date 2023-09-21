@@ -95,11 +95,9 @@ const ChatUI = () => {
   };
 
   return (
-    // need to include time stamp
-
     <Box
       sx={{
-        height: "90vh",
+        height: "100%",
         width: "100%",
         overflow: "auto",
       }}
