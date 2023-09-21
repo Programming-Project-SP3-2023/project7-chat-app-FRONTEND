@@ -11,7 +11,7 @@ $echo-darkgrey: #495057;
 
 $echo-text-bg-user: #a9bcd0;
 $echo-text-bg-other: #f0eff4;
-$echo-date-color: #8a8a8a;
+$echo-chat-ui-text: #8a8a8a;
 
 // MIXINS
 @mixin flex-row($justify-content: space-around, $align-items: center) {
@@ -406,21 +406,21 @@ footer {
 
 /* ---------------------------- ChatUI ---------------------------- */
 
-.chat-ui-container {
+#chat-ui-container {
   background-color: $echo-lightgrey;
-  @include flex-column(space-around, unset);
+  @include flex-column(space-around, stretch);
   margin: 0;
   padding: 2%;
+  height: 90vh;
 }
 
-.chat-messages {
-  display: flex;
-  height: 70vh;
+#chat-messages {
+  @include flex-column(center, normal);
+  height: fit-content;
   overflow: auto;
-  flex-direction: column;
 
   .message-timestamp {
-    color: $echo-date-color;
+    color: $echo-chat-ui-text;
   }
   .message-content {
     display: block;
@@ -432,17 +432,19 @@ footer {
   }
 }
 
+.message {
+  padding-bottom: 20px;
+}
 .message.user {
   align-self: flex-start;
-  .message-timestamp {
+  #message-timestamp {
     @include flex-row(flex-start, flex-start);
   }
 }
 
 .message.other {
   align-self: flex-end;
-
-  .message-timestamp {
+  #message-timestamp {
     @include flex-row(flex-end, flex-end);
   }
 }
@@ -463,13 +465,15 @@ footer {
   background-color: $echo-text-bg-other;
 }
 
-.chat-divider-container {
+#chat-divider-container {
   margin-block: 20px;
+  text-align: center;
+  color: $echo-chat-ui-text;
 }
 
-.chat-divider {
+#chat-divider {
   margin-block: 20px;
-  color: $echo-date-color;
+  color: $echo-chat-ui-text;
 }
 
 #chat-input-container {

@@ -101,9 +101,10 @@ const ChatUI = () => {
         width: "100%",
         overflow: "auto",
       }}
-      className="chat-ui-container"
+      // className="chat-ui-container"
+      id="chat-ui-container"
     >
-      <div className="chat-messages" id="chat-messages">
+      <div id="chat-messages">
         {messages.map((message, index) => (
           <div
             key={index}
@@ -111,7 +112,7 @@ const ChatUI = () => {
               message.sender === "message_recived" ? "user" : "other"
             }`}
           >
-            <div className="message-timestamp">
+            <div id="message-timestamp" className="message-timestamp">
               {formatDateTime(message.timestamp)}
             </div>
             <div className="message-content">
@@ -122,7 +123,7 @@ const ChatUI = () => {
             </div>
           </div>
         ))}
-        <div class="chat-divider-container">
+        <div id="chat-divider-container">
           <p>Today</p>
           <Divider id="chat-divider" variant="middle" color="black" />
         </div>
