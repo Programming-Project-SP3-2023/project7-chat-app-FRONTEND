@@ -11,7 +11,7 @@ import {
   Avatar,
   FormControl,
 } from "@mui/material";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
 
@@ -63,6 +63,7 @@ const ChatUI = () => {
     console.log("Message Handler");
 
     const newTimestamp = dayjs(new Date());
+    console.log(newTimestamp);
 
     if (messageInput.trim() !== "") {
       const newMessage = {
@@ -98,11 +99,11 @@ const ChatUI = () => {
 
     <Box
       sx={{
-        height: 600,
+        height: "90vh",
         width: "100%",
         overflow: "auto",
       }}
-      class="chat-ui-container"
+      className="chat-ui-container"
     >
       <div className="chat-messages" id="chat-messages">
         {messages.map((message, index) => (
@@ -123,17 +124,15 @@ const ChatUI = () => {
             </div>
           </div>
         ))}
-
-        <p>Today</p>
-        <Divider id="chat-divider" variant="middle" color="black" />
+        <div class="chat-divider-container">
+          <p>Today</p>
+          <Divider id="chat-divider" variant="middle" color="black" />
+        </div>
       </div>
 
       {/* need to have the current text */}
       <form onSubmit={handleMessageSubmit}>
-        <FormControl
-          class="chat-input-container"
-          className="chat-input-contaienr"
-        >
+        <FormControl id="chat-input-container" className="chat-input-contaienr">
           <div className="chat-input">
             <TextField
               fullWidth
@@ -143,6 +142,8 @@ const ChatUI = () => {
               onChange={(event) => setMessageInput(event.target.value)}
               type="text"
               placeholder="Type a Message"
+              value={messageInput}
+              defaultValue={messageInput}
               InputProps={{
                 endAdornment: (
                   <ButtonGroup>

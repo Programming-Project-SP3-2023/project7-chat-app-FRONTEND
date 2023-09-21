@@ -396,7 +396,7 @@ footer {
 /* ---------------------------- Friends-UI ---------------------------- */
 
 .friends-chat-ui-container {
-  @include flex-row(start, start);
+  @include flex-row(flex-start, -flex-start);
 }
 
 .friends-list {
@@ -409,15 +409,13 @@ footer {
 .chat-ui-container {
   background-color: $echo-lightgrey;
   @include flex-column(space-around, unset);
-  // height: fit-content;
-
   margin: 0;
   padding: 2%;
 }
 
 .chat-messages {
   display: flex;
-  height: 60vh;
+  height: 70vh;
   overflow: auto;
   flex-direction: column;
 
@@ -437,7 +435,7 @@ footer {
 .message.user {
   align-self: flex-start;
   .message-timestamp {
-    @include flex-row(left, left);
+    @include flex-row(flex-start, flex-start);
   }
 }
 
@@ -445,7 +443,7 @@ footer {
   align-self: flex-end;
 
   .message-timestamp {
-    @include flex-row(right, right);
+    @include flex-row(flex-end, flex-end);
   }
 }
 
@@ -459,16 +457,21 @@ footer {
 
 .message.other .message-content {
   .message-timestamp {
-    @include flex-row(right, right);
+    @include flex-row(flex-end, flex-end);
   }
 
   background-color: $echo-text-bg-other;
 }
 
-#chat-divider {
+.chat-divider-container {
   margin-block: 20px;
 }
 
-.chat-input-container {
+.chat-divider {
+  margin-block: 20px;
+  color: $echo-date-color;
+}
+
+#chat-input-container {
   width: 100%;
 }

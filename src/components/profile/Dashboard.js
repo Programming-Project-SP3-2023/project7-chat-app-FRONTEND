@@ -2,8 +2,8 @@
  * Dashboard component
  */
 
-import { Box, Link } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Box } from "@mui/material";
+// import { Outlet } from "react-router-dom";
 import { getUser, resetUserSession } from "../../utils/localStorage";
 import SideMenu from "../partial/SideMenu";
 import { useState } from "react";
