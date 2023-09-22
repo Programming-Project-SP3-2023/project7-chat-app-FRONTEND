@@ -3,7 +3,6 @@
  */
 
 import {
-  Button,
   TextField,
   ButtonGroup,
   Box,
@@ -11,8 +10,9 @@ import {
   Avatar,
   FormControl,
 } from "@mui/material";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 
 // date time formatter
@@ -26,6 +26,7 @@ import ECHO_AVATAR from "../../assets/1.JPG";
  */
 const ChatUI = () => {
   const [messageInput, setMessageInput] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const [messages, setMessages] = useState([
     // dummy messages
@@ -48,6 +49,7 @@ const ChatUI = () => {
       text: "Dear Jake, Please report to my office immerdiately, there has been a break-in and there are some high profile individuals involved. Sincerely, Raymond Holt",
       sender: "message_sent",
       timestamp: "2023-09-19 17:03",
+      file: "not_a_real_file.txt",
     },
     {
       user: 0,
@@ -55,9 +57,21 @@ const ChatUI = () => {
       sender: "message_recived",
       timestamp: "2023-09-19 17:03",
       userAvatar: ECHO_AVATAR,
+      // currently using random image for css styling
+      image: "https://source.unsplash.com/random",
+    },
+    {
+      user: 1,
+      text: "Dear Jake, why is no one having a good time? I specifically requested it",
+      sender: "message_sent",
+      timestamp: "2023-09-19 17:03",
+      userAvatar: ECHO_AVATAR,
+      // currently using random image for css styling
+      image: "https://source.unsplash.com/random",
     },
   ]);
 
+  //TODO change to except specific user
   const handleMessageSubmit = (event) => {
     event.preventDefault();
     console.log("Message Handler");
@@ -73,9 +87,20 @@ const ChatUI = () => {
         timestamp: newTimestamp,
       };
 
+      if (selectedFile) {
+        newMessage.image = selectedFile;
+      }
+
       setMessages([...messages, newMessage]);
+      // reset values
       setMessageInput("");
+      setSelectedFile(null);
     }
+  };
+
+  const handleFileSubmit = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
   };
 
   // format date / time
@@ -101,7 +126,6 @@ const ChatUI = () => {
         width: "100%",
         overflow: "auto",
       }}
-      // className="chat-ui-container"
       id="chat-ui-container"
     >
       <div id="chat-messages">
@@ -116,11 +140,36 @@ const ChatUI = () => {
               {formatDateTime(message.timestamp)}
             </div>
             <div className="message-content">
+              {/* renders chat message */}
               {message.userAvatar && (
                 <Avatar alt={`User ${message.user}`} src={message.userAvatar} />
               )}
               {message.text}
             </div>
+            {/* renders image if available */}
+            {message.image && (
+              <div
+                id="message-image-container"
+                className={`message-image-container ${
+                  message.sender === "message_recived" ? "user" : "other"
+                }`}
+              >
+                <img
+                  id="message-image"
+                  className={`message-image ${
+                    message.sender === "message_recived" ? "user" : "other"
+                  }`}
+                  src={message.image}
+                  alt={message.image}
+                />
+              </div>
+            )}
+            {/* renders file if available */}
+            {message.file && (
+              <div>
+                <p>Need to figure out how to do this!</p>
+              </div>
+            )}
           </div>
         ))}
         <div id="chat-divider-container">
@@ -130,8 +179,8 @@ const ChatUI = () => {
       </div>
 
       {/* need to have the current text */}
-      <form onSubmit={handleMessageSubmit}>
-        <FormControl id="chat-input-container" className="chat-input-contaienr">
+      <form id="chat-input-container" onSubmit={handleMessageSubmit}>
+        <FormControl fullWidth>
           <div className="chat-input">
             <TextField
               fullWidth
@@ -142,16 +191,23 @@ const ChatUI = () => {
               type="text"
               placeholder="Type a Message"
               value={messageInput}
-              defaultValue={messageInput}
               InputProps={{
                 endAdornment: (
                   <ButtonGroup>
-                    <Button>
-                      <AttachFileIcon color="primary" />
-                    </Button>
-                    <Button type="submit">
+                    <IconButton>
+                      <input
+                        hidden
+                        accept="image/*"
+                        id="file-input"
+                        type="file"
+                        style={{ display: "none" }}
+                        onChange={handleFileSubmit}
+                      />
+                      <AttachFileIcon htmlFor="file-input" />
+                    </IconButton>
+                    <IconButton type="submit">
                       <SendIcon />
-                    </Button>
+                    </IconButton>
                   </ButtonGroup>
                 ),
               }}

@@ -406,6 +406,8 @@ footer {
 
 /* ---------------------------- ChatUI ---------------------------- */
 
+// chat
+
 #chat-ui-container {
   background-color: $echo-lightgrey;
   @include flex-column(space-around, stretch);
@@ -415,9 +417,10 @@ footer {
 }
 
 #chat-messages {
-  @include flex-column(center, normal);
-  height: fit-content;
-  overflow: auto;
+  // flex-column (justify content is required to be unset)
+  @include flex-column(unset, normal);
+  // height: fit-content;
+  overflow-y: auto;
 
   .message-timestamp {
     color: $echo-chat-ui-text;
@@ -435,8 +438,28 @@ footer {
 .message {
   padding-bottom: 20px;
 }
+
+#message-image-container {
+  width: 300px;
+  height: 300px;
+
+  img {
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .user {
+    background-color: $echo-text-bg-user;
+  }
+
+  .other {
+    background-color: $echo-text-bg-other;
+  }
+}
+
 .message.user {
-  align-self: flex-start;
   #message-timestamp {
     @include flex-row(flex-start, flex-start);
   }
@@ -465,17 +488,22 @@ footer {
   background-color: $echo-text-bg-other;
 }
 
+// divider
+
 #chat-divider-container {
-  margin-block: 20px;
+  padding-block: 20px;
   text-align: center;
   color: $echo-chat-ui-text;
+
+  #chat-divider {
+    margin-block: 20px;
+  }
 }
 
-#chat-divider {
-  margin-block: 20px;
-  color: $echo-chat-ui-text;
-}
+// input
 
 #chat-input-container {
   width: 100%;
+  position: relative;
+  bottom: 0;
 }
