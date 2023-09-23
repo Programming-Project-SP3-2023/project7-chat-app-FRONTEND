@@ -18,6 +18,7 @@ import SendIcon from "@mui/icons-material/Send";
 // date time formatter
 import dayjs from "dayjs";
 
+
 import ECHO_AVATAR from "../../assets/1.JPG";
 
 /**
@@ -30,11 +31,14 @@ const ChatUI = () => {
 
   const [messages, setMessages] = useState([
     // dummy messages
+
     {
       user: 0,
       text: "Hey Captain, when are we getting the new recruits???",
       sender: "message_recived",
+
       timestamp: "2023-07-01 17:03",
+
 
       userAvatar: ECHO_AVATAR,
     },
@@ -42,14 +46,18 @@ const ChatUI = () => {
       user: 1,
       text: "Dear Jake, This has yet to be confirmed. Sincerely Raymond Holt",
       sender: "message_sent",
+
       timestamp: "2023-07-02 17:03",
+
     },
     {
       user: 1,
       text: "Dear Jake, Please report to my office immerdiately, there has been a break-in and there are some high profile individuals involved. Sincerely, Raymond Holt",
       sender: "message_sent",
+
       timestamp: "2023-09-19 17:03",
       file: "not_a_real_file.txt",
+
     },
     {
       user: 0,
@@ -129,6 +137,7 @@ const ChatUI = () => {
       id="chat-ui-container"
     >
       <div id="chat-messages">
+
         {messages.map((message, index) => (
           <div
             key={index}
@@ -215,6 +224,7 @@ const ChatUI = () => {
           </div>
         </FormControl>
       </form>
+
     </Box>
   );
 };

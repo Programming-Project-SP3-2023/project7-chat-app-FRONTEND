@@ -13,6 +13,8 @@ import ChatUI from "../DM/ChatUI";
 import Friends from "../profile/Friends";
 
 import Grid from "@mui/material/Grid";
+import DashboardMain from "./DashboardMain";
+import AddGroup from "./AddGroup"
 
 /**
  * Builds and renders the dashboard component
@@ -26,6 +28,7 @@ const Dashboard = () => {
   const mainOptions = ["Dashboard", "Friends"];
   const groups = ["Group 1", "Group 2", "Another Group"];
   const options = mainOptions.concat(groups);
+  options.push("Add Group");
   // state variables
   const [selectedOpt, setSelectedOpt] = useState(0);
 
@@ -42,24 +45,27 @@ const Dashboard = () => {
       <div id="dashboard-header-title">
         <h2>{options[selectedOpt]}</h2>
       </div>
+      {/* Side menu rendering */}
       <SideMenu
         options={options}
         setSelectedOpt={setSelectedOpt}
         selectedOpt={selectedOpt}
       />
-
       <div className="dashboard-main">
-        {/* <h1>Dashboard page</h1>
-        <h3>Temporary user testing display:</h3>
-        <p>EMAIL: {user && user.email}</p>
-        <p>PASSWORD: {user && user.password}</p>
+
+        {/* Conditional rendering changing depending on selected option */}
+        {selectedOpt === 0 && <DashboardMain />}
+        {selectedOpt === 1 && <Friends />}
+        {selectedOpt === options.length-1 && <AddGroup />}
+        {selectedOpt > 1 && selectedOpt < options.length-1 && <ChatUI />}
         <Link href="/" onClick={logout}>
           Logout
         </Link>
-        <Outlet /> */}
+        {/* <Outlet /> */}
 
         {/* Testing */}
-        <Box sx={{ flexGrow: 1 }}>
+        {/* <Box sx={{ height: 600, flexGrow: 1 }}>
+
           <Grid container spacing={2}>
             <Grid item xs={3}>
               <Friends />
@@ -68,7 +74,7 @@ const Dashboard = () => {
               <ChatUI />
             </Grid>
           </Grid>
-        </Box>
+        </Box> */}
       </div>
     </section>
   );
