@@ -11,11 +11,12 @@ import { Box } from "@mui/material";
 
 const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
   return (
-    <Box sx={{ overflow: "auto", width: "100%" }}>
-      <p>friends List</p>
-    </Box>
+    <div id="friends">
+      <div className="friends-display"></div>
+      <div className="friends-chat-area"></div>
+    </div>
   );
 };
 
-//Export the profile component
+//Export the Friends component
 export default Friends;
