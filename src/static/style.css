@@ -457,6 +457,37 @@ footer {
   height: 100%;
   width: 25%;
   background-color: #799cb1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 15px;
+  gap: 15px;
+}
+.friends-display .friend-menu-item {
+  width: 90%;
+  aspect-ratio: 5/1;
+  border-radius: 35px;
+  background-color: #d2d2d2;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5%;
+  cursor: pointer;
+}
+.friends-display .friend-menu-item .menu-item-avatar {
+  height: 100%;
+  width: 20%;
+  margin-left: -3px;
+}
+.friends-display .friend-menu-item .MuiSvgIcon-root {
+  margin-left: 10px;
+  font-size: 30px;
+}
+.friends-display .friend-menu-item:hover {
+  transform: scale(105%);
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .friends-chat-area {
