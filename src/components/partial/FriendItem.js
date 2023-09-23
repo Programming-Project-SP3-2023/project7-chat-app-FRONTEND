@@ -3,7 +3,8 @@
  */
 
 import { Avatar } from "@mui/material";
-import CircleIcon from '@mui/icons-material/Circle';
+import CircleIcon from "@mui/icons-material/Circle";
+import { useState, useEffect } from "react";
 
 // PICS FOR TESTING **
 import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
@@ -17,6 +18,15 @@ import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
 const FriendItem = ({ friend }) => {
   // TODO - friend profile pic for Avatar component should come from the friend object (API call)
 
+  const [colorID, setColorID] = useState("green");
+
+  // Determine icon color for online status
+  useEffect(() => {
+    if (friend.status === 0) setColorID("green");
+    else if (friend.status === 1) setColorID("orange");
+    else setColorID("red");
+  }, [colorID, setColorID]);
+
   return (
     <div className="friend-menu-item">
       <Avatar
@@ -27,11 +37,15 @@ const FriendItem = ({ friend }) => {
       <div>
         <div className="friend-item-header">
           <span>{friend.name}</span>
-          <span><CircleIcon /></span>
+          <span>
+            <CircleIcon id={colorID} />
+          </span>
         </div>
         <div className="friend-item-message">
-          {!friend.lastSent && "Me: "}
-          {friend.lastMessage ? friend.lastMessage : "..."}
+          <p>
+            {!friend.lastSent && "Me: "}
+            {friend.lastMessage ? friend.lastMessage : "..."}
+          </p>
         </div>
       </div>
     </div>

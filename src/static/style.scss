@@ -52,7 +52,6 @@ body {
   //padding: 100px 0% 100px;
 
   padding: 100px 2% 0;
-
 }
 
 h1 {
@@ -382,7 +381,6 @@ footer {
   height: 100%;
   width: 92%;
   margin-left: 10vw;
-
 }
 
 #dashboard {
@@ -473,7 +471,7 @@ footer {
 #friends {
   height: 100%;
   width: 100%;
-
+  @include flex-row(center, center);
 }
 
 .friends-display {
@@ -507,6 +505,43 @@ footer {
     &:hover {
       transform: scale(105%);
       transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+
+    .friend-item-header {
+      @include flex-row(flex-start, center);
+      width: 100%;
+
+      span {
+        font-size: 20px;
+      }
+
+      .MuiSvgIcon-root {
+        font-size: 15px;
+      }
+
+      #green {
+        color: green;
+      }
+
+      #orange {
+        color: orange;
+      }
+
+      #red {
+        color: red;
+      }
+    }
+
+    .friend-item-message {
+      margin: 2% 0 2% 2%;
+      max-width: 230px;
+      p {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        font-size: 16px;
+        color: rgb(87, 87, 87);
+      }
     }
   }
 }
