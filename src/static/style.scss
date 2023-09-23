@@ -97,7 +97,6 @@ a {
 
 header,
 footer {
-  min-height: 6vh;
   width: 100%;
   padding: 1%;
   position: fixed;
@@ -105,6 +104,7 @@ footer {
 }
 
 header {
+  min-height: 6vh;
   @include flex-row(flex-start, center);
 }
 
@@ -169,7 +169,7 @@ header {
 }
 
 footer {
-  height: 100px;
+  height: 0;
   @include flex-row();
   bottom: 0;
 }
@@ -474,13 +474,41 @@ footer {
   @include flex-row(center, center);
 }
 
-.friends-display {
+.friends-menu {
   height: 100%;
   width: 25%;
   background-color: $echo-lightblue;
-  @include flex-column(flex-start, center);
-  padding-top: 15px;
-  gap: 15px;
+  @include flex-column(space-between, center);
+  padding: 15px 0;
+
+
+  .friends-display{
+    @include flex-column(flex-start, center);
+    gap: 15px;
+  }
+
+  .friends-bottombar{
+    width: 100%;
+    @include flex-column(center, center);
+    gap: 15px;
+
+    .add-friends-link{
+      width: 90%;
+      a {
+        @include flex-row(flex-start, center);
+        gap: 20px;
+        text-decoration: none;
+        color: $echo-darkgrey;
+        padding-left: 2%;
+      }
+    }
+  }
+
+  #friend-selected{
+    border: 3px solid $echo-darkblue;
+    box-shadow: 8px 8px 40px $echo-darkblue;
+
+  }
 
   .friend-menu-item {
     width: 90%;
@@ -494,7 +522,6 @@ footer {
     .menu-item-avatar {
       height: 100%;
       width: 20%;
-      margin-left: -3px;
     }
 
     .MuiSvgIcon-root {
@@ -540,7 +567,7 @@ footer {
         overflow: hidden;
         white-space: nowrap;
         font-size: 16px;
-        color: rgb(87, 87, 87);
+        color: $echo-darkgrey;
       }
     }
   }
@@ -550,6 +577,12 @@ footer {
   height: 100%;
   width: 75%;
   background-color: $echo-lighterblue;
+  @include flex-column(center, center);
+
+  h2{
+    color: $echo-darkgrey;
+    font-weight: 300;
+  }
 }
 
 /* ---------------------------- ChatUI ---------------------------- */
@@ -560,8 +593,8 @@ footer {
   background-color: $echo-lightgrey;
   @include flex-column(space-around, stretch);
   margin: 0;
-  padding: 1%;
-  height: 90vh;
+  padding: 15px 1%;
+  height: 100%;
 }
 
 #chat-messages {

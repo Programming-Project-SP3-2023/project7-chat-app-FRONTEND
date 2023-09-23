@@ -15,7 +15,7 @@ import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
  * @returns Friend Label Item component render
  */
 
-const FriendItem = ({ friend }) => {
+const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
   // TODO - friend profile pic for Avatar component should come from the friend object (API call)
 
   const [colorID, setColorID] = useState("green");
@@ -27,8 +27,17 @@ const FriendItem = ({ friend }) => {
     else setColorID("red");
   }, [colorID, setColorID]);
 
+  // handle chat select
+  const handleSelect = () => {
+    setSelectedChat(friend.id);
+  };
+
   return (
-    <div className="friend-menu-item">
+    <div
+      className="friend-menu-item"
+      onClick={handleSelect}
+      id={selectedChat === friend.id ? "friend-selected" : null}
+    >
       <Avatar
         className="menu-item-avatar"
         alt="Sample profile"

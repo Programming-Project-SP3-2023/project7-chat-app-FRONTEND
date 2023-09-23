@@ -224,7 +224,6 @@ const ChatUI = () => {
           </div>
         </FormControl>
       </form>
-
     </Box>
   );
 };
