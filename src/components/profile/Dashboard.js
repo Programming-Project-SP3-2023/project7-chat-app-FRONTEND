@@ -7,6 +7,7 @@ import { Box } from "@mui/material";
 import { getUser, resetUserSession } from "../../utils/localStorage";
 import SideMenu from "../partial/SideMenu";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 // for testing
 import ChatUI from "../DM/ChatUI";
@@ -14,7 +15,7 @@ import Friends from "../profile/Friends";
 
 import Grid from "@mui/material/Grid";
 import DashboardMain from "./DashboardMain";
-import AddGroup from "./AddGroup"
+import AddGroup from "./AddGroup";
 
 /**
  * Builds and renders the dashboard component
@@ -52,12 +53,11 @@ const Dashboard = () => {
         selectedOpt={selectedOpt}
       />
       <div className="dashboard-main">
-
         {/* Conditional rendering changing depending on selected option */}
         {selectedOpt === 0 && <DashboardMain />}
         {selectedOpt === 1 && <Friends />}
-        {selectedOpt === options.length-1 && <AddGroup />}
-        {selectedOpt > 1 && selectedOpt < options.length-1 && <ChatUI />}
+        {selectedOpt === options.length - 1 && <AddGroup />}
+        {selectedOpt > 1 && selectedOpt < options.length - 1 && <ChatUI />}
         <Link href="/" onClick={logout}>
           Logout
         </Link>
