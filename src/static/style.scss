@@ -431,7 +431,7 @@ footer {
     }
   }
 
-  .column-options{
+  .column-options {
     height: 100%;
     width: 100%;
     padding: 20px 5%;
@@ -439,7 +439,7 @@ footer {
     gap: 10px;
   }
 
-  .dashboard-menu-item{
+  .dashboard-menu-item {
     border: solid 3px $echo-darkblue;
     width: 100%;
     aspect-ratio: 5/1;
@@ -449,20 +449,20 @@ footer {
     gap: 5%;
     cursor: pointer;
 
-    .menu-item-avatar{
+    .menu-item-avatar {
       height: 100%;
       width: 20%;
       border: solid 3px $echo-darkblue;
       margin-left: -3px;
     }
 
-    .MuiSvgIcon-root{
+    .MuiSvgIcon-root {
       margin-left: 10px;
       font-size: 30px;
     }
 
-    &:hover{
-      transform:scale(105%);
+    &:hover {
+      transform: scale(105%);
       transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
     }
   }
@@ -470,24 +470,52 @@ footer {
 
 /* ---------------------------- Friends-UI ---------------------------- */
 
-#friends{
+#friends {
   height: 100%;
   width: 100%;
 
 }
 
-.friends-display{
+.friends-display {
   height: 100%;
   width: 25%;
   background-color: $echo-lightblue;
+  @include flex-column(flex-start, center);
+  padding-top: 15px;
+  gap: 15px;
+
+  .friend-menu-item {
+    width: 90%;
+    aspect-ratio: 5/1;
+    border-radius: 35px;
+    background-color: $echo-lightgrey;
+    @include flex-row(flex-start, center);
+    gap: 5%;
+    cursor: pointer;
+
+    .menu-item-avatar {
+      height: 100%;
+      width: 20%;
+      margin-left: -3px;
+    }
+
+    .MuiSvgIcon-root {
+      margin-left: 10px;
+      font-size: 30px;
+    }
+
+    &:hover {
+      transform: scale(105%);
+      transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+  }
 }
 
-.friends-chat-area{
+.friends-chat-area {
   height: 100%;
   width: 75%;
   background-color: $echo-lighterblue;
 }
-
 
 /* ---------------------------- ChatUI ---------------------------- */
 
