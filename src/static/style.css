@@ -670,4 +670,90 @@ footer {
   bottom: 0;
 }
 
+/* ---------------------------- Add group modal ---------------------------- */
+#add-group-modal-background {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#add-group-modal {
+  width: 35%;
+  aspect-ratio: 3/4;
+  background-color: #799cb1;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10%;
+}
+#add-group-modal #add-group-modal-header {
+  background-color: #253d5b;
+  width: 100%;
+  border-radius: 30px 30px 0 0;
+  padding: 1%;
+  height: 13%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#add-group-modal #add-group-modal-header h2 {
+  font-weight: 300;
+  color: white;
+}
+#add-group-modal #add-group-modal-body {
+  width: 70%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+#add-group-modal #add-group-modal-body a {
+  width: 100%;
+  text-decoration: none;
+}
+#add-group-modal #add-group-modal-body #add-group-link {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
+  color: #253d5b;
+}
+#add-group-modal #add-group-modal-body #add-group-bttn {
+  background-color: #253d5b;
+  width: 70%;
+  height: 8%;
+}
+#add-group-modal #add-group-img-input {
+  display: none;
+}
+#add-group-modal #img-upload-box {
+  width: 200px;
+  height: 200px;
+  background-color: #d2d2d2;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+#add-group-modal #img-upload-box .MuiSvgIcon-root {
+  font-size: 90px;
+  margin-top: -10px;
+  color: #495057;
+}
+#add-group-modal #img-upload-box img {
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+}
+
 /*# sourceMappingURL=style.css.map */

@@ -481,18 +481,17 @@ footer {
   @include flex-column(space-between, center);
   padding: 15px 0;
 
-
-  .friends-display{
+  .friends-display {
     @include flex-column(flex-start, center);
     gap: 15px;
   }
 
-  .friends-bottombar{
+  .friends-bottombar {
     width: 100%;
     @include flex-column(center, center);
     gap: 15px;
 
-    .add-friends-link{
+    .add-friends-link {
       width: 90%;
       a {
         @include flex-row(flex-start, center);
@@ -504,10 +503,9 @@ footer {
     }
   }
 
-  #friend-selected{
+  #friend-selected {
     border: 3px solid $echo-darkblue;
     box-shadow: 8px 8px 40px $echo-darkblue;
-
   }
 
   .friend-menu-item {
@@ -579,7 +577,7 @@ footer {
   background-color: $echo-lighterblue;
   @include flex-column(center, center);
 
-  h2{
+  h2 {
     color: $echo-darkgrey;
     font-weight: 300;
   }
@@ -688,4 +686,84 @@ footer {
   width: 100%;
   position: relative;
   bottom: 0;
+}
+
+/* ---------------------------- Add group modal ---------------------------- */
+
+#add-group-modal-background {
+  @include flex-column(center, center);
+}
+
+#add-group-modal {
+  width: 35%;
+  aspect-ratio: 3/4;
+  background-color: $echo-lightblue;
+  border-radius: 30px;
+  @include flex-column(flex-start, center);
+  gap: 10%;
+
+  #add-group-modal-header {
+    background-color: $echo-darkblue;
+    width: 100%;
+    border-radius: 30px 30px 0 0;
+    padding: 1%;
+    height: 13%;
+    @include flex-column(center, center);
+
+    h2{
+      font-weight: 300;
+      color: white;
+    }
+  }
+
+  #add-group-modal-body{
+    width: 70%;
+    height: 70%;
+    @include flex-column(space-around, center);
+
+    a {
+      width: 100%;
+      text-decoration: none;
+    }
+
+    #add-group-link{
+      width: 100%;
+      @include flex-row(center, center);
+      gap: 10%;
+      color: $echo-darkblue;
+    }
+
+    #add-group-bttn{
+      background-color: $echo-darkblue;
+      width: 70%;
+      height: 8%;
+    }
+  }
+
+  #add-group-img-input{
+    display: none;
+  }
+
+  #img-upload-box{
+    width: 200px;
+    height: 200px;
+    background-color: $echo-lightgrey;
+    border-radius: 20px;
+    cursor: pointer;
+    @include flex-column(center, center);
+    overflow: hidden;
+
+
+    .MuiSvgIcon-root {
+      font-size: 90px;
+      margin-top: -10px;
+      color: $echo-darkgrey;
+    }
+
+    img{
+      width: 100%;
+      object-fit: cover;
+      height: 100%; 
+    }
+  }
 }

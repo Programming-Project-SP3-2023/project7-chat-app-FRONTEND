@@ -28,6 +28,8 @@ const Dashboard = () => {
   options.push("Add Group");
   // state variables
   const [selectedOpt, setSelectedOpt] = useState(0);
+  // state handler for create group modal
+  const [groupModalOpen, setGroupModalOpen] = useState(false);
 
   /**
    * Log user out
@@ -39,6 +41,11 @@ const Dashboard = () => {
 
   return (
     <section className="main-section" id="dashboard">
+      {/* Add group modal */}
+      <AddGroup
+        groupModalOpen={groupModalOpen}
+        setGroupModalOpen={setGroupModalOpen}
+      />
       <div id="dashboard-header-title">
         <h2>{options[selectedOpt]}</h2>
       </div>
@@ -47,6 +54,8 @@ const Dashboard = () => {
         options={options}
         setSelectedOpt={setSelectedOpt}
         selectedOpt={selectedOpt}
+        groupModalOpen={groupModalOpen}
+        setGroupModalOpen={setGroupModalOpen}
       />
       <div className="dashboard-main">
         {/* Conditional rendering changing depending on selected option */}
