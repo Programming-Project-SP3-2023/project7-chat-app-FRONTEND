@@ -396,7 +396,7 @@ footer {
   justify-content: space-around;
   align-items: stretch;
   margin: 0;
-  padding: 2%;
+  padding: 1%;
   height: 90vh;
 }
 
@@ -406,6 +406,7 @@ footer {
   justify-content: unset;
   align-items: normal;
   overflow-y: auto;
+  padding-inline: 6px;
 }
 #chat-messages .message-timestamp {
   color: #8a8a8a;
@@ -413,7 +414,7 @@ footer {
 #chat-messages .message-content {
   display: block;
   padding: 10px;
-  margin: 5px;
+  margin-bottom: 5px;
   border-radius: 10px;
   max-width: 300px;
   width: -moz-fit-content;

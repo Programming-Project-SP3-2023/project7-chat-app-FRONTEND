@@ -412,7 +412,7 @@ footer {
   background-color: $echo-lightgrey;
   @include flex-column(space-around, stretch);
   margin: 0;
-  padding: 2%;
+  padding: 1%;
   height: 90vh;
 }
 
@@ -421,6 +421,7 @@ footer {
   @include flex-column(unset, normal);
   // height: fit-content;
   overflow-y: auto;
+  padding-inline: 6px;
 
   .message-timestamp {
     color: $echo-chat-ui-text;
@@ -428,7 +429,7 @@ footer {
   .message-content {
     display: block;
     padding: 10px;
-    margin: 5px;
+    margin-bottom: 5px;
     border-radius: 10px;
     max-width: 300px;
     width: fit-content;
