@@ -2,18 +2,14 @@
  * Dashboard component
  */
 
-import { Box } from "@mui/material";
 // import { Outlet } from "react-router-dom";
 import { getUser, resetUserSession } from "../../utils/localStorage";
 import SideMenu from "../partial/SideMenu";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-// for testing
 import ChatUI from "../DM/ChatUI";
 import Friends from "../profile/Friends";
-
-import Grid from "@mui/material/Grid";
 import DashboardMain from "./DashboardMain";
 import AddGroup from "./AddGroup";
 
@@ -32,6 +28,8 @@ const Dashboard = () => {
   options.push("Add Group");
   // state variables
   const [selectedOpt, setSelectedOpt] = useState(0);
+  // state handler for create group modal
+  const [groupModalOpen, setGroupModalOpen] = useState(false);
 
   /**
    * Log user out
@@ -43,6 +41,11 @@ const Dashboard = () => {
 
   return (
     <section className="main-section" id="dashboard">
+      {/* Add group modal */}
+      <AddGroup
+        groupModalOpen={groupModalOpen}
+        setGroupModalOpen={setGroupModalOpen}
+      />
       <div id="dashboard-header-title">
         <h2>{options[selectedOpt]}</h2>
       </div>
@@ -51,6 +54,8 @@ const Dashboard = () => {
         options={options}
         setSelectedOpt={setSelectedOpt}
         selectedOpt={selectedOpt}
+        groupModalOpen={groupModalOpen}
+        setGroupModalOpen={setGroupModalOpen}
       />
       <div className="dashboard-main">
         {/* Conditional rendering changing depending on selected option */}
@@ -62,19 +67,6 @@ const Dashboard = () => {
           Logout
         </Link>
         {/* <Outlet /> */}
-
-        {/* Testing */}
-        {/* <Box sx={{ height: 600, flexGrow: 1 }}>
-
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <Friends />
-            </Grid>
-            <Grid item xs={9}>
-              <ChatUI />
-            </Grid>
-          </Grid>
-        </Box> */}
       </div>
     </section>
   );

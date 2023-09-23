@@ -15,10 +15,7 @@ body {
   height: fit-content;
   min-height: 100vh;
   width: 100%;
-/*   padding: 100px 0% 100px; */
-
   padding: 100px 2% 0;
-
 }
 
 h1 {
@@ -63,7 +60,6 @@ a {
 /* ---------------------------- HEADER & FOOTER ---------------------------- */
 header,
 footer {
-  min-height: 6vh;
   width: 100%;
   padding: 1%;
   position: fixed;
@@ -71,6 +67,7 @@ footer {
 }
 
 header {
+  min-height: 6vh;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -137,7 +134,7 @@ header {
 }
 
 footer {
-  height: 100px;
+  height: 0;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -354,7 +351,6 @@ footer {
   height: 100%;
   width: 92%;
   margin-left: 10vw;
-
 }
 
 #dashboard {
@@ -455,21 +451,51 @@ footer {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
 }
 
-.friends-display {
+.friends-menu {
   height: 100%;
   width: 25%;
   background-color: #799cb1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+}
+.friends-menu .friends-display {
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 15px;
   gap: 15px;
 }
-.friends-display .friend-menu-item {
+.friends-menu .friends-bottombar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.friends-menu .friends-bottombar .add-friends-link {
+  width: 90%;
+}
+.friends-menu .friends-bottombar .add-friends-link a {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  text-decoration: none;
+  color: #495057;
+  padding-left: 2%;
+}
+.friends-menu #friend-selected {
+  border: 3px solid #253d5b;
+  box-shadow: 8px 8px 40px #253d5b;
+}
+.friends-menu .friend-menu-item {
   width: 90%;
   aspect-ratio: 5/1;
   border-radius: 35px;
@@ -481,24 +507,64 @@ footer {
   gap: 5%;
   cursor: pointer;
 }
-.friends-display .friend-menu-item .menu-item-avatar {
+.friends-menu .friend-menu-item .menu-item-avatar {
   height: 100%;
   width: 20%;
-  margin-left: -3px;
 }
-.friends-display .friend-menu-item .MuiSvgIcon-root {
+.friends-menu .friend-menu-item .MuiSvgIcon-root {
   margin-left: 10px;
   font-size: 30px;
 }
-.friends-display .friend-menu-item:hover {
+.friends-menu .friend-menu-item:hover {
   transform: scale(105%);
   transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.friends-menu .friend-menu-item .friend-item-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+.friends-menu .friend-menu-item .friend-item-header span {
+  font-size: 20px;
+}
+.friends-menu .friend-menu-item .friend-item-header .MuiSvgIcon-root {
+  font-size: 15px;
+}
+.friends-menu .friend-menu-item .friend-item-header #green {
+  color: green;
+}
+.friends-menu .friend-menu-item .friend-item-header #orange {
+  color: orange;
+}
+.friends-menu .friend-menu-item .friend-item-header #red {
+  color: red;
+}
+.friends-menu .friend-menu-item .friend-item-message {
+  margin: 2% 0 2% 2%;
+  max-width: 230px;
+}
+.friends-menu .friend-menu-item .friend-item-message p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 16px;
+  color: #495057;
 }
 
 .friends-chat-area {
   height: 100%;
   width: 75%;
   background-color: #d8dbe2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.friends-chat-area h2 {
+  color: #495057;
+  font-weight: 300;
 }
 
 /* ---------------------------- ChatUI ---------------------------- */
@@ -509,8 +575,8 @@ footer {
   justify-content: space-around;
   align-items: stretch;
   margin: 0;
-  padding: 1%;
-  height: 90vh;
+  padding: 15px 1%;
+  height: 100%;
 }
 
 #chat-messages {
@@ -572,7 +638,6 @@ footer {
 }
 
 .message-content {
-  width: -moz-fit-content;
   width: fit-content;
 }
 
@@ -599,10 +664,96 @@ footer {
   margin-block: 20px;
 }
 
-
 #chat-input-container {
   width: 100%;
   position: relative;
   bottom: 0;
-}/*# sourceMappingURL=style.css.map */
+}
 
+/* ---------------------------- Add group modal ---------------------------- */
+#add-group-modal-background {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#add-group-modal {
+  width: 35%;
+  aspect-ratio: 3/4;
+  background-color: #799cb1;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10%;
+}
+#add-group-modal #add-group-modal-header {
+  background-color: #253d5b;
+  width: 100%;
+  border-radius: 30px 30px 0 0;
+  padding: 1%;
+  height: 13%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#add-group-modal #add-group-modal-header h2 {
+  font-weight: 300;
+  color: white;
+}
+#add-group-modal #add-group-modal-body {
+  width: 70%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+#add-group-modal #add-group-modal-body a {
+  width: 100%;
+  text-decoration: none;
+}
+#add-group-modal #add-group-modal-body #add-group-link {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
+  color: #253d5b;
+}
+#add-group-modal #add-group-modal-body #add-group-bttn {
+  background-color: #253d5b;
+  width: 70%;
+  height: 8%;
+}
+#add-group-modal #add-group-img-input {
+  display: none;
+}
+#add-group-modal #img-upload-box {
+  width: 200px;
+  height: 200px;
+  background-color: #d2d2d2;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+#add-group-modal #img-upload-box .MuiSvgIcon-root {
+  font-size: 90px;
+  margin-top: -10px;
+  color: #495057;
+}
+#add-group-modal #img-upload-box img {
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+}
+
+/*# sourceMappingURL=style.css.map */
