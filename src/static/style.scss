@@ -12,6 +12,7 @@ $echo-darkgrey: #495057;
 
 $echo-text-bg-user: #a9bcd0;
 $echo-text-bg-other: #f0eff4;
+$echo-chat-ui-text: #8a8a8a;
 
 // MIXINS
 @mixin flex-row($justify-content: space-around, $align-items: center) {
@@ -48,7 +49,10 @@ body {
   height: fit-content;
   min-height: 100vh;
   width: 100%;
+  //padding: 100px 0% 100px;
+
   padding: 100px 2% 0;
+
 }
 
 h1 {
@@ -378,6 +382,7 @@ footer {
   height: 100%;
   width: 92%;
   margin-left: 10vw;
+
 }
 
 #dashboard {
@@ -468,7 +473,7 @@ footer {
 #friends{
   height: 100%;
   width: 100%;
-  @include flex-row(center, center);
+
 }
 
 .friends-display{
@@ -486,39 +491,105 @@ footer {
 
 /* ---------------------------- ChatUI ---------------------------- */
 
-.chat-ui-container {
-  background-color: $echo-lightgrey;
-  @include flex-column(space-around, unset);
-  // height: fit-content;
+// chat
 
+#chat-ui-container {
+  background-color: $echo-lightgrey;
+  @include flex-column(space-around, stretch);
   margin: 0;
-  padding: 2%;
+  padding: 1%;
+  height: 90vh;
+}
+
+#chat-messages {
+  // flex-column (justify content is required to be unset)
+  @include flex-column(unset, normal);
+  // height: fit-content;
+  overflow-y: auto;
+  padding-inline: 6px;
+
+  .message-timestamp {
+    color: $echo-chat-ui-text;
+  }
+  .message-content {
+    display: block;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    max-width: 300px;
+    width: fit-content;
+  }
 }
 
 .message {
-  display: block;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 10px;
-  max-width: 300px;
-  width: fit-content;
+  padding-bottom: 20px;
 }
 
-.chat-messages {
-  display: flex;
-  flex-direction: column;
+#message-image-container {
+  width: 300px;
+  height: 300px;
+
+  img {
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .user {
+    background-color: $echo-text-bg-user;
+  }
+
+  .other {
+    background-color: $echo-text-bg-other;
+  }
 }
 
 .message.user {
-  align-self: flex-start;
-  background-color: $echo-text-bg-user;
+  #message-timestamp {
+    @include flex-row(flex-start, flex-start);
+  }
 }
 
 .message.other {
   align-self: flex-end;
+  #message-timestamp {
+    @include flex-row(flex-end, flex-end);
+  }
+}
+
+.message-content {
+  width: fit-content;
+}
+
+.message.user .message-content {
+  background-color: $echo-text-bg-user;
+}
+
+.message.other .message-content {
+  .message-timestamp {
+    @include flex-row(flex-end, flex-end);
+  }
+
   background-color: $echo-text-bg-other;
 }
 
-#chat-divider {
-  margin-block: 20px;
+// divider
+
+#chat-divider-container {
+  padding-block: 20px;
+  text-align: center;
+  color: $echo-chat-ui-text;
+
+  #chat-divider {
+    margin-block: 20px;
+  }
+}
+
+// input
+
+#chat-input-container {
+  width: 100%;
+  position: relative;
+  bottom: 0;
 }

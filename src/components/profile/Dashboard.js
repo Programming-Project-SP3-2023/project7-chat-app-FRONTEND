@@ -2,8 +2,8 @@
  * Dashboard component
  */
 
-import { Box, Link } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Box } from "@mui/material";
+// import { Outlet } from "react-router-dom";
 import { getUser, resetUserSession } from "../../utils/localStorage";
 import SideMenu from "../partial/SideMenu";
 import { useState } from "react";
@@ -52,6 +52,7 @@ const Dashboard = () => {
         selectedOpt={selectedOpt}
       />
       <div className="dashboard-main">
+
         {/* Conditional rendering changing depending on selected option */}
         {selectedOpt === 0 && <DashboardMain />}
         {selectedOpt === 1 && <Friends />}
@@ -64,6 +65,7 @@ const Dashboard = () => {
 
         {/* Testing */}
         {/* <Box sx={{ height: 600, flexGrow: 1 }}>
+
           <Grid container spacing={2}>
             <Grid item xs={3}>
               <Friends />
