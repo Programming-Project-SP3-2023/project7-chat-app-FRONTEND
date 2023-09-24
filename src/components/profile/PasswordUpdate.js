@@ -37,68 +37,81 @@ function PasswordUpdateModal() {
         aria-describedby="parent-modal-description"
       >
         <Box id="password-update-modal">
-          <div id="password-update-header">
-            <h2>Update Password</h2>
+          <div id="password-update-modal-header">
+            <h3>Update Password</h3>
           </div>
-          <form>
-            <FormControl id="update-password-form">
-              {/* name */}
-              <p>Current Password</p>
-              {/* textfield with users name */}
-              <TextField
-                fullWidth
-                id="currentPassword"
-                variant="outlined"
-                type="password"
-                onChange={(event) => setCurrenPassword(event.target.value)}
-                placeholder="Enter your current password."
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LockOutlinedIcon color="primary" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <p>New Password</p>
-              {/* textfield with users email */}
-              <TextField
-                fullWidth
-                id="newPassword"
-                variant="outlined"
-                type="password"
-                onChange={(event) => setNewPassword(event.target.value)}
-                placeholder="Enter your new password"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LockOutlinedIcon color="primary" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <p>Repeat Password</p>
-              {/* textfield with users date of birth */}
-              <TextField
-                fullWidth
-                id="repeatPassword"
-                variant="outlined"
-                type="password"
-                onChnage={(event) => setRepeatPassword(event.target.value)}
-                placeholder="Enter your new Password again."
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LockOutlinedIcon color="primary" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              {/* change password button/modal/dialog box */}
-            </FormControl>
-          </form>
           <div>
-            <Button>Submit</Button>
+            <form id="password-update-modal-body">
+              <FormControl id="password-update-form">
+                {/* name */}
+                <p>Current Password</p>
+                {/* textfield with users name */}
+                <TextField
+                  fullWidth
+                  id="currentPassword"
+                  variant="outlined"
+                  type="password"
+                  onChange={(event) => setCurrenPassword(event.target.value)}
+                  placeholder="Enter your current password."
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LockOutlinedIcon color="primary" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <p>New Password</p>
+                {/* textfield with users email */}
+                <TextField
+                  fullWidth
+                  id="newPassword"
+                  variant="outlined"
+                  type="password"
+                  onChange={(event) => setNewPassword(event.target.value)}
+                  placeholder="Enter your new password"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LockOutlinedIcon color="primary" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <p>Repeat Password</p>
+                {/* textfield with users date of birth */}
+                <TextField
+                  fullWidth
+                  id="repeatPassword"
+                  variant="outlined"
+                  type="password"
+                  onChnage={(event) => setRepeatPassword(event.target.value)}
+                  placeholder="Enter your new Password again."
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LockOutlinedIcon color="primary" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                {/* change password button/modal/dialog box */}
+              </FormControl>
+            </form>
+            <div id="password-update-modal-btn-container">
+              <div>
+                <Button
+                  variant="contained"
+                  id="update-password-btn"
+                  type="submit"
+                >
+                  Update
+                </Button>
+              </div>
+              <div>
+                <Button onClick={handleClose}>Canel</Button>
+              </div>
+            </div>
           </div>
         </Box>
       </Modal>

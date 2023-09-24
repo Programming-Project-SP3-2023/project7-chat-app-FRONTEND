@@ -38,7 +38,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
             <h3>Manage Account Settings</h3>
           </div>
           <div id="edit-profile-modal-body">
-            <div>
+            <div id="edit-profile-modal-avatar">
               <Avatar
                 // id="edit-profile-modal-avatar"
                 src={user.Avatar}
@@ -48,52 +48,55 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
               </Avatar>
               <IconButton>{<EditIcon />}</IconButton>
             </div>
-
-            {/* name */}
-            <p>Name</p>
-            {/* textfield with users name */}
-            <TextField
-              fullWidth
-              id="username"
-              variant="outlined"
-              label={user.username}
-              type="text"
-              placeholder={user.username}
-              value={username}
-              InputProps={{
-                endAdornment: <IconButton>{<EditIcon />}</IconButton>,
-              }}
-            />
-            <p>Email</p>
-            {/* textfield with users email */}
-            <TextField
-              fullWidth
-              id="email"
-              variant="outlined"
-              label={user.email}
-              type="text"
-              placeholder={user.email}
-              value={username}
-              InputProps={{
-                endAdornment: <IconButton>{<EditIcon />}</IconButton>,
-              }}
-            />
-            <p>Date of Birth</p>
-            {/* textfield with users date of birth */}
-            <TextField
-              fullWidth
-              id="dateOfBirth"
-              variant="outlined"
-              label={user.dateOfBirth}
-              type="text"
-              placeholder={user.dateOfBirth}
-              value={username}
-              InputProps={{
-                endAdornment: <IconButton>{<EditIcon />}</IconButton>,
-              }}
-            />
-            {/* change password button/modal/dialog box */}
-            <PasswordUpdateModal />
+            <div id="edit-profile-modal-textfields-container">
+              {/* name */}
+              <p>Name</p>
+              {/* textfield with users name */}
+              <TextField
+                fullWidth
+                id="username"
+                variant="outlined"
+                label={user.username}
+                type="text"
+                placeholder={user.username}
+                value={username}
+                InputProps={{
+                  endAdornment: <IconButton>{<EditIcon />}</IconButton>,
+                }}
+              />
+              <p>Email</p>
+              {/* textfield with users email */}
+              <TextField
+                fullWidth
+                id="email"
+                variant="outlined"
+                label={user.email}
+                type="text"
+                placeholder={user.email}
+                value={username}
+                InputProps={{
+                  endAdornment: <IconButton>{<EditIcon />}</IconButton>,
+                }}
+              />
+              <p>Date of Birth</p>
+              {/* textfield with users date of birth */}
+              <TextField
+                fullWidth
+                id="dateOfBirth"
+                variant="outlined"
+                label={user.dateOfBirth}
+                type="text"
+                placeholder={user.dateOfBirth}
+                value={username}
+                InputProps={{
+                  endAdornment: <IconButton>{<EditIcon />}</IconButton>,
+                }}
+              />
+              {/* change password button/modal/dialog box */}
+              <div id="edit-profile-modal-btn-container">
+                <PasswordUpdateModal />
+              </div>
+            </div>
           </div>
         </Box>
       </Modal>

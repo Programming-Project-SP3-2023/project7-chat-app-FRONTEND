@@ -767,7 +767,7 @@ footer {
 }
 
 /* ---------------------------- Edit Profile modal ---------------------------- */
-#profile-edit-modal-background {
+#edit-profile-modal-background {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -775,9 +775,7 @@ footer {
 }
 
 #edit-profile-modal {
-  margin: auto;
   width: 30%;
-  aspect-ratio: 3/4;
   background-color: #799cb1;
   border-radius: 30px;
   display: flex;
@@ -788,6 +786,7 @@ footer {
 }
 #edit-profile-modal #edit-profile-modal-header {
   background-color: #253d5b;
+  padding-block: 2rem;
   text-align: center;
   border-radius: 30px 30px 0 0;
   width: 100%;
@@ -798,26 +797,41 @@ footer {
 #edit-profile-modal #edit-profile-modal-body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   width: 80%;
   gap: 5px;
 }
+#edit-profile-modal #edit-profile-modal-avatar {
+  padding-left: 10%;
+  padding-block: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+#edit-profile-modal #edit-profile-modal-textfields-container {
+  width: 80%;
+  padding-block: 2rem;
+}
+#edit-profile-modal #edit-profile-modal-btn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-block: 2rem;
+}
 
 /* ---------------------------- Password Update modal ---------------------------- */
-#password-update-modal-header {
-  background-color: #253d5b;
-  text-align: center;
-  border-radius: 30px 30px 0 0;
-  width: 100%;
-}
-#password-update-modal-header h2 {
-  color: white;
+#password-update-modal-background {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #password-update-modal {
-  width: 35%;
-  aspect-ratio: 3/4;
+  width: 30%;
   background-color: #799cb1;
   border-radius: 30px;
   display: flex;
@@ -825,4 +839,36 @@ footer {
   justify-content: flex-start;
   align-items: center;
   gap: 10%;
+}
+#password-update-modal #password-update-modal-header {
+  background-color: #253d5b;
+  text-align: center;
+  padding-block: 2rem;
+  border-radius: 30px 30px 0 0;
+  width: 100%;
+}
+#password-update-modal #password-update-modal-header h3 {
+  color: white;
+}
+#password-update-modal #password-update-modal-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-block: 2rem;
+}
+#password-update-modal a {
+  text-align: left;
+}
+#password-update-modal #password-update-modal-form {
+  width: 80%;
+}
+#password-update-modal #password-update-modal-btn-container {
+  padding-top: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  padding-block: 2rem;
 }/*# sourceMappingURL=style.css.map */
