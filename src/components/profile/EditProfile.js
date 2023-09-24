@@ -11,6 +11,7 @@ import { getUser } from "../../utils/localStorage";
 import { useState } from "react";
 
 import PasswordUpdateModal from "./PasswordUpdate";
+import AvatarUpdateModal from "./AvatarUpdate";
 
 const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   const user = getUser();
@@ -39,14 +40,12 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
           </div>
           <div id="edit-profile-modal-body">
             <div id="edit-profile-modal-avatar">
-              <Avatar
-                // id="edit-profile-modal-avatar"
-                src={user.Avatar}
-                sx={{ width: 100, height: 100 }}
-              >
+              <Avatar src={user.Avatar} sx={{ width: 100, height: 100 }}>
                 <PersonOutlineIcon />
               </Avatar>
-              <IconButton>{<EditIcon />}</IconButton>
+              <div>
+                <AvatarUpdateModal />
+              </div>
             </div>
             <div id="edit-profile-modal-textfields-container">
               {/* name */}

@@ -109,7 +109,7 @@ function PasswordUpdateModal() {
                 </Button>
               </div>
               <div>
-                <Button onClick={handleClose}>Canel</Button>
+                <Button onClick={handleClose}>Cancel</Button>
               </div>
             </div>
           </div>
