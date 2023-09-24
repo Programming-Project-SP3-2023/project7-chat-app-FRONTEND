@@ -6,6 +6,9 @@ import MenuItem from "./MenuItem";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { useState } from "react";
+
+import EditProfile from "../profile/EditProfile";
 
 /**
  * Builds and renders the Dashboard Main Column component
@@ -19,6 +22,12 @@ const DashboardMainColumn = ({ title }) => {
     { name: "Juliette Barton", img: "something/src.jpg" },
     { name: "Mark Ruffalo", img: "something/src.jpg" },
   ];
+
+  const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
+
+  const openEditProfileModal = () => {
+    setEditProfileModalOpen(true);
+  };
 
   return (
     <div className="dashboard-main-column">
@@ -49,15 +58,20 @@ const DashboardMainColumn = ({ title }) => {
               </div>
               <span>Add Friend</span>
             </div>
-            <div className="dashboard-menu-item">
+            <div className="dashboard-menu-item" onClick={openEditProfileModal}>
               <div className="menu-item-icon-wrapper">
                 <SettingsOutlinedIcon />
               </div>
-              <span>Edit Profile</span>
+              <span>Edit Profile </span>
             </div>
           </>
         )}
       </div>
+      {/* EditProfile Modal */}
+      <EditProfile
+        editProfileModalOpen={editProfileModalOpen}
+        setEditProfileModalOpen={setEditProfileModalOpen}
+      />
     </div>
   );
 };
