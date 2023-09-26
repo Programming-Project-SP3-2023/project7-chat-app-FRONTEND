@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import ChatUI from "../DM/ChatUI";
+import AddFriendConfirmation from "../partial/AddFriendConfirmation";
 
 /**
  * Builds and renders the friends chats component
@@ -74,11 +75,15 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
+  const [friendToAdd, setFriendToAdd] = useState(null);
   const loading = open && options.length === 0;
+  // state handler for add friend confirmation modal
+  const [addFriendModalOpen, setAddFriendModalOpen] = useState(false);
 
   // Methods
-  const handleAddFriend = () => {
-    console.info('This function will trigger the add friend function');
+  const handleAddFriend = (option) => {
+    setFriendToAdd(option);
+    setAddFriendModalOpen(true);
   };
 
   // Effects
@@ -110,6 +115,12 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
 
   return (
     <div id="friends">
+      {/* Add friends confirmation modal */}
+      <AddFriendConfirmation
+        addFriendModalOpen={addFriendModalOpen}
+        setAddFriendModalOpen={setAddFriendModalOpen}
+        friendToAdd={friendToAdd}
+      />
       <div className="friends-menu">
         <div className="friends-display">
           {friends.map((friend, i) => {
@@ -150,8 +161,10 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
                   className="friend-search-chip"
                   label={option.name}
                   sx={{ width: "100%" }}
-                  deleteIcon={<PersonAddOutlinedIcon className="add-friend-icon" />}
-                  onDelete={handleAddFriend}
+                  deleteIcon={
+                    <PersonAddOutlinedIcon className="add-friend-icon" />
+                  }
+                  onDelete={() => handleAddFriend(option)}
                 />
               </li>
             )}
