@@ -28,6 +28,8 @@ const PasswordUpdateModal = (event) => {
     } else if (newPassword !== repeatPassword) {
       setMessage("New Password and repeat password do not match!");
     }
+    // TODO include method to validate if password matches before
+    // allowing the user to update the password
   };
 
   // open and close

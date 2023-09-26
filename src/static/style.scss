@@ -775,11 +775,9 @@ footer {
 
 #edit-profile-modal {
   width: 30%;
-  // aspect-ratio: 3/4;
   background-color: $echo-lightblue;
   border-radius: 30px;
   @include flex-column(flex-start, center);
-  gap: 5%;
 
   #edit-profile-modal-header {
     background-color: $echo-darkblue;
@@ -795,6 +793,7 @@ footer {
 
   #edit-profile-modal-body {
     @include flex-column(space-around, center);
+    padding-block: 2rem;
     width: 80%;
     gap: 5px;
   }

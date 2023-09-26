@@ -1,7 +1,7 @@
 import { TextField, Avatar, Box } from "@mui/material";
 import { Modal } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+
 // import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import IconButton from "@mui/material/IconButton";
 
@@ -24,7 +24,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [blobURL, setBlobURL] = useState(null);
 
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
 
@@ -76,14 +76,18 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
               {/* textfield with users name */}
               <TextField
                 fullWidth
-                id="username"
+                id="name"
                 variant="outlined"
-                label={user.username}
+                value={name}
+                onChange={(event) => setName(event.target.value)}
                 type="text"
-                placeholder={user.username}
-                value={username}
+                placeholder={user.name}
                 InputProps={{
-                  endAdornment: <IconButton>{<EditIcon />}</IconButton>,
+                  endAdornment: (
+                    <IconButton position="end">
+                      <EditIcon color="primary" />
+                    </IconButton>
+                  ),
                 }}
               />
               <p>Email</p>
@@ -92,12 +96,16 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                 fullWidth
                 id="email"
                 variant="outlined"
-                label={user.email}
-                type="text"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                type="email"
                 placeholder={user.email}
-                value={username}
                 InputProps={{
-                  endAdornment: <IconButton>{<EditIcon />}</IconButton>,
+                  endAdornment: (
+                    <IconButton position="end">
+                      <EditIcon color="primary" />
+                    </IconButton>
+                  ),
                 }}
               />
               <p>Date of Birth</p>
@@ -106,12 +114,16 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                 fullWidth
                 id="dateOfBirth"
                 variant="outlined"
-                label={user.dateOfBirth}
-                type="text"
+                value={dateOfBirth}
+                onChange={(event) => setDateOfBirth(event.target.value)}
+                type="date"
                 placeholder={user.dateOfBirth}
-                value={username}
                 InputProps={{
-                  endAdornment: <IconButton>{<EditIcon />}</IconButton>,
+                  endAdornment: (
+                    <IconButton position="end">
+                      <EditIcon color="primary" />
+                    </IconButton>
+                  ),
                 }}
               />
               {/* change password button/modal/dialog box */}
