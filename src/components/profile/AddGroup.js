@@ -5,7 +5,7 @@
 import { Modal, Box, TextField, Link, Button } from "@mui/material";
 import { useState } from "react";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
-import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
+import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 /**
  * Builds and renders the Add Group component
  * @returns Add Group component render
@@ -17,18 +17,20 @@ const AddGroup = ({ groupModalOpen, setGroupModalOpen }) => {
 
   // state variables for form
   const [selectedImage, setSelectedImage] = useState(null);
-  const [blobURL, setBlobURL] = useState(null);
   const [groupName, setGroupName] = useState("");
 
-  // handles image change and file upload
+  // handles image change and file upload (base64)
   const imageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
-      const blob = e.target.files[0];
-      const url = URL.createObjectURL(blob);
-      setBlobURL(url);
-      setSelectedImage(blob);
+      const data = new FileReader();
+      data.addEventListener("load", () => {
+        setSelectedImage(data.result);
+      });
+      data.readAsDataURL(e.target.files[0]);
     }
   };
+
+  console.log(selectedImage);
   return (
     <Modal
       id="add-group-modal-background"
@@ -54,7 +56,7 @@ const AddGroup = ({ groupModalOpen, setGroupModalOpen }) => {
                 {!selectedImage ? (
                   <AddPhotoAlternateOutlinedIcon />
                 ) : (
-                  <img src={blobURL} alt="Uploaded Event" />
+                  <img src={selectedImage} alt="Uploaded Event" />
                 )}
               </div>
             </label>
@@ -67,8 +69,15 @@ const AddGroup = ({ groupModalOpen, setGroupModalOpen }) => {
             value={groupName}
             onChange={(event) => setGroupName(event.target.value)}
           />
-          <Link><div id="add-group-link"><GroupAddOutlinedIcon /><p>Invite Members (Optional)</p></div></Link>
-          <Button id="add-group-bttn" variant="contained">Create Group</Button>
+          <Link>
+            <div id="add-group-link">
+              <GroupAddOutlinedIcon />
+              <p>Invite Members (Optional)</p>
+            </div>
+          </Link>
+          <Button id="add-group-bttn" variant="contained">
+            Create Group
+          </Button>
         </form>
       </Box>
     </Modal>
