@@ -22,18 +22,18 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   };
 
   const [selectedImage, setSelectedImage] = useState(null);
-  const [blobURL, setBlobURL] = useState(null);
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
 
+  // Handles image upload and formats it to Base64
   const imageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
-      const blob = e.target.files[0];
-      const url = URL.createObjectURL(blob);
-      setBlobURL(url);
-      setSelectedImage(blob);
+      const data = new FileReader();
+      data.addEventListener('load', () => {
+        setSelectedImage(data.result);
+      })
+      data.readAsDataURL(e.target.files[0]);
     }
   };
 
@@ -64,7 +64,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                     {!selectedImage ? (
                       <PersonOutlineIcon />
                     ) : (
-                      <img src={blobURL} alt="Uploaded Event" />
+                      <img src={selectedImage} alt="Uploaded Event" />
                     )}
                   </div>
                 </Avatar>
