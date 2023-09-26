@@ -15,7 +15,7 @@ import EditProfile from "../profile/EditProfile";
  * @returns Dashboard Main Column component render
  */
 
-const DashboardMainColumn = ({ title }) => {
+const DashboardMainColumn = ({ title, groupModalOpen, setGroupModalOpen}) => {
   const friends = [
     { name: "Jack Sparrow", img: "something/src.jpg" },
     { name: "Coco Wood", img: "something/src.jpg" },
@@ -46,7 +46,7 @@ const DashboardMainColumn = ({ title }) => {
         {/* Quick actions rendering */}
         {title === "Quick Actions" && (
           <>
-            <div className="dashboard-menu-item">
+            <div className="dashboard-menu-item" onClick={() => setGroupModalOpen(true)}>
               <div className="menu-item-icon-wrapper">
                 <AddCircleOutlineIcon />
               </div>

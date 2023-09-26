@@ -12,7 +12,6 @@ body {
 }
 
 .main-section {
-  height: -moz-fit-content;
   height: fit-content;
   min-height: 100vh;
   width: 100%;
@@ -84,8 +83,7 @@ header {
   cursor: pointer;
 }
 #header #logo-container img {
-  -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
   max-height: 100%;
 }
 
@@ -103,8 +101,7 @@ header {
   align-items: center;
 }
 #header-dark #logo-container img {
-  -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
   max-height: 100%;
   max-width: 100%;
 }
@@ -301,7 +298,6 @@ footer {
   border: 0;
   background-color: #799cb1;
   border-radius: 0 0 20px 0;
-  height: -moz-fit-content;
   height: fit-content;
   border-bottom: 5px solid #253d5b;
 }
@@ -324,8 +320,7 @@ footer {
   width: 100%;
 }
 #side-menu .side-menu-img-container img {
-  -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
   max-width: 100%;
 }
 
@@ -360,7 +355,6 @@ footer {
 
 #dashboard {
   background-color: #799cb1;
-  min-height: -moz-fit-content;
   min-height: fit-content;
   height: 100vh;
 }
@@ -396,7 +390,6 @@ footer {
   background-color: #d8dbe2;
   border-radius: 0 0 20px 20px;
   min-height: 90%;
-  height: -moz-fit-content;
   height: fit-content;
 }
 .dashboard-main-column .column-header {
@@ -617,7 +610,6 @@ footer {
   margin-bottom: 5px;
   border-radius: 10px;
   max-width: 300px;
-  width: -moz-fit-content;
   width: fit-content;
 }
 
@@ -660,7 +652,6 @@ footer {
 }
 
 .message-content {
-  width: -moz-fit-content;
   width: fit-content;
 }
 
@@ -775,8 +766,7 @@ footer {
 }
 #add-group-modal #img-upload-box img {
   width: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   height: 100%;
 }
 
@@ -838,8 +828,7 @@ footer {
 }
 #edit-profile-modal #edit-avatar-img-box img {
   width: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   height: 100%;
 }
 #edit-profile-modal #edit-profile-avatar {
@@ -865,8 +854,7 @@ footer {
 }
 #edit-profile-modal #edit-avatar-upload-box img {
   width: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   height: 100%;
 }
 #edit-profile-modal #edit-profile-modal-textfields-container {
@@ -949,4 +937,6 @@ footer {
   transform: scale(1.03);
   transition: 0.3s linear;
   background-color: #d2d2d2;
-}/*# sourceMappingURL=style.css.map */
+}
+
+/*# sourceMappingURL=style.css.map */

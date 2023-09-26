@@ -59,7 +59,12 @@ const Dashboard = () => {
       />
       <div className="dashboard-main">
         {/* Conditional rendering changing depending on selected option */}
-        {selectedOpt === 0 && <DashboardMain />}
+        {selectedOpt === 0 && (
+          <DashboardMain
+            groupModalOpen={groupModalOpen}
+            setGroupModalOpen={setGroupModalOpen}
+          />
+        )}
         {selectedOpt === 1 && <Friends />}
         {selectedOpt === options.length - 1 && <AddGroup />}
         {selectedOpt > 1 && selectedOpt < options.length - 1 && <ChatUI />}

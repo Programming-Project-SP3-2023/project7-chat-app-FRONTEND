@@ -2,18 +2,22 @@
  * Dashboard Main Menu component
  */
 
-import DashboardMainColumn from "../partial/DashboardMainColumn"
+import DashboardMainColumn from "../partial/DashboardMainColumn";
 /**
  * Builds and renders the Dashboard main menu component
  * @returns Dashboard Main Menu component render
  */
 
-const DashboardMain = () => {
+const DashboardMain = ({groupModalOpen, setGroupModalOpen}) => {
   return (
     <article className="dashboard-main-menu">
       <DashboardMainColumn title="Online Friends" />
       <DashboardMainColumn title="People Currently in voice" />
-      <DashboardMainColumn title="Quick Actions" />
+      <DashboardMainColumn
+        title="Quick Actions"
+        groupModalOpen={groupModalOpen}
+        setGroupModalOpen={setGroupModalOpen}
+      />
     </article>
   );
 };
