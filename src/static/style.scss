@@ -486,6 +486,10 @@ footer {
     gap: 15px;
   }
 
+  .MuiAutocomplete-root .MuiOutlinedInput-root {
+    padding-right: 5% !important;
+  }
+
   .friends-bottombar {
     width: 100%;
     @include flex-column(center, center);
@@ -580,6 +584,18 @@ footer {
   h2 {
     color: $echo-darkgrey;
     font-weight: 300;
+  }
+}
+
+.friend-search-chip {
+  margin: 5px 2% !important;
+  width: 96% !important;
+  justify-content: flex-start !important;
+
+  .add-friend-icon{
+    position: absolute;
+    right: 3%;
+    font-size: 200% !important;
   }
 }
 

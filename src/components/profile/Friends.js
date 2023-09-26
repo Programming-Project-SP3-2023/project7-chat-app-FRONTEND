@@ -6,14 +6,28 @@ import FriendItem from "../partial/FriendItem";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
-import { InputAdornment, Link } from "@mui/material";
-import { useState } from "react";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import {
+  InputAdornment,
+  Link,
+  Autocomplete,
+  CircularProgress,
+  Chip,
+} from "@mui/material";
+import { useState, useEffect } from "react";
 import ChatUI from "../DM/ChatUI";
 
 /**
  * Builds and renders the friends chats component
  * @returns Friends chats component render
  */
+
+// Loading function (async)
+function sleep(delay = 0) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
+}
 
 const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
   // dummy friends objects for development.
@@ -58,6 +72,41 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
   // Component state objects
   const [searchString, setSearchString] = useState("");
   const [selectedChat, setSelectedChat] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState([]);
+  const loading = open && options.length === 0;
+
+  // Methods
+  const handleAddFriend = () => {
+    console.info('This function will trigger the add friend function');
+  };
+
+  // Effects
+  useEffect(() => {
+    let active = true;
+
+    if (!loading) {
+      return undefined;
+    }
+
+    (async () => {
+      await sleep(1e3); // For demo purposes.
+
+      if (active) {
+        setOptions([...friends]);
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [loading]);
+
+  useEffect(() => {
+    if (!open) {
+      setOptions([]);
+    }
+  }, [open]);
 
   return (
     <div id="friends">
@@ -81,20 +130,57 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
               <p>Add friends</p>
             </Link>
           </div>
-          <TextField
+          <Autocomplete
+            disableCloseOnSelect
             sx={{ width: "90%" }}
-            id="friends-searchbar"
-            variant="outlined"
-            placeholder="Search for a friend..."
-            value={searchString}
-            onChange={(event) => setSearchString(event.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon color="primary" />
-                </InputAdornment>
-              ),
+            open={open}
+            onOpen={() => {
+              setOpen(true);
             }}
+            onClose={() => {
+              setOpen(false);
+            }}
+            isOptionEqualToValue={(option, value) => option.name === value.name}
+            getOptionLabel={(option) => option.name}
+            renderOption={(props, option) => (
+              <li>
+                <Chip
+                  clickable
+                  icon={<PersonOutlineOutlinedIcon />}
+                  className="friend-search-chip"
+                  label={option.name}
+                  sx={{ width: "100%" }}
+                  deleteIcon={<PersonAddOutlinedIcon className="add-friend-icon" />}
+                  onDelete={handleAddFriend}
+                />
+              </li>
+            )}
+            options={options}
+            loading={loading}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                id="friends-searchbar"
+                variant="outlined"
+                placeholder="Search for a friend..."
+                value={searchString}
+                onChange={(event) => setSearchString(event.target.value)}
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <>
+                      {loading ? (
+                        <CircularProgress color="inherit" size={20} />
+                      ) : (
+                        <InputAdornment position="end">
+                          <SearchIcon color="primary" />
+                        </InputAdornment>
+                      )}
+                    </>
+                  ),
+                }}
+              />
+            )}
           />
         </div>
       </div>
