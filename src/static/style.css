@@ -12,6 +12,7 @@ body {
 }
 
 .main-section {
+  height: -moz-fit-content;
   height: fit-content;
   min-height: 100vh;
   width: 100%;
@@ -83,7 +84,8 @@ header {
   cursor: pointer;
 }
 #header #logo-container img {
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
   max-height: 100%;
 }
 
@@ -101,7 +103,8 @@ header {
   align-items: center;
 }
 #header-dark #logo-container img {
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
   max-height: 100%;
   max-width: 100%;
 }
@@ -298,6 +301,7 @@ footer {
   border: 0;
   background-color: #799cb1;
   border-radius: 0 0 20px 0;
+  height: -moz-fit-content;
   height: fit-content;
   border-bottom: 5px solid #253d5b;
 }
@@ -320,7 +324,8 @@ footer {
   width: 100%;
 }
 #side-menu .side-menu-img-container img {
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
   max-width: 100%;
 }
 
@@ -355,6 +360,7 @@ footer {
 
 #dashboard {
   background-color: #799cb1;
+  min-height: -moz-fit-content;
   min-height: fit-content;
   height: 100vh;
 }
@@ -390,6 +396,7 @@ footer {
   background-color: #d8dbe2;
   border-radius: 0 0 20px 20px;
   min-height: 90%;
+  height: -moz-fit-content;
   height: fit-content;
 }
 .dashboard-main-column .column-header {
@@ -610,6 +617,7 @@ footer {
   margin-bottom: 5px;
   border-radius: 10px;
   max-width: 300px;
+  width: -moz-fit-content;
   width: fit-content;
 }
 
@@ -652,6 +660,7 @@ footer {
 }
 
 .message-content {
+  width: -moz-fit-content;
   width: fit-content;
 }
 
@@ -766,8 +775,178 @@ footer {
 }
 #add-group-modal #img-upload-box img {
   width: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   height: 100%;
 }
 
-/*# sourceMappingURL=style.css.map */
+/* ---------------------------- Edit Profile modal ---------------------------- */
+#edit-profile-modal-background {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#edit-profile-modal {
+  width: 30%;
+  background-color: #799cb1;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+#edit-profile-modal #edit-profile-modal-header {
+  background-color: #253d5b;
+  padding-block: 2rem;
+  text-align: center;
+  border-radius: 30px 30px 0 0;
+  width: 100%;
+}
+#edit-profile-modal #edit-profile-modal-header h3 {
+  color: white;
+}
+#edit-profile-modal #edit-profile-modal-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding-block: 2rem;
+  width: 80%;
+  gap: 5px;
+}
+#edit-profile-modal #edit-avatar-img-input {
+  display: none;
+}
+#edit-profile-modal #edit-avatar-img-box {
+  width: 200px;
+  height: 200px;
+  background-color: #d2d2d2;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+#edit-profile-modal #edit-avatar-img-box .MuiSvgIcon-root {
+  font-size: 90px;
+  margin-top: -10px;
+  color: #495057;
+}
+#edit-profile-modal #edit-avatar-img-box img {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 100%;
+}
+#edit-profile-modal #edit-profile-avatar {
+  width: 100%;
+  height: 100%;
+}
+#edit-profile-modal #edit-avatar-upload-box {
+  width: 150px;
+  height: 150px;
+  background-color: #d2d2d2;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+#edit-profile-modal #edit-avatar-upload-box .MuiSvgIcon-root {
+  font-size: 90px;
+  margin-top: -10px;
+  color: #495057;
+}
+#edit-profile-modal #edit-avatar-upload-box img {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 100%;
+}
+#edit-profile-modal #edit-profile-modal-textfields-container {
+  width: 80%;
+  padding-block: 2rem;
+}
+#edit-profile-modal #edit-profile-modal-btn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-block: 2rem;
+}
+#edit-profile-modal #edit-profile-btn {
+  color: #495057;
+  background-color: #d2d2d2;
+}
+#edit-profile-modal #edit-profile-btn:hover {
+  transform: translateY(-2px);
+  transform: scale(1.03);
+  transition: 0.3s linear;
+}
+
+/* ---------------------------- Password Update modal ---------------------------- */
+#password-update-modal-background {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#password-update-modal {
+  width: 30%;
+  background-color: #799cb1;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10%;
+}
+#password-update-modal #password-update-modal-header {
+  background-color: #253d5b;
+  text-align: center;
+  padding-block: 2rem;
+  border-radius: 30px 30px 0 0;
+  width: 100%;
+}
+#password-update-modal #password-update-modal-header h3 {
+  color: white;
+}
+#password-update-modal #password-update-modal-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: unset;
+  padding-block: 1rem;
+  width: 80%;
+}
+#password-update-modal a {
+  text-align: left;
+}
+#password-update-modal #password-update-modal-btn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: unset;
+  width: 80%;
+  padding-block: 1rem;
+  margin: auto;
+}
+#password-update-modal #cancel-password-modal-btn {
+  color: #495057;
+  text-decoration: underline;
+  width: 80%;
+  margin: auto;
+}
+#password-update-modal #cancel-password-modal-btn:hover {
+  transform: translateY(-2px);
+  transform: scale(1.03);
+  transition: 0.3s linear;
+  background-color: #d2d2d2;
+}/*# sourceMappingURL=style.css.map */
