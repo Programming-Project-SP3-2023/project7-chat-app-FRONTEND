@@ -6,11 +6,13 @@ import FriendItem from "../partial/FriendItem";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import {
   InputAdornment,
   Link,
   Autocomplete,
   CircularProgress,
+  Chip,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import ChatUI from "../DM/ChatUI";
@@ -74,6 +76,11 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
   const [options, setOptions] = useState([]);
   const loading = open && options.length === 0;
 
+  // Methods
+  const handleAddFriend = () => {
+    console.info('This function will trigger the add friend function');
+  };
+
   // Effects
   useEffect(() => {
     let active = true;
@@ -124,7 +131,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
             </Link>
           </div>
           <Autocomplete
-            id="asynchronous-demo"
+            disableCloseOnSelect
             sx={{ width: "90%" }}
             open={open}
             onOpen={() => {
@@ -133,35 +140,46 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
             onClose={() => {
               setOpen(false);
             }}
-            isOptionEqualToValue={(option, value) =>
-              option.name === value.name
-            }
+            isOptionEqualToValue={(option, value) => option.name === value.name}
             getOptionLabel={(option) => option.name}
+            renderOption={(props, option) => (
+              <li>
+                <Chip
+                  clickable
+                  icon={<PersonOutlineOutlinedIcon />}
+                  className="friend-search-chip"
+                  label={option.name}
+                  sx={{ width: "100%" }}
+                  deleteIcon={<PersonAddOutlinedIcon className="add-friend-icon" />}
+                  onDelete={handleAddFriend}
+                />
+              </li>
+            )}
             options={options}
             loading={loading}
             renderInput={(params) => (
               <TextField
-              {...params}
-              id="friends-searchbar"
-              variant="outlined"
-              placeholder="Search for a friend..."
-              value={searchString}
-              onChange={(event) => setSearchString(event.target.value)}
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                  {loading ? (
-                    <CircularProgress color="inherit" size={20} />
-                  ) : (
-                  <InputAdornment position="end">
-                    <SearchIcon color="primary" />
-                  </InputAdornment>
-                  )}
-                </>
-                ),
-              }}
-            />
+                {...params}
+                id="friends-searchbar"
+                variant="outlined"
+                placeholder="Search for a friend..."
+                value={searchString}
+                onChange={(event) => setSearchString(event.target.value)}
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <>
+                      {loading ? (
+                        <CircularProgress color="inherit" size={20} />
+                      ) : (
+                        <InputAdornment position="end">
+                          <SearchIcon color="primary" />
+                        </InputAdornment>
+                      )}
+                    </>
+                  ),
+                }}
+              />
             )}
           />
         </div>
