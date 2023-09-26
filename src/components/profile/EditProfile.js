@@ -1,6 +1,7 @@
 import { TextField, Avatar, Box } from "@mui/material";
 import { Modal } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 // import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import IconButton from "@mui/material/IconButton";
 
@@ -11,7 +12,6 @@ import { getUser } from "../../utils/localStorage";
 import { useState } from "react";
 
 import PasswordUpdateModal from "./PasswordUpdate";
-import AvatarUpdateModal from "./AvatarUpdate";
 
 const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   const user = getUser();
@@ -21,9 +21,21 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
     setEditProfileModalOpen(false);
   };
 
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [blobURL, setBlobURL] = useState(null);
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
+
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const blob = e.target.files[0];
+      const url = URL.createObjectURL(blob);
+      setBlobURL(url);
+      setSelectedImage(blob);
+    }
+  };
 
   return (
     <div>
@@ -39,13 +51,24 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
             <h3>Manage Account Settings</h3>
           </div>
           <div id="edit-profile-modal-body">
-            <div id="edit-profile-modal-avatar">
-              <Avatar src={user.Avatar} sx={{ width: 100, height: 100 }}>
-                <PersonOutlineIcon />
-              </Avatar>
-              <div>
-                <AvatarUpdateModal />
-              </div>
+            <div className="edit-avatar-img-box">
+              <label>
+                <input
+                  id="edit-avatar-img-input"
+                  accept="image/*"
+                  type="file"
+                  onChange={imageChange}
+                />
+                <Avatar id="edit-profile-avatar">
+                  <div id="edit-avatar-upload-box">
+                    {!selectedImage ? (
+                      <PersonOutlineIcon />
+                    ) : (
+                      <img src={blobURL} alt="Uploaded Event" />
+                    )}
+                  </div>
+                </Avatar>
+              </label>
             </div>
             <div id="edit-profile-modal-textfields-container">
               {/* name */}

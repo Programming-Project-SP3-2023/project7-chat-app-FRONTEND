@@ -802,13 +802,58 @@ footer {
   width: 80%;
   gap: 5px;
 }
-#edit-profile-modal #edit-profile-modal-avatar {
-  padding-left: 10%;
-  padding-block: 2rem;
+#edit-profile-modal #edit-avatar-img-input {
+  display: none;
+}
+#edit-profile-modal #edit-avatar-img-box {
+  width: 200px;
+  height: 200px;
+  background-color: #d2d2d2;
+  border-radius: 20px;
+  cursor: pointer;
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: flex-end;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+#edit-profile-modal #edit-avatar-img-box .MuiSvgIcon-root {
+  font-size: 90px;
+  margin-top: -10px;
+  color: #495057;
+}
+#edit-profile-modal #edit-avatar-img-box img {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 100%;
+}
+#edit-profile-modal #edit-profile-avatar {
+  width: 100%;
+  height: 100%;
+}
+#edit-profile-modal #edit-avatar-upload-box {
+  width: 150px;
+  height: 150px;
+  background-color: #d2d2d2;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+#edit-profile-modal #edit-avatar-upload-box .MuiSvgIcon-root {
+  font-size: 90px;
+  margin-top: -10px;
+  color: #495057;
+}
+#edit-profile-modal #edit-avatar-upload-box img {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 100%;
 }
 #edit-profile-modal #edit-profile-modal-textfields-container {
   width: 80%;
@@ -820,6 +865,10 @@ footer {
   justify-content: center;
   align-items: center;
   padding-block: 2rem;
+}
+#edit-profile-modal #edit-profile-btn {
+  color: #495057;
+  background-color: #d2d2d2;
 }
 
 /* ---------------------------- Password Update modal ---------------------------- */
@@ -854,77 +903,19 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding-block: 2rem;
+  align-items: unset;
+  padding-block: 1rem;
+  width: 80%;
 }
 #password-update-modal a {
   text-align: left;
 }
-#password-update-modal #password-update-modal-form {
-  width: 80%;
-}
 #password-update-modal #password-update-modal-btn-container {
-  padding-top: 15px;
+  padding-top: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  gap: 30px;
-  padding-block: 2rem;
-}
-
-/* ---------------------------- Avatar Update modal ---------------------------- */
-#avatar-update-modal-background {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#avatar-update-modal {
-  width: 30%;
-  background-color: #799cb1;
-  border-radius: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 5%;
-}
-#avatar-update-modal #avatar-update-modal-header {
-  background-color: #253d5b;
-  padding-block: 2rem;
-  text-align: center;
-  border-radius: 30px 30px 0 0;
-  width: 100%;
-}
-#avatar-update-modal #avatar-update-modal-header h3 {
-  color: white;
-}
-#avatar-update-modal #avatar-update-modal-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  width: 80%;
-  gap: 5px;
-}
-#avatar-update-modal #avatar-update-modal-avatar {
-  padding-left: 10%;
-  padding-block: 2rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: flex-end;
-}
-#avatar-update-modal #avaatar-update-modal-textfields-container {
-  width: 80%;
-  padding-block: 2rem;
-}
-#avatar-update-modal #avatar-update-modal-btn-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-block: 2rem;
+  gap: 10px;
+  padding-block: 1rem;
 }/*# sourceMappingURL=style.css.map */

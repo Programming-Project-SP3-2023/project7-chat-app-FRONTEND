@@ -130,7 +130,7 @@ const Signup = () => {
             fullWidth
             id="username"
             variant="outlined"
-            value={name}
+            value={username}
             onChange={(event) => setUsername(event.target.value)}
             type="text"
             placeholder="Enter your username"
