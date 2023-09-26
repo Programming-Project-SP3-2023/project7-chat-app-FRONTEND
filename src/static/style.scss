@@ -864,6 +864,12 @@ footer {
     color: $echo-darkgrey;
     background-color: $echo-lightgrey;
   }
+
+  #edit-profile-btn:hover {
+    transform: translateY(-2px);
+    transform: scale(1.03);
+    transition: 0.3s linear;
+  }
 }
 
 /* ---------------------------- Password Update modal ---------------------------- */
@@ -902,9 +908,23 @@ footer {
   }
 
   #password-update-modal-btn-container {
-    padding-top: 5px;
-    @include flex-column(space-between, center);
-    gap: 10px;
+    @include flex-column(space-between, unset);
+    width: 80%;
     padding-block: 1rem;
+    margin: auto;
+  }
+
+  #cancel-password-modal-btn {
+    color: $echo-darkgrey;
+    text-decoration: underline;
+    width: 80%;
+    margin: auto;
+  }
+
+  #cancel-password-modal-btn:hover {
+    transform: translateY(-2px);
+    transform: scale(1.03);
+    transition: 0.3s linear;
+    background-color: $echo-lightgrey;
   }
 }

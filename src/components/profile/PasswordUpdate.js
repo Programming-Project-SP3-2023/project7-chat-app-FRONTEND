@@ -135,7 +135,9 @@ const PasswordUpdateModal = (event) => {
             </FormControl>
           </form>
           <div id="password-update-modal-btn-container">
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button id="cancel-password-modal-btn" onClick={handleClose}>
+              Cancel
+            </Button>
           </div>
         </Box>
       </Modal>
