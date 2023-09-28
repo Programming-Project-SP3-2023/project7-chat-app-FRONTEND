@@ -1,4 +1,4 @@
-import { TextField, Avatar, Box, Icon, useMediaQuery } from "@mui/material";
+import { TextField, Avatar, Box, FormControl } from "@mui/material";
 import { Modal } from "@mui/material";
 import { getUser } from "../../utils/localStorage";
 import { useState } from "react";
@@ -31,10 +31,15 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const [message, setMessage] = useState(null);
+
+  // TODO on cancel revent to original default values in text fields
 
   // handle disabling and unlocking text fields
   const handleNameDisabled = () => {
+    // changes visibility of submit button
     setIsNameSubmitVisble(!isNameSubmitVisible);
+    // disables text field
     setIsNameDisabled(!isNameDisabled);
   };
 
@@ -56,6 +61,36 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
         setSelectedImage(data.result);
       });
       data.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  const nameUpdateHandler = (event) => {
+    event.preventDefault();
+    console.log("Name Update Handler");
+
+    if (name === "") {
+      setMessage("New name cannot be empty");
+    } else {
+      // update username
+    }
+  };
+
+  const emailUpdateHandler = (event) => {
+    event.preventDefault();
+    console.log("Email Update Handler");
+    if (email === "") {
+      setMessage("New Email cannot be empty");
+    } else {
+      //  update user email
+    }
+  };
+  const dateOfBirthUpdateHandler = (event) => {
+    event.preventDefault();
+    console.log("Date Of Birth Update Handler");
+    if (dateOfBirth === "") {
+      setMessage("New Date of Birth cannot be empty!");
+    } else {
+      // update user date of birth
     }
   };
 
@@ -93,88 +128,101 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
               </label>
             </div>
             <div id="edit-profile-modal-textfields-container">
-              {/* name */}
-              <p>Name</p>
-              {/* textfield with users name */}
-              <TextField
-                fullWidth
-                id="name"
-                variant="outlined"
-                value={name}
-                input
-                disabled={isNameDisabled}
-                onChange={(event) => setName(event.target.value)}
-                type="text"
-                placeholder={user.name}
-                InputProps={{
-                  endAdornment: (
-                    <ButtonGroup position="end">
-                      {isNameSubmitVisible ? (
-                        <IconButton>
-                          <DoneIcon />
-                        </IconButton>
-                      ) : null}
-                      <IconButton onClick={handleNameDisabled}>
-                        <EditIcon color="primary" />
-                      </IconButton>
-                    </ButtonGroup>
-                  ),
-                }}
-              />
-              <p>Email</p>
-              {/* textfield with users email */}
-              <TextField
-                fullWidth
-                id="email"
-                variant="outlined"
-                value={email}
-                input
-                disabled={isEmailDisabled}
-                onChange={(event) => setEmail(event.target.value)}
-                type="email"
-                placeholder={user.email}
-                InputProps={{
-                  endAdornment: (
-                    <ButtonGroup position="end">
-                      {isEmailSubmitVisible ? (
-                        <IconButton>
-                          <DoneIcon />
-                        </IconButton>
-                      ) : null}
-                      <IconButton onClick={handleEmailDisabled}>
-                        <EditIcon color="primary" />
-                      </IconButton>
-                    </ButtonGroup>
-                  ),
-                }}
-              />
-              <p>Date of Birth</p>
-              {/* textfield with users date of birth */}
-              <TextField
-                fullWidth
-                id="dateOfBirth"
-                variant="outlined"
-                value={dateOfBirth}
-                input
-                disabled={isDateOfBirthDisabled}
-                onChange={(event) => setDateOfBirth(event.target.value)}
-                type="date"
-                placeholder={user.dateOfBirth}
-                InputProps={{
-                  endAdornment: (
-                    <ButtonGroup position="end">
-                      {isDateOfBirthSubmitVisible ? (
-                        <IconButton>
-                          <DoneIcon />
-                        </IconButton>
-                      ) : null}
-                      <IconButton onClick={handleDateOfBirthDisabled}>
-                        <EditIcon color="primary" />
-                      </IconButton>
-                    </ButtonGroup>
-                  ),
-                }}
-              />
+              <form onSubmit={nameUpdateHandler}>
+                <FormControl fullWidth>
+                  {/* name */}
+                  <p>Name</p>
+                  {/* textfield with users name */}
+                  <TextField
+                    fullWidth
+                    id="nameUpdate"
+                    variant="outlined"
+                    value={name}
+                    input
+                    disabled={isNameDisabled}
+                    onChange={(event) => setName(event.target.value)}
+                    type="text"
+                    placeholder={user.name}
+                    InputProps={{
+                      endAdornment: (
+                        <ButtonGroup position="end">
+                          {isNameSubmitVisible ? (
+                            <IconButton type="submit">
+                              <DoneIcon />
+                            </IconButton>
+                          ) : null}
+                          <IconButton onClick={handleNameDisabled}>
+                            <EditIcon color="primary" />
+                          </IconButton>
+                        </ButtonGroup>
+                      ),
+                    }}
+                  />
+                </FormControl>
+              </form>
+              <form onSubmit={emailUpdateHandler}>
+                <FormControl fullWidth>
+                  <p>Email</p>
+                  {/* textfield with users email */}
+                  <TextField
+                    fullWidth
+                    id="emailUpdate"
+                    variant="outlined"
+                    value={email}
+                    input
+                    disabled={isEmailDisabled}
+                    onChange={(event) => setEmail(event.target.value)}
+                    type="email"
+                    placeholder={user.email}
+                    InputProps={{
+                      endAdornment: (
+                        <ButtonGroup position="end">
+                          {isEmailSubmitVisible ? (
+                            <IconButton type="submit">
+                              <DoneIcon />
+                            </IconButton>
+                          ) : null}
+                          <IconButton onClick={handleEmailDisabled}>
+                            <EditIcon color="primary" />
+                          </IconButton>
+                        </ButtonGroup>
+                      ),
+                    }}
+                  />
+                </FormControl>
+              </form>
+              <form onSubmit={dateOfBirthUpdateHandler}>
+                <FormControl fullWidth>
+                  <p>Date of Birth</p>
+                  {/* textfield with users date of birth */}
+                  <TextField
+                    fullWidth
+                    id="dateOfBirthUpdate"
+                    variant="outlined"
+                    value={dateOfBirth}
+                    input
+                    disabled={isDateOfBirthDisabled}
+                    onChange={(event) => setDateOfBirth(event.target.value)}
+                    type="date"
+                    placeholder={user.dateOfBirth}
+                    InputProps={{
+                      endAdornment: (
+                        <ButtonGroup position="end">
+                          {isDateOfBirthSubmitVisible ? (
+                            <IconButton type="submit">
+                              <DoneIcon />
+                            </IconButton>
+                          ) : null}
+                          <IconButton onClick={handleDateOfBirthDisabled}>
+                            <EditIcon color="primary" />
+                          </IconButton>
+                        </ButtonGroup>
+                      ),
+                    }}
+                  />
+                </FormControl>
+              </form>
+              {message && <p className="error-message">{message}</p>}
               {/* change password button/modal/dialog box */}
               <div id="edit-profile-modal-btn-container">
                 <PasswordUpdateModal />
