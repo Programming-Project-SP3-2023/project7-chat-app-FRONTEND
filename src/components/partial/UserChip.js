@@ -6,6 +6,7 @@ import { Avatar } from "@mui/material";
 import PersonRemoveAlt1OutlinedIcon from "@mui/icons-material/PersonRemoveAlt1Outlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import CircleIcon from "@mui/icons-material/Circle";
 
 // PICS FOR TESTING **
 import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
@@ -35,6 +36,7 @@ const UserChip = ({ user, request }) => {
 
   return (
     <div className="user-chip" id={request && "friends-request"}>
+      {user.notificationOn && <CircleIcon className="user-chip-notification" />}
       <Avatar
         className="user-chip-avatar"
         alt="Sample profile"

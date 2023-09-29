@@ -82,11 +82,13 @@ const Friends = ({
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [friendToAdd, setFriendToAdd] = useState(null);
+  const [friendRequests, setFriendRequests] = useState(0);
   const loading = open && options.length === 0;
   // state handler for add friend confirmation modal
   const [addFriendModalOpen, setAddFriendModalOpen] = useState(false);
 
   // Methods
+  // Handle friend add
   const handleAddFriend = (option) => {
     setFriendToAdd(option);
     setAddFriendModalOpen(true);
@@ -119,6 +121,17 @@ const Friends = ({
     }
   }, [open]);
 
+  useEffect(() => {
+    // TO IMPLEMENT Find out if there are many friends request there are
+    const getFriendRequests = () => {
+      // API call...
+      // Set friend requests value (dummy)
+      setFriendRequests(1);
+    };
+
+    getFriendRequests();
+  }, [friendRequests, setFriendRequests]);
+
   return (
     <div id="friends">
       {/* Add friends confirmation modal */}
@@ -145,6 +158,9 @@ const Friends = ({
             <Link onClick={() => setManageFriendsModalOpen(true)}>
               <PeopleAltOutlinedIcon />
               <p>Manage friends</p>
+              {friendRequests > 0 && (
+                <div id="notification-flag">{friendRequests}</div>
+              )}
             </Link>
           </div>
           <Autocomplete

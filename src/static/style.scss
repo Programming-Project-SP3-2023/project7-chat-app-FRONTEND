@@ -518,12 +518,27 @@ footer {
 
     .add-friends-link {
       width: 90%;
+      position: relative;
       a {
         @include flex-row(flex-start, center);
         gap: 20px;
         text-decoration: none;
         color: $echo-darkgrey;
         padding-left: 2%;
+      }
+
+      #notification-flag{
+        width: 15px;
+        height: 15px;
+        background-color: red;
+        border-radius: 3px;
+        @include flex-column(center, center);
+        color: white;
+        font-size: 10px;
+        font-weight: 800;
+        position: absolute;
+        top: -30%;
+        left: 0;
       }
     }
   }
@@ -1020,6 +1035,15 @@ footer {
   gap: 5%;
   margin-bottom: 20px;
   position: relative;
+
+  .user-chip-notification {
+    color: red;
+    position: absolute;
+    z-index: 3;
+    top: -10%;
+    left: 7%;
+    font-size: 20px !important;
+  }
 
   .user-chip-avatar {
     height: 100%;

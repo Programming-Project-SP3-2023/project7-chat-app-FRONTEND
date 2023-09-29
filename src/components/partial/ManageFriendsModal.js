@@ -68,11 +68,13 @@ const ManageFriendsModal = ({
       id: "006",
       name: "Rafael Bonachela",
       img: "something/src.jpg",
+      notificationOn: false,
     },
     {
       id: "007",
       name: "Morgan Hurrel",
-      img: "something/src.jpg"
+      img: "something/src.jpg",
+      notificationOn: true
     }
   ];
 

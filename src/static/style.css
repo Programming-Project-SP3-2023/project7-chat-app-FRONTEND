@@ -483,6 +483,7 @@ footer {
 }
 .friends-menu .friends-bottombar .add-friends-link {
   width: 90%;
+  position: relative;
 }
 .friends-menu .friends-bottombar .add-friends-link a {
   display: flex;
@@ -493,6 +494,22 @@ footer {
   text-decoration: none;
   color: #495057;
   padding-left: 2%;
+}
+.friends-menu .friends-bottombar .add-friends-link #notification-flag {
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  position: absolute;
+  top: -30%;
+  left: 0;
 }
 .friends-menu #friend-selected {
   border: 3px solid #253d5b;
@@ -1049,6 +1066,14 @@ footer {
   gap: 5%;
   margin-bottom: 20px;
   position: relative;
+}
+.user-chip .user-chip-notification {
+  color: red;
+  position: absolute;
+  z-index: 3;
+  top: -10%;
+  left: 7%;
+  font-size: 20px !important;
 }
 .user-chip .user-chip-avatar {
   height: 100%;
