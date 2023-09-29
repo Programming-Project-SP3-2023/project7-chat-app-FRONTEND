@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import {
   InputAdornment,
   Link,
@@ -16,6 +17,7 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import ChatUI from "../DM/ChatUI";
+import AddFriendConfirmation from "../partial/AddFriendConfirmation";
 
 /**
  * Builds and renders the friends chats component
@@ -29,7 +31,12 @@ function sleep(delay = 0) {
   });
 }
 
-const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
+const Friends = ({
+  friends_list,
+  setFriendsOpt,
+  selectedFriend,
+  setManageFriendsModalOpen,
+}) => {
   // dummy friends objects for development.
   // the lastSent flag is denoting if the friend was the last to send a message. If true, the last chat message comes from the friend, else from the logged in user
   // the status flag is set to 0, 1 or 2. 0=offline, 1=busy, 2=online
@@ -74,11 +81,17 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
+  const [friendToAdd, setFriendToAdd] = useState(null);
+  const [friendRequests, setFriendRequests] = useState(0);
   const loading = open && options.length === 0;
+  // state handler for add friend confirmation modal
+  const [addFriendModalOpen, setAddFriendModalOpen] = useState(false);
 
   // Methods
-  const handleAddFriend = () => {
-    console.info('This function will trigger the add friend function');
+  // Handle friend add
+  const handleAddFriend = (option) => {
+    setFriendToAdd(option);
+    setAddFriendModalOpen(true);
   };
 
   // Effects
@@ -108,8 +121,25 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
     }
   }, [open]);
 
+  useEffect(() => {
+    // TO IMPLEMENT Find out if there are many friends request there are
+    const getFriendRequests = () => {
+      // API call...
+      // Set friend requests value (dummy)
+      setFriendRequests(1);
+    };
+
+    getFriendRequests();
+  }, [friendRequests, setFriendRequests]);
+
   return (
     <div id="friends">
+      {/* Add friends confirmation modal */}
+      <AddFriendConfirmation
+        addFriendModalOpen={addFriendModalOpen}
+        setAddFriendModalOpen={setAddFriendModalOpen}
+        friendToAdd={friendToAdd}
+      />
       <div className="friends-menu">
         <div className="friends-display">
           {friends.map((friend, i) => {
@@ -125,9 +155,12 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
         </div>
         <div className="friends-bottombar">
           <div className="add-friends-link">
-            <Link>
-              <PersonAddOutlinedIcon />
-              <p>Add friends</p>
+            <Link onClick={() => setManageFriendsModalOpen(true)}>
+              <PeopleAltOutlinedIcon />
+              <p>Manage friends</p>
+              {friendRequests > 0 && (
+                <div id="notification-flag">{friendRequests}</div>
+              )}
             </Link>
           </div>
           <Autocomplete
@@ -150,8 +183,10 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
                   className="friend-search-chip"
                   label={option.name}
                   sx={{ width: "100%" }}
-                  deleteIcon={<PersonAddOutlinedIcon className="add-friend-icon" />}
-                  onDelete={handleAddFriend}
+                  deleteIcon={
+                    <PersonAddOutlinedIcon className="add-friend-icon" />
+                  }
+                  onDelete={() => handleAddFriend(option)}
                 />
               </li>
             )}

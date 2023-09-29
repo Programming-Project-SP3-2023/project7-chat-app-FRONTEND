@@ -12,6 +12,7 @@ import ChatUI from "../DM/ChatUI";
 import Friends from "../profile/Friends";
 import DashboardMain from "./DashboardMain";
 import AddGroup from "./AddGroup";
+import ManageFriendsModal from "../partial/ManageFriendsModal";
 
 /**
  * Builds and renders the dashboard component
@@ -23,13 +24,15 @@ const Dashboard = () => {
   // separating first two options from groups as in future development
   // the groups will be pulled from a backend endpoint
   const mainOptions = ["Dashboard", "Friends"];
-  const groups = ["Group 1", "Group 2", "Another Group"];
+  const groups = ["Group 1", "Group 2"];
   const options = mainOptions.concat(groups);
   options.push("Add Group");
   // state variables
   const [selectedOpt, setSelectedOpt] = useState(0);
   // state handler for create group modal
   const [groupModalOpen, setGroupModalOpen] = useState(false);
+  // state handler for manage friends modal
+  const [manageFriendsModalOpen, setManageFriendsModalOpen] = useState(false);
 
   /**
    * Log user out
@@ -45,6 +48,11 @@ const Dashboard = () => {
       <AddGroup
         groupModalOpen={groupModalOpen}
         setGroupModalOpen={setGroupModalOpen}
+      />
+      {/* Manage Friends Modal */}
+      <ManageFriendsModal
+        manageFriendsModalOpen={manageFriendsModalOpen}
+        setManageFriendsModalOpen={setManageFriendsModalOpen}
       />
       <div id="dashboard-header-title">
         <h2>{options[selectedOpt]}</h2>
@@ -63,9 +71,16 @@ const Dashboard = () => {
           <DashboardMain
             groupModalOpen={groupModalOpen}
             setGroupModalOpen={setGroupModalOpen}
+            manageFriendsModalOpen={manageFriendsModalOpen}
+            setManageFriendsModalOpen={setManageFriendsModalOpen}
           />
         )}
-        {selectedOpt === 1 && <Friends />}
+        {selectedOpt === 1 && (
+          <Friends
+            manageFriendsModalOpen={manageFriendsModalOpen}
+            setManageFriendsModalOpen={setManageFriendsModalOpen}
+          />
+        )}
         {selectedOpt === options.length - 1 && <AddGroup />}
         {selectedOpt > 1 && selectedOpt < options.length - 1 && <ChatUI />}
         <Link href="/" onClick={logout}>
