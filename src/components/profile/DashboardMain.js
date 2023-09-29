@@ -8,7 +8,12 @@ import DashboardMainColumn from "../partial/DashboardMainColumn";
  * @returns Dashboard Main Menu component render
  */
 
-const DashboardMain = ({groupModalOpen, setGroupModalOpen}) => {
+const DashboardMain = ({
+  groupModalOpen,
+  setGroupModalOpen,
+  manageFriendsModalOpen,
+  setManageFriendsModalOpen,
+}) => {
   return (
     <article className="dashboard-main-menu">
       <DashboardMainColumn title="Online Friends" />
@@ -17,6 +22,8 @@ const DashboardMain = ({groupModalOpen, setGroupModalOpen}) => {
         title="Quick Actions"
         groupModalOpen={groupModalOpen}
         setGroupModalOpen={setGroupModalOpen}
+        manageFriendsModalOpen={manageFriendsModalOpen}
+        setManageFriendsModalOpen={setManageFriendsModalOpen}
       />
     </article>
   );

@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import {
   InputAdornment,
   Link,
@@ -30,7 +31,12 @@ function sleep(delay = 0) {
   });
 }
 
-const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
+const Friends = ({
+  friends_list,
+  setFriendsOpt,
+  selectedFriend,
+  setManageFriendsModalOpen,
+}) => {
   // dummy friends objects for development.
   // the lastSent flag is denoting if the friend was the last to send a message. If true, the last chat message comes from the friend, else from the logged in user
   // the status flag is set to 0, 1 or 2. 0=offline, 1=busy, 2=online
@@ -136,9 +142,9 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
         </div>
         <div className="friends-bottombar">
           <div className="add-friends-link">
-            <Link>
-              <PersonAddOutlinedIcon />
-              <p>Add friends</p>
+            <Link onClick={() => setManageFriendsModalOpen(true)}>
+              <PeopleAltOutlinedIcon />
+              <p>Manage friends</p>
             </Link>
           </div>
           <Autocomplete
