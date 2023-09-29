@@ -4,11 +4,12 @@
 // sass --watch style.scss:style.css
 
 // COLORS
-$echo-lighterblue: #d8dbe2;
-$echo-lightblue: #799cb1;
-$echo-darkblue: #253d5b;
-$echo-lightgrey: #d2d2d2;
+$echo-lighterblue: #D8DBE2;
+$echo-lightblue: #A9BCD0;
+$echo-darkblue: #456B9A;
+$echo-lightgrey: #F0EFF4;
 $echo-darkgrey: #495057;
+$echo-red: #B92727;
 
 $echo-text-bg-user: #a9bcd0;
 $echo-text-bg-other: #f0eff4;
@@ -70,8 +71,6 @@ body {
   height: fit-content;
   min-height: 100vh;
   width: 100%;
-  //padding: 100px 0% 100px;
-
   padding: 100px 2% 0;
 }
 
@@ -338,7 +337,7 @@ footer {
 #side-menu {
   .MuiDrawer-paper {
     top: unset;
-    width: 12%;
+    width: 8vw;
     @include flex-column(flex-start, center);
     border: 0;
     background-color: $echo-lightblue;
@@ -366,11 +365,15 @@ footer {
   }
 
   .side-menu-img-container {
-    width: 100%;
+    width: 7vw;
+    height: 7vw;
+    border-radius: 15px;
+    @include flex-column(center, center);
 
     img {
       object-fit: contain;
       max-width: 100%;
+      height: 100%;
     }
   }
 }
@@ -400,8 +403,8 @@ footer {
 /* ---------------------------- DASHBOARD ---------------------------- */
 .dashboard-main {
   height: 100%;
-  width: 92%;
-  margin-left: 10vw;
+  width: 96%;
+  margin-left: 6vw;
 }
 
 #dashboard {
@@ -530,7 +533,7 @@ footer {
       #notification-flag{
         width: 15px;
         height: 15px;
-        background-color: red;
+        background-color: $echo-red;
         border-radius: 3px;
         @include flex-column(center, center);
         color: white;
@@ -593,7 +596,7 @@ footer {
       }
 
       #red {
-        color: red;
+        color: $echo-red;
       }
     }
 
@@ -1037,7 +1040,7 @@ footer {
   position: relative;
 
   .user-chip-notification {
-    color: red;
+    color: $echo-red;
     position: absolute;
     z-index: 3;
     top: -10%;
@@ -1077,7 +1080,7 @@ footer {
       }
 
       .friend-request-refuse {
-        color: red;
+        color:$echo-red;
       }
 
       .friend-request-accept,

@@ -24,7 +24,7 @@ const Dashboard = () => {
   // separating first two options from groups as in future development
   // the groups will be pulled from a backend endpoint
   const mainOptions = ["Dashboard", "Friends"];
-  const groups = ["Group 1", "Group 2", "Another Group"];
+  const groups = ["Group 1", "Group 2"];
   const options = mainOptions.concat(groups);
   options.push("Add Group");
   // state variables
