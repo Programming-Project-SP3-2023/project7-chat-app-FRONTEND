@@ -91,7 +91,7 @@ header {
 
 #header-dark {
   height: 100px;
-  background-color: #253d5b;
+  background-color: #456B9A;
 }
 #header-dark #logo-container {
   width: 10%;
@@ -147,13 +147,13 @@ footer {
 
 /* ---------------------------- HOMEPAGE ---------------------------- */
 #home-screen {
-  background-color: #d2d2d2;
+  background-color: #F0EFF4;
   position: relative;
   z-index: 1;
   overflow: hidden;
 }
 #home-screen #home-bg-shape {
-  background-color: #799cb1;
+  background-color: #A9BCD0;
   width: 170%;
   height: 170%;
   position: absolute;
@@ -171,7 +171,7 @@ footer {
   background-color: #495057;
 }
 #home-screen #home-signup-btn {
-  background-color: #253d5b;
+  background-color: #456B9A;
 }
 #home-screen .home-btns {
   display: flex;
@@ -191,13 +191,13 @@ footer {
   justify-content: center;
   align-items: flex-end;
   padding-right: 15%;
-  background-color: #d2d2d2;
+  background-color: #F0EFF4;
   position: relative;
   z-index: 1;
   overflow: hidden;
 }
 #login-screen #login-bg-shape {
-  background-color: #799cb1;
+  background-color: #A9BCD0;
   width: 2000px;
   height: 2000px;
   position: absolute;
@@ -239,7 +239,7 @@ footer {
 #login-btn {
   width: 200px;
   font-size: 18px;
-  background-color: #253d5b;
+  background-color: #456B9A;
 }
 
 #login-link a {
@@ -249,8 +249,8 @@ footer {
 
 /* ---------------------------- SignUp PAGE ---------------------------- */
 #sign-up-screen {
-  background-color: #253d5b;
-  background-image: -webkit-linear-gradient(138deg, #799cb1 60%, #d2d2d2 40%);
+  background-color: #456B9A;
+  background-image: -webkit-linear-gradient(138deg, #A9BCD0 60%, #F0EFF4 40%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -281,29 +281,29 @@ footer {
 
 #sign-up-btn {
   width: 200px;
-  background-color: #253d5b;
+  background-color: #456B9A;
 }
 
 #cancel-sign-up-btn {
   width: 200px;
-  background-color: #d2d2d2;
-  color: #253d5b;
+  background-color: #F0EFF4;
+  color: #456B9A;
 }
 
 /* ---------------------------- SIDE MENU ---------------------------- */
 #side-menu .MuiDrawer-paper {
   top: unset;
-  width: 12%;
+  width: 8vw;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   border: 0;
-  background-color: #799cb1;
+  background-color: #A9BCD0;
   border-radius: 0 0 20px 0;
   height: -moz-fit-content;
   height: fit-content;
-  border-bottom: 5px solid #253d5b;
+  border-bottom: 5px solid #456B9A;
 }
 #side-menu .MuiSvgIcon-root {
   font-size: 250%;
@@ -321,19 +321,26 @@ footer {
   cursor: pointer;
 }
 #side-menu .side-menu-img-container {
-  width: 100%;
+  width: 7vw;
+  height: 7vw;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 #side-menu .side-menu-img-container img {
   -o-object-fit: contain;
      object-fit: contain;
   max-width: 100%;
+  height: 100%;
 }
 
 .side-menu-item {
-  background-color: #253d5b;
+  background-color: #456B9A;
 }
 .side-menu-item .MuiSvgIcon-root {
-  color: #799cb1;
+  color: #A9BCD0;
 }
 
 #side-menu-item-before {
@@ -345,22 +352,21 @@ footer {
 }
 
 #side-menu-item-selected {
-  background-color: #799cb1;
+  background-color: #A9BCD0;
 }
 #side-menu-item-selected .MuiSvgIcon-root {
-  color: #253d5b;
+  color: #456B9A;
 }
 
 /* ---------------------------- DASHBOARD ---------------------------- */
 .dashboard-main {
   height: 100%;
-  width: 92%;
-  margin-left: 10vw;
+  width: 96%;
+  margin-left: 6vw;
 }
 
 #dashboard {
-  background-color: #799cb1;
-  min-height: -moz-fit-content;
+  background-color: #A9BCD0;
   min-height: fit-content;
   height: 100vh;
 }
@@ -393,7 +399,7 @@ footer {
 .dashboard-main-column {
   width: 450px;
   min-width: 22vw;
-  background-color: #d8dbe2;
+  background-color: #D8DBE2;
   border-radius: 0 0 20px 20px;
   min-height: 90%;
   height: -moz-fit-content;
@@ -406,7 +412,7 @@ footer {
   justify-content: center;
   align-items: center;
   height: 50px;
-  background-color: #253d5b;
+  background-color: #456B9A;
   border-radius: 0 0 20px 20px;
 }
 .dashboard-main-column .column-header h3 {
@@ -423,11 +429,11 @@ footer {
   gap: 10px;
 }
 .dashboard-main-column .dashboard-menu-item {
-  border: solid 3px #253d5b;
+  border: solid 3px #456B9A;
   width: 100%;
   aspect-ratio: 5/1;
   border-radius: 35px;
-  background-color: #799cb1;
+  background-color: #A9BCD0;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -438,7 +444,7 @@ footer {
 .dashboard-main-column .dashboard-menu-item .menu-item-avatar {
   height: 100%;
   width: 20%;
-  border: solid 3px #253d5b;
+  border: solid 3px #456B9A;
   margin-left: -3px;
 }
 .dashboard-main-column .dashboard-menu-item .MuiSvgIcon-root {
@@ -463,7 +469,7 @@ footer {
 .friends-menu {
   height: 100%;
   width: 25%;
-  background-color: #799cb1;
+  background-color: #A9BCD0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -490,6 +496,7 @@ footer {
 }
 .friends-menu .friends-bottombar .add-friends-link {
   width: 90%;
+  position: relative;
 }
 .friends-menu .friends-bottombar .add-friends-link a {
   display: flex;
@@ -501,15 +508,31 @@ footer {
   color: #495057;
   padding-left: 2%;
 }
+.friends-menu .friends-bottombar .add-friends-link #notification-flag {
+  width: 15px;
+  height: 15px;
+  background-color: #B92727;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  position: absolute;
+  top: -30%;
+  left: 0;
+}
 .friends-menu #friend-selected {
-  border: 3px solid #253d5b;
-  box-shadow: 8px 8px 40px #253d5b;
+  border: 3px solid #456B9A;
+  box-shadow: 8px 8px 40px #456B9A;
 }
 .friends-menu .friend-menu-item {
   width: 90%;
   aspect-ratio: 5/1;
   border-radius: 35px;
-  background-color: #d2d2d2;
+  background-color: #F0EFF4;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -549,7 +572,7 @@ footer {
   color: orange;
 }
 .friends-menu .friend-menu-item .friend-item-header #red {
-  color: red;
+  color: #B92727;
 }
 .friends-menu .friend-menu-item .friend-item-message {
   margin: 2% 0 2% 2%;
@@ -566,7 +589,7 @@ footer {
 .friends-chat-area {
   height: 100%;
   width: 75%;
-  background-color: #d8dbe2;
+  background-color: #D8DBE2;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -590,7 +613,7 @@ footer {
 
 /* ---------------------------- ChatUI ---------------------------- */
 #chat-ui-container {
-  background-color: #d2d2d2;
+  background-color: #F0EFF4;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -702,9 +725,9 @@ footer {
 }
 
 #add-group-modal {
-  width: 35%;
   aspect-ratio: 3/4;
-  background-color: #799cb1;
+  width: 35%;
+  background-color: #A9BCD0;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -713,11 +736,11 @@ footer {
   gap: 10%;
 }
 #add-group-modal #add-group-modal-header {
-  background-color: #253d5b;
+  height: 13%;
+  background-color: #456B9A;
   width: 100%;
   border-radius: 30px 30px 0 0;
   padding: 1%;
-  height: 13%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -746,10 +769,10 @@ footer {
   justify-content: center;
   align-items: center;
   gap: 10%;
-  color: #253d5b;
+  color: #456B9A;
 }
 #add-group-modal #add-group-modal-body #add-group-bttn {
-  background-color: #253d5b;
+  background-color: #456B9A;
   width: 70%;
   height: 8%;
 }
@@ -759,7 +782,7 @@ footer {
 #add-group-modal #img-upload-box {
   width: 200px;
   height: 200px;
-  background-color: #d2d2d2;
+  background-color: #F0EFF4;
   border-radius: 20px;
   cursor: pointer;
   display: flex;
@@ -790,7 +813,7 @@ footer {
 
 #edit-profile-modal {
   width: 30%;
-  background-color: #799cb1;
+  background-color: #A9BCD0;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -798,7 +821,7 @@ footer {
   align-items: center;
 }
 #edit-profile-modal #edit-profile-modal-header {
-  background-color: #253d5b;
+  background-color: #456B9A;
   padding-block: 2rem;
   text-align: center;
   border-radius: 30px 30px 0 0;
@@ -822,7 +845,7 @@ footer {
 #edit-profile-modal #edit-avatar-img-box {
   width: 200px;
   height: 200px;
-  background-color: #d2d2d2;
+  background-color: #F0EFF4;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -848,7 +871,7 @@ footer {
 #edit-profile-modal #edit-avatar-upload-box {
   width: 150px;
   height: 150px;
-  background-color: #d2d2d2;
+  background-color: #F0EFF4;
   border-radius: 20px;
   cursor: pointer;
   display: flex;
@@ -881,7 +904,7 @@ footer {
 }
 #edit-profile-modal #edit-profile-btn {
   color: #495057;
-  background-color: #d2d2d2;
+  background-color: #F0EFF4;
 }
 #edit-profile-modal #edit-profile-btn:hover {
   transform: translateY(-2px);
@@ -899,7 +922,7 @@ footer {
 
 #password-update-modal {
   width: 30%;
-  background-color: #799cb1;
+  background-color: #A9BCD0;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -908,7 +931,7 @@ footer {
   gap: 10%;
 }
 #password-update-modal #password-update-modal-header {
-  background-color: #253d5b;
+  background-color: #456B9A;
   text-align: center;
   padding-block: 2rem;
   border-radius: 30px 30px 0 0;
@@ -947,5 +970,182 @@ footer {
   transform: translateY(-2px);
   transform: scale(1.03);
   transition: 0.3s linear;
-  background-color: #d2d2d2;
-}/*# sourceMappingURL=style.css.map */
+  background-color: #F0EFF4;
+}
+
+/* ---------------------------- Confirmation modals ---------------------------- */
+#add-friend-modal-background {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#add-friend-modal {
+  aspect-ratio: 5/2;
+  width: 50%;
+  background-color: #A9BCD0;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16%;
+}
+#add-friend-modal #add-friend-modal-header {
+  background-color: #456B9A;
+  width: 100%;
+  border-radius: 30px 30px 0 0;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 25%;
+}
+#add-friend-modal #add-friend-modal-header h2 {
+  font-weight: 300;
+  color: white;
+}
+
+/* ---------------------------- Manage Friends Modal ---------------------------- */
+#manage-friends-modal-background {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#manage-friends-modal {
+  width: 45%;
+  background-color: #A9BCD0;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5%;
+  height: 80%;
+}
+#manage-friends-modal #manage-friends-modal-header {
+  background-color: #456B9A;
+  width: 100%;
+  border-radius: 30px 30px 0 0;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 15%;
+}
+#manage-friends-modal #manage-friends-modal-header h2 {
+  font-weight: 300;
+  color: white;
+}
+
+#manage-friends-modal-whitebox {
+  width: 90%;
+  height: 45%;
+  max-height: 45%;
+  background-color: #ffffff;
+  overflow: auto;
+  padding-left: 5%;
+  gap: 15px;
+  padding-top: 20px;
+}
+
+.manage-friends-link {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  text-decoration: none;
+  color: #495057;
+  padding-left: 2%;
+}
+
+#search-icon {
+  cursor: pointer;
+}
+
+/* ---------------------------- User Chip ---------------------------- */
+.user-chip {
+  width: 95%;
+  aspect-ratio: 9/1;
+  border-radius: 35px;
+  background-color: #F0EFF4;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5%;
+  margin-bottom: 20px;
+  position: relative;
+}
+.user-chip .user-chip-notification {
+  color: #B92727;
+  position: absolute;
+  z-index: 3;
+  top: -10%;
+  left: 7%;
+  font-size: 20px !important;
+}
+.user-chip .user-chip-avatar {
+  height: 100%;
+  width: 11%;
+}
+.user-chip .MuiSvgIcon-root {
+  font-size: 30px;
+}
+.user-chip .user-chip-main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 52%;
+}
+.user-chip .user-chip-main h5 {
+  margin-left: 20%;
+  padding-top: 1%;
+}
+.user-chip .user-chip-main span {
+  font-size: 18px;
+}
+.user-chip .user-chip-main .friend-request-icons {
+  position: absolute;
+  right: 5%;
+}
+.user-chip .user-chip-main .friend-request-icons .friend-request-accept {
+  color: green;
+  margin-right: 10px;
+}
+.user-chip .user-chip-main .friend-request-icons .friend-request-refuse {
+  color: #B92727;
+}
+.user-chip .user-chip-main .friend-request-icons .friend-request-accept,
+.user-chip .user-chip-main .friend-request-icons .friend-request-refuse {
+  cursor: pointer;
+}
+.user-chip .user-chip-main .friend-request-icons .friend-request-accept:hover,
+.user-chip .user-chip-main .friend-request-icons .friend-request-refuse:hover {
+  transform: scale(120%);
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.user-chip .user-chip-main .remove-friends-icon {
+  position: absolute;
+  right: 5%;
+  cursor: pointer;
+}
+.user-chip .user-chip-main .remove-friends-icon:hover {
+  transform: scale(110%);
+  transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#friends-request {
+  background-color: #A9BCD0;
+}
+
+/*# sourceMappingURL=style.css.map */
+

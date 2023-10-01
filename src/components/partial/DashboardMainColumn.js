@@ -4,7 +4,7 @@
 
 import MenuItem from "./MenuItem";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
+import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { useState } from "react";
 
@@ -15,7 +15,11 @@ import EditProfile from "../profile/EditProfile";
  * @returns Dashboard Main Column component render
  */
 
-const DashboardMainColumn = ({ title, groupModalOpen, setGroupModalOpen}) => {
+const DashboardMainColumn = ({
+  title,
+  setGroupModalOpen,
+  setManageFriendsModalOpen,
+}) => {
   const friends = [
     { name: "Jack Sparrow", img: "something/src.jpg" },
     { name: "Coco Wood", img: "something/src.jpg" },
@@ -46,17 +50,23 @@ const DashboardMainColumn = ({ title, groupModalOpen, setGroupModalOpen}) => {
         {/* Quick actions rendering */}
         {title === "Quick Actions" && (
           <>
-            <div className="dashboard-menu-item" onClick={() => setGroupModalOpen(true)}>
+            <div
+              className="dashboard-menu-item"
+              onClick={() => setGroupModalOpen(true)}
+            >
               <div className="menu-item-icon-wrapper">
                 <AddCircleOutlineIcon />
               </div>
               <span>Create a new Group</span>
             </div>
-            <div className="dashboard-menu-item">
+            <div
+              className="dashboard-menu-item"
+              onClick={() => setManageFriendsModalOpen(true)}
+            >
               <div className="menu-item-icon-wrapper">
-                <PersonAddOutlinedIcon />
+                <PeopleAltOutlinedIcon />
               </div>
-              <span>Add Friend</span>
+              <span>Manage Friends</span>
             </div>
             <div className="dashboard-menu-item" onClick={openEditProfileModal}>
               <div className="menu-item-icon-wrapper">

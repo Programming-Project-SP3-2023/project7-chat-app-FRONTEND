@@ -3,7 +3,6 @@
  */
 
 import { Drawer, ListItem, Box, List } from "@mui/material";
-import { useState } from "react";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
@@ -13,8 +12,13 @@ import ECHO_LOGO from "../../assets/echo_transparent.png";
  * Builds and renders the side menu component
  * @returns Side Menu component render
  */
-const SideMenu = ({ options, setSelectedOpt, selectedOpt, groupModalOpen, setGroupModalOpen }) => {
-  
+const SideMenu = ({
+  options,
+  setSelectedOpt,
+  selectedOpt,
+  groupModalOpen,
+  setGroupModalOpen,
+}) => {
   const handleGroupModalOpen = () => setGroupModalOpen(true);
 
   return (
