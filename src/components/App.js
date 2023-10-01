@@ -5,6 +5,10 @@
 // Dependencies
 import { Routes, Route } from "react-router-dom";
 
+// Socket.IO setup
+import socketIO from 'socket.io-client';
+// const socket = socketIO.connect('http://localhost:4000');
+
 // Components
 import Home from "./base/Home";
 import Header from "./base/Header";
