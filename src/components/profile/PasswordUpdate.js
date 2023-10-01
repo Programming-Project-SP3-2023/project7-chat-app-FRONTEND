@@ -9,7 +9,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Modal } from "@mui/material";
 import React, { useState } from "react";
 
+import { getUser } from "../../utils/localStorage";
+
 const PasswordUpdateModal = (event) => {
+  const user = getUser();
+
   const [currentPassword, setCurrenPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -27,9 +31,15 @@ const PasswordUpdateModal = (event) => {
       setMessage("All Fields are required to update password");
     } else if (newPassword !== repeatPassword) {
       setMessage("New Password and repeat password do not match!");
+    } else if (currentPassword !== user.password) {
+      setMessage("Current Password does not match users password, try again.");
+    } else {
+      // update users password
+      // TODO include method to validate if password matches before
+      // allowing the user to update the password
+      user.password = newPassword;
+      setMessage("Users password has been updated.");
     }
-    // TODO include method to validate if password matches before
-    // allowing the user to update the password
   };
 
   // open and close
