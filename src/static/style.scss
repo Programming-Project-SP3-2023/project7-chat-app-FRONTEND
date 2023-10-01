@@ -592,7 +592,7 @@ footer {
   width: 96% !important;
   justify-content: flex-start !important;
 
-  .add-friend-icon{
+  .add-friend-icon {
     position: absolute;
     right: 3%;
     font-size: 200% !important;
@@ -821,7 +821,6 @@ footer {
     width: 200px;
     height: 200px;
     background-color: $echo-lightgrey;
-    border-radius: 20px;
     cursor: pointer;
     @include flex-column(center, center);
     overflow: hidden;
