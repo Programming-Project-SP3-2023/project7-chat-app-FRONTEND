@@ -17,7 +17,7 @@ const SideMenu = ({
   setSelectedOpt,
   selectedOpt,
   groupModalOpen,
-  setGroupModalOpen,
+  setGroupModalOpen
 }) => {
   const handleGroupModalOpen = () => setGroupModalOpen(true);
 

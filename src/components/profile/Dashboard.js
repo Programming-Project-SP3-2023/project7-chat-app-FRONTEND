@@ -18,7 +18,7 @@ import ManageFriendsModal from "../partial/ManageFriendsModal";
  * Builds and renders the dashboard component
  * @returns Dashboard component render
  */
-const Dashboard = () => {
+const Dashboard = ({socket}) => {
   // temporary user for development
   const user = getUser();
   // separating first two options from groups as in future development
@@ -64,6 +64,7 @@ const Dashboard = () => {
         selectedOpt={selectedOpt}
         groupModalOpen={groupModalOpen}
         setGroupModalOpen={setGroupModalOpen}
+        socket={socket}
       />
       <div className="dashboard-main">
         {/* Conditional rendering changing depending on selected option */}
@@ -82,7 +83,7 @@ const Dashboard = () => {
           />
         )}
         {selectedOpt === options.length - 1 && <AddGroup />}
-        {selectedOpt > 1 && selectedOpt < options.length - 1 && <ChatUI />}
+        {selectedOpt > 1 && selectedOpt < options.length - 1 && <ChatUI socket={socket} />}
         <Link href="/" onClick={logout}>
           Logout
         </Link>

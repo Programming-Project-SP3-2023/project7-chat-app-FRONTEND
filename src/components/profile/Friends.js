@@ -3,7 +3,6 @@
  */
 
 import FriendItem from "../partial/FriendItem";
-import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -14,6 +13,7 @@ import {
   Autocomplete,
   CircularProgress,
   Chip,
+  TextField
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import ChatUI from "../DM/ChatUI";

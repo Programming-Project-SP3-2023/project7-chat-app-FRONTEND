@@ -5,10 +5,6 @@
 // Dependencies
 import { Routes, Route } from "react-router-dom";
 
-// Socket.IO setup
-import socketIO from 'socket.io-client';
-// const socket = socketIO.connect('http://localhost:4000');
-
 // Components
 import Home from "./base/Home";
 import Header from "./base/Header";
@@ -26,24 +22,30 @@ import Groups from "./profile/Groups";
 import { getUser } from "../utils/localStorage";
 import { useState, useEffect } from "react";
 
-function App() {
+// Socket.IO setup (using local server --> pull github repo 'temp-chat-server')
+import socketIO from "socket.io-client";
+const socket = socketIO.connect("http://localhost:4000");
 
+function App() {
   const user = getUser();
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
 
   useEffect(() => {
     setIsLoggedIn(user ? true : false);
-  },[user, isLoggedIn])
+  }, [user, isLoggedIn]);
 
   return (
     <div className="App">
       <Header isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route
+          path="login"
+          element={<Login setIsLoggedIn={setIsLoggedIn} socket={socket} />}
+        />
         <Route path="signup" element={<Signup />} />
         <Route path="dashboard">
-          <Route path="" element={<Dashboard />} />
+          <Route path="" element={<Dashboard socket={socket} />} />
           <Route path="friends" element={<Friends />} />
           <Route path="groups" element={<Groups />} />
         </Route>

@@ -15,16 +15,19 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 
+import { useEffect } from "react";
+
 // date time formatter
 import dayjs from "dayjs";
 
 import ECHO_AVATAR from "../../assets/1.JPG";
+import { getUser } from "../../utils/localStorage";
 
 /**
  * Builds and renders the homepage component
  * @returns Homepage component render
  */
-const ChatUI = () => {
+const ChatUI = ({ socket }) => {
   const [messageInput, setMessageInput] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -71,6 +74,10 @@ const ChatUI = () => {
     },
   ]);
 
+  useEffect(() => {
+    socket.on('messageResponse', (data) => setMessages([...messages, data]));
+  }, [socket, messages]);
+
   //TODO change to except specific user
   const handleMessageSubmit = (event) => {
     event.preventDefault();
@@ -79,13 +86,22 @@ const ChatUI = () => {
     const newTimestamp = dayjs(new Date());
     console.log(newTimestamp);
 
-    if (messageInput.trim() !== "") {
+    // if the message is not null and the user is logged in, continue
+    if (messageInput.trim() !== "" && getUser()) {
+
+      // create message object
       const newMessage = {
         user: 1,
+        user_email: getUser().email,
+        id: `${socket.id}${Math.random()}`,
+        socketID: socket.id,
         text: messageInput,
         sender: "message_sent",
         timestamp: newTimestamp,
       };
+
+      // emit message using soccket
+      socket.emit("message", newMessage);
 
       if (selectedFile) {
         newMessage.image = selectedFile;
