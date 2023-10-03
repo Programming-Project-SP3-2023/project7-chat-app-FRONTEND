@@ -4,12 +4,12 @@
 // sass --watch style.scss:style.css
 
 // COLORS
-$echo-lighterblue: #D8DBE2;
-$echo-lightblue: #A9BCD0;
-$echo-darkblue: #456B9A;
-$echo-lightgrey: #F0EFF4;
+$echo-lighterblue: #d8dbe2;
+$echo-lightblue: #a9bcd0;
+$echo-darkblue: #456b9a;
+$echo-lightgrey: #f0eff4;
 $echo-darkgrey: #495057;
-$echo-red: #B92727;
+$echo-red: #b92727;
 
 $echo-text-bg-user: #a9bcd0;
 $echo-text-bg-other: #f0eff4;
@@ -198,14 +198,96 @@ footer {
 
 /* ---------------------------- DROPDOWN MENU ---------------------------- */
 
-#dropdown-menu-icon{
+#dropdown-menu-icon {
   color: white;
   font-size: 2.5vw !important;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     transform: scale(1.1);
     transition: 0.3s linear;
+  }
+}
+
+.MuiDrawer-root {
+  .MuiDrawer-paper {
+    background-color: $echo-lightblue;
+    top: 1%;
+    border-radius: 20px 0 0 20px;
+    height: 65%;
+    border: solid 5px $echo-darkgrey;
+    border-right: 0;
+    width: 35%;
+  }
+}
+
+.settings-header {
+  background-color: $echo-darkblue;
+  width: 100%;
+  padding: 1%;
+  border-radius: 15px 0 0 0;
+  height: 20%;
+  @include flex-row(space-around, center);
+
+  h2 {
+    font-size: 30px;
+    font-weight: 300;
+    color: white;
+  }
+
+  #profile-avatar {
+    width: 60px;
+    height: 60px;
+    background-color: $echo-darkblue;
+    border: solid 2px white;
+  }
+}
+
+.settings-options {
+  @include flex-column(space-around, center);
+  width: 100%;
+  height: 60%;
+  .settings-option {
+    width: 90%;
+    background-color: $echo-lightgrey;
+    height: 20%;
+    min-height: 30px;
+    border-radius: 15px;
+    padding: 0 5%;
+    @include flex-row(space-between, center);
+    color: $echo-darkgrey;
+    cursor: pointer;
+
+    h3 {
+      font-size: 25px;
+      font-weight: 300;
+    }
+
+    svg {
+      font-size: 35px;
+    }
+
+    &:hover {
+      transform: scale(1.02);
+      transition: 0.3s linear;
+    }
+  }
+}
+
+.settings-footer{
+  width: 100%;
+  height: 20%;
+  @include flex-row(flex-start, flex-end);
+  padding: 6%;
+
+  svg{
+    font-size: 40px;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.05);
+      transition: 0.3s linear;
+    }
   }
 }
 
@@ -546,7 +628,7 @@ footer {
         padding-left: 2%;
       }
 
-      #notification-flag{
+      #notification-flag {
         width: 15px;
         height: 15px;
         background-color: $echo-red;
@@ -1076,7 +1158,7 @@ footer {
     @include flex-row(space-between, center);
     width: 52%;
 
-    h5{
+    h5 {
       margin-left: 20%;
       padding-top: 1%;
     }
@@ -1095,7 +1177,7 @@ footer {
       }
 
       .friend-request-refuse {
-        color:$echo-red;
+        color: $echo-red;
       }
 
       .friend-request-accept,

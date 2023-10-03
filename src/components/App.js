@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header isLoggedIn={isLoggedIn} />
+      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
