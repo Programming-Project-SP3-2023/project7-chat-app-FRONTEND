@@ -9,11 +9,14 @@ import {
   Divider,
   Avatar,
   FormControl,
+  Badge,
 } from "@mui/material";
 import { useState } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
+import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
+import { getUser } from "../../utils/localStorage";
 
 // date time formatter
 import dayjs from "dayjs";
@@ -28,11 +31,14 @@ const ChatUI = () => {
   const [messageInput, setMessageInput] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
 
+  const user = getUser();
+
   const [messages, setMessages] = useState([
     // dummy messages
 
     {
       user: 0,
+      username: user.name,
       text: "Hey Captain, when are we getting the new recruits???",
       sender: "message_recived",
       timestamp: "2023-07-01 17:03",
@@ -49,7 +55,10 @@ const ChatUI = () => {
       text: "Dear Jake, Please report to my office immerdiately, there has been a break-in and there are some high profile individuals involved. Sincerely, Raymond Holt",
       sender: "message_sent",
       timestamp: "2023-09-19 17:03",
-      file: "not_a_real_file.txt",
+      //
+      file_name: "not_a_real_file.txt",
+      file_type: "txt",
+      file_size: "64kb",
     },
     {
       user: 0,
@@ -65,7 +74,6 @@ const ChatUI = () => {
       text: "Dear Jake, why is no one having a good time? I specifically requested it",
       sender: "message_sent",
       timestamp: "2023-09-19 17:03",
-      userAvatar: ECHO_AVATAR,
       // currently using random image for css styling
       image: "https://source.unsplash.com/random",
     },
@@ -165,9 +173,23 @@ const ChatUI = () => {
               </div>
             )}
             {/* renders file if available */}
-            {message.file && (
-              <div>
-                <p>Need to figure out how to do this!</p>
+            {message.file_name && (
+              <div id="message-file">
+                <div>
+                  <Badge
+                    id="message-file-mui"
+                    fontsize="large"
+                    anchorOrigin={{
+                      vertical: "center",
+                      horizontal: "center",
+                    }}
+                    badgeContent={message.file_type}
+                  >
+                    <InsertDriveFileOutlinedIcon fontSize="large" />
+                  </Badge>
+                </div>
+                <div>{message.file_name}</div>
+                <div>{message.file_size}</div>
               </div>
             )}
           </div>
@@ -203,7 +225,7 @@ const ChatUI = () => {
                         style={{ display: "none" }}
                         onChange={handleFileSubmit}
                       />
-                      <AttachFileIcon htmlFor="file-input" />
+                      <AttachFileIcon />
                     </IconButton>
                     <IconButton type="submit">
                       <SendIcon />

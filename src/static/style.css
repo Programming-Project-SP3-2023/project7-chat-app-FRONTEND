@@ -91,7 +91,7 @@ header {
 
 #header-dark {
   height: 100px;
-  background-color: #456B9A;
+  background-color: #456b9a;
 }
 #header-dark #logo-container {
   width: 10%;
@@ -147,13 +147,13 @@ footer {
 
 /* ---------------------------- HOMEPAGE ---------------------------- */
 #home-screen {
-  background-color: #F0EFF4;
+  background-color: #f0eff4;
   position: relative;
   z-index: 1;
   overflow: hidden;
 }
 #home-screen #home-bg-shape {
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
   width: 170%;
   height: 170%;
   position: absolute;
@@ -171,7 +171,7 @@ footer {
   background-color: #495057;
 }
 #home-screen #home-signup-btn {
-  background-color: #456B9A;
+  background-color: #456b9a;
 }
 #home-screen .home-btns {
   display: flex;
@@ -191,13 +191,13 @@ footer {
   justify-content: center;
   align-items: flex-end;
   padding-right: 15%;
-  background-color: #F0EFF4;
+  background-color: #f0eff4;
   position: relative;
   z-index: 1;
   overflow: hidden;
 }
 #login-screen #login-bg-shape {
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
   width: 2000px;
   height: 2000px;
   position: absolute;
@@ -239,7 +239,7 @@ footer {
 #login-btn {
   width: 200px;
   font-size: 18px;
-  background-color: #456B9A;
+  background-color: #456b9a;
 }
 
 #login-link a {
@@ -249,8 +249,8 @@ footer {
 
 /* ---------------------------- SignUp PAGE ---------------------------- */
 #sign-up-screen {
-  background-color: #456B9A;
-  background-image: -webkit-linear-gradient(138deg, #A9BCD0 60%, #F0EFF4 40%);
+  background-color: #456b9a;
+  background-image: -webkit-linear-gradient(138deg, #a9bcd0 60%, #f0eff4 40%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -281,13 +281,13 @@ footer {
 
 #sign-up-btn {
   width: 200px;
-  background-color: #456B9A;
+  background-color: #456b9a;
 }
 
 #cancel-sign-up-btn {
   width: 200px;
-  background-color: #F0EFF4;
-  color: #456B9A;
+  background-color: #f0eff4;
+  color: #456b9a;
 }
 
 /* ---------------------------- SIDE MENU ---------------------------- */
@@ -299,11 +299,11 @@ footer {
   justify-content: flex-start;
   align-items: center;
   border: 0;
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
   border-radius: 0 0 20px 0;
   height: -moz-fit-content;
   height: fit-content;
-  border-bottom: 5px solid #456B9A;
+  border-bottom: 5px solid #456b9a;
 }
 #side-menu .MuiSvgIcon-root {
   font-size: 250%;
@@ -337,10 +337,10 @@ footer {
 }
 
 .side-menu-item {
-  background-color: #456B9A;
+  background-color: #456b9a;
 }
 .side-menu-item .MuiSvgIcon-root {
-  color: #A9BCD0;
+  color: #a9bcd0;
 }
 
 #side-menu-item-before {
@@ -352,10 +352,10 @@ footer {
 }
 
 #side-menu-item-selected {
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
 }
 #side-menu-item-selected .MuiSvgIcon-root {
-  color: #456B9A;
+  color: #456b9a;
 }
 
 /* ---------------------------- DASHBOARD ---------------------------- */
@@ -366,7 +366,8 @@ footer {
 }
 
 #dashboard {
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
+  min-height: -moz-fit-content;
   min-height: fit-content;
   height: 100vh;
 }
@@ -399,7 +400,7 @@ footer {
 .dashboard-main-column {
   width: 450px;
   min-width: 22vw;
-  background-color: #D8DBE2;
+  background-color: #d8dbe2;
   border-radius: 0 0 20px 20px;
   min-height: 90%;
   height: -moz-fit-content;
@@ -412,7 +413,7 @@ footer {
   justify-content: center;
   align-items: center;
   height: 50px;
-  background-color: #456B9A;
+  background-color: #456b9a;
   border-radius: 0 0 20px 20px;
 }
 .dashboard-main-column .column-header h3 {
@@ -429,11 +430,11 @@ footer {
   gap: 10px;
 }
 .dashboard-main-column .dashboard-menu-item {
-  border: solid 3px #456B9A;
+  border: solid 3px #456b9a;
   width: 100%;
   aspect-ratio: 5/1;
   border-radius: 35px;
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -444,7 +445,7 @@ footer {
 .dashboard-main-column .dashboard-menu-item .menu-item-avatar {
   height: 100%;
   width: 20%;
-  border: solid 3px #456B9A;
+  border: solid 3px #456b9a;
   margin-left: -3px;
 }
 .dashboard-main-column .dashboard-menu-item .MuiSvgIcon-root {
@@ -469,7 +470,7 @@ footer {
 .friends-menu {
   height: 100%;
   width: 25%;
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -511,7 +512,7 @@ footer {
 .friends-menu .friends-bottombar .add-friends-link #notification-flag {
   width: 15px;
   height: 15px;
-  background-color: #B92727;
+  background-color: #b92727;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
@@ -525,14 +526,14 @@ footer {
   left: 0;
 }
 .friends-menu #friend-selected {
-  border: 3px solid #456B9A;
-  box-shadow: 8px 8px 40px #456B9A;
+  border: 3px solid #456b9a;
+  box-shadow: 8px 8px 40px #456b9a;
 }
 .friends-menu .friend-menu-item {
   width: 90%;
   aspect-ratio: 5/1;
   border-radius: 35px;
-  background-color: #F0EFF4;
+  background-color: #f0eff4;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -572,7 +573,7 @@ footer {
   color: orange;
 }
 .friends-menu .friend-menu-item .friend-item-header #red {
-  color: #B92727;
+  color: #b92727;
 }
 .friends-menu .friend-menu-item .friend-item-message {
   margin: 2% 0 2% 2%;
@@ -589,7 +590,7 @@ footer {
 .friends-chat-area {
   height: 100%;
   width: 75%;
-  background-color: #D8DBE2;
+  background-color: #d8dbe2;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -613,7 +614,7 @@ footer {
 
 /* ---------------------------- ChatUI ---------------------------- */
 #chat-ui-container {
-  background-color: #F0EFF4;
+  background-color: #d8dbe2;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -701,6 +702,20 @@ footer {
   align-items: flex-end;
 }
 
+#message-file {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0eff4;
+  padding: 10px;
+  border-radius: 10px;
+}
+#message-file #message-file-mui .MuiBadge-badge {
+  padding-left: 10px;
+  padding-top: 15px;
+}
+
 #chat-divider-container {
   padding-block: 20px;
   text-align: center;
@@ -727,7 +742,7 @@ footer {
 #add-group-modal {
   aspect-ratio: 3/4;
   width: 35%;
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -737,7 +752,7 @@ footer {
 }
 #add-group-modal #add-group-modal-header {
   height: 13%;
-  background-color: #456B9A;
+  background-color: #456b9a;
   width: 100%;
   border-radius: 30px 30px 0 0;
   padding: 1%;
@@ -769,10 +784,10 @@ footer {
   justify-content: center;
   align-items: center;
   gap: 10%;
-  color: #456B9A;
+  color: #456b9a;
 }
 #add-group-modal #add-group-modal-body #add-group-bttn {
-  background-color: #456B9A;
+  background-color: #456b9a;
   width: 70%;
   height: 8%;
 }
@@ -782,7 +797,7 @@ footer {
 #add-group-modal #img-upload-box {
   width: 200px;
   height: 200px;
-  background-color: #F0EFF4;
+  background-color: #f0eff4;
   border-radius: 20px;
   cursor: pointer;
   display: flex;
@@ -813,7 +828,7 @@ footer {
 
 #edit-profile-modal {
   width: 30%;
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -821,7 +836,7 @@ footer {
   align-items: center;
 }
 #edit-profile-modal #edit-profile-modal-header {
-  background-color: #456B9A;
+  background-color: #456b9a;
   padding-block: 2rem;
   text-align: center;
   border-radius: 30px 30px 0 0;
@@ -845,7 +860,7 @@ footer {
 #edit-profile-modal #edit-avatar-img-box {
   width: 200px;
   height: 200px;
-  background-color: #F0EFF4;
+  background-color: #f0eff4;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -871,7 +886,7 @@ footer {
 #edit-profile-modal #edit-avatar-upload-box {
   width: 150px;
   height: 150px;
-  background-color: #F0EFF4;
+  background-color: #f0eff4;
   border-radius: 20px;
   cursor: pointer;
   display: flex;
@@ -904,7 +919,7 @@ footer {
 }
 #edit-profile-modal #edit-profile-btn {
   color: #495057;
-  background-color: #F0EFF4;
+  background-color: #f0eff4;
 }
 #edit-profile-modal #edit-profile-btn:hover {
   transform: translateY(-2px);
@@ -922,7 +937,7 @@ footer {
 
 #password-update-modal {
   width: 30%;
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -931,7 +946,7 @@ footer {
   gap: 10%;
 }
 #password-update-modal #password-update-modal-header {
-  background-color: #456B9A;
+  background-color: #456b9a;
   text-align: center;
   padding-block: 2rem;
   border-radius: 30px 30px 0 0;
@@ -970,7 +985,7 @@ footer {
   transform: translateY(-2px);
   transform: scale(1.03);
   transition: 0.3s linear;
-  background-color: #F0EFF4;
+  background-color: #f0eff4;
 }
 
 /* ---------------------------- Confirmation modals ---------------------------- */
@@ -984,7 +999,7 @@ footer {
 #add-friend-modal {
   aspect-ratio: 5/2;
   width: 50%;
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -993,7 +1008,7 @@ footer {
   gap: 16%;
 }
 #add-friend-modal #add-friend-modal-header {
-  background-color: #456B9A;
+  background-color: #456b9a;
   width: 100%;
   border-radius: 30px 30px 0 0;
   padding: 1%;
@@ -1018,7 +1033,7 @@ footer {
 
 #manage-friends-modal {
   width: 45%;
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
@@ -1028,7 +1043,7 @@ footer {
   height: 80%;
 }
 #manage-friends-modal #manage-friends-modal-header {
-  background-color: #456B9A;
+  background-color: #456b9a;
   width: 100%;
   border-radius: 30px 30px 0 0;
   padding: 1%;
@@ -1075,7 +1090,7 @@ footer {
   width: 95%;
   aspect-ratio: 9/1;
   border-radius: 35px;
-  background-color: #F0EFF4;
+  background-color: #f0eff4;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -1085,7 +1100,7 @@ footer {
   position: relative;
 }
 .user-chip .user-chip-notification {
-  color: #B92727;
+  color: #b92727;
   position: absolute;
   z-index: 3;
   top: -10%;
@@ -1122,7 +1137,7 @@ footer {
   margin-right: 10px;
 }
 .user-chip .user-chip-main .friend-request-icons .friend-request-refuse {
-  color: #B92727;
+  color: #b92727;
 }
 .user-chip .user-chip-main .friend-request-icons .friend-request-accept,
 .user-chip .user-chip-main .friend-request-icons .friend-request-refuse {
@@ -1144,8 +1159,5 @@ footer {
 }
 
 #friends-request {
-  background-color: #A9BCD0;
-}
-
-/*# sourceMappingURL=style.css.map */
-
+  background-color: #a9bcd0;
+}/*# sourceMappingURL=style.css.map */

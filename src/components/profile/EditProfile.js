@@ -100,6 +100,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
       setIsNameDisabled(!isNameDisabled);
       setIsNameSubmitVisble(!isNameSubmitVisible);
       setMessage("name: " + user.name + " has been updated");
+      // update name
     }
   };
 
