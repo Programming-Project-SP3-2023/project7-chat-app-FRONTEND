@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import ECHO_LOGO from "../../assets/echo_transparent.png";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import { Drawer, Link } from "@mui/material";
+import { Drawer, Link, setRef } from "@mui/material";
 import DrawerMenu from "../partial/DrawerMenu";
 import { getUser } from "../../utils/localStorage";
 
@@ -14,7 +14,7 @@ import { getUser } from "../../utils/localStorage";
  * Builds and renders the header component
  * @returns Header component render
  */
-const Header = ({ isLoggedIn, setIsLoggedIn }) => {
+const Header = ({ isLoggedIn, refresh, setRefresh }) => {
   const [headerId, setHeaderId] = useState("header");
   const [openDrawer, setOpenDrawer] = useState(false);
   // fetch logged in user
@@ -28,7 +28,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
 
   useEffect(() => {
     setHeaderId(isLoggedIn ? "header-dark" : "header");
-  }, [isLoggedIn]);
+  }, [isLoggedIn, refresh]);
 
   return (
     <header id={headerId}>
@@ -45,7 +45,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
       >
-        {<DrawerMenu setOpenDrawer={setOpenDrawer} user={user} setIsLoggedIn={setIsLoggedIn} />}
+        {<DrawerMenu setOpenDrawer={setOpenDrawer} user={user} setRefresh={setRefresh} />}
       </Drawer>
     </header>
   );

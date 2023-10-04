@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
  * @returns Drawer Menu component render
  */
 
-const DrawerMenu = ({ setOpenDrawer, user, setIsLoggedIn }) => {
+const DrawerMenu = ({ setOpenDrawer, user, setRefresh }) => {
   // instantiate navigation prop
   const navigate = useNavigate();
 
@@ -24,6 +24,7 @@ const DrawerMenu = ({ setOpenDrawer, user, setIsLoggedIn }) => {
     await setOpenDrawer(false);
     await resetUserSession();
     await resetTokenSession();
+    await setRefresh(true);
     navigate("/");
   };
 
@@ -36,7 +37,7 @@ const DrawerMenu = ({ setOpenDrawer, user, setIsLoggedIn }) => {
     >
       <div className="settings-header">
         {/* Should be user.name but we don't yet have a complete one at login */}
-        <h2>{user.email}</h2>
+        <h2>{user && user.email}</h2>
         <Avatar id="profile-avatar" />
       </div>
       <div className="settings-options">

@@ -26,14 +26,15 @@ function App() {
 
   const user = getUser();
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     setIsLoggedIn(user ? true : false);
-  },[user, isLoggedIn])
+  },[user, isLoggedIn, refresh])
 
   return (
     <div className="App">
-      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <Header isLoggedIn={isLoggedIn} refresh={refresh} setRefresh={setRefresh}/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
