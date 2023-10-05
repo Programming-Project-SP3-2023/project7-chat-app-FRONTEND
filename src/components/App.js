@@ -21,27 +21,37 @@ import Friends from "./profile/Friends";
 import Groups from "./profile/Groups";
 import { getUser } from "../utils/localStorage";
 import { useState, useEffect } from "react";
+import DashboardMain from "./profile/DashboardMain";
+import ChatUI from "./DM/ChatUI";
 
 function App() {
-
   const user = getUser();
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     setIsLoggedIn(user ? true : false);
-  },[user, isLoggedIn])
+  }, [user, isLoggedIn, refresh]);
 
   return (
     <div className="App">
-      <Header isLoggedIn={isLoggedIn} />
+      <Header
+        isLoggedIn={isLoggedIn}
+        refresh={refresh}
+        setRefresh={setRefresh}
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="signup" element={<Signup />} />
-        <Route path="dashboard">
-          <Route path="" element={<Dashboard />} />
-          <Route path="friends" element={<Friends />} />
-          <Route path="groups" element={<Groups />} />
+        <Route path="dashboard" element={<Dashboard />}>
+          <Route index element={<DashboardMain />} />
+          <Route path="friends" element={<Friends />}>
+            <Route path=":id" element={<ChatUI />} />
+          </Route>
+          <Route path="groups" element={<Groups />}>
+            <Route path=":id" element={<ChatUI />} />
+          </Route>
         </Route>
         <Route path="channels">
           <Route path="" element={<Channels />} />

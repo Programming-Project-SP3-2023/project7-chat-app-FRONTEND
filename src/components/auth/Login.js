@@ -14,7 +14,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
-import { setUserSession } from "../../utils/localStorage";
+import { setSideMenuOption, setUserSession } from "../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -45,6 +45,7 @@ const Login = ({setIsLoggedIn}) => {
       };
       // set user data in local storage
       setUserSession(user);
+      setSideMenuOption(0);
       setIsLoggedIn(true);
       // navigate to dashboard
       navigate("/dashboard");

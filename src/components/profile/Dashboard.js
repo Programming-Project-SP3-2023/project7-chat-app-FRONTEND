@@ -2,17 +2,15 @@
  * Dashboard component
  */
 
-// import { Outlet } from "react-router-dom";
-import { getUser, resetUserSession } from "../../utils/localStorage";
+import { Outlet } from "react-router-dom";
+import {
+  getSideMenuOption,
+  getUser,
+  setSideMenuOption,
+} from "../../utils/localStorage";
 import SideMenu from "../partial/SideMenu";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-
-import ChatUI from "../DM/ChatUI";
-import Friends from "../profile/Friends";
-import DashboardMain from "./DashboardMain";
+import { useEffect, useState } from "react";
 import AddGroup from "./AddGroup";
-import ManageFriendsModal from "../partial/ManageFriendsModal";
 
 /**
  * Builds and renders the dashboard component
@@ -34,13 +32,17 @@ const Dashboard = () => {
   // state handler for manage friends modal
   const [manageFriendsModalOpen, setManageFriendsModalOpen] = useState(false);
 
-  /**
-   * Log user out
-   */
-  const logout = () => {
-    //Delete data from local storage
-    resetUserSession();
+  // make selected options persistent so it stays in the browser after refresh
+  const handleSelectOption = (selected) => {
+    setSideMenuOption(selected);
+    setSelectedOpt(selected);
   };
+
+  // fetch selected option
+  useEffect(() => {
+    const selected = getSideMenuOption();
+    if (selected) setSelectedOpt(selected);
+  }, [selectedOpt]);
 
   return (
     <section className="main-section" id="dashboard">
@@ -49,44 +51,23 @@ const Dashboard = () => {
         groupModalOpen={groupModalOpen}
         setGroupModalOpen={setGroupModalOpen}
       />
-      {/* Manage Friends Modal */}
-      <ManageFriendsModal
-        manageFriendsModalOpen={manageFriendsModalOpen}
-        setManageFriendsModalOpen={setManageFriendsModalOpen}
-      />
       <div id="dashboard-header-title">
         <h2>{options[selectedOpt]}</h2>
       </div>
       {/* Side menu rendering */}
       <SideMenu
         options={options}
-        setSelectedOpt={setSelectedOpt}
+        handleSelectOption={handleSelectOption}
         selectedOpt={selectedOpt}
         groupModalOpen={groupModalOpen}
         setGroupModalOpen={setGroupModalOpen}
+        manageFriendsModalOpen={manageFriendsModalOpen}
+        setManageFriendsModalOpen={setManageFriendsModalOpen}
       />
       <div className="dashboard-main">
         {/* Conditional rendering changing depending on selected option */}
-        {selectedOpt === 0 && (
-          <DashboardMain
-            groupModalOpen={groupModalOpen}
-            setGroupModalOpen={setGroupModalOpen}
-            manageFriendsModalOpen={manageFriendsModalOpen}
-            setManageFriendsModalOpen={setManageFriendsModalOpen}
-          />
-        )}
-        {selectedOpt === 1 && (
-          <Friends
-            manageFriendsModalOpen={manageFriendsModalOpen}
-            setManageFriendsModalOpen={setManageFriendsModalOpen}
-          />
-        )}
         {selectedOpt === options.length - 1 && <AddGroup />}
-        {selectedOpt > 1 && selectedOpt < options.length - 1 && <ChatUI />}
-        <Link href="/" onClick={logout}>
-          Logout
-        </Link>
-        {/* <Outlet /> */}
+        <Outlet />
       </div>
     </section>
   );

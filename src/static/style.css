@@ -6,7 +6,9 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -85,13 +87,18 @@ header {
 }
 #header #logo-container img {
   -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
   max-height: 100%;
 }
 
 #header-dark {
   height: 100px;
   background-color: #456b9a;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 2%;
 }
 #header-dark #logo-container {
   width: 10%;
@@ -104,7 +111,7 @@ header {
 }
 #header-dark #logo-container img {
   -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
   max-height: 100%;
   max-width: 100%;
 }
@@ -143,6 +150,102 @@ footer {
   justify-content: space-around;
   align-items: center;
   bottom: 0;
+}
+
+/* ---------------------------- DROPDOWN MENU ---------------------------- */
+#dropdown-menu-icon {
+  color: white;
+  font-size: 2.5vw !important;
+  cursor: pointer;
+}
+#dropdown-menu-icon:hover {
+  transform: scale(1.1);
+  transition: 0.3s linear;
+}
+
+.MuiDrawer-root .MuiDrawer-paper {
+  background-color: #a9bcd0;
+  top: 1%;
+  border-radius: 20px 0 0 20px;
+  height: 65%;
+  border: solid 5px #495057;
+  border-right: 0;
+  width: 35%;
+}
+
+.settings-header {
+  background-color: #456b9a;
+  width: 100%;
+  padding: 1%;
+  border-radius: 15px 0 0 0;
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.settings-header h2 {
+  font-size: 30px;
+  font-weight: 300;
+  color: white;
+}
+.settings-header #profile-avatar {
+  width: 60px;
+  height: 60px;
+  background-color: #456b9a;
+  border: solid 2px white;
+}
+
+.settings-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 60%;
+}
+.settings-options .settings-option {
+  width: 90%;
+  background-color: #f0eff4;
+  height: 20%;
+  min-height: 30px;
+  border-radius: 15px;
+  padding: 0 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: #495057;
+  cursor: pointer;
+}
+.settings-options .settings-option h3 {
+  font-size: 25px;
+  font-weight: 300;
+}
+.settings-options .settings-option svg {
+  font-size: 35px;
+}
+.settings-options .settings-option:hover {
+  transform: scale(1.02);
+  transition: 0.3s linear;
+}
+
+.settings-footer {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 6%;
+}
+.settings-footer svg {
+  font-size: 40px;
+  cursor: pointer;
+}
+.settings-footer svg:hover {
+  transform: scale(1.05);
+  transition: 0.3s linear;
 }
 
 /* ---------------------------- HOMEPAGE ---------------------------- */
@@ -331,7 +434,7 @@ footer {
 }
 #side-menu .side-menu-img-container img {
   -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
   max-width: 100%;
   height: 100%;
 }
@@ -376,8 +479,9 @@ footer {
   color: white;
   position: absolute;
   top: 0px;
-  left: 12vw;
-  width: 88%;
+  left: 22vw;
+  right: 10vw;
+  width: 68%;
   height: 100px;
   display: flex;
   flex-direction: column;
@@ -433,7 +537,8 @@ footer {
   border: solid 3px #456b9a;
   width: 100%;
   aspect-ratio: 5/1;
-  border-radius: 35px;
+  border-radius: 100px;
+
   background-color: #a9bcd0;
   display: flex;
   flex-direction: row;
@@ -532,7 +637,7 @@ footer {
 .friends-menu .friend-menu-item {
   width: 90%;
   aspect-ratio: 5/1;
-  border-radius: 35px;
+  border-radius: 100px;
   background-color: #f0eff4;
   display: flex;
   flex-direction: row;
@@ -614,7 +719,7 @@ footer {
 
 /* ---------------------------- ChatUI ---------------------------- */
 #chat-ui-container {
-  background-color: #d8dbe2;
+  background-color: #f0eff4;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -814,7 +919,7 @@ footer {
 #add-group-modal #img-upload-box img {
   width: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   height: 100%;
 }
 
@@ -876,7 +981,7 @@ footer {
 #edit-profile-modal #edit-avatar-img-box img {
   width: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   height: 100%;
 }
 #edit-profile-modal #edit-profile-avatar {
@@ -903,7 +1008,7 @@ footer {
 #edit-profile-modal #edit-avatar-upload-box img {
   width: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   height: 100%;
 }
 #edit-profile-modal #edit-profile-modal-textfields-container {
@@ -1085,11 +1190,17 @@ footer {
   cursor: pointer;
 }
 
+#hi {
+  width: 50px;
+  height: 100px;
+  border: solid 1px red;
+}
+
 /* ---------------------------- User Chip ---------------------------- */
 .user-chip {
   width: 95%;
   aspect-ratio: 9/1;
-  border-radius: 35px;
+  border-radius: 100px;
   background-color: #f0eff4;
   display: flex;
   flex-direction: row;
@@ -1160,4 +1271,4 @@ footer {
 
 #friends-request {
   background-color: #a9bcd0;
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map */

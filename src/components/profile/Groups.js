@@ -2,15 +2,17 @@
  * User groups component
  */
 
+import { Outlet } from "react-router-dom";
+
 /**
  * Builds and renders the User groups component
  * @returns User groups component render
  */
 const Groups = () => {
   return (
-    <section className="main-section">
-      <h1>User groups</h1>
-    </section>
+    <>
+      <Outlet />
+    </>
   );
 };
 
