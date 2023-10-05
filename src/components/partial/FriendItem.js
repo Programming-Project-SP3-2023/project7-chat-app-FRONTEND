@@ -5,10 +5,10 @@
 import { Avatar } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-// PICS FOR TESTING **
+// PIC FOR TESTING **
 import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
-// import SAMPLE_PIC_2 from "../../assets/sample-pic-2.jpeg";
 
 /**
  * Builds and renders the Friend Label Item component
@@ -20,6 +20,8 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
 
   const [colorID, setColorID] = useState("green");
 
+  const navigate = useNavigate();
+
   // Determine icon color for online status
   useEffect(() => {
     if (friend.status === 0) setColorID("green");
@@ -30,6 +32,7 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
   // handle chat select
   const handleSelect = () => {
     setSelectedChat(friend.id);
+    navigate(`/dashboard/friends/${friend.id}`);
   };
 
   return (

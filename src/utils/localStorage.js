@@ -59,3 +59,24 @@ export const resetTokenSession = async function () {
   sessionStorage.setItem("accessToken", null);
   sessionStorage.removeItem("accessToken");
 };
+
+/**
+ * Gets selected side menu optionfrom session storage
+ * @returns index
+ */
+export const getSideMenuOption = function () {
+  const selected = sessionStorage.getItem("selectedOption");
+  if (selected === "undefined" || !selected) {
+    return null;
+  } else {
+    return JSON.parse(selected);
+  }
+};
+
+/**
+ * Sets user data in session storage
+ * @param {*} selected The selected option number
+ */
+export const setSideMenuOption  = function (selected) {
+  sessionStorage.setItem("selectedOption", JSON.stringify(selected));
+};

@@ -16,8 +16,9 @@ import {
   Chip,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import ChatUI from "../DM/ChatUI";
 import AddFriendConfirmation from "../partial/AddFriendConfirmation";
+import ManageFriendsModal from "../partial/ManageFriendsModal";
+import { Outlet } from "react-router-dom";
 
 /**
  * Builds and renders the friends chats component
@@ -31,12 +32,7 @@ function sleep(delay = 0) {
   });
 }
 
-const Friends = ({
-  friends_list,
-  setFriendsOpt,
-  selectedFriend,
-  setManageFriendsModalOpen,
-}) => {
+const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
   // dummy friends objects for development.
   // the lastSent flag is denoting if the friend was the last to send a message. If true, the last chat message comes from the friend, else from the logged in user
   // the status flag is set to 0, 1 or 2. 0=offline, 1=busy, 2=online
@@ -86,6 +82,8 @@ const Friends = ({
   const loading = open && options.length === 0;
   // state handler for add friend confirmation modal
   const [addFriendModalOpen, setAddFriendModalOpen] = useState(false);
+  // state handler for manage friends modal
+  const [manageFriendsModalOpen, setManageFriendsModalOpen] = useState(false);
 
   // Methods
   // Handle friend add
@@ -139,6 +137,11 @@ const Friends = ({
         addFriendModalOpen={addFriendModalOpen}
         setAddFriendModalOpen={setAddFriendModalOpen}
         friendToAdd={friendToAdd}
+      />
+      {/* Manage Friends Modal */}
+      <ManageFriendsModal
+        manageFriendsModalOpen={manageFriendsModalOpen}
+        setManageFriendsModalOpen={setManageFriendsModalOpen}
       />
       <div className="friends-menu">
         <div className="friends-display">
@@ -220,9 +223,8 @@ const Friends = ({
         </div>
       </div>
       <div className="friends-chat-area">
-        {selectedChat ? (
-          <ChatUI selectedChat={selectedChat} />
-        ) : (
+        <Outlet />
+        {!selectedChat && (
           <>
             <h2>No chat selected.</h2>
             <h2>Open a conversation and start typing!</h2>

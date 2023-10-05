@@ -41,7 +41,7 @@ const DrawerMenu = ({ setOpenDrawer, user, setRefresh }) => {
         <Avatar id="profile-avatar" />
       </div>
       <div className="settings-options">
-        <div className="settings-option">
+        <div className="settings-option" onClick={() => navigate("/dashboard")}>
           <GridViewIcon />
           <h3>Dashboard</h3>
         </div>
