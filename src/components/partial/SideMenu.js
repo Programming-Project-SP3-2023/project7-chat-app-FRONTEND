@@ -8,18 +8,27 @@ import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
 import ECHO_LOGO from "../../assets/echo_transparent.png";
 
+import { useNavigate } from "react-router-dom";
+
 /**
  * Builds and renders the side menu component
  * @returns Side Menu component render
  */
 const SideMenu = ({
   options,
-  setSelectedOpt,
+  handleSelectOption,
   selectedOpt,
-  groupModalOpen,
   setGroupModalOpen,
 }) => {
   const handleGroupModalOpen = () => setGroupModalOpen(true);
+  const navigate = useNavigate();
+
+  const handleNavigate = (index, options) => {
+    if (index === 1) navigate("/dashboard/friends");
+    if (index === 0) navigate("/dashboard");
+    if (index !== options.length - 1 && index > 1) navigate(`/dashboard/groups/${options[index]}`);
+  };
+
 
   return (
     <Drawer variant="permanent" id="side-menu">
@@ -38,10 +47,13 @@ const SideMenu = ({
               onClick={
                 index === options.length - 1
                   ? () => handleGroupModalOpen()
-                  : () => setSelectedOpt(index)
+                  : () => handleSelectOption(index)
               }
             >
-              <div className="side-menu-img-container">
+              <div
+                className="side-menu-img-container"
+                onClick={() => handleNavigate(index, options)}
+              >
                 {index === 0 && <GridViewIcon />}
                 {index === 1 && <PeopleAltOutlinedIcon />}
                 {index === options.length - 1 && <ControlPointOutlinedIcon />}

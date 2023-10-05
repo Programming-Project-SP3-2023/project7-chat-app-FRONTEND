@@ -174,7 +174,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                     disabled={isUsernameDisabled}
                     onChange={(event) => setUsername(event.target.value)}
                     type="text"
-                    placeholder={user.username}
+                    placeholder={user && user.username}
                     InputProps={{
                       endAdornment: (
                         <ButtonGroup position="end">
@@ -207,7 +207,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                     disabled={isNameDisabled}
                     onChange={(event) => setName(event.target.value)}
                     type="text"
-                    placeholder={user.name}
+                    placeholder={user && user.name}
                     InputProps={{
                       endAdornment: (
                         <ButtonGroup position="end">
@@ -239,7 +239,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                 disabled="true"
                 // onChange={(event) => setEmail(event.target.value)}
                 type="email"
-                placeholder={user.email}
+                placeholder={user && user.email}
                 // TODO remove
                 // InputProps={{
                 //   endAdornment: (
@@ -269,7 +269,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                 input
                 disabled="true"
                 type="date"
-                placeholder={user.dateOfBirth}
+                placeholder={user && user.dateOfBirth}
               />
 
               {message && <p className="error-message">{message}</p>}
