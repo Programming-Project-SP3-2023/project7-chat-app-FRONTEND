@@ -4,12 +4,15 @@ import "./static/style.css";
 import App from "./components/App";
 //React Router for client-side routing
 import { BrowserRouter } from "react-router-dom";
+import { SocketProvider } from "./components/DM/SocketContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <SocketProvider>
+        <App />
+      </SocketProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

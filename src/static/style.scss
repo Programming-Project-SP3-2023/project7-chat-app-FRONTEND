@@ -274,13 +274,13 @@ footer {
   }
 }
 
-.settings-footer{
+.settings-footer {
   width: 100%;
   height: 20%;
   @include flex-row(flex-start, flex-end);
   padding: 6%;
 
-  svg{
+  svg {
     font-size: 40px;
     cursor: pointer;
 
@@ -742,7 +742,7 @@ footer {
 
 #chat-ui-container {
   background-color: $echo-lighterblue;
-  @include flex-column(space-around, stretch);
+  @include flex-column(space-between, stretch);
   margin: 0;
   padding: 15px 1%;
   height: 100%;
@@ -1138,7 +1138,7 @@ footer {
   cursor: pointer;
 }
 
-#hi{
+#hi {
   width: 50px;
   height: 100px;
   border: solid 1px red;

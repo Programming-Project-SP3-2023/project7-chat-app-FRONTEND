@@ -6,9 +6,7 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -87,7 +85,7 @@ header {
 }
 #header #logo-container img {
   -o-object-fit: contain;
-  object-fit: contain;
+     object-fit: contain;
   max-height: 100%;
 }
 
@@ -111,7 +109,7 @@ header {
 }
 #header-dark #logo-container img {
   -o-object-fit: contain;
-  object-fit: contain;
+     object-fit: contain;
   max-height: 100%;
   max-width: 100%;
 }
@@ -434,7 +432,7 @@ footer {
 }
 #side-menu .side-menu-img-container img {
   -o-object-fit: contain;
-  object-fit: contain;
+     object-fit: contain;
   max-width: 100%;
   height: 100%;
 }
@@ -538,7 +536,6 @@ footer {
   width: 100%;
   aspect-ratio: 5/1;
   border-radius: 100px;
-
   background-color: #a9bcd0;
   display: flex;
   flex-direction: row;
@@ -719,10 +716,10 @@ footer {
 
 /* ---------------------------- ChatUI ---------------------------- */
 #chat-ui-container {
-  background-color: #f0eff4;
+  background-color: #d8dbe2;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: stretch;
   margin: 0;
   padding: 15px 1%;
@@ -919,7 +916,7 @@ footer {
 #add-group-modal #img-upload-box img {
   width: 100%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   height: 100%;
 }
 
@@ -981,7 +978,7 @@ footer {
 #edit-profile-modal #edit-avatar-img-box img {
   width: 100%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   height: 100%;
 }
 #edit-profile-modal #edit-profile-avatar {
@@ -1008,7 +1005,7 @@ footer {
 #edit-profile-modal #edit-avatar-upload-box img {
   width: 100%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   height: 100%;
 }
 #edit-profile-modal #edit-profile-modal-textfields-container {
@@ -1271,4 +1268,4 @@ footer {
 
 #friends-request {
   background-color: #a9bcd0;
-} /*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */
