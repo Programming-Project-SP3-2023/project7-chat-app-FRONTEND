@@ -16,7 +16,6 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 // import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
-import { useNavigate } from "react-router-dom";
 
 // date time formatter
 import dayjs from "dayjs";
@@ -26,14 +25,6 @@ import dayjs from "dayjs";
  * @returns Homepage component render
  */
 const ChatUI = ({ socket }) => {
-  const navigate = useNavigate();
-
-  // const handleLeaveChat = () => {
-  //   localStorage.removeItem("username");
-  //   navigate("/");
-  //   window.location.reload();
-  // };
-
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
   const username = socket.id; //temporary
@@ -73,7 +64,6 @@ const ChatUI = ({ socket }) => {
       socket.emit("message", {
         user: username,
         text: messageInput,
-        sender: "message_sent",
         timestamp: newTimestamp,
 
         socketID: socket.id,
@@ -83,10 +73,6 @@ const ChatUI = ({ socket }) => {
       //   newMessage.image = selectedFile;
       // }
 
-      // socket.emit([...messages, newMessage]);
-
-      // setMessages((prevMessages) => [...prevMessages, newMessage]);
-      // reset values
       setMessageInput("");
       // setSelectedFile(null);
     }
@@ -106,26 +92,61 @@ const ChatUI = ({ socket }) => {
       }}
       id="chat-ui-container"
     >
-      <div id="chat-messages" className="message__container">
+      <div className="chat-messages">
         {messages.map((message) =>
-          message.name === localStorage.getItem("username") ? (
-            <div className="message__chats" key={message.id.time}>
-              {formatDateTime(message.timestamp)}
-              <p className="sender__name">You</p>
-              <div className="message__sender">
-                <p>{message.text}</p>
+          message.name === localStorage.getItem("user") ? (
+            <div className="message-content" key={message.id}>
+              <div id="message-timestamp" className="message-timestamp">
+                {formatDateTime(messages.timestamp)}
+                {messages.text}
               </div>
+              <div className="message-content user">{messages.text}</div>
+              {/* renders image if available */}
+              {messages.image && (
+                <div
+                  id="message-image-container user"
+                  className={`message-image-container user`}
+                >
+                  <img
+                    id="message-image user"
+                    className={`message-image user`}
+                    src={messages.image}
+                    alt={messages.image}
+                  />
+                </div>
+              )}
             </div>
           ) : (
-            <div className="message__chats" key={message.id}>
-              <div id="message-timestamp" className="message-timestamp">
-                {formatDateTime(message.timestamp)}
+            <div className="message-content" key={message.id}>
+              <div id="message-timestamp other" className="message-timestamp">
+                {formatDateTime(messages.timestamp)}
               </div>
-              <p>{message.name}</p>
-              <div className="message__recipient">
-                <Avatar alt={`User ${message.user}`} src={message.userAvatar} />
-                <div className="message-content">{message.text}</div>
+              <div>{message.text}</div>
+              <div className="message-content other">
+                {/* renders chat message */}
+                {messages.userAvatar && (
+                  <Avatar
+                    alt={`User ${message.user}`}
+                    src={message.userAvatar}
+                  />
+                )}
+
+                {messages.text}
               </div>
+              {/* renders image if available */}
+              {messages.image && (
+                <div
+                  id="message-image-container other"
+                  className={`message-image-container other`}
+                >
+                  <img
+                    id="message-image other"
+                    className={`message-image other`}
+                    src={messages.image}
+                    alt={messages.image}
+                  />
+                </div>
+              )}
             </div>
           )
         )}

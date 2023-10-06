@@ -748,7 +748,7 @@ footer {
   height: 100%;
 }
 
-#chat-messages {
+.chat-messages {
   // flex-column (justify content is required to be unset)
   @include flex-column(unset, normal);
   // height: fit-content;

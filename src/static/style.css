@@ -726,7 +726,7 @@ footer {
   height: 100%;
 }
 
-#chat-messages {
+.chat-messages {
   display: flex;
   flex-direction: column;
   justify-content: unset;
@@ -734,10 +734,10 @@ footer {
   overflow-y: auto;
   padding-inline: 6px;
 }
-#chat-messages .message-timestamp {
+.chat-messages .message-timestamp {
   color: #8a8a8a;
 }
-#chat-messages .message-content {
+.chat-messages .message-content {
   display: block;
   padding: 10px;
   margin-bottom: 5px;
