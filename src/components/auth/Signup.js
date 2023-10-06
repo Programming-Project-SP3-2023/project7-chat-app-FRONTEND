@@ -11,6 +11,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { register } from "../../services/userAPI";
+
 /**
  * Builds and renders the signup component
  * @returns Signup component render
@@ -31,9 +33,17 @@ const Signup = () => {
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
 
-  const registrationHandler = (event) => {
+  // loading flag
+  const [loading, setLoading] = useState(false);
+
+  /**
+   * Registration request handler
+   * @param {*} event
+   */
+  const registrationHandler = async (event) => {
     event.preventDefault();
     console.log("Registration Handler");
+    setLoading(true);
 
     // check if any field is empty
     if (
@@ -57,15 +67,20 @@ const Signup = () => {
         password: password,
       };
 
-      const response = fetch("http://localhost:4000/Register", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newUser),
-      });
-      navigate("/");
+      await register(newUser)
+        .then((response) => {
+          console.log("Registration Succesful");
+          navigate("/login");
+        })
+        .catch((error) => {
+          setMessage(
+            "Sorry, the backend server is down! Please try again later."
+          );
+        })
+        .finally(() => {
+          //Disable loading
+          setLoading(false);
+        });
     }
   };
 
@@ -179,6 +194,8 @@ const Signup = () => {
           />
           {/* if the message is defined, show it */}
           {message && <p className="error-message">{message}</p>}
+          {/* if the system is loading, show temp flag */}
+          {loading && <p>Registration in progress....</p>}
           <div id="registration-btn-div">
             <Button id="sign-up-btn" variant="contained" type="submit">
               Sign Up
