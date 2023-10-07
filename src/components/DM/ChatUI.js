@@ -27,18 +27,40 @@ import dayjs from "dayjs";
 const ChatUI = ({ socket }) => {
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
-  const hiddenFileInput = useRef(null);
-  const username = socket.id; //temporary
+  const [typingStatus, setTypingStatus] = useState("");
 
+  // image related
   const [selectedFile, setSelectedFile] = useState(null);
+  const hiddenFileInput = useRef(null);
 
+  // for autoscrolling to the latest message
+  const lastMessageRef = useRef(null);
+  const username = socket.id; //tempory accesor to access socket id as user.
+
+  const handleTyping = () => {
+    socket.emit("typing", `${localStorage.getItem("user")} is typing`);
+  };
+
+  //image file button click
   const handleClick = (event) => {
     hiddenFileInput.current.click();
   };
 
+  // TODO handle image rendering in useEffect > messageResponse
+
+  // for handling message display
   useEffect(() => {
     socket.on("messageResponse", (data) => setMessages([...messages, data]));
   }, [socket, messages]);
+
+  // for handling auto-scrolling of lastest message (into scrollIntoView)
+  useEffect(() => {
+    lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  useEffect(() => {
+    socket.on("typingResponse", (data) => setTypingStatus(data));
+  }, [socket]);
 
   // format date / time
   const formatDateTime = (timestamp) => {
@@ -52,11 +74,10 @@ const ChatUI = ({ socket }) => {
     } else {
       formatTimestamp = dayjs(timestamp).format("ddd D MMM | HH:mm");
     }
-
     return formatTimestamp;
   };
 
-  //TODO change to except specific user
+  //TODO
   const handleMessageSubmit = (event) => {
     event.preventDefault();
 
@@ -70,7 +91,6 @@ const ChatUI = ({ socket }) => {
         user: username,
         text: messageInput,
         timestamp: newTimestamp,
-
         socketID: socket.id,
       });
 
@@ -105,7 +125,11 @@ const ChatUI = ({ socket }) => {
       <div className="chat-messages">
         {messages.map((message) =>
           message.name === localStorage.getItem("user") ? (
-            <div className="message-content" key={message.id}>
+            <div
+              ref={lastMessageRef}
+              className="message-content"
+              key={message.id}
+            >
               <div className="message-timestamp">
                 {formatDateTime(messages.timestamp)}
               </div>
@@ -127,11 +151,11 @@ const ChatUI = ({ socket }) => {
               {/* renders image if available */}
               {message.image && (
                 <div
-                  id="message-image-container other"
-                  className={`message-image-container other`}
+                  id="message-image-container"
+                  className={`message-image-container`}
                 >
                   <img
-                    id="message-image other"
+                    id="message-image"
                     className={`message-image other`}
                     src={message.image}
                     alt={message.image}
@@ -140,7 +164,11 @@ const ChatUI = ({ socket }) => {
               )}
             </div>
           ) : (
-            <div className="message-content" key={message.id}>
+            <div
+              ref={lastMessageRef}
+              className="message-content"
+              key={message.id}
+            >
               <div className="message-timestamp">
                 {formatDateTime(messages.timestamp)}
               </div>
@@ -161,8 +189,9 @@ const ChatUI = ({ socket }) => {
 
               {/* renders image if available */}
               {message.image && (
-                <div id="image" className={`message-other`}>
+                <div id="message-image-container" className={`message-other`}>
                   <img
+                    id="message-image"
                     className={`message-other`}
                     src={message.image}
                     alt={message.image}
@@ -174,9 +203,9 @@ const ChatUI = ({ socket }) => {
         )}
       </div>
 
-      {/* need to have the current text */}
-      <div className="message__status">
-        <p>Someone is typing...</p>
+      {/* typing status */}
+      <div className="message-status">
+        <p>{typingStatus}</p>
       </div>
       <form id="chat-input-container" onSubmit={handleMessageSubmit}>
         <FormControl fullWidth>
@@ -185,11 +214,12 @@ const ChatUI = ({ socket }) => {
               fullWidth
               id="chat-input"
               variant="outlined"
-              label="Type a Message"
+              label={typingStatus || "Type a Message"}
               onChange={(event) => setMessageInput(event.target.value)}
               type="text"
               placeholder="Type a Message"
               value={messageInput}
+              onKeyDown={handleTyping}
               InputProps={{
                 endAdornment: (
                   <ButtonGroup>
