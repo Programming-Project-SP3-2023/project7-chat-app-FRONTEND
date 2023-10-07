@@ -258,33 +258,36 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
               />
               {/* </FormControl> */}
               {/* </form> */}
-
-              <p>Date of Birth</p>
-              {/* textfield with users date of birth */}
-              <TextField
-                fullWidth
-                id="dateOfBirthUpdate"
-                variant="outlined"
-                value={dateOfBirth}
-                input
-                disabled="true"
-                type="date"
-                placeholder={user && user.dateOfBirth}
-                InputProps={{
-                  endAdornment: (
-                    <ButtonGroup position="end">
-                      {isDateOfBirthSubmitVisible ? (
-                        <IconButton type="submit">
-                          <DoneIcon />
-                        </IconButton>
-                      ) : null}
-                      <IconButton onClick={handleDateOfBirthDisabled}>
-                        <EditIcon color="primary" />
-                      </IconButton>
-                    </ButtonGroup>
-                  ),
-                }}
-              />
+              <form onSubmit={dateOfBirthUpdateHandler}>
+                <FormControl fullWidth>
+                  <p>Date of Birth</p>
+                  {/* textfield with users date of birth */}
+                  <TextField
+                    fullWidth
+                    id="dateOfBirthUpdate"
+                    variant="outlined"
+                    value={dateOfBirth}
+                    input
+                    disabled="true"
+                    type="date"
+                    placeholder={user && user.dateOfBirth}
+                    InputProps={{
+                      endAdornment: (
+                        <ButtonGroup position="end">
+                          {isDateOfBirthSubmitVisible ? (
+                            <IconButton type="submit">
+                              <DoneIcon />
+                            </IconButton>
+                          ) : null}
+                          <IconButton onClick={handleDateOfBirthDisabled}>
+                            <EditIcon color="primary" />
+                          </IconButton>
+                        </ButtonGroup>
+                      ),
+                    }}
+                  />
+                </FormControl>
+              </form>
 
               {message && <p className="error-message">{message}</p>}
               {/* change password button/modal/dialog box */}
