@@ -725,8 +725,7 @@ footer {
   padding: 15px 1%;
   height: 100%;
 }
-
-.chat-messages {
+#chat-ui-container .chat-messages {
   display: flex;
   flex-direction: column;
   justify-content: unset;
@@ -734,10 +733,7 @@ footer {
   overflow-y: auto;
   padding-inline: 6px;
 }
-.chat-messages .message-timestamp {
-  color: #8a8a8a;
-}
-.chat-messages .message-content {
+#chat-ui-container .chat-messages .message-content {
   display: block;
   padding: 10px;
   margin-bottom: 5px;
@@ -746,9 +742,31 @@ footer {
   width: -moz-fit-content;
   width: fit-content;
 }
-
-.message {
-  padding-bottom: 20px;
+#chat-ui-container .chat-messages .message-content .message-timestamp {
+  color: #8a8a8a;
+}
+#chat-ui-container .chat-messages .message-content .message-user {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: #a9bcd0;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  max-width: 300px;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+#chat-ui-container .chat-messages .message-content .message-other {
+  align-self: flex-end;
+  background-color: #f0eff4;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  max-width: 300px;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 #message-image-container {
@@ -761,43 +779,20 @@ footer {
   width: 100%;
   height: 100%;
 }
-#message-image-container .user {
-  background-color: #a9bcd0;
-}
-#message-image-container .other {
-  background-color: #f0eff4;
-}
-
-.message.user #message-timestamp {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
-.message.other {
-  align-self: flex-end;
-}
-.message.other #message-timestamp {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
 
 .message-content {
   width: -moz-fit-content;
   width: fit-content;
 }
 
-.message.user .message-content {
+.message-user {
   background-color: #a9bcd0;
 }
 
-.message.other .message-content {
+.message-other .message-content {
   background-color: #f0eff4;
 }
-.message.other .message-content .message-timestamp {
+.message-other .message-content .message-timestamp {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;

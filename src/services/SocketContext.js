@@ -1,17 +1,17 @@
 import React, { createContext, useContext } from "react";
 import { io } from "socket.io-client";
-
-const URL = "http://localhost:4000";
-
+//local host
+const URL = "http://localhost:4001";
 const socket = io(URL);
 
+// prevent socket io auto connecting until user login
 // const socket = io(URL, { autoConnect: false });
 const SocketContext = createContext();
 
 export function useSocket() {
   return useContext(SocketContext);
 }
-
+// socket provider
 export function SocketProvider({ children }) {
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

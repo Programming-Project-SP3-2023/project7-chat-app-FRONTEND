@@ -11,7 +11,7 @@ import {
   FormControl,
   // Badge,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
@@ -27,9 +27,14 @@ import dayjs from "dayjs";
 const ChatUI = ({ socket }) => {
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
+  const hiddenFileInput = useRef(null);
   const username = socket.id; //temporary
 
-  // const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleClick = (event) => {
+    hiddenFileInput.current.click();
+  };
 
   useEffect(() => {
     socket.on("messageResponse", (data) => setMessages([...messages, data]));
@@ -69,19 +74,24 @@ const ChatUI = ({ socket }) => {
         socketID: socket.id,
       });
 
-      // if (selectedFile) {
-      //   newMessage.image = selectedFile;
-      // }
+      if (selectedFile) {
+        socket.emit("message", {
+          user: username,
+          image: selectedFile,
+          timestamp: newTimestamp,
+          socketID: socket.id,
+        });
+      }
 
       setMessageInput("");
-      // setSelectedFile(null);
+      setSelectedFile(null);
     }
   };
 
-  // const handleFileSubmit = (event) => {
-  //   const file = event.target.files[0];
-  //   setSelectedFile(file);
-  // };
+  const handleFileSubmit = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
 
   return (
     <Box
@@ -96,45 +106,26 @@ const ChatUI = ({ socket }) => {
         {messages.map((message) =>
           message.name === localStorage.getItem("user") ? (
             <div className="message-content" key={message.id}>
-              <div id="message-timestamp" className="message-timestamp">
-                {formatDateTime(messages.timestamp)}
-                {messages.text}
-              </div>
-              <div className="message-content user">{messages.text}</div>
-              {/* renders image if available */}
-              {messages.image && (
-                <div
-                  id="message-image-container user"
-                  className={`message-image-container user`}
-                >
-                  <img
-                    id="message-image user"
-                    className={`message-image user`}
-                    src={messages.image}
-                    alt={messages.image}
-                  />
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="message-content" key={message.id}>
-              <div id="message-timestamp other" className="message-timestamp">
+              <div className="message-timestamp">
                 {formatDateTime(messages.timestamp)}
               </div>
-              <div>{message.text}</div>
-              <div className="message-content other">
-                {/* renders chat message */}
-                {messages.userAvatar && (
+              {message.text && (
+                <div className="message-user">
                   <Avatar
                     alt={`User ${message.user}`}
                     src={message.userAvatar}
                   />
-                )}
+                  <div id="message">{message.text}</div>
+                  <div className="message-content-user">
+                    {/* renders chat message */}
 
-                {messages.text}
-              </div>
+                    {messages.text}
+                  </div>
+                </div>
+              )}
+
               {/* renders image if available */}
-              {messages.image && (
+              {message.image && (
                 <div
                   id="message-image-container other"
                   className={`message-image-container other`}
@@ -142,8 +133,39 @@ const ChatUI = ({ socket }) => {
                   <img
                     id="message-image other"
                     className={`message-image other`}
-                    src={messages.image}
-                    alt={messages.image}
+                    src={message.image}
+                    alt={message.image}
+                  />
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="message-content" key={message.id}>
+              <div className="message-timestamp">
+                {formatDateTime(messages.timestamp)}
+              </div>
+              {message.text && (
+                <div className="message-other">
+                  <Avatar
+                    alt={`User ${message.user}`}
+                    src={message.userAvatar}
+                  />
+                  <div id="message-other">{message.text}</div>
+                  <div className="message-content-other">
+                    {/* renders chat message */}
+
+                    {messages.text}
+                  </div>
+                </div>
+              )}
+
+              {/* renders image if available */}
+              {message.image && (
+                <div id="image" className={`message-other`}>
+                  <img
+                    className={`message-other`}
+                    src={message.image}
+                    alt={message.image}
                   />
                 </div>
               )}
@@ -153,9 +175,9 @@ const ChatUI = ({ socket }) => {
       </div>
 
       {/* need to have the current text */}
-      {/* <div className="message__status">
+      <div className="message__status">
         <p>Someone is typing...</p>
-      </div> */}
+      </div>
       <form id="chat-input-container" onSubmit={handleMessageSubmit}>
         <FormControl fullWidth>
           <div className="chat-input">
@@ -171,14 +193,18 @@ const ChatUI = ({ socket }) => {
               InputProps={{
                 endAdornment: (
                   <ButtonGroup>
-                    <IconButton>
+                    <IconButton
+                      className="image-select-button"
+                      onClick={handleClick}
+                    >
                       <input
                         hidden
                         accept="image/*"
                         id="file-input"
                         type="file"
+                        ref={hiddenFileInput}
                         style={{ display: "none" }}
-                        // onChange={handleFileSubmit}
+                        onChange={handleFileSubmit}
                       />
                       <AttachFileIcon />
                     </IconButton>

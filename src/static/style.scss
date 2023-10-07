@@ -739,37 +739,52 @@ footer {
 /* ---------------------------- ChatUI ---------------------------- */
 
 // chat
-
 #chat-ui-container {
   background-color: $echo-lighterblue;
   @include flex-column(space-between, stretch);
   margin: 0;
   padding: 15px 1%;
   height: 100%;
-}
 
-.chat-messages {
-  // flex-column (justify content is required to be unset)
-  @include flex-column(unset, normal);
-  // height: fit-content;
-  overflow-y: auto;
-  padding-inline: 6px;
+  .chat-messages {
+    // flex-column (justify content is required to be unset)
+    @include flex-column(unset, normal);
+    // height: fit-content;
+    overflow-y: auto;
+    padding-inline: 6px;
 
-  .message-timestamp {
-    color: $echo-chat-ui-text;
+    .message-content {
+      display: block;
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 10px;
+      max-width: 300px;
+      width: fit-content;
+
+      .message-timestamp {
+        color: $echo-chat-ui-text;
+      }
+
+      .message-user {
+        @include flex-row(flex-start, flex-start);
+        background-color: $echo-text-bg-user;
+        padding: 10px;
+        margin-bottom: 5px;
+        border-radius: 10px;
+        max-width: 300px;
+        width: fit-content;
+      }
+      .message-other {
+        align-self: flex-end;
+        background-color: $echo-text-bg-other;
+        padding: 10px;
+        margin-bottom: 5px;
+        border-radius: 10px;
+        max-width: 300px;
+        width: fit-content;
+      }
+    }
   }
-  .message-content {
-    display: block;
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 10px;
-    max-width: 300px;
-    width: fit-content;
-  }
-}
-
-.message {
-  padding-bottom: 20px;
 }
 
 #message-image-container {
@@ -782,38 +797,17 @@ footer {
     width: 100%;
     height: 100%;
   }
-
-  .user {
-    background-color: $echo-text-bg-user;
-  }
-
-  .other {
-    background-color: $echo-text-bg-other;
-  }
-}
-
-.message.user {
-  #message-timestamp {
-    @include flex-row(flex-start, flex-start);
-  }
-}
-
-.message.other {
-  align-self: flex-end;
-  #message-timestamp {
-    @include flex-row(flex-end, flex-end);
-  }
 }
 
 .message-content {
   width: fit-content;
 }
 
-.message.user .message-content {
+.message-user {
   background-color: $echo-text-bg-user;
 }
 
-.message.other .message-content {
+.message-other .message-content {
   .message-timestamp {
     @include flex-row(flex-end, flex-end);
   }
