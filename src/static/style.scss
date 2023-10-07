@@ -758,7 +758,7 @@ footer {
       padding: 10px;
       margin-bottom: 5px;
       border-radius: 10px;
-      max-width: 300px;
+      max-width: 450px;
       width: fit-content;
 
       .message-timestamp {
@@ -766,22 +766,24 @@ footer {
       }
 
       .message-user {
-        @include flex-row(flex-start, flex-start);
+        @include flex-row(flex-start, center);
         background-color: $echo-text-bg-user;
         padding: 10px;
         margin-bottom: 5px;
         border-radius: 10px;
-        max-width: 300px;
         width: fit-content;
       }
       .message-other {
-        @include flex-row(flex-end, flex-end);
+        @include flex-row(flex-end, center);
         background-color: $echo-text-bg-other;
         padding: 10px;
         margin-bottom: 5px;
         border-radius: 10px;
-        max-width: 300px;
         width: fit-content;
+      }
+
+      #message {
+        padding-inline: 1rem;
       }
 
       #message-image-container {
@@ -811,16 +813,26 @@ footer {
   padding: 10px;
   border-radius: 10px;
 
+  .file-name {
+    padding-inline: 1rem;
+  }
+
+  .file-size {
+    padding-inline: 2px;
+  }
+
   #message-file-mui {
+    .MuiSvgIcon-root {
+      font-size: 3rem;
+    }
     .MuiBadge-badge {
-      padding-left: 10px;
-      padding-top: 15px;
+      padding-left: 14px;
+      padding-top: 30px;
     }
   }
 }
 
 // divider
-
 #chat-divider-container {
   padding-block: 20px;
   text-align: center;

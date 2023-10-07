@@ -738,7 +738,7 @@ footer {
   padding: 10px;
   margin-bottom: 5px;
   border-radius: 10px;
-  max-width: 300px;
+  max-width: 450px;
   width: -moz-fit-content;
   width: fit-content;
 }
@@ -749,12 +749,11 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   background-color: #a9bcd0;
   padding: 10px;
   margin-bottom: 5px;
   border-radius: 10px;
-  max-width: 300px;
   width: -moz-fit-content;
   width: fit-content;
 }
@@ -762,14 +761,16 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  align-items: flex-end;
+  align-items: center;
   background-color: #f0eff4;
   padding: 10px;
   margin-bottom: 5px;
   border-radius: 10px;
-  max-width: 300px;
   width: -moz-fit-content;
   width: fit-content;
+}
+#chat-ui-container .chat-messages .message-content #message {
+  padding-inline: 1rem;
 }
 #chat-ui-container .chat-messages .message-content #message-image-container {
   width: 300px;
@@ -797,9 +798,18 @@ footer {
   padding: 10px;
   border-radius: 10px;
 }
+#message-file .file-name {
+  padding-inline: 1rem;
+}
+#message-file .file-size {
+  padding-inline: 2px;
+}
+#message-file #message-file-mui .MuiSvgIcon-root {
+  font-size: 3rem;
+}
 #message-file #message-file-mui .MuiBadge-badge {
-  padding-left: 10px;
-  padding-top: 15px;
+  padding-left: 14px;
+  padding-top: 30px;
 }
 
 #chat-divider-container {

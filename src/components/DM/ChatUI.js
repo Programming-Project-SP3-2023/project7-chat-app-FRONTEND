@@ -9,13 +9,13 @@ import {
   // Divider,
   Avatar,
   FormControl,
-  // Badge,
+  Badge,
 } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
-// import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
+import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
 
 // date time formatter
 import dayjs from "dayjs";
@@ -58,6 +58,7 @@ const ChatUI = ({ socket }) => {
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // for handling user typing
   useEffect(() => {
     socket.on("typingResponse", (data) => setTypingStatus(data));
   }, [socket]);
@@ -97,6 +98,7 @@ const ChatUI = ({ socket }) => {
       setMessageInput("");
     }
   };
+
   //Image submit handling
   const handleFileSubmit = (event) => {
     event.preventDefault();
@@ -105,12 +107,26 @@ const ChatUI = ({ socket }) => {
     const file = event.target.files[0];
 
     if (file) {
-      socket.emit("message", {
-        user: username,
-        image: file,
-        timestamp: newTimestamp,
-        socketID: socket.id,
-      });
+      if (file.type && file.type.startsWith("image/")) {
+        console.log("image");
+        socket.emit("message", {
+          user: username,
+          image: file,
+          timestamp: newTimestamp,
+          socketID: socket.id,
+        });
+      } else {
+        console.log("randomfile");
+        socket.emit("message", {
+          user: username,
+          file: file,
+          fileName: file.name,
+          fileType: file.type.split("/")[1], // file type is not currently simple name
+          fileSize: file.size, // currently passing file size in bytes
+          timestamp: newTimestamp,
+          socketID: socket.id,
+        });
+      }
     }
 
     setSelectedFile(null);
@@ -141,7 +157,6 @@ const ChatUI = ({ socket }) => {
               {message.text && (
                 <div className="message-user">
                   <div id="message">{message.text}</div>
-                  <div className="message-content-user">{messages.text}</div>
                 </div>
               )}
 
@@ -159,6 +174,26 @@ const ChatUI = ({ socket }) => {
                       alt={message.image}
                     />
                   </div>
+                </div>
+              )}
+
+              {message.file && (
+                <div id="message-file">
+                  <div>
+                    <Badge
+                      id="message-file-mui"
+                      fontsize="large"
+                      anchorOrigin={{
+                        vertical: "center",
+                        horizontal: "center",
+                      }}
+                      badgeContent={message.fileType}
+                    >
+                      <InsertDriveFileOutlinedIcon fontSize="large" />
+                    </Badge>
+                  </div>
+                  <div className="file-name">{message.fileName}</div>
+                  <div className="file-size">{message.fileSize}</div>
                 </div>
               )}
             </div>
@@ -179,8 +214,7 @@ const ChatUI = ({ socket }) => {
                     alt={`User ${message.user}`}
                     src={message.userAvatar}
                   />
-                  <div id="message-other">{message.text}</div>
-                  <div className="message-content-other">{messages.text}</div>
+                  <div id="message">{message.text}</div>
                 </div>
               )}
 
@@ -195,6 +229,26 @@ const ChatUI = ({ socket }) => {
                       alt={message.image}
                     />
                   </div>
+                </div>
+              )}
+
+              {message.file && (
+                <div id="message-file">
+                  <div>
+                    <Badge
+                      id="message-file-mui"
+                      fontsize="large"
+                      anchorOrigin={{
+                        vertical: "center",
+                        horizontal: "center",
+                      }}
+                      badgeContent={message.fileType}
+                    >
+                      <InsertDriveFileOutlinedIcon fontSize="large" />
+                    </Badge>
+                  </div>
+                  <div className="file-name">{message.fileName}</div>
+                  <div className="file-size">{message.fileSize}</div>
                 </div>
               )}
             </div>
@@ -228,7 +282,8 @@ const ChatUI = ({ socket }) => {
                     >
                       <input
                         hidden
-                        accept="image/*"
+                        // types of files that are accepted
+                        inputProps={{ accept: "image/*, .pdf, .doc, .txt" }}
                         id="file-input"
                         type="file"
                         ref={hiddenFileInput}
