@@ -77,7 +77,7 @@ const ChatUI = ({ socket }) => {
     return formatTimestamp;
   };
 
-  //TODO
+  //Message submit handling
   const handleMessageSubmit = (event) => {
     event.preventDefault();
 
@@ -94,23 +94,26 @@ const ChatUI = ({ socket }) => {
         socketID: socket.id,
       });
 
-      if (selectedFile) {
-        socket.emit("message", {
-          user: username,
-          image: selectedFile,
-          timestamp: newTimestamp,
-          socketID: socket.id,
-        });
-      }
-
       setMessageInput("");
-      setSelectedFile(null);
     }
   };
-
+  //Image submit handling
   const handleFileSubmit = (event) => {
+    event.preventDefault();
+
+    const newTimestamp = dayjs(new Date());
     const file = event.target.files[0];
-    setSelectedFile(file);
+
+    if (file) {
+      socket.emit("message", {
+        user: username,
+        image: file,
+        timestamp: newTimestamp,
+        socketID: socket.id,
+      });
+    }
+
+    setSelectedFile(null);
   };
 
   return (
@@ -122,56 +125,54 @@ const ChatUI = ({ socket }) => {
       }}
       id="chat-ui-container"
     >
+      {/* USER */}
       <div className="chat-messages">
-        {messages.map((message) =>
+        {messages.map((message, index) =>
           message.name === localStorage.getItem("user") ? (
             <div
               ref={lastMessageRef}
               className="message-content"
-              key={message.id}
+              key={`user-message-${index}`}
             >
               <div className="message-timestamp">
                 {formatDateTime(messages.timestamp)}
               </div>
+              {/* message only rendering */}
               {message.text && (
                 <div className="message-user">
-                  <Avatar
-                    alt={`User ${message.user}`}
-                    src={message.userAvatar}
-                  />
                   <div id="message">{message.text}</div>
-                  <div className="message-content-user">
-                    {/* renders chat message */}
-
-                    {messages.text}
-                  </div>
+                  <div className="message-content-user">{messages.text}</div>
                 </div>
               )}
 
               {/* renders image if available */}
               {message.image && (
-                <div
-                  id="message-image-container"
-                  className={`message-image-container`}
-                >
-                  <img
-                    id="message-image"
-                    className={`message-image other`}
-                    src={message.image}
-                    alt={message.image}
-                  />
+                <div className="message-user">
+                  <div
+                    id="message-image-container"
+                    className={`message-image-container`}
+                  >
+                    <img
+                      id="message-image"
+                      className={`message-image other`}
+                      src={message.image}
+                      alt={message.image}
+                    />
+                  </div>
                 </div>
               )}
             </div>
           ) : (
+            // OTHER
             <div
               ref={lastMessageRef}
               className="message-content"
-              key={message.id}
+              key={`user-message-${index}`}
             >
               <div className="message-timestamp">
                 {formatDateTime(messages.timestamp)}
               </div>
+              {/* renders text if available */}
               {message.text && (
                 <div className="message-other">
                   <Avatar
@@ -179,23 +180,21 @@ const ChatUI = ({ socket }) => {
                     src={message.userAvatar}
                   />
                   <div id="message-other">{message.text}</div>
-                  <div className="message-content-other">
-                    {/* renders chat message */}
-
-                    {messages.text}
-                  </div>
+                  <div className="message-content-other">{messages.text}</div>
                 </div>
               )}
 
               {/* renders image if available */}
               {message.image && (
-                <div id="message-image-container" className={`message-other`}>
-                  <img
-                    id="message-image"
-                    className={`message-other`}
-                    src={message.image}
-                    alt={message.image}
-                  />
+                <div className="message-other">
+                  <div id="message-image-container" className={`message-other`}>
+                    <img
+                      id="message-image"
+                      className={`message-other`}
+                      src={message.image}
+                      alt={message.image}
+                    />
+                  </div>
                 </div>
               )}
             </div>
@@ -238,7 +237,7 @@ const ChatUI = ({ socket }) => {
                       />
                       <AttachFileIcon />
                     </IconButton>
-                    <IconButton type="submit">
+                    <IconButton onClick={handleMessageSubmit} type="submit">
                       <SendIcon />
                     </IconButton>
                   </ButtonGroup>
