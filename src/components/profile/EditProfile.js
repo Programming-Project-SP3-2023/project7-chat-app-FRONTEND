@@ -23,13 +23,13 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   const [isUsernameDisabled, setIsUsernameDisabled] = useState(true);
   // TODO remove
   // const [isEmailDisabled, setIsEmailDisabled] = useState(true);
-  // const [isDateOfBirthDisabled, setIsDateOfBirthDisabled] = useState(true);
+  const [isDateOfBirthDisabled, setIsDateOfBirthDisabled] = useState(true);
 
   const [isNameSubmitVisible, setIsNameSubmitVisble] = useState(false);
   const [isUsernameSubmitVisible, setIsUsernameSubmitVisible] = useState(false);
   // TODO remove
   // const [isEmailSubmitVisible, setIsEmailSubmitVisible] = useState(false);
-  // const [isDateOfBirthSubmitVisible, setIsDateOfBirthVisible] = useState(false);
+  const [isDateOfBirthSubmitVisible, setIsDateOfBirthVisible] = useState(false);
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [name, setName] = useState("");
@@ -57,10 +57,10 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   //   setIsEmailDisabled(!isEmailDisabled);
   // };
 
-  // const handleDateOfBirthDisabled = () => {
-  //   setIsDateOfBirthVisible(!isDateOfBirthSubmitVisible);
-  //   setIsDateOfBirthDisabled(!isDateOfBirthDisabled);
-  // };
+  const handleDateOfBirthDisabled = () => {
+    setIsDateOfBirthVisible(!isDateOfBirthSubmitVisible);
+    setIsDateOfBirthDisabled(!isDateOfBirthDisabled);
+  };
 
   // Handles image upload and formats it to Base64
   const imageChange = (e) => {
@@ -100,6 +100,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
       setIsNameDisabled(!isNameDisabled);
       setIsNameSubmitVisble(!isNameSubmitVisible);
       setMessage("name: " + user.name + " has been updated");
+      // update name
     }
   };
 
@@ -114,16 +115,15 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   //   }
   // };
 
-  // TODO removing
-  // const dateOfBirthUpdateHandler = (event) => {
-  //   event.preventDefault();
-  //   console.log("Date Of Birth Update Handler");
-  //   if (dateOfBirth === "") {
-  //     setMessage("New Date of Birth cannot be empty!");
-  //   } else {
-  //     // update user date of birth
-  //   }
-  // };
+  const dateOfBirthUpdateHandler = (event) => {
+    event.preventDefault();
+    console.log("Date Of Birth Update Handler");
+    if (dateOfBirth === "") {
+      setMessage("New Date of Birth cannot be empty!");
+    } else {
+      // update user date of birth
+    }
+  };
 
   return (
     <div>
@@ -258,19 +258,36 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
               />
               {/* </FormControl> */}
               {/* </form> */}
-
-              <p>Date of Birth</p>
-              {/* textfield with users date of birth */}
-              <TextField
-                fullWidth
-                id="dateOfBirthUpdate"
-                variant="outlined"
-                value={dateOfBirth}
-                input
-                disabled="true"
-                type="date"
-                placeholder={user && user.dateOfBirth}
-              />
+              <form onSubmit={dateOfBirthUpdateHandler}>
+                <FormControl fullWidth>
+                  <p>Date of Birth</p>
+                  {/* textfield with users date of birth */}
+                  <TextField
+                    fullWidth
+                    id="dateOfBirthUpdate"
+                    variant="outlined"
+                    value={dateOfBirth}
+                    input
+                    disabled="true"
+                    type="date"
+                    placeholder={user && user.dateOfBirth}
+                    InputProps={{
+                      endAdornment: (
+                        <ButtonGroup position="end">
+                          {isDateOfBirthSubmitVisible ? (
+                            <IconButton type="submit">
+                              <DoneIcon />
+                            </IconButton>
+                          ) : null}
+                          <IconButton onClick={handleDateOfBirthDisabled}>
+                            <EditIcon color="primary" />
+                          </IconButton>
+                        </ButtonGroup>
+                      ),
+                    }}
+                  />
+                </FormControl>
+              </form>
 
               {message && <p className="error-message">{message}</p>}
               {/* change password button/modal/dialog box */}

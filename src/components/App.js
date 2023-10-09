@@ -4,6 +4,7 @@
 
 // Dependencies
 import { Routes, Route } from "react-router-dom";
+import { useSocket } from "../services/SocketContext";
 
 // Components
 import Home from "./base/Home";
@@ -28,6 +29,7 @@ function App() {
   const user = getUser();
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   const [refresh, setRefresh] = useState(false);
+  const socket = useSocket();
 
   useEffect(() => {
     setIsLoggedIn(user ? true : false);
@@ -47,10 +49,10 @@ function App() {
         <Route path="dashboard" element={<Dashboard />}>
           <Route index element={<DashboardMain />} />
           <Route path="friends" element={<Friends />}>
-            <Route path=":id" element={<ChatUI />} />
+            <Route path=":id" element={<ChatUI socket={socket} />} />
           </Route>
           <Route path="groups" element={<Groups />}>
-            <Route path=":id" element={<ChatUI />} />
+            <Route path=":id" element={<ChatUI socket={socket} />} />
           </Route>
         </Route>
         <Route path="channels">
