@@ -236,7 +236,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                 variant="outlined"
                 value={email}
                 input
-                disabled="true"
+                disabled={true}
                 // onChange={(event) => setEmail(event.target.value)}
                 type="email"
                 placeholder={user && user.email}
@@ -267,7 +267,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                 variant="outlined"
                 value={dateOfBirth}
                 input
-                disabled="true"
+                disabled={true}
                 type="date"
                 placeholder={user && user.dateOfBirth}
               />

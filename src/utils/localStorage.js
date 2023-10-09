@@ -32,6 +32,35 @@ export const resetUserSession = async function () {
 };
 
 /**
+ * Gets user ID from session storage
+ * @returns User ID
+ */
+export const getUserID = function () {
+  const userID = sessionStorage.getItem("userID");
+  if (userID === "undefined" || !userID) {
+    return null;
+  } else {
+    return JSON.parse(userID);
+  }
+};
+
+/**
+ * Sets user ID in session storage
+ * @param {*} userID The user ID to store
+ */
+export const setUserID = function (userID) {
+  sessionStorage.setItem("userID", JSON.stringify(userID));
+};
+
+/**
+ * Clears user ID from session storage
+ */
+export const resetUserID = async function () {
+  sessionStorage.setItem("userID", null);
+  sessionStorage.removeItem("userID");
+};
+
+/**
  * Gets access token from session storage
  * @returns Access token
  */

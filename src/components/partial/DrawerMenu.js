@@ -7,23 +7,27 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Box, Avatar } from "@mui/material";
-import { resetTokenSession, resetUserSession } from "../../utils/localStorage";
+import { resetTokenSession, resetUserID, resetUserSession, getUser } from "../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 /**
  * Builds and renders the Drawer Menu component
  * @returns Drawer Menu component render
  */
 
-const DrawerMenu = ({ setOpenDrawer, user, setRefresh }) => {
+const DrawerMenu = ({ setOpenDrawer, setRefresh }) => {
   // instantiate navigation prop
   const navigate = useNavigate();
+
+  const [currentUser, setCurrentUser] = useState(getUser());
 
   // logout function
   const logout = async () => {
     await setOpenDrawer(false);
     await resetUserSession();
     await resetTokenSession();
+    await resetUserID();
     await setRefresh(true);
     navigate("/");
   };
@@ -37,7 +41,7 @@ const DrawerMenu = ({ setOpenDrawer, user, setRefresh }) => {
     >
       <div className="settings-header">
         {/* Should be user.name but we don't yet have a complete one at login */}
-        <h2>{user && user.email}</h2>
+        <h2>{currentUser && currentUser.displayName}</h2>
         <Avatar id="profile-avatar" />
       </div>
       <div className="settings-options">
