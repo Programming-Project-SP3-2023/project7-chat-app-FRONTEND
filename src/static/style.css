@@ -716,17 +716,16 @@ footer {
 
 /* ---------------------------- ChatUI ---------------------------- */
 #chat-ui-container {
-  background-color: #f0eff4;
+  background-color: #d8dbe2;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: stretch;
   margin: 0;
   padding: 15px 1%;
   height: 100%;
 }
-
-#chat-messages {
+#chat-ui-container .chat-messages {
   display: flex;
   flex-direction: column;
   justify-content: unset;
@@ -734,74 +733,83 @@ footer {
   overflow-y: auto;
   padding-inline: 6px;
 }
-#chat-messages .message-timestamp {
-  color: #8a8a8a;
-}
-#chat-messages .message-content {
+#chat-ui-container .chat-messages .message-content {
   display: block;
   padding: 10px;
   margin-bottom: 5px;
   border-radius: 10px;
-  max-width: 300px;
+  max-width: 450px;
   width: -moz-fit-content;
   width: fit-content;
 }
-
-.message {
-  padding-bottom: 20px;
+#chat-ui-container .chat-messages .message-content .message-timestamp {
+  color: #8a8a8a;
 }
-
-#message-image-container {
+#chat-ui-container .chat-messages .message-content .message-user {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #a9bcd0;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+#chat-ui-container .chat-messages .message-content .message-other {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #f0eff4;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+#chat-ui-container .chat-messages .message-content #message {
+  padding-inline: 1rem;
+}
+#chat-ui-container .chat-messages .message-content #message-image-container {
   width: 300px;
   height: 300px;
 }
-#message-image-container img {
+#chat-ui-container .chat-messages .message-content #message-image-container img {
   padding: 10px;
   border-radius: 10px;
   width: 100%;
   height: 100%;
 }
-#message-image-container .user {
-  background-color: #a9bcd0;
+#chat-ui-container .message-status {
+  position: fixed;
+  bottom: 80px;
+  font-size: 14px;
+  font-style: italic;
 }
-#message-image-container .other {
+
+#message-file {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   background-color: #f0eff4;
+  padding: 10px;
+  border-radius: 10px;
 }
-
-.message.user #message-timestamp {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
+#message-file .file-name {
+  padding-inline: 1rem;
 }
-
-.message.other {
-  align-self: flex-end;
+#message-file .file-size {
+  padding-inline: 2px;
 }
-.message.other #message-timestamp {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
+#message-file #message-file-mui .MuiSvgIcon-root {
+  font-size: 3rem;
 }
-
-.message-content {
-  width: -moz-fit-content;
-  width: fit-content;
-}
-
-.message.user .message-content {
-  background-color: #a9bcd0;
-}
-
-.message.other .message-content {
-  background-color: #f0eff4;
-}
-.message.other .message-content .message-timestamp {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
+#message-file #message-file-mui .MuiBadge-badge {
+  padding-left: 14px;
+  padding-top: 30px;
 }
 
 #chat-divider-container {

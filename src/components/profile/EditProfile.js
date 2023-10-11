@@ -23,6 +23,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   // by setting useState as(true) each text field is disabled initially
   const [isNameDisabled, setIsNameDisabled] = useState(true);
   const [isEmailDisabled, setIsEmailDisabled] = useState(true);
+  
   const [selectedImage, setSelectedImage] = useState(null);
   const [name, setName] = useState(user && user.displayName);
   const [email, setEmail] = useState(user && user.email);
@@ -104,7 +105,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
 
     // 4. Update email
     // to do, waiting on backend functions - similar to display name
-
+    
     setIsNameDisabled(!isNameDisabled);
     setIsEmailDisabled(!isEmailDisabled);
   };
