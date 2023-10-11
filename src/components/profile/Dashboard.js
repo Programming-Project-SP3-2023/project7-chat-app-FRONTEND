@@ -30,6 +30,7 @@ const Dashboard = () => {
           email: response.email,
           displayName: response.displayName,
           dob: response.dob,
+          username: response.username
         };
       }
       setUserSession(user);
