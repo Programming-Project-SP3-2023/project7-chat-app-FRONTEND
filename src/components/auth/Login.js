@@ -17,6 +17,7 @@ import { useState } from "react";
 import {
   setAccessToken,
   setSideMenuOption,
+  setUserID,
   setUserSession,
 } from "../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
@@ -62,10 +63,9 @@ const Login = ({ setIsLoggedIn }) => {
 
         response = await login(requestBody);
         setMessage("Login Succesful");
-
-        console.log(response.data.token);
-        setUserSession(requestBody);
+        setUserID(response.data.AccountID);
         setAccessToken(response.data.token);
+        setUserSession(requestBody);
         setSideMenuOption(0);
         setIsLoggedIn(true);
         // navigate to dashboard

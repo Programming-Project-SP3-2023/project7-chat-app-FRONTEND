@@ -5,20 +5,39 @@
 import { Outlet } from "react-router-dom";
 import {
   getSideMenuOption,
-  getUser,
+  getUserID,
   setSideMenuOption,
+  setUserSession,
 } from "../../utils/localStorage";
 import SideMenu from "../partial/SideMenu";
 import { useEffect, useState } from "react";
 import AddGroup from "./AddGroup";
+import { getUserByID } from "../../services/userAPI";
 
 /**
  * Builds and renders the dashboard component
  * @returns Dashboard component render
  */
 const Dashboard = () => {
-  // temporary user for development
-  const user = getUser();
+
+  useEffect(() => {
+    const userID = getUserID();
+    async function fetchData() {
+      const response = await getUserByID(userID);
+      let user;
+      if (response) {
+        user = {
+          email: response.email,
+          displayName: response.displayName,
+          dob: response.dob,
+          username: response.username
+        };
+      }
+      setUserSession(user);
+    }
+    fetchData();
+  }, []);
+
   // separating first two options from groups as in future development
   // the groups will be pulled from a backend endpoint
   const mainOptions = ["Dashboard", "Friends"];

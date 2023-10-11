@@ -103,10 +103,10 @@ const ManageFriendsModal = ({
         </div>
         <div id="manage-friends-modal-whitebox">
         {friendRequests.map((friend, i) => {
-            return <UserChip user={friend} request={true} />;
+            return <UserChip key={i} user={friend} request={true} />;
           })}
           {friends.map((friend, i) => {
-            return <UserChip user={friend} request={false} />;
+            return <UserChip key={i} user={friend} request={false} />;
           })}
         </div>
         <div className="manage-friends-link">

@@ -924,7 +924,9 @@ footer {
 }
 
 #edit-profile-modal {
-  width: 30%;
+  width: 35%;
+  height: fit-content;
+  min-height: 95%;
   background-color: $echo-lightblue;
   border-radius: 30px;
   @include flex-column(flex-start, center);
@@ -941,11 +943,16 @@ footer {
     }
   }
 
+  #edit-profile-submit-button{
+    margin-top: 8%;
+    background-color: $echo-darkblue;
+  }
+
   #edit-profile-modal-body {
     @include flex-column(space-around, center);
-    padding-block: 2rem;
     width: 80%;
     gap: 5px;
+    padding-top: 5%;
   }
   #edit-avatar-img-input {
     display: none;
@@ -1000,18 +1007,27 @@ footer {
   }
 
   #edit-profile-modal-textfields-container {
-    width: 80%;
-    padding-block: 2rem;
+    width: 90%;
+    padding-top: 4%;
+    p{
+      margin: 10px 0 5px 0;
+    }
   }
 
   #edit-profile-modal-btn-container {
     @include flex-column(center, center);
-    padding-block: 2rem;
+    width: 100%;
   }
 
   #edit-profile-btn {
-    color: $echo-darkgrey;
-    background-color: $echo-lightgrey;
+    color: $echo-lightgrey;
+    background-color: $echo-darkgrey;
+    width: 100%;
+    margin-top: 8%;
+
+    svg {
+      margin-right: 10px;
+    }
   }
 
   #edit-profile-btn:hover {
@@ -1132,12 +1148,6 @@ footer {
 
 #search-icon {
   cursor: pointer;
-}
-
-#hi {
-  width: 50px;
-  height: 100px;
-  border: solid 1px red;
 }
 
 /* ---------------------------- User Chip ---------------------------- */

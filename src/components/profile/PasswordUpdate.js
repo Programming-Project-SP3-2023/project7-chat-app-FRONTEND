@@ -53,8 +53,8 @@ const PasswordUpdateModal = (event) => {
   };
 
   return (
-    <div>
-      <Button id="edit-profile-btn" onClick={handleOpen}>
+    <>
+      <Button fullWidth variant="contained" id="edit-profile-btn" onClick={handleOpen}>
         <LockOutlinedIcon />
         Change Password
       </Button>
@@ -151,7 +151,7 @@ const PasswordUpdateModal = (event) => {
           </div>
         </Box>
       </Modal>
-    </div>
+    </>
   );
 };
 

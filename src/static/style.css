@@ -923,7 +923,10 @@ footer {
 }
 
 #edit-profile-modal {
-  width: 30%;
+  width: 35%;
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: 95%;
   background-color: #a9bcd0;
   border-radius: 30px;
   display: flex;
@@ -941,14 +944,18 @@ footer {
 #edit-profile-modal #edit-profile-modal-header h3 {
   color: white;
 }
+#edit-profile-modal #edit-profile-submit-button {
+  margin-top: 8%;
+  background-color: #456b9a;
+}
 #edit-profile-modal #edit-profile-modal-body {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  padding-block: 2rem;
   width: 80%;
   gap: 5px;
+  padding-top: 5%;
 }
 #edit-profile-modal #edit-avatar-img-input {
   display: none;
@@ -1003,19 +1010,27 @@ footer {
   height: 100%;
 }
 #edit-profile-modal #edit-profile-modal-textfields-container {
-  width: 80%;
-  padding-block: 2rem;
+  width: 90%;
+  padding-top: 4%;
+}
+#edit-profile-modal #edit-profile-modal-textfields-container p {
+  margin: 10px 0 5px 0;
 }
 #edit-profile-modal #edit-profile-modal-btn-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-block: 2rem;
+  width: 100%;
 }
 #edit-profile-modal #edit-profile-btn {
-  color: #495057;
-  background-color: #f0eff4;
+  color: #f0eff4;
+  background-color: #495057;
+  width: 100%;
+  margin-top: 8%;
+}
+#edit-profile-modal #edit-profile-btn svg {
+  margin-right: 10px;
 }
 #edit-profile-modal #edit-profile-btn:hover {
   transform: translateY(-2px);
@@ -1179,12 +1194,6 @@ footer {
 
 #search-icon {
   cursor: pointer;
-}
-
-#hi {
-  width: 50px;
-  height: 100px;
-  border: solid 1px red;
 }
 
 /* ---------------------------- User Chip ---------------------------- */

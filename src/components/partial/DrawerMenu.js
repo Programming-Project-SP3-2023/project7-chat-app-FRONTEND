@@ -7,23 +7,51 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Box, Avatar } from "@mui/material";
-import { resetTokenSession, resetUserSession } from "../../utils/localStorage";
+import {
+  resetTokenSession,
+  resetUserID,
+  resetUserSession,
+  getUser,
+  getUserID,
+} from "../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getAvatarByID } from "../../services/userAPI";
 
 /**
  * Builds and renders the Drawer Menu component
  * @returns Drawer Menu component render
  */
 
-const DrawerMenu = ({ setOpenDrawer, user, setRefresh }) => {
+const DrawerMenu = ({ setOpenDrawer, setRefresh }) => {
   // instantiate navigation prop
   const navigate = useNavigate();
+
+  const currentUser = getUser();
+
+  const [profileImg, setProfileImg] = useState(null);
+
+  useEffect(() => {
+    async function getAvatar() {
+      const response = await getAvatarByID(getUserID());
+      
+      if(!response){
+        console.log("No avatar found. Using default icon.")
+      } else {
+        console.log(response);
+        // set img to response...
+        setProfileImg(response);
+      }
+    }
+    getAvatar();
+  }, [profileImg]);
 
   // logout function
   const logout = async () => {
     await setOpenDrawer(false);
     await resetUserSession();
     await resetTokenSession();
+    await resetUserID();
     await setRefresh(true);
     navigate("/");
   };
@@ -37,8 +65,12 @@ const DrawerMenu = ({ setOpenDrawer, user, setRefresh }) => {
     >
       <div className="settings-header">
         {/* Should be user.name but we don't yet have a complete one at login */}
-        <h2>{user && user.email}</h2>
-        <Avatar id="profile-avatar" />
+        <h2>{currentUser && currentUser.displayName}</h2>
+        {profileImg ? (
+          <Avatar src={profileImg} id="profile-avatar" />
+        ) : (
+          <Avatar id="profile-avatar" />
+        )}
       </div>
       <div className="settings-options">
         <div className="settings-option" onClick={() => navigate("/dashboard")}>
