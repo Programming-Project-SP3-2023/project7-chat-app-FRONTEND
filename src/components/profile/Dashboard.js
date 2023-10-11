@@ -19,8 +19,10 @@ import { getUserByID } from "../../services/userAPI";
  * @returns Dashboard component render
  */
 const Dashboard = () => {
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const userID = getUserID();
     async function fetchData() {
       const response = await getUserByID(userID);
@@ -30,10 +32,11 @@ const Dashboard = () => {
           email: response.email,
           displayName: response.displayName,
           dob: response.dob,
-          username: response.username
+          username: response.username,
         };
       }
       setUserSession(user);
+      setLoading(false);
     }
     fetchData();
   }, []);
@@ -65,29 +68,37 @@ const Dashboard = () => {
 
   return (
     <section className="main-section" id="dashboard">
-      {/* Add group modal */}
-      <AddGroup
-        groupModalOpen={groupModalOpen}
-        setGroupModalOpen={setGroupModalOpen}
-      />
-      <div id="dashboard-header-title">
-        <h2>{options[selectedOpt]}</h2>
-      </div>
-      {/* Side menu rendering */}
-      <SideMenu
-        options={options}
-        handleSelectOption={handleSelectOption}
-        selectedOpt={selectedOpt}
-        groupModalOpen={groupModalOpen}
-        setGroupModalOpen={setGroupModalOpen}
-        manageFriendsModalOpen={manageFriendsModalOpen}
-        setManageFriendsModalOpen={setManageFriendsModalOpen}
-      />
-      <div className="dashboard-main">
-        {/* Conditional rendering changing depending on selected option */}
-        {selectedOpt === options.length - 1 && <AddGroup />}
-        <Outlet />
-      </div>
+      {loading ? (
+        <div id="loading-screen">
+          <h2>Loading user data...</h2>
+        </div>
+      ) : (
+        <>
+          {/* Add group modal */}
+          <AddGroup
+            groupModalOpen={groupModalOpen}
+            setGroupModalOpen={setGroupModalOpen}
+          />
+          <div id="dashboard-header-title">
+            <h2>{options[selectedOpt]}</h2>
+          </div>
+          {/* Side menu rendering */}
+          <SideMenu
+            options={options}
+            handleSelectOption={handleSelectOption}
+            selectedOpt={selectedOpt}
+            groupModalOpen={groupModalOpen}
+            setGroupModalOpen={setGroupModalOpen}
+            manageFriendsModalOpen={manageFriendsModalOpen}
+            setManageFriendsModalOpen={setManageFriendsModalOpen}
+          />
+          <div className="dashboard-main">
+            {/* Conditional rendering changing depending on selected option */}
+            {selectedOpt === options.length - 1 && <AddGroup />}
+            <Outlet />
+          </div>
+        </>
+      )}
     </section>
   );
 };

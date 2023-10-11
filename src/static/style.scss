@@ -498,6 +498,16 @@ footer {
 }
 
 /* ---------------------------- DASHBOARD ---------------------------- */
+
+#loading-screen{
+  width: 100%;
+  height: 100%;
+  @include flex-column(center, center);
+  h2{
+    color: $echo-darkblue;
+  }
+}
+
 .dashboard-main {
   height: 100%;
   width: 96%;
