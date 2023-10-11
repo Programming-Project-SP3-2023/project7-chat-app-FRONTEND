@@ -89,6 +89,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
     if (email === "") {
       setMessage("New Email cannot be empty");
     } else {
+      user.email = email;
       setIsEmailDisabled(!isEmailDisabled);
       setIsEmailSubmitVisible(!isEmailSubmitVisible);
       setMessage("email: " + user.email + " has been updated");
