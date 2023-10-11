@@ -20,15 +20,15 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   };
   // by setting useState as(true) each text field is disabled initially
   const [isNameDisabled, setIsNameDisabled] = useState(true);
-  //const [isUsernameDisabled, setIsUsernameDisabled] = useState(true);
-
-  const [isEmailDisabled, setIsEmailDisabled] = useState(true);
+  const [isUsernameDisabled, setIsUsernameDisabled] = useState(true);
+  // TODO remove
+  // const [isEmailDisabled, setIsEmailDisabled] = useState(true);
   const [isDateOfBirthDisabled, setIsDateOfBirthDisabled] = useState(true);
 
   const [isNameSubmitVisible, setIsNameSubmitVisble] = useState(false);
-  // const [isUsernameSubmitVisible, setIsUsernameSubmitVisible] = useState(false);
-
-  const [isEmailSubmitVisible, setIsEmailSubmitVisible] = useState(false);
+  const [isUsernameSubmitVisible, setIsUsernameSubmitVisible] = useState(false);
+  // TODO remove
+  // const [isEmailSubmitVisible, setIsEmailSubmitVisible] = useState(false);
   const [isDateOfBirthSubmitVisible, setIsDateOfBirthVisible] = useState(false);
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -46,10 +46,16 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
     setIsNameDisabled(!isNameDisabled);
   };
 
-  const handleEmailDisabled = () => {
-    setIsEmailSubmitVisible(!isEmailSubmitVisible);
-    setIsEmailDisabled(!isEmailDisabled);
+  const handleUsernameDisabled = () => {
+    setIsUsernameSubmitVisible(!isUsernameSubmitVisible);
+    setIsUsernameDisabled(!isUsernameDisabled);
   };
+
+  // TODO remove
+  // const handleEmailDisabled = () => {
+  //   setIsEmailSubmitVisible(!isEmailSubmitVisible);
+  //   setIsEmailDisabled(!isEmailDisabled);
+  // };
 
   const handleDateOfBirthDisabled = () => {
     setIsDateOfBirthVisible(!isDateOfBirthSubmitVisible);
@@ -67,7 +73,22 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
     }
   };
 
-  const displayNameUpdateHandler = (event) => {
+  const usernameUpdateHandler = (event) => {
+    event.preventDefault();
+    console.log("Username update hanlder");
+
+    if (username === "") {
+      setMessage("Username cannot be empty");
+    } else {
+      user.username = username;
+      setIsUsernameDisabled(!isUsernameDisabled);
+      setIsUsernameSubmitVisible(!isUsernameSubmitVisible);
+      setMessage("username: " + user.username + " has been updated.");
+      // update username.
+    }
+  };
+
+  const nameUpdateHandler = (event) => {
     event.preventDefault();
     console.log("Name Update Handler");
 
@@ -83,19 +104,16 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
     }
   };
 
-  const emailUpdateHandler = (event) => {
-    event.preventDefault();
-    console.log("Email Update Handler");
-    if (email === "") {
-      setMessage("New Email cannot be empty");
-    } else {
-      setIsEmailDisabled(!isEmailDisabled);
-      setIsEmailSubmitVisible(!isEmailSubmitVisible);
-      setMessage("email: " + user.email + " has been updated");
-
-      //  update user email
-    }
-  };
+  // TODO removing
+  // const emailUpdateHandler = (event) => {
+  //   event.preventDefault();
+  //   console.log("Email Update Handler");
+  //   if (email === "") {
+  //     setMessage("New Email cannot be empty");
+  //   } else {
+  //     //  update user email
+  //   }
+  // };
 
   const dateOfBirthUpdateHandler = (event) => {
     event.preventDefault();
@@ -103,10 +121,6 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
     if (dateOfBirth === "") {
       setMessage("New Date of Birth cannot be empty!");
     } else {
-      user.dateOfBirth = dateOfBirth;
-      setIsDateOfBirthDisabled(!isDateOfBirthDisabled);
-      setIsDateOfBirthVisible(!isDateOfBirthSubmitVisible);
-      setMessage("Date of Birth " + user.dateOfBirth + " has been updated");
       // update user date of birth
     }
   };
@@ -146,37 +160,54 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
             </div>
             <div id="edit-profile-modal-textfields-container">
               {/* ------------------------------- USERNAME ------------------------- */}
-              {/* not editable */}
-              <p>Username:</p>
-              {/* textfield with users name */}
-              <TextField
-                fullWidth
-                id="usernameUpdate"
-                variant="outlined"
-                value={user.username}
-                input
-                disabled="true"
-                onChange={(event) => setUsername(event.target.value)}
-                type="text"
-                placeholder={user && user.username}
-              />
-
-              {/* ------------------------ NAME -------------------- */}
-              <form onSubmit={displayNameUpdateHandler}>
+              <form onSubmit={usernameUpdateHandler}>
                 <FormControl fullWidth>
                   {/* name */}
-                  <p>Name:</p>
+                  <p>Username:</p>
+                  {/* textfield with users name */}
+                  <TextField
+                    fullWidth
+                    id="usernameUpdate"
+                    variant="outlined"
+                    value={username}
+                    input
+                    disabled={isUsernameDisabled}
+                    onChange={(event) => setUsername(event.target.value)}
+                    type="text"
+                    placeholder={user && user.username}
+                    InputProps={{
+                      endAdornment: (
+                        <ButtonGroup position="end">
+                          {isUsernameSubmitVisible ? (
+                            <IconButton type="submit">
+                              <DoneIcon />
+                            </IconButton>
+                          ) : null}
+                          <IconButton onClick={handleUsernameDisabled}>
+                            <EditIcon color="primary" />
+                          </IconButton>
+                        </ButtonGroup>
+                      ),
+                    }}
+                  />
+                </FormControl>
+              </form>
+              {/* ------------------------ NAME -------------------- */}
+              <form onSubmit={nameUpdateHandler}>
+                <FormControl fullWidth>
+                  {/* name */}
+                  <p>Name</p>
                   {/* textfield with users name */}
                   <TextField
                     fullWidth
                     id="nameUpdate"
                     variant="outlined"
-                    value={user.name}
+                    value={name}
                     input
                     disabled={isNameDisabled}
                     onChange={(event) => setName(event.target.value)}
                     type="text"
-                    placeholder={user && user.displayName}
+                    placeholder={user && user.name}
                     InputProps={{
                       endAdornment: (
                         <ButtonGroup position="end">
@@ -195,49 +226,49 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                 </FormControl>
               </form>
               {/* TODO remove */}
-              <form onSubmit={emailUpdateHandler}>
-                <FormControl fullWidth>
-                  <p>Email:</p>
-                  {/* textfield with users email */}
-                  <TextField
-                    fullWidth
-                    id="emailUpdate"
-                    variant="outlined"
-                    value={user.email}
-                    input
-                    disabled={isEmailDisabled}
-                    onChange={(event) => setEmail(event.target.value)}
-                    type="email"
-                    placeholder={user && user.email}
-                    InputProps={{
-                      endAdornment: (
-                        <ButtonGroup position="end">
-                          {isEmailSubmitVisible ? (
-                            <IconButton type="submit">
-                              <DoneIcon />
-                            </IconButton>
-                          ) : null}
-                          <IconButton onClick={handleEmailDisabled}>
-                            <EditIcon color="primary" />
-                          </IconButton>
-                        </ButtonGroup>
-                      ),
-                    }}
-                  />
-                </FormControl>
-              </form>
+              {/* <form onSubmit={emailUpdateHandler}> */}
+              {/* <FormControl fullWidth> */}
+              <p>Email</p>
+              {/* textfield with users email */}
+              <TextField
+                fullWidth
+                id="emailUpdate"
+                variant="outlined"
+                value={email}
+                input
+                disabled="true"
+                // onChange={(event) => setEmail(event.target.value)}
+                type="email"
+                placeholder={user && user.email}
+                // TODO remove
+                // InputProps={{
+                //   endAdornment: (
+                //     <ButtonGroup position="end">
+                //       {isEmailSubmitVisible ? (
+                //         <IconButton type="submit">
+                //           <DoneIcon />
+                //         </IconButton>
+                //       ) : null}
+                //       <IconButton onClick={handleEmailDisabled}>
+                //         <EditIcon color="primary" />
+                //       </IconButton>
+                //     </ButtonGroup>
+                //   ),
+                // }}
+              />
+              {/* </FormControl> */}
+              {/* </form> */}
               <form onSubmit={dateOfBirthUpdateHandler}>
                 <FormControl fullWidth>
-                  <p>Date of Birth:</p>
+                  <p>Date of Birth</p>
                   {/* textfield with users date of birth */}
                   <TextField
                     fullWidth
                     id="dateOfBirthUpdate"
                     variant="outlined"
-                    value={user.dateOfBirth}
+                    value={dateOfBirth}
                     input
-                    disabled={isDateOfBirthDisabled}
-                    onChange={(event) => setDateOfBirth(event.target.value)}
+                    disabled="true"
                     type="date"
                     placeholder={user && user.dateOfBirth}
                     InputProps={{
