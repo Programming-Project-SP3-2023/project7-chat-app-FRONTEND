@@ -6,7 +6,9 @@ import MenuItem from "./MenuItem";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import { useSocket } from "../../services/SocketContext";
 
 import EditProfile from "../profile/EditProfile";
 
@@ -20,12 +22,27 @@ const DashboardMainColumn = ({
   setGroupModalOpen,
   setManageFriendsModalOpen,
 }) => {
-  const friends = [
-    { name: "Jack Sparrow", img: "something/src.jpg" },
-    { name: "Coco Wood", img: "something/src.jpg" },
-    { name: "Juliette Barton", img: "something/src.jpg" },
-    { name: "Mark Ruffalo", img: "something/src.jpg" },
-  ];
+  // const friends = [
+  //   { name: "Jack Sparrow", img: "something/src.jpg" },
+  //   { name: "Coco Wood", img: "something/src.jpg" },
+  //   { name: "Juliette Barton", img: "something/src.jpg" },
+  //   { name: "Mark Ruffalo", img: "something/src.jpg" },
+  // ];
+
+  const [onlineFriends, setOnlineFriends] = useState([]);
+  const socket = useSocket();
+
+  useEffect(() => {
+    socket.emit("getOnlineFriends");
+
+    socket.on("onlineFriends", (friends) => {
+      setOnlineFriends(friends);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
 
@@ -42,7 +59,8 @@ const DashboardMainColumn = ({
         {/* Online friends and People in voice rendering */}
         {title !== "Quick Actions" && (
           <>
-            {friends.map((friend, i) => {
+            {/* can be changed back to friends */}
+            {onlineFriends.map((friend, i) => {
               return <MenuItem key={i} friend={friend} />;
             })}
           </>
