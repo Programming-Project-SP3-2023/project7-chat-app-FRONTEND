@@ -73,11 +73,12 @@ const Login = ({ setIsLoggedIn }) => {
         setSideMenuOption(0);
         setIsLoggedIn(true);
 
-        const userId = getUserID();
+        // get session stored user / rather than fetching twice
+        const userId = getUserID;
+
         console.log("userID: " + userId + " & username: " + username);
-        //set variables inside socket
-        socket.auth = userId;
-        socket.username = { username };
+
+        socket.auth = { userId, username }; // set user auth in socket.io
         socket.connect(); // connect socket
 
         // navigate to dashboard

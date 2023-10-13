@@ -161,7 +161,7 @@ const ChatUI = ({ socket }) => {
       {/* USER */}
       <div className="chat-messages">
         {messages.map((message, index) =>
-          message.user === localStorage.getItem("user") ? ( //currently gets local stored user
+          message.senderID === userId ? ( //currently gets local stored user
             <div
               ref={lastMessageRef}
               className="message-content"
