@@ -32,17 +32,20 @@ const DashboardMainColumn = ({
   const [onlineFriends, setOnlineFriends] = useState([]);
   const socket = useSocket();
 
+  // use effect hook
   useEffect(() => {
-    socket.emit("getOnlineFriends");
-
-    socket.on("onlineFriends", (friends) => {
-      setOnlineFriends(friends);
+    // attempt to conect to socket getOnlineFriends
+    socket.on("getOnlineFriends", () => {});
+    // fetch online friends
+    socket.emit("onlineFriends", (onlineFriends) => {
+      // set online friends
+      setOnlineFriends(onlineFriends);
     });
-
+    // attempt to clean socket after fetching online friends
     return () => {
-      socket.disconnect();
+      socket.off("getOnlineFriends");
     };
-  }, []);
+  }, [socket]);
 
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
 

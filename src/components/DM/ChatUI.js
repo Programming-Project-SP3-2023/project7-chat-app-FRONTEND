@@ -28,12 +28,10 @@ import { getUserID } from "../../utils/localStorage";
  */
 const ChatUI = ({ socket }) => {
   const userId = getUserID();
-  //const chatId = 10001001;
-  const { chatId } = useParams();
-  console.log("Chat ID: " + chatId);
+  // const id = 10001001;
+  const { id } = useParams(); // gets id from url id
+  console.log("Chat ID: " + id);
   console.log("UserID: " + userId);
-  // socket.emit("connection", socket);
-  // socket.emit("connectChat", ({ chatId }) => {});
 
   // Props for messages
   const [messages, setMessages] = useState([]);
@@ -41,8 +39,33 @@ const ChatUI = ({ socket }) => {
   const [typingStatus, setTypingStatus] = useState("");
   const [messageId, setMessageId] = useState(1);
 
+  socket.emit("connectChat", { chatID: id }); // attempt to connect to chat
+
   // latest ref to scroll to latest message sent
   const lastMessageRef = useRef(null);
+
+  //for handling message display from server
+  useEffect(() => {
+    socket.on("messageHistory", ({ messages }) => {
+      setMessages(messages);
+    });
+  }, [socket]);
+
+  // handle auto-scrolling to latest message
+  useEffect(() => {
+    lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // for recieving typing
+  useEffect(() => {
+    socket.on("typing", (data) =>
+      socket.broadcast.emit("typingResponse", data)
+    );
+  });
+  // for emiting typing
+  const handleTyping = () => {
+    socket.emit("typing", { userId });
+  };
 
   //Message submit handling
   const handleMessageSubmit = (event) => {
@@ -52,39 +75,19 @@ const ChatUI = ({ socket }) => {
 
     const newMessage = {
       messageID: messageId,
-      chatID: chatId,
+      chatID: id,
       messageBody: messageInput,
       senderID: userId,
       timeSent: newTimestamp,
     };
 
-    socket.emit("privateMessage", { message: newMessage });
+    // socket.emit("privateMessage", { newMessage, newTimestamp });
+    socket.emit(id).emit("messageResponse", { message: newMessage });
 
     setMessages([...messages, newMessage]);
     setMessageId(messageId + 1);
     setMessageInput("");
   };
-
-  // for handling message display from server
-  useEffect(() => {
-    socket.on("privateMessage", ([message, timestamp]) => {
-      setMessages([...messages, { ...message, timestamp }]);
-    });
-  }, [socket, messages]);
-
-  // handle auto-scrolling to latest message
-  useEffect(() => {
-    lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  const handleTyping = () => {
-    socket.emit("typing", { userId });
-  };
-
-  // for handling user typing
-  useEffect(() => {
-    socket.on("typingResponse", (data) => setTypingStatus(data));
-  }, [socket]);
 
   // format date / time
   const formatDateTime = (timestamp) => {
