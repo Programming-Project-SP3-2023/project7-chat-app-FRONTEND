@@ -38,7 +38,7 @@ const Login = ({ setIsLoggedIn }) => {
   const [message, setMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const socket = useSocket();
+  const { loginSocket } = useSocket();
 
   // loading state handler
   const [loading, setLoading] = useState(false);
@@ -74,12 +74,8 @@ const Login = ({ setIsLoggedIn }) => {
         setIsLoggedIn(true);
 
         // get session stored user / rather than fetching twice
-        const userId = getUserID;
 
-        console.log("userID: " + userId + " & username: " + username);
-
-        socket.auth = { userId, username }; // set user auth in socket.io
-        socket.connect(); // connect socket
+        loginSocket(response.data.AccountID, username);
 
         // navigate to dashboard
         navigate("/dashboard");

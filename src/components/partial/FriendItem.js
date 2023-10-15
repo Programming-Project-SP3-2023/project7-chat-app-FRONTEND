@@ -6,6 +6,7 @@ import { Avatar } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSocket } from "../../services/SocketContext";
 
 // PIC FOR TESTING **
 import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
@@ -20,6 +21,7 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
 
   const [colorID, setColorID] = useState("green");
 
+  const { socket } = useSocket(); // get socket
   const navigate = useNavigate();
 
   // Determine icon color for online status
@@ -32,7 +34,9 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
   // handle chat select
   const handleSelect = () => {
     setSelectedChat(friend.id);
-    navigate(`/dashboard/friends/${friend.id}`);
+    navigate(`/dashboard/friends/${friend.id}`); //
+
+    socket.emit("connectChat", { chatID: friend.id }); //attempt to connect to chat
   };
 
   return (

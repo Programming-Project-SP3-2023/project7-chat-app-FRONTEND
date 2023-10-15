@@ -30,7 +30,7 @@ const DashboardMainColumn = ({
   // ];
 
   const [onlineFriends, setOnlineFriends] = useState([]);
-  const socket = useSocket();
+  const { socket } = useSocket();
 
   // use effect hook
   useEffect(() => {

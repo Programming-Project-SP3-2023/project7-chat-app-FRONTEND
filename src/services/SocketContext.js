@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
 //local host
@@ -16,7 +16,33 @@ export function useSocket() {
 
 // wraps the components to allow use of the socket component
 export function SocketProvider({ children }) {
+  const [authData, setAuthData] = useState(null);
+
+  // set persistant socket data
+  useEffect(() => {
+    if (authData) {
+      socket.auth = { token: authData.token };
+    }
+  }, [authData]);
+  //
+  const contextValue = {
+    socket,
+    authData,
+    loginSocket: (accountID, username) => {
+      setAuthData({ accountID, username });
+      socket.auth = { accountID, username: username };
+      console.log("login socket userid: " + accountID + "username" + username);
+      socket.connect();
+    },
+    logout: () => {
+      setAuthData(null);
+      socket.disconnect();
+    },
+  };
+
   return (
-    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
+    <SocketContext.Provider value={contextValue}>
+      {children}
+    </SocketContext.Provider>
   );
 }

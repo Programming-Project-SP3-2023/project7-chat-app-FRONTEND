@@ -21,17 +21,16 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { getUserID } from "../../utils/localStorage";
+import { useSocket } from "../../services/SocketContext";
 
 /**
  * Builds and renders the homepage component
  * @returns Homepage component render
  */
-const ChatUI = ({ socket }) => {
+const ChatUI = () => {
+  const { socket } = useSocket();
   const userId = getUserID();
-  // const id = 10001001;
   const { id } = useParams(); // gets id from url id
-  console.log("Chat ID: " + id);
-  console.log("UserID: " + userId);
 
   // Props for messages
   const [messages, setMessages] = useState([]);
@@ -39,17 +38,25 @@ const ChatUI = ({ socket }) => {
   const [typingStatus, setTypingStatus] = useState("");
   const [messageId, setMessageId] = useState(1);
 
-  socket.emit("connectChat", { chatID: id }); // attempt to connect to chat
+  // console.log("socket userID: " + userId); //test to see if user socket is still connected
 
   // latest ref to scroll to latest message sent
   const lastMessageRef = useRef(null);
 
+  // TODO sort message display // error handling
   //for handling message display from server
+  // useEffect(() => {
+  //   socket.on("messageHistory", ({ messages }) => {
+  //     if (messages !== null) {
+  //       setMessages(messages);
+  //     }
+  //   });
+  // });
+
+  // attempt to clear message each time a new chat is loaded
   useEffect(() => {
-    socket.on("messageHistory", ({ messages }) => {
-      setMessages(messages);
-    });
-  }, [socket]);
+    setMessages([]);
+  }, [id]);
 
   // handle auto-scrolling to latest message
   useEffect(() => {
@@ -61,7 +68,14 @@ const ChatUI = ({ socket }) => {
     socket.on("typing", (data) =>
       socket.broadcast.emit("typingResponse", data)
     );
+
+    socket.on("typing", handleTyping);
+
+    return () => {
+      socket.off("typing", handleTyping);
+    };
   });
+
   // for emiting typing
   const handleTyping = () => {
     socket.emit("typing", { userId });
@@ -72,17 +86,22 @@ const ChatUI = ({ socket }) => {
     event.preventDefault();
     console.log("Message Handler");
     const newTimestamp = dayjs(new Date());
+    console.log("userID: " + userId);
+    const TimeSent = new dayjs().format("YYYY-MM-DDTHH:mm.ssZ");
 
     const newMessage = {
-      messageID: messageId,
-      chatID: id,
-      messageBody: messageInput,
-      senderID: userId,
-      timeSent: newTimestamp,
+      Message: messageId,
+      ChatID: id,
+      MessageBody: messageInput,
+      SenderID: userId,
+      TimeSent: newTimestamp,
     };
-
-    // socket.emit("privateMessage", { newMessage, newTimestamp });
-    socket.emit(id).emit("messageResponse", { message: newMessage });
+    console.log("new Timestamp: " + TimeSent);
+    socket.emit("privateMessage", {
+      newMessage,
+      TimeSent,
+    });
+    // socket.emit(id).emit("messageResponse", { message: newMessage });
 
     setMessages([...messages, newMessage]);
     setMessageId(messageId + 1);
@@ -127,23 +146,23 @@ const ChatUI = ({ socket }) => {
         console.log("image");
 
         const newImage = {
-          messageID: messageId,
-          image: file,
-          senderID: userId,
-          timesent: newTimestamp,
+          MessageID: messageId,
+          Image: file,
+          SenderID: userId,
+          TimeSent: newTimestamp,
         };
         socket.emit("privateMessage", { message: newImage });
       } else {
         console.log("randomfile");
 
         const newFile = {
-          messageID: messageId,
-          file: file,
-          fileName: file.name,
-          fileType: file.type.split("/")[1], // file type is not currently simple name
-          fileSize: file.size, // currently passing file size in bytes
-          senderID: userId,
-          timeSent: newTimestamp,
+          MessageID: messageId,
+          File: file,
+          FileName: file.name,
+          FileType: file.type.split("/")[1], // file type is not currently simple name
+          FileSize: file.size, // currently passing file size in bytes
+          SenderID: userId,
+          TimeSent: newTimestamp,
         };
         socket.emit("privateMessage", { message: newFile });
       }
@@ -164,24 +183,24 @@ const ChatUI = ({ socket }) => {
       {/* USER */}
       <div className="chat-messages">
         {messages.map((message, index) =>
-          message.senderID === userId ? ( //currently gets local stored user
+          message.SenderID === userId ? ( //currently gets local stored user
             <div
               ref={lastMessageRef}
               className="message-content"
               key={`user-message-${index}`}
             >
               <div className="message-timestamp">
-                {formatDateTime(message.timestamp)}
+                {formatDateTime(message.TimeSent)}
               </div>
               {/* message only rendering */}
-              {message.messageBody && (
+              {message.MessageBody && (
                 <div className="message-user">
-                  <div id="message">{message.messageBody}</div>
+                  <div id="message">{message.MessageBody}</div>
                 </div>
               )}
 
               {/* renders image if available */}
-              {message.image && (
+              {message.Image && (
                 <div className="message-user">
                   <div
                     id="message-image-container"
@@ -190,14 +209,14 @@ const ChatUI = ({ socket }) => {
                     <img
                       id="message-image"
                       className={`message-image other`}
-                      src={message.image}
-                      alt={message.image}
+                      src={message.Image}
+                      alt={message.Image}
                     />
                   </div>
                 </div>
               )}
 
-              {message.file && (
+              {message.File && (
                 <div id="message-file">
                   <div>
                     <Badge
@@ -207,13 +226,13 @@ const ChatUI = ({ socket }) => {
                         vertical: "center",
                         horizontal: "center",
                       }}
-                      badgeContent={message.fileType}
+                      badgeContent={message.FileType}
                     >
                       <InsertDriveFileOutlinedIcon fontSize="large" />
                     </Badge>
                   </div>
-                  <div className="file-name">{message.fileName}</div>
-                  <div className="file-size">{message.fileSize}</div>
+                  <div className="file-name">{message.FileName}</div>
+                  <div className="file-size">{message.FileSize}</div>
                 </div>
               )}
             </div>
@@ -225,34 +244,34 @@ const ChatUI = ({ socket }) => {
               key={`user-message-${index}`}
             >
               <div className="message-timestamp">
-                {formatDateTime(message.timestamp)}
+                {formatDateTime(message.TimeSent)}
               </div>
               {/* renders text if available */}
-              {message.messageBody && (
+              {message.MessageBody && (
                 <div className="message-other">
                   <Avatar
-                    alt={`User ${message.user}`}
-                    src={message.userAvatar}
+                    alt={`User ${message.SenderID}`}
+                    src={message.SenderID.Avatar}
                   />
-                  <div id="message">{message.messageBody}</div>
+                  <div id="message">{message.MessageBody}</div>
                 </div>
               )}
 
               {/* renders image if available */}
-              {message.image && (
+              {message.Image && (
                 <div className="message-other">
                   <div id="message-image-container" className={`message-other`}>
                     <img
                       id="message-image"
                       className={`message-other`}
-                      src={message.image}
-                      alt={message.image}
+                      src={message.Image}
+                      alt={message.Image}
                     />
                   </div>
                 </div>
               )}
 
-              {message.file && (
+              {message.File && (
                 <div id="message-file">
                   <div>
                     <Badge
@@ -262,13 +281,13 @@ const ChatUI = ({ socket }) => {
                         vertical: "center",
                         horizontal: "center",
                       }}
-                      badgeContent={message.fileType}
+                      badgeContent={message.FileType}
                     >
                       <InsertDriveFileOutlinedIcon fontSize="large" />
                     </Badge>
                   </div>
-                  <div className="file-name">{message.fileName}</div>
-                  <div className="file-size">{message.fileSize}</div>
+                  <div className="file-name">{message.FileName}</div>
+                  <div className="file-size">{message.FileSize}</div>
                 </div>
               )}
             </div>
@@ -304,7 +323,7 @@ const ChatUI = ({ socket }) => {
                         hidden
                         // types of files that are accepted
                         // add to include .pdf, .doc, .txt
-                        inputProps={{ accept: "image/*" }}
+                        accept="image/*"
                         id="file-input"
                         type="file"
                         ref={hiddenFileInput}
