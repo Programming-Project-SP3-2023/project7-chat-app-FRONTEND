@@ -12,12 +12,13 @@ const REGISTER_ENDPOINT = BASE_URL + "register";
 const LOGIN_ENDPOINT = BASE_URL + "login";
 const USER_INFO_ENDPOINT = BASE_URL + "profile/user-info";
 const EDIT_DISPLAY_NAME_ENDPOINT = BASE_URL + "profile/edit-displayname";
+const EDIT_EMAIL_ENDPOINT = BASE_URL + "profile/change-email";
 const UPDATE_AVATAR_ENDPOINT = BASE_URL + "avatar/upload";
 
 // Auth setup
 const headers = {
   headers: {
-    "Authorization": getAccessToken(),
+    Authorization: getAccessToken(),
   },
 };
 
@@ -71,17 +72,12 @@ export const getUserByID = async function (userID) {
 };
 
 /**
- * Updates a user by id
- * @param {*} currentUserID The user's id
+ * Updates a user's display name
  * @param {*} newDisplayName The new name we want to update to
  * @returns confirmation/error message
  */
-export const updateDisplayName = async function (
-  currentUserID,
-  newDisplayName
-) {
+export const updateDisplayName = async function (newDisplayName) {
   const requestBody = {
-    currentUserID: currentUserID,
     newDisplayName: newDisplayName,
   };
 
@@ -99,6 +95,36 @@ export const updateDisplayName = async function (
     }
     //Failed!
     else {
+      return response.data.message;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return;
+};
+
+/**
+ * Updates a user's email
+ * @param {*} newEmail The new name we want to update to
+ * @returns confirmation/error message
+ */
+export const updateEmail = async function (newEmail) {
+  const requestBody = {
+    newEmail: newEmail,
+  };
+
+  try {
+    let response = await axios.post(EDIT_EMAIL_ENDPOINT, requestBody, headers);
+
+    //Success!
+    if (response.status === 200) {
+      // return success message
+      console.log(response);
+      return response.data.message;
+    }
+    //Failed!
+    else {
+      console.log(response);
       return response.data.message;
     }
   } catch (error) {
@@ -149,7 +175,6 @@ export const updateAvatar = async function (avatarData) {
  * @returns The user's avatar in Base64
  */
 export const getAvatarByID = async function (userID) {
-
   console.log(`${BASE_URL}avatar/${userID}`);
   try {
     let response = await axios.get(`${BASE_URL}avatar/${userID}`, headers);

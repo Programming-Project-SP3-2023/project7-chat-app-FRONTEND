@@ -12,10 +12,8 @@ import {
   resetUserID,
   resetUserSession,
   getUser,
-  getUserID,
 } from "../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 
 /**
