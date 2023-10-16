@@ -9,7 +9,10 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import PasswordUpdateModal from "./PasswordUpdate";
-import { updateAvatar, updateDisplayName } from "../../services/userAPI";
+import {
+  updateAvatar,
+  updateDisplayName,
+} from "../../services/userAPI";
 
 const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   const [user, setUser] = useState(getUser());
@@ -23,7 +26,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   // by setting useState as(true) each text field is disabled initially
   const [isNameDisabled, setIsNameDisabled] = useState(true);
   const [isEmailDisabled, setIsEmailDisabled] = useState(true);
-  
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [name, setName] = useState(user && user.displayName);
   const [email, setEmail] = useState(user && user.email);
@@ -35,6 +38,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   useEffect(() => {
     setUser(getUser());
   }, [loading, setLoading]);
+
 
   // handle disabling and unlocking text fields
   const handleNameDisabled = () => {
@@ -78,10 +82,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
     // 2. If an image has been uploaded, trigger avatar update req
     if (selectedImage) {
       try {
-        const updateAvatarResponse = await updateAvatar(
-          accountID,
-          selectedImage
-        );
+        const updateAvatarResponse = await updateAvatar(selectedImage);
         console.log(updateAvatarResponse);
         setMessage(updateAvatarResponse);
       } catch (error) {
@@ -105,7 +106,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
 
     // 4. Update email
     // to do, waiting on backend functions - similar to display name
-    
+
     setIsNameDisabled(!isNameDisabled);
     setIsEmailDisabled(!isEmailDisabled);
   };
@@ -134,10 +135,12 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                 />
                 <Avatar id="edit-profile-avatar">
                   <div id="edit-avatar-upload-box">
-                    {!selectedImage ? (
-                      <PersonOutlineIcon />
-                    ) : (
-                      <img src={selectedImage} alt="Uploaded Event" />
+                    {!selectedImage && !user.image && <PersonOutlineIcon />}
+                    {!selectedImage && user.image && (
+                      <img src={user.image} alt="Profile Picture" />
+                    )}
+                    {selectedImage && (
+                      <img src={selectedImage} alt="Profile Picture" />
                     )}
                   </div>
                 </Avatar>

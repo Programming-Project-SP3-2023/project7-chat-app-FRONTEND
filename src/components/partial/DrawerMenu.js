@@ -15,8 +15,8 @@ import {
   getUserID,
 } from "../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { getAvatarByID } from "../../services/userAPI";
+import { useState } from "react";
+
 
 /**
  * Builds and renders the Drawer Menu component
@@ -28,23 +28,6 @@ const DrawerMenu = ({ setOpenDrawer, setRefresh }) => {
   const navigate = useNavigate();
 
   const currentUser = getUser();
-
-  const [profileImg, setProfileImg] = useState(null);
-
-  useEffect(() => {
-    async function getAvatar() {
-      const response = await getAvatarByID(getUserID());
-      
-      if(!response){
-        console.log("No avatar found. Using default icon.")
-      } else {
-        console.log(response);
-        // set img to response...
-        setProfileImg(response);
-      }
-    }
-    getAvatar();
-  }, [profileImg]);
 
   // logout function
   const logout = async () => {
@@ -66,8 +49,8 @@ const DrawerMenu = ({ setOpenDrawer, setRefresh }) => {
       <div className="settings-header">
         {/* Should be user.name but we don't yet have a complete one at login */}
         <h2>{currentUser && currentUser.displayName}</h2>
-        {profileImg ? (
-          <Avatar src={profileImg} id="profile-avatar" />
+        {currentUser.image ? (
+          <Avatar src={currentUser.image} id="profile-avatar" />
         ) : (
           <Avatar id="profile-avatar" />
         )}

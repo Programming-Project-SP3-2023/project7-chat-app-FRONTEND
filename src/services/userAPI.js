@@ -109,22 +109,13 @@ export const updateDisplayName = async function (
 
 /**
  * Uploads new avatar for a user
- * @param {*} currentUserID The user's id
  * @param {*} avatarData The avatar we want to upload in Base64
  * @returns confirmation/error message
  */
-export const updateAvatar = async function (currentUserID, avatarData) {
-  console.log(currentUserID, avatarData);
-
-  const avatar_headers = {
-    headers: {
-      "Authorization": getAccessToken(),
-      "Content-Type": "image/png"
-    },
-  };
+export const updateAvatar = async function (avatarData) {
+  console.log(avatarData, UPDATE_AVATAR_ENDPOINT);
 
   const requestBody = {
-    currentUserID: currentUserID,
     avatarData: avatarData,
   };
 
@@ -132,7 +123,7 @@ export const updateAvatar = async function (currentUserID, avatarData) {
     let response = await axios.post(
       UPDATE_AVATAR_ENDPOINT,
       requestBody,
-      avatar_headers
+      headers
     );
 
     //Success!
