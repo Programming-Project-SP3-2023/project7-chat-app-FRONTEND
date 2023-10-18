@@ -48,7 +48,7 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
       />
       <div>
         <div className="friend-item-header">
-          <span>{friend.name}</span>
+          <span>{friend.DisplayName}</span>
           <span>
             <CircleIcon id={colorID} />
           </span>

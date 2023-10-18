@@ -3,10 +3,12 @@
  */
 
 import { Modal, Box, InputAdornment, TextField } from "@mui/material";
-import { useState } from "react";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import UserChip from "./UserChip";
+import { useState, useEffect } from "react";
+import { getFriendRequests } from "../../services/friendsAPI";
+
 /**
  * Builds and renders the Manage Friends Modal component
  * @returns Manage Friends Modalcomponent render
@@ -15,68 +17,33 @@ import UserChip from "./UserChip";
 const ManageFriendsModal = ({
   manageFriendsModalOpen,
   setManageFriendsModalOpen,
+  users,
+  friends,
 }) => {
-  // dummy friends objects for development.
-  const friends = [
-    {
-      id: "001",
-      name: "Jack Sparrow",
-      img: "something/src.jpg",
-      status: 0,
-      lastSent: true,
-      lastMessage: "Hey, what do you think of my new phone",
-    },
-    {
-      id: "002",
-      name: "Coco Wood",
-      img: "something/src.jpg",
-      status: 1,
-      lastSent: false,
-      lastMessage: "Kevin, meet me there when the sun goes down",
-    },
-    {
-      id: "003",
-      name: "Juliette Barton",
-      img: "something/src.jpg",
-      status: 2,
-      lastSent: false,
-      lastMessage: null,
-    },
-    {
-      id: "004",
-      name: "Mark Ruffalo",
-      img: "something/src.jpg",
-      status: 0,
-      lastSent: true,
-      lastMessage:
-        "Dear Rosa, you were not originally meant to pick up groceries",
-    },
-    {
-      id: "005",
-      name: "Ryan Borges",
-      img: "something/src.jpg",
-      status: 0,
-      lastSent: true,
-      lastMessage:
-        "Dear Rosa, you were not originally meant to pick up groceries",
-    },
-  ];
+  const [friendsRequestss, setFriendRequestss] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // friend requests objects for development.
-  const friendRequests = [
-    {
-      id: "006",
-      name: "Rafael Bonachela",
-      img: "something/src.jpg",
-      notificationOn: false,
-    },
-    {
-      id: "007",
-      name: "Morgan Hurrel",
-      img: "something/src.jpg",
-      notificationOn: true
+  useEffect(() => {
+    async function fetchFriendRequests() {
+      setLoading(true);
+      const response = await getFriendRequests();
+
+      const temp = [];
+      if (users) {
+        users.forEach((user) => {
+          for (let i = 0; i < response.length; i++) {
+            if (user.AccountID === response[i].AddresseeID) {
+              temp.push(user);
+            }
+          }
+        });
+      }
+      setFriendRequestss(temp);
     }
-  ];
+
+    fetchFriendRequests();
+    setLoading(false);
+  }, [loading]);
 
   // handle modal closing
   const handleClose = () => setManageFriendsModalOpen(false);
@@ -102,12 +69,12 @@ const ManageFriendsModal = ({
           <h2>Manage Friends</h2>
         </div>
         <div id="manage-friends-modal-whitebox">
-        {friendRequests.map((friend, i) => {
+          {friendsRequestss.map((friend, i) => {
             return <UserChip key={i} user={friend} request={true} />;
           })}
-          {friends.map((friend, i) => {
+          {/* {friends.map((friend, i) => {
             return <UserChip key={i} user={friend} request={false} />;
-          })}
+          })} */}
         </div>
         <div className="manage-friends-link">
           <PeopleAltOutlinedIcon />

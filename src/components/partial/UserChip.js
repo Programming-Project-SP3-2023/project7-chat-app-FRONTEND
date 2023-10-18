@@ -43,7 +43,7 @@ const UserChip = ({ user, request }) => {
         src={SAMPLE_PIC_1}
       />
       <div className="user-chip-main">
-        <span>{user.name}</span>
+        <span>{user.DisplayName}</span>
         {request ? (
           <>
             <h5>Friend request</h5>
