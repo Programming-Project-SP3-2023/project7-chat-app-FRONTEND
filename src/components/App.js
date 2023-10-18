@@ -3,7 +3,7 @@
  */
 
 // Dependencies
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate} from "react-router-dom";
 import { useSocket } from "../services/SocketContext";
 
 // Components
@@ -45,7 +45,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="signup" element={<Signup />} />
-        <Route path="dashboard" element={<Dashboard />}>
+        <Route path="dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />}>
           <Route index element={<DashboardMain />} />
           <Route path="friends" element={<Friends />}>
             <Route path=":id" element={<ChatUI />} />
@@ -55,11 +55,11 @@ function App() {
           </Route>
         </Route>
         <Route path="channels">
-          <Route path="" element={<Channels />} />
-          <Route path="create-new" element={<CreateNewChannel />} />
-          <Route path="join" element={<JoinChannel />} />
+          <Route path="" element={isLoggedIn ? <Channels /> : <Navigate to="/login" />} />
+          <Route path="create-new" element={isLoggedIn ? <CreateNewChannel /> : <Navigate to="/login" />} />
+          <Route path="join" element={isLoggedIn ? <JoinChannel /> : <Navigate to="/login" />} />
         </Route>
-        <Route path="search" element={<Search />} />
+        <Route path="search" element={isLoggedIn ? <Search /> : <Navigate to="/login" />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

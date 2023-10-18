@@ -109,3 +109,4 @@ export const getSideMenuOption = function () {
 export const setSideMenuOption  = function (selected) {
   sessionStorage.setItem("selectedOption", JSON.stringify(selected));
 };
+

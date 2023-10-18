@@ -45,11 +45,11 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
       <Avatar
         className="menu-item-avatar"
         alt="Sample profile"
-        src={SAMPLE_PIC_1}
+        src={friend.Avatar}
       />
       <div>
         <div className="friend-item-header">
-          <span>{friend.name}</span>
+          <span>{friend.DisplayName}</span>
           <span>
             <CircleIcon id={colorID} />
           </span>

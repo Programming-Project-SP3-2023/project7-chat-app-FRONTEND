@@ -3,6 +3,9 @@
  */
 
 import { Modal, Box, Button } from "@mui/material";
+import { getUserID } from "../../utils/localStorage";
+import { useState } from "react";
+import { submitFriendRequest } from "../../services/friendsAPI";
 /**
  * Builds and renders the Add Group component
  * @returns Add Friend Confirmation Modal component render
@@ -13,13 +16,24 @@ const AddFriendConfirmation = ({
   setAddFriendModalOpen,
   friendToAdd,
 }) => {
+  // state objects
+  const [loading, setLoading] = useState(false);
+
   // handle modal closing
   const handleClose = () => setAddFriendModalOpen(false);
 
   //send friend request
-  const sendFriendRequest = () => {
+  const sendFriendRequest = async () => {
+    setLoading(true);
+
+    const requesteeID = friendToAdd.AccountID;
+    const requesterID = getUserID();
+    console.log(requesteeID, requesterID);
+
+    const response = await submitFriendRequest(requesterID, requesteeID);
+    console.log(response);
+    setLoading(false);
     handleClose();
-    console.log("sending friend request to ", friendToAdd.name);
   };
 
   return (
@@ -35,7 +49,7 @@ const AddFriendConfirmation = ({
           <h2>Friend request</h2>
         </div>
         <p>
-          Do you want to send {friendToAdd && friendToAdd.name} a friend
+          Do you want to send {friendToAdd && friendToAdd.DisplayName} a friend
           request?
         </p>
         <Button
@@ -45,6 +59,7 @@ const AddFriendConfirmation = ({
         >
           Send request
         </Button>
+        {loading && <h2>Sending request...</h2>}
       </Box>
     </Modal>
   );

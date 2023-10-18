@@ -1,6 +1,6 @@
 import { TextField, Avatar, Box, FormControl, Button } from "@mui/material";
 import { Modal } from "@mui/material";
-import { getUser, getUserID } from "../../utils/localStorage";
+import { getUser } from "../../utils/localStorage";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 
@@ -9,11 +9,14 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import PasswordUpdateModal from "./PasswordUpdate";
-import { updateAvatar, updateDisplayName } from "../../services/userAPI";
+import {
+  updateAvatar,
+  updateDisplayName,
+  updateEmail,
+} from "../../services/userAPI";
 
 const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   const [user, setUser] = useState(getUser());
-  const accountID = getUserID();
 
   // close modal
   const handleClose = () => {
@@ -23,18 +26,18 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   // by setting useState as(true) each text field is disabled initially
   const [isNameDisabled, setIsNameDisabled] = useState(true);
   const [isEmailDisabled, setIsEmailDisabled] = useState(true);
-  
+
+  // update flags - turned on when a field is changed, they trigger API update
+  const [emailChange, setEmailChange] = useState(false);
+  const [nameChange, setNameChange] = useState(false);
+
+  const [userImg, setUserImg] = useState(user ? user.image : null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [name, setName] = useState(user && user.displayName);
   const [email, setEmail] = useState(user && user.email);
   const [message, setMessage] = useState(null);
   // loading state handler
   const [loading, setLoading] = useState(false);
-
-  // always look for user state updates
-  useEffect(() => {
-    setUser(getUser());
-  }, [loading, setLoading]);
 
   // handle disabling and unlocking text fields
   const handleNameDisabled = () => {
@@ -78,10 +81,7 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
     // 2. If an image has been uploaded, trigger avatar update req
     if (selectedImage) {
       try {
-        const updateAvatarResponse = await updateAvatar(
-          accountID,
-          selectedImage
-        );
+        const updateAvatarResponse = await updateAvatar(selectedImage);
         console.log(updateAvatarResponse);
         setMessage(updateAvatarResponse);
       } catch (error) {
@@ -91,21 +91,32 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
     }
 
     // 3. Update display name
-    try {
-      const updateNameResponse = await updateDisplayName(accountID, name);
-      console.log(updateNameResponse);
-      setMessage(updateNameResponse);
-    } catch (error) {
-      console.log(error);
-      setMessage("Unable to update your display name");
-    } finally {
-      //Disable loading state
-      setLoading(false);
+    if (nameChange) {
+      try {
+        const updateNameResponse = await updateDisplayName(name);
+        console.log(updateNameResponse);
+        setMessage(updateNameResponse);
+      } catch (error) {
+        console.log(error);
+        setMessage("Unable to update your display name");
+      }
     }
 
     // 4. Update email
-    // to do, waiting on backend functions - similar to display name
-    
+    if (emailChange) {
+      try {
+        const updateEmailResponse = await updateEmail(email);
+        console.log(updateEmailResponse);
+        setMessage(updateEmailResponse);
+      } catch (error) {
+        console.log(error);
+        setMessage("Unable to update your email address");
+      }
+    }
+
+    //Disable loading state
+    setLoading(false);
+
     setIsNameDisabled(!isNameDisabled);
     setIsEmailDisabled(!isEmailDisabled);
   };
@@ -134,11 +145,11 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                 />
                 <Avatar id="edit-profile-avatar">
                   <div id="edit-avatar-upload-box">
-                    {!selectedImage ? (
-                      <PersonOutlineIcon />
-                    ) : (
-                      <img src={selectedImage} alt="Uploaded Event" />
+                    {!selectedImage && !userImg && <PersonOutlineIcon />}
+                    {!selectedImage && userImg && (
+                      <img src={userImg} alt="Profile" />
                     )}
+                    {selectedImage && <img src={selectedImage} alt="Profile" />}
                   </div>
                 </Avatar>
               </label>
@@ -156,7 +167,10 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                     variant="outlined"
                     value={email}
                     disabled={isEmailDisabled}
-                    onChange={(event) => setEmail(event.target.value)}
+                    onChange={(event) => {
+                      setEmail(event.target.value);
+                      setEmailChange(true);
+                    }}
                     type="text"
                     placeholder="User email"
                     InputProps={{
@@ -180,7 +194,10 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                     variant="outlined"
                     value={name}
                     disabled={isNameDisabled}
-                    onChange={(event) => setName(event.target.value)}
+                    onChange={(event) => {
+                      setName(event.target.value);
+                      setNameChange(true);
+                    }}
                     type="text"
                     placeholder="User Display Name"
                     InputProps={{

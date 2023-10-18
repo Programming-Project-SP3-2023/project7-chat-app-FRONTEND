@@ -12,7 +12,7 @@ import {
 import SideMenu from "../partial/SideMenu";
 import { useEffect, useState } from "react";
 import AddGroup from "./AddGroup";
-import { getUserByID } from "../../services/userAPI";
+import { getUserByID, getAvatarByID } from "../../services/userAPI";
 
 /**
  * Builds and renders the dashboard component
@@ -26,8 +26,18 @@ const Dashboard = () => {
     const userID = getUserID();
     async function fetchData() {
       const response = await getUserByID(userID);
+      const avatarResponse = await getAvatarByID(userID);
+
       let user;
-      if (response) {
+      if (response && avatarResponse) {
+        user = {
+          email: response.email,
+          displayName: response.displayName,
+          dob: response.dob,
+          username: response.username,
+          image: avatarResponse.avatarData,
+        };
+      } else if (response && !avatarResponse) {
         user = {
           email: response.email,
           displayName: response.displayName,
@@ -51,8 +61,6 @@ const Dashboard = () => {
   const [selectedOpt, setSelectedOpt] = useState(0);
   // state handler for create group modal
   const [groupModalOpen, setGroupModalOpen] = useState(false);
-  // state handler for manage friends modal
-  const [manageFriendsModalOpen, setManageFriendsModalOpen] = useState(false);
 
   // make selected options persistent so it stays in the browser after refresh
   const handleSelectOption = (selected) => {
@@ -89,8 +97,6 @@ const Dashboard = () => {
             selectedOpt={selectedOpt}
             groupModalOpen={groupModalOpen}
             setGroupModalOpen={setGroupModalOpen}
-            manageFriendsModalOpen={manageFriendsModalOpen}
-            setManageFriendsModalOpen={setManageFriendsModalOpen}
           />
           <div className="dashboard-main">
             {/* Conditional rendering changing depending on selected option */}

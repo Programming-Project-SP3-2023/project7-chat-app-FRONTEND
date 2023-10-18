@@ -12,12 +12,13 @@ const REGISTER_ENDPOINT = BASE_URL + "register";
 const LOGIN_ENDPOINT = BASE_URL + "login";
 const USER_INFO_ENDPOINT = BASE_URL + "profile/user-info";
 const EDIT_DISPLAY_NAME_ENDPOINT = BASE_URL + "profile/edit-displayname";
+const EDIT_EMAIL_ENDPOINT = BASE_URL + "profile/change-email";
 const UPDATE_AVATAR_ENDPOINT = BASE_URL + "avatar/upload";
 
 // Auth setup
 const headers = {
   headers: {
-    "Authorization": getAccessToken(),
+    Authorization: getAccessToken(),
   },
 };
 
@@ -25,7 +26,6 @@ const headers = {
  * Register a new user
  */
 export const register = async function (requestBody) {
-  console.log(BASE_URL);
   return await axios.post(REGISTER_ENDPOINT, requestBody);
 };
 
@@ -71,17 +71,12 @@ export const getUserByID = async function (userID) {
 };
 
 /**
- * Updates a user by id
- * @param {*} currentUserID The user's id
+ * Updates a user's display name
  * @param {*} newDisplayName The new name we want to update to
  * @returns confirmation/error message
  */
-export const updateDisplayName = async function (
-  currentUserID,
-  newDisplayName
-) {
+export const updateDisplayName = async function (newDisplayName) {
   const requestBody = {
-    currentUserID: currentUserID,
     newDisplayName: newDisplayName,
   };
 
@@ -108,23 +103,44 @@ export const updateDisplayName = async function (
 };
 
 /**
+ * Updates a user's email
+ * @param {*} newEmail The new name we want to update to
+ * @returns confirmation/error message
+ */
+export const updateEmail = async function (newEmail) {
+  const requestBody = {
+    newEmail: newEmail,
+  };
+
+  try {
+    let response = await axios.post(EDIT_EMAIL_ENDPOINT, requestBody, headers);
+
+    //Success!
+    if (response.status === 200) {
+      // return success message
+      console.log(response);
+      return response.data.message;
+    }
+    //Failed!
+    else {
+      console.log(response);
+      return response.data.message;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return;
+};
+
+/**
  * Uploads new avatar for a user
- * @param {*} currentUserID The user's id
  * @param {*} avatarData The avatar we want to upload in Base64
  * @returns confirmation/error message
  */
-export const updateAvatar = async function (currentUserID, avatarData) {
-  console.log(currentUserID, avatarData);
-
-  const avatar_headers = {
-    headers: {
-      "Authorization": getAccessToken(),
-      "Content-Type": "image/png"
-    },
-  };
+export const updateAvatar = async function (avatarData) {
+  console.log(avatarData, UPDATE_AVATAR_ENDPOINT);
 
   const requestBody = {
-    currentUserID: currentUserID,
     avatarData: avatarData,
   };
 
@@ -132,7 +148,7 @@ export const updateAvatar = async function (currentUserID, avatarData) {
     let response = await axios.post(
       UPDATE_AVATAR_ENDPOINT,
       requestBody,
-      avatar_headers
+      headers
     );
 
     //Success!
@@ -158,7 +174,6 @@ export const updateAvatar = async function (currentUserID, avatarData) {
  * @returns The user's avatar in Base64
  */
 export const getAvatarByID = async function (userID) {
-
   console.log(`${BASE_URL}avatar/${userID}`);
   try {
     let response = await axios.get(`${BASE_URL}avatar/${userID}`, headers);
