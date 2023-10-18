@@ -11,7 +11,7 @@ import {
   FormControl,
   Badge,
 } from "@mui/material";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
@@ -20,7 +20,6 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 // date time formatter
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-import { getUserID } from "../../utils/localStorage";
 import { useSocket } from "../../services/SocketContext";
 
 /**
@@ -28,40 +27,51 @@ import { useSocket } from "../../services/SocketContext";
  * @returns Homepage component render
  */
 const ChatUI = () => {
-  const { socket } = useSocket();
-  const userId = getUserID();
-  const { id } = useParams(); // gets id from url id
+  const { socket, authData } = useSocket();
 
+  // const { id } = useParams(); // gets id from url id
+  // const chatID = id;
+
+  const chatID = "10001001";
   // Props for messages
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
   const [typingStatus, setTypingStatus] = useState("");
   const [messageId, setMessageId] = useState(1);
+  const userId = authData.accountID;
+  const username = authData.username;
 
-  // console.log("socket userID: " + userId); //test to see if user socket is still connected
+  // // image related
+  // const [selectedFile, setSelectedFile] = useState(null);
+  // const hiddenFileInput = useRef(null);
 
   // latest ref to scroll to latest message sent
   const lastMessageRef = useRef(null);
 
-  // TODO sort message display // error handling
-  //for handling message display from server
-  // useEffect(() => {
-  //   socket.on("messageHistory", ({ messages }) => {
-  //     if (messages !== null) {
-  //       setMessages(messages);
-  //     }
-  //   });
-  // });
-
-  // attempt to clear message each time a new chat is loaded
+  // render on page chat
   useEffect(() => {
-    setMessages([]);
-  }, [id]);
+    socket.emit("connectChat", chatID);
+    socket.on("messageHistory", (messages) => {
+      setMessages(messages);
+      console.log("messages", messages);
+    });
+
+    socket.emit("getMessages", { chatID: chatID });
+
+    return () => {
+      socket.off("messageHistory");
+    };
+  }, [chatID, socket]);
 
   // handle auto-scrolling to latest message
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // for emiting typing
+  const handleTyping = useCallback(() => {
+    socket.emit("typing", { username });
+  }, [socket, username]);
 
   // for recieving typing
   useEffect(() => {
@@ -74,38 +84,30 @@ const ChatUI = () => {
     return () => {
       socket.off("typing", handleTyping);
     };
-  });
-
-  // for emiting typing
-  const handleTyping = () => {
-    socket.emit("typing", { userId });
-  };
+  }, [userId, handleTyping, socket]);
 
   //Message submit handling
   const handleMessageSubmit = (event) => {
     event.preventDefault();
     console.log("Message Handler");
-    const newTimestamp = dayjs(new Date());
-    console.log("userID: " + userId);
-    const TimeSent = new dayjs().format("YYYY-MM-DDTHH:mm.ssZ");
+    // const newTimestamp = dayjs(new Date());
+    // console.log("userID: " + userId);
+    // const TimeSent = new dayjs().format("YYYY-MM-DDTHH:mm.ssZ");
 
     const newMessage = {
       Message: messageId,
-      ChatID: id,
+      ChatID: chatID,
       MessageBody: messageInput,
       SenderID: userId,
-      TimeSent: newTimestamp,
+      // TimeSent: newTimestamp,
     };
-    console.log("new Timestamp: " + TimeSent);
-    socket.emit("privateMessage", {
-      newMessage,
-      TimeSent,
-    });
-    // socket.emit(id).emit("messageResponse", { message: newMessage });
+    // console.log("new Timestamp: " + TimeSent);
+    socket.emit("sendMessage", { chatID, newMessage });
 
     setMessages([...messages, newMessage]);
     setMessageId(messageId + 1);
     setMessageInput("");
+    setTypingStatus("");
   };
 
   // format date / time
@@ -123,53 +125,49 @@ const ChatUI = () => {
     return formatTimestamp;
   };
 
-  // image related
-  const [selectedFile, setSelectedFile] = useState(null);
-  const hiddenFileInput = useRef(null);
-
-  //image file button click
-  const handleClick = (event) => {
-    hiddenFileInput.current.click();
-  };
+  // //image file button click
+  // const handleClick = (event) => {
+  //   hiddenFileInput.current.click();
+  // };
 
   // TODO update image handling into base64
 
-  //Image submit handling
-  const handleFileSubmit = (event) => {
-    event.preventDefault();
+  // //Image submit handling
+  // const handleFileSubmit = (event) => {
+  //   event.preventDefault();
 
-    const newTimestamp = dayjs(new Date());
-    const file = event.target.files[0];
+  //   const newTimestamp = dayjs(new Date());
+  //   const file = event.target.files[0];
 
-    if (file) {
-      if (file.type && file.type.startsWith("image/")) {
-        console.log("image");
+  //   if (file) {
+  //     if (file.type && file.type.startsWith("image/")) {
+  //       console.log("image");
 
-        const newImage = {
-          MessageID: messageId,
-          Image: file,
-          SenderID: userId,
-          TimeSent: newTimestamp,
-        };
-        socket.emit("privateMessage", { message: newImage });
-      } else {
-        console.log("randomfile");
+  //       const newImage = {
+  //         MessageID: messageId,
+  //         Image: file,
+  //         SenderID: userId,
+  //         TimeSent: newTimestamp,
+  //       };
+  //       socket.emit("privateMessage", { message: newImage });
+  //     } else {
+  //       console.log("randomfile");
 
-        const newFile = {
-          MessageID: messageId,
-          File: file,
-          FileName: file.name,
-          FileType: file.type.split("/")[1], // file type is not currently simple name
-          FileSize: file.size, // currently passing file size in bytes
-          SenderID: userId,
-          TimeSent: newTimestamp,
-        };
-        socket.emit("privateMessage", { message: newFile });
-      }
-    }
+  //       const newFile = {
+  //         MessageID: messageId,
+  //         File: file,
+  //         FileName: file.name,
+  //         FileType: file.type.split("/")[1], // file type is not currently simple name
+  //         FileSize: file.size, // currently passing file size in bytes
+  //         SenderID: userId,
+  //         TimeSent: newTimestamp,
+  //       };
+  //       socket.emit("privateMessage", { message: newFile });
+  //     }
+  //   }
 
-    setSelectedFile(null);
-  };
+  //   setSelectedFile(null);
+  // };
 
   return (
     <Box
@@ -317,7 +315,7 @@ const ChatUI = () => {
                   <ButtonGroup>
                     <IconButton
                       className="image-select-button"
-                      onClick={handleClick}
+                      // onClick={handleClick}
                     >
                       <input
                         hidden
@@ -326,9 +324,9 @@ const ChatUI = () => {
                         accept="image/*"
                         id="file-input"
                         type="file"
-                        ref={hiddenFileInput}
+                        // ref={hiddenFileInput}
                         style={{ display: "none" }}
-                        onChange={handleFileSubmit}
+                        // onChange={handleFileSubmit}
                       />
                       <AttachFileIcon />
                     </IconButton>

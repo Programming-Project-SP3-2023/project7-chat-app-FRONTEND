@@ -35,12 +35,14 @@ const DashboardMainColumn = ({
   // use effect hook
   useEffect(() => {
     // attempt to conect to socket getOnlineFriends
-    socket.on("getOnlineFriends", () => {});
-    // fetch online friends
-    socket.emit("onlineFriends", (onlineFriends) => {
-      // set online friends
-      setOnlineFriends(onlineFriends);
+    socket.on("getOnlineFriends", () => {
+      // fetch online friends
+      socket.emit("onlineFriends", (onlineFriends) => {
+        // set online friends
+        setOnlineFriends(onlineFriends);
+      });
     });
+
     // attempt to clean socket after fetching online friends
     return () => {
       socket.off("getOnlineFriends");
