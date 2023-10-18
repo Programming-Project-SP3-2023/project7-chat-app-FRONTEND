@@ -24,7 +24,6 @@ import {
   getUsers,
   getFriendRequests,
 } from "../../services/friendsAPI";
-import { getUserID } from "../../utils/localStorage";
 
 /**
  * Builds and renders the friends chats component
@@ -95,173 +94,160 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
     }
   }, [open]);
 
-  // Fetch all users
+  // Fetch all users, friends and friend requests
   useEffect(() => {
+    // 1. set fetching state to true for page to be on hold (loading)
+    setFetching(true);
+
+    // 2. define fetch users function
     async function fetchUsers() {
       const response = await getUsers("");
-      console.log(response[0]);
+      console.log("USERS: ", response[0]);
       setUsers(response[0]);
     }
 
-    fetchUsers();
-  }, [loading]);
-
-  // Fetch friends
-  useEffect(() => {
+    // 3. define fetch friends function
     async function fetchFriends() {
       const response = await getFriends();
-      const temp = [];
-      if (users) {
-        users.forEach((user) => {
-          for (let i = 0; i < response.length; i++) {
-            if (
-              (user.AccountID === response[i].AddresseeID &&
-                response[i].AddresseeID !== getUserID()) ||
-              (user.AccountID === response[i].RequesterID &&
-                response[i].RequesterID !== getUserID())
-            ) {
-              temp.push(user);
-            }
-          }
-        });
-      }
-      setFriends(temp);
+      console.log("FRIENDS: ", response);
+      setFriends(response);
     }
 
-    fetchFriends();
-  }, [fetching]);
-
-  useEffect(() => {
+    // 4. define fetch friends requests function
     async function fetchFriendRequests() {
       setFetching(true);
       const response = await getFriendRequests();
-      console.log(response);
+      console.log("REQUESTS: ", response);
 
-      const temp = [];
-      if (users) {
-        users.forEach((user) => {
-          for (let i = 0; i < response.length; i++) {
-            if (user.AccountID === response[i].AddresseeID) {
-              temp.push(user);
-            }
-          }
-        });
-      }
-      setFriendRequests(temp);
-      setRequestNo(temp.length);
+      setFriendRequests(response);
+      setRequestNo(response.length);
     }
 
-    fetchFriendRequests();
-    setFetching(false);
-  }, [fetching]);
+    // 5. Call functions
+    async function runFetch() {
+      await fetchUsers();
+      await fetchFriends();
+      await fetchFriendRequests();
+      // once fetched, set fetching state to false
+      setFetching(false);
+    }
 
+    runFetch();
+ 
+  },[]);
 
   return (
-    <div id="friends">
-      {/* Add friends confirmation modal */}
-      <AddFriendConfirmation
-        addFriendModalOpen={addFriendModalOpen}
-        setAddFriendModalOpen={setAddFriendModalOpen}
-        friendToAdd={friendToAdd}
-      />
-      {/* Manage Friends Modal */}
-      <ManageFriendsModal
-        manageFriendsModalOpen={manageFriendsModalOpen}
-        setManageFriendsModalOpen={setManageFriendsModalOpen}
-        users={users}
-        friends={friends}
-      />
-      <div className="friends-menu">
-        <div className="friends-display">
-          {friends.map((friend, i) => {
-            return (
-              <FriendItem
-                key={i}
-                friend={friend}
-                setSelectedChat={setSelectedChat}
-                selectedChat={selectedChat}
-              />
-            );
-          })}
-        </div>
-        <div className="friends-bottombar">
-          <div className="add-friends-link">
-            <Link onClick={() => setManageFriendsModalOpen(true)}>
-              <PeopleAltOutlinedIcon />
-              <p>Manage friends</p>
-              {friendRequests > 0 && (
-                <div id="notification-flag">{requestNo}</div>
-              )}
-            </Link>
-          </div>
-          <Autocomplete
-            disableCloseOnSelect
-            sx={{ width: "90%" }}
-            open={open}
-            onOpen={() => {
-              setOpen(true);
-            }}
-            onClose={() => {
-              setOpen(false);
-            }}
-            isOptionEqualToValue={(option, value) =>
-              option.DisplayName === value.name
-            }
-            getOptionLabel={(option) => option.DisplayName}
-            renderOption={(props, option) => (
-              <li>
-                <Chip
-                  clickable
-                  icon={<PersonOutlineOutlinedIcon />}
-                  className="friend-search-chip"
-                  label={option.DisplayName}
-                  sx={{ width: "100%" }}
-                  deleteIcon={
-                    <PersonAddOutlinedIcon className="add-friend-icon" />
-                  }
-                  onDelete={() => handleAddFriend(option)}
-                />
-              </li>
-            )}
-            options={options}
-            loading={loading}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                id="friends-searchbar"
-                variant="outlined"
-                placeholder="Add a new friend..."
-                value={searchString}
-                onChange={(event) => setSearchString(event.target.value)}
-                InputProps={{
-                  ...params.InputProps,
-                  endAdornment: (
-                    <>
-                      {loading ? (
-                        <CircularProgress color="inherit" size={20} />
-                      ) : (
-                        <InputAdornment position="end">
-                          <SearchIcon color="primary" />
-                        </InputAdornment>
-                      )}
-                    </>
-                  ),
-                }}
-              />
-            )}
+    <>
+      {fetching && <h2>loading...</h2>}
+      {!fetching && (
+        <div id="friends">
+          {/* Add friends confirmation modal */}
+          <AddFriendConfirmation
+            addFriendModalOpen={addFriendModalOpen}
+            setAddFriendModalOpen={setAddFriendModalOpen}
+            friendToAdd={friendToAdd}
           />
+          {/* Manage Friends Modal */}
+          <ManageFriendsModal
+            manageFriendsModalOpen={manageFriendsModalOpen}
+            setManageFriendsModalOpen={setManageFriendsModalOpen}
+            users={users}
+            friends={friends}
+            friendRequests={friendRequests}
+          />
+          <div className="friends-menu">
+            <div className="friends-display">
+              {friends.map((friend, i) => {
+                return (
+                  <FriendItem
+                    key={i}
+                    friend={friend}
+                    setSelectedChat={setSelectedChat}
+                    selectedChat={selectedChat}
+                  />
+                );
+              })}
+            </div>
+            <div className="friends-bottombar">
+              <div className="add-friends-link">
+                <Link onClick={() => setManageFriendsModalOpen(true)}>
+                  <PeopleAltOutlinedIcon />
+                  <p>Manage friends</p>
+                  {friendRequests > 0 && (
+                    <div id="notification-flag">{requestNo}</div>
+                  )}
+                </Link>
+              </div>
+              <Autocomplete
+                disableCloseOnSelect
+                sx={{ width: "90%" }}
+                open={open}
+                onOpen={() => {
+                  setOpen(true);
+                }}
+                onClose={() => {
+                  setOpen(false);
+                }}
+                isOptionEqualToValue={(option, value) =>
+                  option.DisplayName === value.name
+                }
+                getOptionLabel={(option) => option.DisplayName}
+                renderOption={(props, option) => (
+                  <li>
+                    <Chip
+                      clickable
+                      icon={<PersonOutlineOutlinedIcon />}
+                      className="friend-search-chip"
+                      label={option.DisplayName}
+                      sx={{ width: "100%" }}
+                      deleteIcon={
+                        <PersonAddOutlinedIcon className="add-friend-icon" />
+                      }
+                      onDelete={() => handleAddFriend(option)}
+                    />
+                  </li>
+                )}
+                options={options}
+                loading={loading}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="friends-searchbar"
+                    variant="outlined"
+                    placeholder="Add a new friend..."
+                    value={searchString}
+                    onChange={(event) => setSearchString(event.target.value)}
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <>
+                          {loading ? (
+                            <CircularProgress color="inherit" size={20} />
+                          ) : (
+                            <InputAdornment position="end">
+                              <SearchIcon color="primary" />
+                            </InputAdornment>
+                          )}
+                        </>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </div>
+          </div>
+          <div className="friends-chat-area">
+            <Outlet />
+            {!selectedChat && (
+              <>
+                <h2>No chat selected.</h2>
+                <h2>Open a conversation and start typing!</h2>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="friends-chat-area">
-        <Outlet />
-        {!selectedChat && (
-          <>
-            <h2>No chat selected.</h2>
-            <h2>Open a conversation and start typing!</h2>
-          </>
-        )}
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

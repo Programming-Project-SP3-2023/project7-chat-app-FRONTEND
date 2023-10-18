@@ -19,31 +19,9 @@ const ManageFriendsModal = ({
   setManageFriendsModalOpen,
   users,
   friends,
+  friendRequests
 }) => {
-  const [friendsRequestss, setFriendRequestss] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    async function fetchFriendRequests() {
-      setLoading(true);
-      const response = await getFriendRequests();
-
-      const temp = [];
-      if (users) {
-        users.forEach((user) => {
-          for (let i = 0; i < response.length; i++) {
-            if (user.AccountID === response[i].AddresseeID) {
-              temp.push(user);
-            }
-          }
-        });
-      }
-      setFriendRequestss(temp);
-    }
-
-    fetchFriendRequests();
-    setLoading(false);
-  }, [loading]);
 
   // handle modal closing
   const handleClose = () => setManageFriendsModalOpen(false);
@@ -69,12 +47,12 @@ const ManageFriendsModal = ({
           <h2>Manage Friends</h2>
         </div>
         <div id="manage-friends-modal-whitebox">
-          {friendsRequestss.map((friend, i) => {
+          {friendRequests && friendRequests.map((friend, i) => {
             return <UserChip key={i} user={friend} request={true} />;
           })}
-          {/* {friends.map((friend, i) => {
+          {friends && friends.map((friend, i) => {
             return <UserChip key={i} user={friend} request={false} />;
-          })} */}
+          })}
         </div>
         <div className="manage-friends-link">
           <PeopleAltOutlinedIcon />

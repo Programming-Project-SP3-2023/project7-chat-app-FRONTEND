@@ -17,7 +17,6 @@ import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
  */
 
 const UserChip = ({ user, request }) => {
-  // TODO - friend profile pic for Avatar component should come from the friend object (API call)
 
   // TO IMPLEMENT - function to accept friend request
   const acceptRequest = () => {
@@ -40,7 +39,7 @@ const UserChip = ({ user, request }) => {
       <Avatar
         className="user-chip-avatar"
         alt="Sample profile"
-        src={SAMPLE_PIC_1}
+        src={user.Avatar}
       />
       <div className="user-chip-main">
         <span>{user.DisplayName}</span>

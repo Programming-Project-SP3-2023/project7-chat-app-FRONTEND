@@ -105,7 +105,7 @@ export const getFriendRequests = async function () {
     if (response.status === 200) {
       console.log("Request sent");
       console.log(response.data.Message);
-      return response.data.friendships[0];
+      return response.data.friendships;
     }
     //Failed!
     else if (response.status === 401) {
@@ -137,7 +137,7 @@ export const getFriends = async function () {
     if (response.status === 200) {
       console.log("Request sent");
       console.log(response.data.Message);
-      return response.data.friendships[0];
+      return response.data.friendships;
     }
     //Failed!
     else if (response.status === 401) {

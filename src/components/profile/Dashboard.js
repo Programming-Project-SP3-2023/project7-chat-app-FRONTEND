@@ -61,8 +61,6 @@ const Dashboard = () => {
   const [selectedOpt, setSelectedOpt] = useState(0);
   // state handler for create group modal
   const [groupModalOpen, setGroupModalOpen] = useState(false);
-  // state handler for manage friends modal
-  const [manageFriendsModalOpen, setManageFriendsModalOpen] = useState(false);
 
   // make selected options persistent so it stays in the browser after refresh
   const handleSelectOption = (selected) => {
@@ -99,8 +97,6 @@ const Dashboard = () => {
             selectedOpt={selectedOpt}
             groupModalOpen={groupModalOpen}
             setGroupModalOpen={setGroupModalOpen}
-            manageFriendsModalOpen={manageFriendsModalOpen}
-            setManageFriendsModalOpen={setManageFriendsModalOpen}
           />
           <div className="dashboard-main">
             {/* Conditional rendering changing depending on selected option */}
