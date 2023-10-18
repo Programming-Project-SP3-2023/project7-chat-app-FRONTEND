@@ -26,7 +26,6 @@ const headers = {
  * Register a new user
  */
 export const register = async function (requestBody) {
-  console.log(BASE_URL);
   return await axios.post(REGISTER_ENDPOINT, requestBody);
 };
 
