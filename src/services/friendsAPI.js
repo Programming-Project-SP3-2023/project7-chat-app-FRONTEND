@@ -11,12 +11,14 @@ const BASE_URL = process.env.REACT_APP_BASEURL;
 const SEARCH_USER_ENDPOINT = BASE_URL + "friendships/search";
 const ADD_FRIEND_ENDPOINT = BASE_URL + "friendships/request";
 const GET_FRIENDSHIPS_ENDPOINT = BASE_URL + "friendships/friends";
+const ACCEPT_FRIENDSHIP_ENDPOINT = BASE_URL + "friendships/accept";
+const REMOVE_FRIENDSHIP_ENDPOINT = BASE_URL + "friendships/delete";
 
 // Auth setup
 const headers = {
   headers: {
     Authorization: getAccessToken(),
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   },
 };
 
@@ -53,7 +55,6 @@ export const getUsers = async function (filter) {
   return;
 };
 
-
 /**
  * Sends a friend request
  * @param {*} requesterID ID of who is sending the request
@@ -63,7 +64,7 @@ export const getUsers = async function (filter) {
 export const submitFriendRequest = async function (requesterID, requesteeID) {
   const body = {
     requesterID: requesterID,
-    requesteeID: requesteeID
+    requesteeID: requesteeID,
   };
 
   try {
@@ -95,7 +96,39 @@ export const submitFriendRequest = async function (requesterID, requesteeID) {
 export const getFriendRequests = async function () {
   const body = {
     currentUserID: getUserID(),
-    status: "Pending"
+    status: "Pending",
+  };
+
+  try {
+    let response = await axios.post(GET_FRIENDSHIPS_ENDPOINT, body, headers);
+
+    //Success!
+    if (response.status === 200) {
+      console.log("Request sent");
+      console.log(response.data.Message);
+      return response.data.friendships;
+    }
+    //Failed!
+    else if (response.status === 401) {
+      console.log(response.data.Message);
+      return [];
+    }
+  } catch (error) {
+    console.log("Error sending request");
+    console.log(error);
+  }
+
+  return ;
+};
+
+/**
+ * Gets all friends
+ * @returns list of friends
+ */
+export const getFriends = async function () {
+  const body = {
+    currentUserID: getUserID(),
+    status: "Active",
   };
 
   try {
@@ -121,23 +154,24 @@ export const getFriendRequests = async function () {
 };
 
 /**
- * Gets all friends
- * @returns list of friends
+ * Accept a friend request
+ * @param {*} requesterID ID of who is sending the request
+ * @returns confirmation/error message
  */
-export const getFriends = async function () {
+export const acceptFriendRequest = async function (requesterID) {
   const body = {
     currentUserID: getUserID(),
-    status: "Active"
+    requesterID: requesterID,
   };
 
   try {
-    let response = await axios.post(GET_FRIENDSHIPS_ENDPOINT, body, headers);
+    let response = await axios.put(ACCEPT_FRIENDSHIP_ENDPOINT, body, headers);
 
     //Success!
     if (response.status === 200) {
-      console.log("Request sent");
+      console.log("Friendship confirmed!");
       console.log(response.data.Message);
-      return response.data.friendships;
+      return response.data.Message;
     }
     //Failed!
     else if (response.status === 401) {
@@ -145,7 +179,49 @@ export const getFriends = async function () {
       return response.data.Message;
     }
   } catch (error) {
-    console.log("Error sending request");
+    console.log("An error occured while attempting to accept request.");
+    console.log(error);
+  }
+
+  return;
+};
+
+/**
+ * Accept a friend request
+ * @param {*} requesterID ID of who is sending the request
+ * @returns confirmation/error message
+ */
+export const removeFriendOrRequest = async function (requesterID) {
+  const body = {
+    data: {
+      currentUserID: getUserID(),
+      OtherUserID: requesterID,
+    },
+  };
+
+  console.log(body);
+  console.log(headers);
+
+  try {
+    let response = await axios.delete(REMOVE_FRIENDSHIP_ENDPOINT, body, {
+      headers: {
+        Authorization: getAccessToken(),
+      },
+    });
+
+    //Success!
+    if (response.status === 200) {
+      console.log("Friendship removed!");
+      console.log(response.data.Message);
+      return response.data.Message;
+    }
+    //Failed!
+    else if (response.status === 401) {
+      console.log(response.data.Message);
+      return response.data.Message;
+    }
+  } catch (error) {
+    console.log("An error occured while attempting to remove friendship.");
     console.log(error);
   }
 

@@ -3,9 +3,6 @@
  */
 
 import { Avatar } from "@mui/material";
-// PICS FOR TESTING **
-// import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
-import SAMPLE_PIC_2 from "../../assets/sample-pic-2.jpeg";
 
 /**
  * Builds and renders the Dashboard Menu Item component

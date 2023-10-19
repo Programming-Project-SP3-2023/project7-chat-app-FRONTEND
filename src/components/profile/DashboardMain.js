@@ -6,11 +6,13 @@ import DashboardMainColumn from "../partial/DashboardMainColumn";
 import ManageFriendsModal from "../partial/ManageFriendsModal";
 import AddGroup from "./AddGroup";
 import { useState, useEffect } from "react";
+import { getUserByID, getAvatarByID } from "../../services/userAPI";
 import {
   getUsers,
   getFriends,
   getFriendRequests,
 } from "../../services/friendsAPI";
+import { getUserID, setUserSession } from "../../utils/localStorage";
 /**
  * Builds and renders the Dashboard main menu component
  * @returns Dashboard Main Menu component render
@@ -28,7 +30,10 @@ const DashboardMain = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // Fetch all users, friends and friend requests
+  // trigger refresh flag 
+  const [refresh, setRefresh] = useState(false);
+
+  // Fetch user, all users, friends and friend requests
   useEffect(() => {
     // 1. set fetching state to true for page to be on hold (loading)
     setLoading(true);
@@ -49,10 +54,38 @@ const DashboardMain = () => {
 
     // 4. define fetch friends requests function
     async function fetchFriendRequests() {
+      setLoading(true);
+      console.log("RUNNING")
       const response = await getFriendRequests();
       console.log("REQUESTS: ", response);
 
       setFriendRequests(response);
+    }
+
+    // 5. fetch user details and send to local storage
+    async function fetchUser() {
+      const userID = getUserID();
+      const response = await getUserByID(userID);
+      const avatarResponse = await getAvatarByID(userID);
+
+      let user;
+      if (response && avatarResponse) {
+        user = {
+          email: response.email,
+          displayName: response.displayName,
+          dob: response.dob,
+          username: response.username,
+          image: avatarResponse.avatarData,
+        };
+      } else if (response && !avatarResponse) {
+        user = {
+          email: response.email,
+          displayName: response.displayName,
+          dob: response.dob,
+          username: response.username,
+        };
+      }
+      setUserSession(user);
     }
 
     // 5. Call functions
@@ -60,12 +93,14 @@ const DashboardMain = () => {
       await fetchUsers();
       await fetchFriends();
       await fetchFriendRequests();
+      await fetchUser();
       // once fetched, set fetching state to false
       setLoading(false);
+      setRefresh(false);
     }
 
     runFetch();
-  }, []);
+  }, [refresh]);
 
   return (
     <>
@@ -86,6 +121,7 @@ const DashboardMain = () => {
             setManageFriendsModalOpen={setManageFriendsModalOpen}
             friends={friends}
             friendRequests={friendRequests}
+            setRefresh={setRefresh}
           />
           <article className="dashboard-main-menu">
             <DashboardMainColumn title="My Friends" friends={friends} />

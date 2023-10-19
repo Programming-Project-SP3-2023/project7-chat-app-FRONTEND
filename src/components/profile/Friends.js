@@ -60,6 +60,9 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
 
   const [fetching, setFetching] = useState(false);
 
+  // trigger refresh flag
+  const [refresh, setRefresh] = useState(false);
+
   // Methods
   // Handle friend add
   const handleAddFriend = (option) => {
@@ -130,10 +133,11 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
       await fetchFriendRequests();
       // once fetched, set fetching state to false
       setFetching(false);
+      setRefresh(false);
     }
 
     runFetch();
-  }, []);
+  }, [refresh]);
 
   return (
     <>
@@ -157,6 +161,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
             users={users}
             friends={friends}
             friendRequests={friendRequests}
+            setRefresh={setRefresh}
           />
           <div className="friends-menu">
             <div className="friends-display">
