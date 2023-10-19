@@ -21,33 +21,34 @@ const DashboardMainColumn = ({
   title,
   setGroupModalOpen,
   setManageFriendsModalOpen,
+  friends,
 }) => {
-  const friends = [
-    { name: "Jack Sparrow", img: "something/src.jpg" },
-    { name: "Coco Wood", img: "something/src.jpg" },
-    { name: "Juliette Barton", img: "something/src.jpg" },
-    { name: "Mark Ruffalo", img: "something/src.jpg" },
-  ];
+  // const friends = [
+  //   { name: "Jack Sparrow", img: "something/src.jpg" },
+  //   { name: "Coco Wood", img: "something/src.jpg" },
+  //   { name: "Juliette Barton", img: "something/src.jpg" },
+  //   { name: "Mark Ruffalo", img: "something/src.jpg" },
+  // ];
 
-  const [onlineFriends, setOnlineFriends] = useState([]);
-  const { socket } = useSocket();
+  // const [onlineFriends, setOnlineFriends] = useState([]);
+  // const { socket } = useSocket();
 
-  // use effect hook
-  useEffect(() => {
-    // attempt to conect to socket getOnlineFriends
-    socket.on("getOnlineFriends", () => {
-      // fetch online friends
-      socket.emit("onlineFriends", (onlineFriends) => {
-        // set online friends
-        setOnlineFriends(onlineFriends);
-      });
-    });
+  // // use effect hook
+  // useEffect(() => {
+  //   // attempt to conect to socket getOnlineFriends
+  //   socket.on("getOnlineFriends", () => {
+  //     // fetch online friends
+  //     socket.emit("onlineFriends", (onlineFriends) => {
+  //       // set online friends
+  //       setOnlineFriends(onlineFriends);
+  //     });
+  //   });
 
-    // attempt to clean socket after fetching online friends
-    return () => {
-      socket.off("getOnlineFriends");
-    };
-  }, [socket]);
+  //   // attempt to clean socket after fetching online friends
+  //   return () => {
+  //     socket.off("getOnlineFriends");
+  //   };
+  // }, [socket]);
 
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
 
@@ -61,13 +62,23 @@ const DashboardMainColumn = ({
         <h3>{title}</h3>
       </div>
       <div className="column-options">
-        {/* Online friends and People in voice rendering */}
-        {title !== "Quick Actions" && (
+        {/* My friends rendering */}
+        {title === "My Friends" && (
           <>
-            {/* can be changed back to friends */}
-            {friends.map((friend, i) => {
-              return <MenuItem key={i} friend={friend} />;
-            })}
+            {friends &&
+              friends.map((friend, i) => {
+                return <MenuItem key={i} friend={friend} />;
+              })}
+          </>
+        )}
+        {/* Online friends rendering */}
+        {title === "Online Friends" && (
+          <>
+            {friends &&
+              friends.map((friend, i) => {
+                if (friends.status === 2)
+                  return <MenuItem key={i} friend={friend} />;
+              })}
           </>
         )}
         {/* Quick actions rendering */}

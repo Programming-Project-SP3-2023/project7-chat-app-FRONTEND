@@ -19,10 +19,9 @@ const ManageFriendsModal = ({
   setManageFriendsModalOpen,
   users,
   friends,
-  friendRequests
+  friendRequests,
+  setRefresh,
 }) => {
-  const [loading, setLoading] = useState(false);
-
   // handle modal closing
   const handleClose = () => setManageFriendsModalOpen(false);
 
@@ -47,12 +46,30 @@ const ManageFriendsModal = ({
           <h2>Manage Friends</h2>
         </div>
         <div id="manage-friends-modal-whitebox">
-          {friendRequests && friendRequests.map((friend, i) => {
-            return <UserChip key={i} user={friend} request={true} />;
-          })}
-          {friends && friends.map((friend, i) => {
-            return <UserChip key={i} user={friend} request={false} />;
-          })}
+          {friendRequests &&
+            friendRequests.map((friend, i) => {
+              return (
+                <UserChip
+                  key={i}
+                  user={friend}
+                  request={true}
+                  setRefresh={setRefresh}
+                  setManageFriendsModalOpen={setManageFriendsModalOpen}
+                />
+              );
+            })}
+          {friends &&
+            friends.map((friend, i) => {
+              return (
+                <UserChip
+                  key={i}
+                  user={friend}
+                  request={false}
+                  setRefresh={setRefresh}
+                  setManageFriendsModalOpen={setManageFriendsModalOpen}
+                />
+              );
+            })}
         </div>
         <div className="manage-friends-link">
           <PeopleAltOutlinedIcon />

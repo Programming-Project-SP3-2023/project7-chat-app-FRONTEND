@@ -6,6 +6,7 @@ import { Avatar } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { useSocket } from "../../services/SocketContext";
 // PIC FOR TESTING **
 import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
@@ -31,20 +32,28 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
   }, [colorID, setColorID]);
 
   // handle chat select
-  const handleSelect = async (event) => {
-    setLoading(true);
 
-    setSelectedChat(friend.id);
+  const handleSelect = () => {
+    let userID = "";
 
-    navigate(`/dashboard/friends/${friend.id}`); //
+    if (friend.RequesterID) userID = friend.RequesterID;
+    if (friend.AddresseeID) userID = friend.AddresseeID;
+
+    setSelectedChat(userID);
     socket.emit("connectChat", { chatID });
+    navigate(`/dashboard/friends/${userID}`);
   };
 
   return (
     <div
       className="friend-menu-item"
       onClick={handleSelect}
-      id={selectedChat === friend.id ? "friend-selected" : null}
+      id={
+        selectedChat === friend.RequesterID ||
+        selectedChat === friend.AddresseeID
+          ? "friend-selected"
+          : null
+      }
     >
       <Avatar
         className="menu-item-avatar"
