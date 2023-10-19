@@ -23,34 +23,23 @@ const DashboardMainColumn = ({
   setManageFriendsModalOpen,
   friends,
 }) => {
-  // const friends = [
-  //   { name: "Jack Sparrow", img: "something/src.jpg" },
-  //   { name: "Coco Wood", img: "something/src.jpg" },
-  //   { name: "Juliette Barton", img: "something/src.jpg" },
-  //   { name: "Mark Ruffalo", img: "something/src.jpg" },
-  // ];
-
-  // const [onlineFriends, setOnlineFriends] = useState([]);
+  const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
+  // method for checking online friends
   // const { socket } = useSocket();
+  // const [onlineFriends, setOnlineFriends] = useState([]);
 
-  // // use effect hook
   // useEffect(() => {
-  //   // attempt to conect to socket getOnlineFriends
   //   socket.on("getOnlineFriends", () => {
-  //     // fetch online friends
   //     socket.emit("onlineFriends", (onlineFriends) => {
-  //       // set online friends
   //       setOnlineFriends(onlineFriends);
+  //       console.log("online friends: ", onlineFriends);
   //     });
   //   });
 
-  //   // attempt to clean socket after fetching online friends
   //   return () => {
   //     socket.off("getOnlineFriends");
   //   };
   // }, [socket]);
-
-  const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
 
   const openEditProfileModal = () => {
     setEditProfileModalOpen(true);
