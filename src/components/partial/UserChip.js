@@ -7,31 +7,52 @@ import PersonRemoveAlt1OutlinedIcon from "@mui/icons-material/PersonRemoveAlt1Ou
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
-
-// PICS FOR TESTING **
-import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
+import {
+  acceptFriendRequest,
+  removeFriendOrRequest,
+} from "../../services/friendsAPI";
 
 /**
  * Builds and renders the User Chip Item component
  * @returns User Chip Item component render
  */
 
-const UserChip = ({ user, request }) => {
+const UserChip = ({ user, request, setRefresh, setManageFriendsModalOpen }) => {
+  // Accept a friend request
+  const acceptRequest = async () => {
+    // 1. get userID
+    let userID = "";
+    if (user.RequesterID) userID = user.RequesterID;
+    if (user.AddresseeID) userID = user.AddresseeID;
+    console.log(userID);
 
-  // TO IMPLEMENT - function to accept friend request
-  const acceptRequest = () => {
-    console.log("accepting request..")
-  }
+    // 2. Send request to endpoint
+    const response = await acceptFriendRequest(userID);
+    console.log(response);
 
-  // TO IMPLEMENT - function to refuse friend request
-  const refuseRequest = () => {
-    console.log("refusing request...");
-  }
+    // 3. notify user and refresh data
+    alert("Friend accepted!");
+    setRefresh(true);
+    setManageFriendsModalOpen(false);
+  };
 
-  // TO IMPLEMENT - function to remove friend 
-  const removeFriend = () => {
-    console.log("removing friend...")
-  }
+  // Remove a friend
+  const removeFriend = async () => {
+    // 1. get userID
+    let userID = "";
+    if (user.RequesterID) userID = user.RequesterID;
+    if (user.AddresseeID) userID = user.AddresseeID;
+    console.log(userID);
+
+    // 2. Send request to endpoint
+    const response = await removeFriendOrRequest(userID);
+    console.log(response);
+
+    // 3. notify user and refresh data
+    alert("Friend removed");
+    setRefresh(true);
+    setManageFriendsModalOpen(false);
+  };
 
   return (
     <div className="user-chip" id={request && "friends-request"}>
@@ -47,12 +68,21 @@ const UserChip = ({ user, request }) => {
           <>
             <h5>Friend request</h5>
             <span className="friend-request-icons">
-              <DoneOutlinedIcon className="friend-request-accept" onClick={acceptRequest} />{" "}
-              <CloseOutlinedIcon className="friend-request-refuse" onClick={refuseRequest} />
+              <DoneOutlinedIcon
+                className="friend-request-accept"
+                onClick={acceptRequest}
+              />{" "}
+              <CloseOutlinedIcon
+                className="friend-request-refuse"
+                onClick={removeFriend}
+              />
             </span>
           </>
         ) : (
-          <PersonRemoveAlt1OutlinedIcon className="remove-friends-icon" onClick={removeFriend} />
+          <PersonRemoveAlt1OutlinedIcon
+            className="remove-friends-icon"
+            onClick={removeFriend}
+          />
         )}
       </div>
     </div>
