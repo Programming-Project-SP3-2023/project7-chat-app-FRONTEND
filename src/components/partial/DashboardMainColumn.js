@@ -19,14 +19,8 @@ const DashboardMainColumn = ({
   title,
   setGroupModalOpen,
   setManageFriendsModalOpen,
+  friends,
 }) => {
-  const friends = [
-    { name: "Jack Sparrow", img: "something/src.jpg" },
-    { name: "Coco Wood", img: "something/src.jpg" },
-    { name: "Juliette Barton", img: "something/src.jpg" },
-    { name: "Mark Ruffalo", img: "something/src.jpg" },
-  ];
-
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
 
   const openEditProfileModal = () => {
@@ -39,12 +33,23 @@ const DashboardMainColumn = ({
         <h3>{title}</h3>
       </div>
       <div className="column-options">
-        {/* Online friends and People in voice rendering */}
-        {title !== "Quick Actions" && (
+        {/* My friends rendering */}
+        {title === "My Friends" && (
           <>
-            {friends.map((friend, i) => {
-              return <MenuItem key={i} friend={friend} />;
-            })}
+            {friends &&
+              friends.map((friend, i) => {
+                return <MenuItem key={i} friend={friend} />;
+              })}
+          </>
+        )}
+        {/* Online friends rendering */}
+        {title === "Online Friends" && (
+          <>
+            {friends &&
+              friends.map((friend, i) => {
+                if (friends.status === 2)
+                  return <MenuItem key={i} friend={friend} />;
+              })}
           </>
         )}
         {/* Quick actions rendering */}

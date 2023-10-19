@@ -7,9 +7,6 @@ import CircleIcon from "@mui/icons-material/Circle";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-// PIC FOR TESTING **
-import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
-
 /**
  * Builds and renders the Friend Label Item component
  * @returns Friend Label Item component render
@@ -31,15 +28,25 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
 
   // handle chat select
   const handleSelect = () => {
-    setSelectedChat(friend.id);
-    navigate(`/dashboard/friends/${friend.id}`);
+    let userID = "";
+
+    if (friend.RequesterID) userID = friend.RequesterID;
+    if (friend.AddresseeID) userID = friend.AddresseeID;
+
+    setSelectedChat(userID);
+    navigate(`/dashboard/friends/${userID}`);
   };
 
   return (
     <div
       className="friend-menu-item"
       onClick={handleSelect}
-      id={selectedChat === friend.id ? "friend-selected" : null}
+      id={
+        selectedChat === friend.RequesterID ||
+        selectedChat === friend.AddresseeID
+          ? "friend-selected"
+          : null
+      }
     >
       <Avatar
         className="menu-item-avatar"

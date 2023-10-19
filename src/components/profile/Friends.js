@@ -133,12 +133,15 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
     }
 
     runFetch();
- 
-  },[]);
+  }, []);
 
   return (
     <>
-      {fetching && <h2>loading...</h2>}
+      {fetching && (
+        <div id="loading-screen">
+          <h2>Loading user data...</h2>
+        </div>
+      )}
       {!fetching && (
         <div id="friends">
           {/* Add friends confirmation modal */}

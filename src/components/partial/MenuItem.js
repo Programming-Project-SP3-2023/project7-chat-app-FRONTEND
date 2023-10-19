@@ -17,8 +17,8 @@ const MenuItem = ({friend}) => {
   // TODO - friend profile pic for Avatar component should come from the friend object (API call)
 
   return <div className="dashboard-menu-item">
-    <Avatar className="menu-item-avatar" alt="Sample profile" src={SAMPLE_PIC_2} />
-    <span>{friend.name}</span>
+    <Avatar className="menu-item-avatar" alt="Sample profile" src={friend.Avatar} />
+    <span>{friend.DisplayName}</span>
   </div>;
 };
 

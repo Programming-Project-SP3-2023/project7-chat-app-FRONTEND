@@ -21,6 +21,7 @@ import { getUserByID, getAvatarByID } from "../../services/userAPI";
 const Dashboard = () => {
   const [loading, setLoading] = useState(false);
 
+  // fetch user data
   useEffect(() => {
     setLoading(true);
     const userID = getUserID();
