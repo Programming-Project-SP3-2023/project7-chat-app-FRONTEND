@@ -15,6 +15,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
 import {
+  getUserID,
   setAccessToken,
   setSideMenuOption,
   setUserID,
@@ -23,6 +24,8 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { login } from "../../services/userAPI";
+
+import { useSocket } from "../../services/SocketContext";
 
 /**
  * Builds and renders the login component
@@ -35,6 +38,7 @@ const Login = ({ setIsLoggedIn }) => {
   const [message, setMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { loginSocket, socket } = useSocket();
 
   // loading state handler
   const [loading, setLoading] = useState(false);
@@ -63,11 +67,16 @@ const Login = ({ setIsLoggedIn }) => {
 
         response = await login(requestBody);
         setMessage("Login Succesful");
+
         setUserID(response.data.AccountID);
         setAccessToken(response.data.token);
         setUserSession(requestBody);
         setSideMenuOption(0);
         setIsLoggedIn(true);
+
+        // get session stored user / rather than fetching twice
+        // socket.connect();
+        loginSocket(response.data.AccountID, username);
         // navigate to dashboard
         navigate("/dashboard");
       } catch (error) {

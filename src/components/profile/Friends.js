@@ -25,6 +25,8 @@ import {
   getFriendRequests,
 } from "../../services/friendsAPI";
 
+import { useSocket } from "../../services/SocketContext";
+
 /**
  * Builds and renders the friends chats component
  * @returns Friends chats component render
@@ -38,6 +40,8 @@ function sleep(delay = 0) {
 }
 
 const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
+  //const socket = useSocket();
+
   // dummy friends objects for development.
   // the lastSent flag is denoting if the friend was the last to send a message. If true, the last chat message comes from the friend, else from the logged in user
   // the status flag is set to 0, 1 or 2. 0=offline, 1=busy, 2=online

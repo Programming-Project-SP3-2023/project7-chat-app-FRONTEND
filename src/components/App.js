@@ -29,7 +29,6 @@ function App() {
   const user = getUser();
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   const [refresh, setRefresh] = useState(false);
-  const socket = useSocket();
 
   useEffect(() => {
     setIsLoggedIn(user ? true : false);
@@ -49,10 +48,10 @@ function App() {
         <Route path="dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />}>
           <Route index element={<DashboardMain />} />
           <Route path="friends" element={<Friends />}>
-            <Route path=":id" element={<ChatUI socket={socket} />} />
+            <Route path=":id" element={<ChatUI />} />
           </Route>
           <Route path="groups" element={<Groups />}>
-            <Route path=":id" element={<ChatUI socket={socket} />} />
+            <Route path=":id" element={<ChatUI />} />
           </Route>
         </Route>
         <Route path="channels">

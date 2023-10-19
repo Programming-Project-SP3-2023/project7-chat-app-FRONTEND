@@ -11,7 +11,7 @@ import {
   FormControl,
   Badge,
 } from "@mui/material";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
@@ -19,49 +19,106 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 
 // date time formatter
 import dayjs from "dayjs";
+// useParams can be used to get the url id
+import { useParams } from "react-router-dom";
+import { useSocket } from "../../services/SocketContext";
+import { getUserID, getUser } from "../../utils/localStorage";
 
 /**
  * Builds and renders the homepage component
  * @returns Homepage component render
  */
-const ChatUI = ({ socket }) => {
+const ChatUI = () => {
+  const { socket } = useSocket();
+  const [loading, setLoading] = useState(true); // set loading to true
+
+  // const { id } = useParams(); // gets id from url id
+  // const chatID = id;
+  const chatID = 10001001; // temp for testing
+
+  // Props for messages
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
   const [typingStatus, setTypingStatus] = useState("");
+  // const [selectedFile, setSelectedFile] = useState(null);
+  // const hiddenFileInput = useRef(null);
+  const lastMessageRef = useRef(null); // for scrolling to latest message
 
-  // image related
-  const [selectedFile, setSelectedFile] = useState(null);
-  const hiddenFileInput = useRef(null);
+  // getting local user
+  const userId = getUserID();
+  const username = getUser();
 
-  // for autoscrolling to the latest message
-  const lastMessageRef = useRef(null);
-  const username = socket.id; //tempory accesor to access socket id as user.
-
-  const handleTyping = () => {
-    socket.emit("typing", `${localStorage.getItem("user")} is typing`);
-  };
-
-  //image file button click
-  const handleClick = (event) => {
-    hiddenFileInput.current.click();
-  };
-
-  // TODO handle image rendering in useEffect > messageResponse
-
-  // for handling message display
+  // render on page chat
   useEffect(() => {
-    socket.on("messageResponse", (data) => setMessages([...messages, data]));
-  }, [socket, messages]);
+    setLoading(true); // loading
+    socket.emit("connectChat", chatID);
 
-  // for handling auto-scrolling of lastest message (into scrollIntoView)
+    //open listener on message response. for data
+    socket.on("messageResponse", (data) => {
+      console.log("recieved message response", data);
+    });
+
+    // open listener of messageHistory for messages
+    socket.on("messageHistory", (messages) => {
+      // set messages recieved
+      // console.log("Recieved message history inside chat: ", messages); // gets all messages
+      // console.log("single message", messages[0][0]); // returns a single message
+      setMessages(messages.flat().reverse());
+      setLoading(false); //set loading as false
+    });
+    // ask for messages
+    socket.emit("getMessages", { chatID: chatID });
+
+    // close listeners
+    return () => {
+      socket.off("messageHistory");
+    };
+  }, [chatID, socket]);
+
+  //handle auto-scrolling to latest message
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // for handling user typing
+  // for emiting typing
+  const handleTyping = useCallback(() => {
+    socket.emit("typing", { username });
+  }, [socket, username]);
+
+  // for recieving typing
   useEffect(() => {
-    socket.on("typingResponse", (data) => setTypingStatus(data));
-  }, [socket]);
+    socket.on("typing", (data) =>
+      socket.broadcast.emit("typingResponse", data)
+    );
+
+    socket.on("typing", handleTyping);
+
+    return () => {
+      socket.off("typing", handleTyping);
+    };
+  }, [userId, handleTyping, socket]);
+
+  //Message submit handling
+  const handleMessageSubmit = (event) => {
+    event.preventDefault();
+    console.log("Message Handler");
+    const newTimestamp = dayjs(new Date());
+    const messageText = messageInput.toString(); // convert user input to string
+
+    // currently being used for local display
+    const newMessage = {
+      ChatID: chatID,
+      MessageBody: messageText,
+      SenderID: userId,
+      TimeSent: newTimestamp,
+    };
+    // sending > emit message of chatID and string of message
+    socket.emit("sendMessage", { chatID, message: messageText });
+
+    setMessages([...messages, newMessage]); //set local messages
+    setMessageInput("");
+    setTypingStatus("");
+  };
 
   // format date / time
   const formatDateTime = (timestamp) => {
@@ -73,64 +130,55 @@ const ChatUI = ({ socket }) => {
       formatTimestamp = dayjs(timestamp).format("HH:mm");
       // else return date and time
     } else {
+      // format time and date
       formatTimestamp = dayjs(timestamp).format("ddd D MMM | HH:mm");
     }
     return formatTimestamp;
   };
 
-  //Message submit handling
-  const handleMessageSubmit = (event) => {
-    event.preventDefault();
+  // //image file button click
+  // const handleClick = (event) => {
+  //   hiddenFileInput.current.click();
+  // };
 
-    console.log("Message Handler");
+  // TODO update image handling into base64
 
-    const newTimestamp = dayjs(new Date());
-    console.log(newTimestamp);
+  // //Image submit handling
+  // const handleFileSubmit = (event) => {
+  //   event.preventDefault();
 
-    if (messageInput.trim() !== "") {
-      socket.emit("message", {
-        user: username,
-        text: messageInput,
-        timestamp: newTimestamp,
-        socketID: socket.id,
-      });
+  //   const newTimestamp = dayjs(new Date());
+  //   const file = event.target.files[0];
 
-      setMessageInput("");
-    }
-  };
+  //   if (file) {
+  //     if (file.type && file.type.startsWith("image/")) {
+  //       console.log("image");
 
-  //Image submit handling
-  const handleFileSubmit = (event) => {
-    event.preventDefault();
+  //       const newImage = {
+  //         MessageID: messageId,
+  //         Image: file,
+  //         SenderID: userId,
+  //         TimeSent: newTimestamp,
+  //       };
+  //       socket.emit("privateMessage", { message: newImage });
+  //     } else {
+  //       console.log("randomfile");
 
-    const newTimestamp = dayjs(new Date());
-    const file = event.target.files[0];
+  //       const newFile = {
+  //         MessageID: messageId,
+  //         File: file,
+  //         FileName: file.name,
+  //         FileType: file.type.split("/")[1], // file type is not currently simple name
+  //         FileSize: file.size, // currently passing file size in bytes
+  //         SenderID: userId,
+  //         TimeSent: newTimestamp,
+  //       };
+  //       socket.emit("privateMessage", { message: newFile });
+  //     }
+  //   }
 
-    if (file) {
-      if (file.type && file.type.startsWith("image/")) {
-        console.log("image");
-        socket.emit("message", {
-          user: username,
-          image: file,
-          timestamp: newTimestamp,
-          socketID: socket.id,
-        });
-      } else {
-        console.log("randomfile");
-        socket.emit("message", {
-          user: username,
-          file: file,
-          fileName: file.name,
-          fileType: file.type.split("/")[1], // file type is not currently simple name
-          fileSize: file.size, // currently passing file size in bytes
-          timestamp: newTimestamp,
-          socketID: socket.id,
-        });
-      }
-    }
-
-    setSelectedFile(null);
-  };
+  //   setSelectedFile(null);
+  // };
 
   return (
     <Box
@@ -141,121 +189,128 @@ const ChatUI = ({ socket }) => {
       }}
       id="chat-ui-container"
     >
-      {/* USER */}
-      <div className="chat-messages">
-        {messages.map((message, index) =>
-          message.name === localStorage.getItem("user") ? ( //currently gets local stored user
-            <div
-              ref={lastMessageRef}
-              className="message-content"
-              key={`user-message-${index}`}
-            >
-              <div className="message-timestamp">
-                {formatDateTime(messages.timestamp)}
-              </div>
-              {/* message only rendering */}
-              {message.text && (
-                <div className="message-user">
-                  <div id="message">{message.text}</div>
+      {loading ? (
+        <div>
+          <p>Loading...</p>
+        </div>
+      ) : (
+        <div className="chat-messages">
+          {messages.map((message, index) =>
+            message.SenderID === userId ? ( //currently gets local stored user
+              <div
+                ref={lastMessageRef}
+                className="message-content"
+                key={`user-message-${index}`}
+              >
+                <div className="message-timestamp">
+                  {formatDateTime(message.TimeSent)}
                 </div>
-              )}
-
-              {/* renders image if available */}
-              {message.image && (
-                <div className="message-user">
-                  <div
-                    id="message-image-container"
-                    className={`message-image-container`}
-                  >
-                    <img
-                      id="message-image"
-                      className={`message-image other`}
-                      src={message.image}
-                      alt={message.image}
-                    />
+                {/* message only rendering */}
+                {message.MessageBody && (
+                  <div className="message-user">
+                    <div id="message">{message.MessageBody}</div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {message.file && (
-                <div id="message-file">
-                  <div>
-                    <Badge
-                      id="message-file-mui"
-                      fontsize="large"
-                      anchorOrigin={{
-                        vertical: "center",
-                        horizontal: "center",
-                      }}
-                      badgeContent={message.fileType}
+                {/* renders image if available */}
+                {message.Image && (
+                  <div className="message-user">
+                    <div
+                      id="message-image-container"
+                      className={`message-image-container`}
                     >
-                      <InsertDriveFileOutlinedIcon fontSize="large" />
-                    </Badge>
+                      <img
+                        id="message-image"
+                        className={`message-image other`}
+                        src={message.Image}
+                        alt={message.Image}
+                      />
+                    </div>
                   </div>
-                  <div className="file-name">{message.fileName}</div>
-                  <div className="file-size">{message.fileSize}</div>
-                </div>
-              )}
-            </div>
-          ) : (
-            // OTHER
-            <div
-              ref={lastMessageRef}
-              className="message-content"
-              key={`user-message-${index}`}
-            >
-              <div className="message-timestamp">
-                {formatDateTime(messages.timestamp)}
-              </div>
-              {/* renders text if available */}
-              {message.text && (
-                <div className="message-other">
-                  <Avatar
-                    alt={`User ${message.user}`}
-                    src={message.userAvatar}
-                  />
-                  <div id="message">{message.text}</div>
-                </div>
-              )}
+                )}
 
-              {/* renders image if available */}
-              {message.image && (
-                <div className="message-other">
-                  <div id="message-image-container" className={`message-other`}>
-                    <img
-                      id="message-image"
+                {message.File && (
+                  <div id="message-file">
+                    <div>
+                      <Badge
+                        id="message-file-mui"
+                        fontsize="large"
+                        anchorOrigin={{
+                          vertical: "center",
+                          horizontal: "center",
+                        }}
+                        badgeContent={message.FileType}
+                      >
+                        <InsertDriveFileOutlinedIcon fontSize="large" />
+                      </Badge>
+                    </div>
+                    <div className="file-name">{message.FileName}</div>
+                    <div className="file-size">{message.FileSize}</div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // OTHER
+              <div
+                ref={lastMessageRef}
+                className="message-content"
+                key={`user-message-${index}`}
+              >
+                <div className="message-timestamp">
+                  {formatDateTime(message.TimeSent)}
+                </div>
+                {/* renders text if available */}
+                {message.MessageBody && (
+                  <div className="message-other">
+                    <Avatar
+                      alt={`User ${message.SenderID}`}
+                      src={message.SenderID.Avatar}
+                    />
+                    <div id="message">{message.MessageBody}</div>
+                  </div>
+                )}
+
+                {/* renders image if available */}
+                {message.Image && (
+                  <div className="message-other">
+                    <div
+                      id="message-image-container"
                       className={`message-other`}
-                      src={message.image}
-                      alt={message.image}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {message.file && (
-                <div id="message-file">
-                  <div>
-                    <Badge
-                      id="message-file-mui"
-                      fontsize="large"
-                      anchorOrigin={{
-                        vertical: "center",
-                        horizontal: "center",
-                      }}
-                      badgeContent={message.fileType}
                     >
-                      <InsertDriveFileOutlinedIcon fontSize="large" />
-                    </Badge>
+                      <img
+                        id="message-image"
+                        className={`message-other`}
+                        src={message.Image}
+                        alt={message.Image}
+                      />
+                    </div>
                   </div>
-                  <div className="file-name">{message.fileName}</div>
-                  <div className="file-size">{message.fileSize}</div>
-                </div>
-              )}
-            </div>
-          )
-        )}
-      </div>
+                )}
 
+                {message.File && (
+                  <div id="message-file">
+                    <div>
+                      <Badge
+                        id="message-file-mui"
+                        fontsize="large"
+                        anchorOrigin={{
+                          vertical: "center",
+                          horizontal: "center",
+                        }}
+                        badgeContent={message.FileType}
+                      >
+                        <InsertDriveFileOutlinedIcon fontSize="large" />
+                      </Badge>
+                    </div>
+                    <div className="file-name">{message.FileName}</div>
+                    <div className="file-size">{message.FileSize}</div>
+                  </div>
+                )}
+              </div>
+            )
+          )}
+        </div>
+      )}
       {/* typing status */}
       <div className="message-status">
         <p>{typingStatus}</p>
@@ -278,17 +333,18 @@ const ChatUI = ({ socket }) => {
                   <ButtonGroup>
                     <IconButton
                       className="image-select-button"
-                      onClick={handleClick}
+                      // onClick={handleClick}
                     >
                       <input
                         hidden
                         // types of files that are accepted
-                        inputProps={{ accept: "image/*, .pdf, .doc, .txt" }}
+                        // add to include .pdf, .doc, .txt
+                        accept="image/*"
                         id="file-input"
                         type="file"
-                        ref={hiddenFileInput}
+                        // ref={hiddenFileInput}
                         style={{ display: "none" }}
-                        onChange={handleFileSubmit}
+                        // onChange={handleFileSubmit}
                       />
                       <AttachFileIcon />
                     </IconButton>

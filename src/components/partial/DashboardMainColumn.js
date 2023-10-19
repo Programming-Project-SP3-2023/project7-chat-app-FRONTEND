@@ -6,7 +6,9 @@ import MenuItem from "./MenuItem";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import { useSocket } from "../../services/SocketContext";
 
 import EditProfile from "../profile/EditProfile";
 
@@ -22,6 +24,22 @@ const DashboardMainColumn = ({
   friends,
 }) => {
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
+  // method for checking online friends
+  // const { socket } = useSocket();
+  // const [onlineFriends, setOnlineFriends] = useState([]);
+
+  // useEffect(() => {
+  //   socket.on("getOnlineFriends", () => {
+  //     socket.emit("onlineFriends", (onlineFriends) => {
+  //       setOnlineFriends(onlineFriends);
+  //       console.log("online friends: ", onlineFriends);
+  //     });
+  //   });
+
+  //   return () => {
+  //     socket.off("getOnlineFriends");
+  //   };
+  // }, [socket]);
 
   const openEditProfileModal = () => {
     setEditProfileModalOpen(true);
