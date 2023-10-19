@@ -19,6 +19,7 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 
 // date time formatter
 import dayjs from "dayjs";
+// useParams can be used to get the url id
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
 import { getUserID, getUser } from "../../utils/localStorage";
@@ -29,49 +30,52 @@ import { getUserID, getUser } from "../../utils/localStorage";
  */
 const ChatUI = () => {
   const { socket } = useSocket();
+  const [loading, setLoading] = useState(true); // set loading to true
 
   // const { id } = useParams(); // gets id from url id
   // const chatID = id;
+  const chatID = 10001001; // temp for testing
 
-  const chatID = 10001001;
   // Props for messages
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
   const [typingStatus, setTypingStatus] = useState("");
-  const [messageId, setMessageId] = useState(1);
+  // const [selectedFile, setSelectedFile] = useState(null);
+  // const hiddenFileInput = useRef(null);
+  const lastMessageRef = useRef(null); // for scrolling to latest message
 
+  // getting local user
   const userId = getUserID();
   const username = getUser();
 
-  // // image related
-  // const [selectedFile, setSelectedFile] = useState(null);
-  // const hiddenFileInput = useRef(null);
-
-  // latest ref to scroll to latest message sent
-  const lastMessageRef = useRef(null);
-
   // render on page chat
   useEffect(() => {
+    setLoading(true); // loading
     socket.emit("connectChat", chatID);
 
+    //open listener on message response. for data
     socket.on("messageResponse", (data) => {
       console.log("recieved message response", data);
     });
 
+    // open listener of messageHistory for messages
     socket.on("messageHistory", (messages) => {
-      setMessages(messages.flat());
-      console.log("Recieved message history inside chat: ", messages);
-      console.log("single message", messages[0][0]);
+      // set messages recieved
+      // console.log("Recieved message history inside chat: ", messages); // gets all messages
+      // console.log("single message", messages[0][0]); // returns a single message
+      setMessages(messages.flat().reverse());
+      setLoading(false); //set loading as false
     });
-
+    // ask for messages
     socket.emit("getMessages", { chatID: chatID });
 
+    // close listeners
     return () => {
       socket.off("messageHistory");
     };
   }, [chatID, socket]);
 
-  // handle auto-scrolling to latest message
+  //handle auto-scrolling to latest message
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -99,23 +103,19 @@ const ChatUI = () => {
     event.preventDefault();
     console.log("Message Handler");
     const newTimestamp = dayjs(new Date());
-    const messageText = messageInput.toString();
+    const messageText = messageInput.toString(); // convert user input to string
 
-    // console.log("userID: " + userId);
-    // const TimeSent = new dayjs().format("YYYY-MM-DDTHH:mm.ssZ");
-
+    // currently being used for local display
     const newMessage = {
-      Message: messageId,
       ChatID: chatID,
       MessageBody: messageText,
       SenderID: userId,
       TimeSent: newTimestamp,
     };
-    // console.log("new Timestamp: " + TimeSent);
+    // sending > emit message of chatID and string of message
     socket.emit("sendMessage", { chatID, message: messageText });
 
-    setMessages([...messages, newMessage]);
-    setMessageId(messageId + 1);
+    setMessages([...messages, newMessage]); //set local messages
     setMessageInput("");
     setTypingStatus("");
   };
@@ -130,6 +130,7 @@ const ChatUI = () => {
       formatTimestamp = dayjs(timestamp).format("HH:mm");
       // else return date and time
     } else {
+      // format time and date
       formatTimestamp = dayjs(timestamp).format("ddd D MMM | HH:mm");
     }
     return formatTimestamp;
@@ -188,121 +189,128 @@ const ChatUI = () => {
       }}
       id="chat-ui-container"
     >
-      {/* USER */}
-      <div className="chat-messages">
-        {messages.map((message, index) =>
-          message.SenderID === userId ? ( //currently gets local stored user
-            <div
-              ref={lastMessageRef}
-              className="message-content"
-              key={`user-message-${index}`}
-            >
-              <div className="message-timestamp">
-                {formatDateTime(message.TimeSent)}
-              </div>
-              {/* message only rendering */}
-              {message.MessageBody && (
-                <div className="message-user">
-                  <div id="message">{message.MessageBody}</div>
+      {loading ? (
+        <div>
+          <p>Loading...</p>
+        </div>
+      ) : (
+        <div className="chat-messages">
+          {messages.map((message, index) =>
+            message.SenderID === userId ? ( //currently gets local stored user
+              <div
+                ref={lastMessageRef}
+                className="message-content"
+                key={`user-message-${index}`}
+              >
+                <div className="message-timestamp">
+                  {formatDateTime(message.TimeSent)}
                 </div>
-              )}
-
-              {/* renders image if available */}
-              {message.Image && (
-                <div className="message-user">
-                  <div
-                    id="message-image-container"
-                    className={`message-image-container`}
-                  >
-                    <img
-                      id="message-image"
-                      className={`message-image other`}
-                      src={message.Image}
-                      alt={message.Image}
-                    />
+                {/* message only rendering */}
+                {message.MessageBody && (
+                  <div className="message-user">
+                    <div id="message">{message.MessageBody}</div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {message.File && (
-                <div id="message-file">
-                  <div>
-                    <Badge
-                      id="message-file-mui"
-                      fontsize="large"
-                      anchorOrigin={{
-                        vertical: "center",
-                        horizontal: "center",
-                      }}
-                      badgeContent={message.FileType}
+                {/* renders image if available */}
+                {message.Image && (
+                  <div className="message-user">
+                    <div
+                      id="message-image-container"
+                      className={`message-image-container`}
                     >
-                      <InsertDriveFileOutlinedIcon fontSize="large" />
-                    </Badge>
+                      <img
+                        id="message-image"
+                        className={`message-image other`}
+                        src={message.Image}
+                        alt={message.Image}
+                      />
+                    </div>
                   </div>
-                  <div className="file-name">{message.FileName}</div>
-                  <div className="file-size">{message.FileSize}</div>
-                </div>
-              )}
-            </div>
-          ) : (
-            // OTHER
-            <div
-              ref={lastMessageRef}
-              className="message-content"
-              key={`user-message-${index}`}
-            >
-              <div className="message-timestamp">
-                {formatDateTime(message.TimeSent)}
-              </div>
-              {/* renders text if available */}
-              {message.MessageBody && (
-                <div className="message-other">
-                  <Avatar
-                    alt={`User ${message.SenderID}`}
-                    src={message.SenderID.Avatar}
-                  />
-                  <div id="message">{message.MessageBody}</div>
-                </div>
-              )}
+                )}
 
-              {/* renders image if available */}
-              {message.Image && (
-                <div className="message-other">
-                  <div id="message-image-container" className={`message-other`}>
-                    <img
-                      id="message-image"
+                {message.File && (
+                  <div id="message-file">
+                    <div>
+                      <Badge
+                        id="message-file-mui"
+                        fontsize="large"
+                        anchorOrigin={{
+                          vertical: "center",
+                          horizontal: "center",
+                        }}
+                        badgeContent={message.FileType}
+                      >
+                        <InsertDriveFileOutlinedIcon fontSize="large" />
+                      </Badge>
+                    </div>
+                    <div className="file-name">{message.FileName}</div>
+                    <div className="file-size">{message.FileSize}</div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // OTHER
+              <div
+                ref={lastMessageRef}
+                className="message-content"
+                key={`user-message-${index}`}
+              >
+                <div className="message-timestamp">
+                  {formatDateTime(message.TimeSent)}
+                </div>
+                {/* renders text if available */}
+                {message.MessageBody && (
+                  <div className="message-other">
+                    <Avatar
+                      alt={`User ${message.SenderID}`}
+                      src={message.SenderID.Avatar}
+                    />
+                    <div id="message">{message.MessageBody}</div>
+                  </div>
+                )}
+
+                {/* renders image if available */}
+                {message.Image && (
+                  <div className="message-other">
+                    <div
+                      id="message-image-container"
                       className={`message-other`}
-                      src={message.Image}
-                      alt={message.Image}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {message.File && (
-                <div id="message-file">
-                  <div>
-                    <Badge
-                      id="message-file-mui"
-                      fontsize="large"
-                      anchorOrigin={{
-                        vertical: "center",
-                        horizontal: "center",
-                      }}
-                      badgeContent={message.FileType}
                     >
-                      <InsertDriveFileOutlinedIcon fontSize="large" />
-                    </Badge>
+                      <img
+                        id="message-image"
+                        className={`message-other`}
+                        src={message.Image}
+                        alt={message.Image}
+                      />
+                    </div>
                   </div>
-                  <div className="file-name">{message.FileName}</div>
-                  <div className="file-size">{message.FileSize}</div>
-                </div>
-              )}
-            </div>
-          )
-        )}
-      </div>
+                )}
 
+                {message.File && (
+                  <div id="message-file">
+                    <div>
+                      <Badge
+                        id="message-file-mui"
+                        fontsize="large"
+                        anchorOrigin={{
+                          vertical: "center",
+                          horizontal: "center",
+                        }}
+                        badgeContent={message.FileType}
+                      >
+                        <InsertDriveFileOutlinedIcon fontSize="large" />
+                      </Badge>
+                    </div>
+                    <div className="file-name">{message.FileName}</div>
+                    <div className="file-size">{message.FileSize}</div>
+                  </div>
+                )}
+              </div>
+            )
+          )}
+        </div>
+      )}
       {/* typing status */}
       <div className="message-status">
         <p>{typingStatus}</p>

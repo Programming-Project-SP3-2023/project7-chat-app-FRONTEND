@@ -34,13 +34,13 @@ export function SocketProvider({ children }) {
       console.log("Online friends: ", friends);
     });
 
-    socket.on("messageHistory", (messages) => {
-      console.log("Recieved message history: ", messages);
-    });
+    // socket.on("messageHistory", (messages) => {
+    //   console.log("Recieved message history: ", messages);
+    // });
 
-    socket.on("messageResponse", (data) => {
-      console.log("recieved message response", data);
-    });
+    // socket.on("messageResponse", (data) => {
+    //   console.log("recieved message response", data);
+    // });
 
     socket.on("userConnected", (userDetails) => {
       console.log("User Connected: ", userDetails);

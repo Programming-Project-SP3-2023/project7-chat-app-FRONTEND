@@ -19,6 +19,7 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
   // TODO - friend profile pic for Avatar component should come from the friend object (API call)
   const { socket } = useSocket();
   const [colorID, setColorID] = useState("green");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const chatID = 10001001; // temp room
@@ -30,7 +31,9 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
   }, [colorID, setColorID]);
 
   // handle chat select
-  const handleSelect = () => {
+  const handleSelect = async (event) => {
+    setLoading(true);
+
     setSelectedChat(friend.id);
 
     navigate(`/dashboard/friends/${friend.id}`); //
