@@ -38,7 +38,7 @@ const Login = ({ setIsLoggedIn }) => {
   const [message, setMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { loginSocket, authData } = useSocket();
+  const { loginSocket, socket } = useSocket();
 
   // loading state handler
   const [loading, setLoading] = useState(false);
@@ -67,6 +67,7 @@ const Login = ({ setIsLoggedIn }) => {
 
         response = await login(requestBody);
         setMessage("Login Succesful");
+
         setUserID(response.data.AccountID);
         setAccessToken(response.data.token);
         setUserSession(requestBody);
@@ -75,9 +76,7 @@ const Login = ({ setIsLoggedIn }) => {
 
         // get session stored user / rather than fetching twice
         // socket.connect();
-
         loginSocket(response.data.AccountID, username);
-
         // navigate to dashboard
         navigate("/dashboard");
       } catch (error) {

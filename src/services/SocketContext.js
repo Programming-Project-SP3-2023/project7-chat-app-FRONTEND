@@ -25,12 +25,9 @@ export function SocketProvider({ children }) {
   }, [authData]);
 
   useEffect(() => {
+    // listeners
     socket.on("connectionResponse", (response) => {
       console.log("Connection Response: ", response);
-    });
-
-    socket.on("connectSocket", ({ accountID, username }) => {
-      console.log("Socket connected with user details: " + accountID, username);
     });
 
     socket.on("onlineFriends", (friends) => {
@@ -57,16 +54,17 @@ export function SocketProvider({ children }) {
       console.log("user disconnected", userDetails);
     });
   }, []);
-
+  //
   const contextValue = {
     socket,
     authData,
     loginSocket: (accountID, username) => {
-      setAuthData({ accountID, username });
-      socket.auth.accountID = accountID;
-      socket.auth.username = username;
+      console.log("accountID: " + accountID);
+      console.log("username: " + username);
+
+      socket.emit("connectSocket", { accountID, username });
+
       socket.connect();
-      socket.emit("socketConnect", { accountID, username });
     },
     logout: () => {
       setAuthData(null);

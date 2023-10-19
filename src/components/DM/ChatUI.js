@@ -21,25 +21,27 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
+import { getUserID, getUser } from "../../utils/localStorage";
 
 /**
  * Builds and renders the homepage component
  * @returns Homepage component render
  */
 const ChatUI = () => {
-  const { socket, authData } = useSocket();
+  const { socket } = useSocket();
 
   // const { id } = useParams(); // gets id from url id
   // const chatID = id;
 
-  const chatID = "10001001";
+  const chatID = 10001001;
   // Props for messages
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
   const [typingStatus, setTypingStatus] = useState("");
   const [messageId, setMessageId] = useState(1);
-  const userId = authData.accountID;
-  const username = authData.username;
+
+  const userId = getUserID();
+  const username = getUser();
 
   // // image related
   // const [selectedFile, setSelectedFile] = useState(null);
@@ -51,9 +53,15 @@ const ChatUI = () => {
   // render on page chat
   useEffect(() => {
     socket.emit("connectChat", chatID);
+
+    socket.on("messageResponse", (data) => {
+      console.log("recieved message response", data);
+    });
+
     socket.on("messageHistory", (messages) => {
-      setMessages(messages);
-      console.log("messages", messages);
+      setMessages(messages.flat());
+      console.log("Recieved message history inside chat: ", messages);
+      console.log("single message", messages[0][0]);
     });
 
     socket.emit("getMessages", { chatID: chatID });
@@ -90,19 +98,21 @@ const ChatUI = () => {
   const handleMessageSubmit = (event) => {
     event.preventDefault();
     console.log("Message Handler");
-    // const newTimestamp = dayjs(new Date());
+    const newTimestamp = dayjs(new Date());
+    const messageText = messageInput.toString();
+
     // console.log("userID: " + userId);
     // const TimeSent = new dayjs().format("YYYY-MM-DDTHH:mm.ssZ");
 
     const newMessage = {
       Message: messageId,
       ChatID: chatID,
-      MessageBody: messageInput,
+      MessageBody: messageText,
       SenderID: userId,
-      // TimeSent: newTimestamp,
+      TimeSent: newTimestamp,
     };
     // console.log("new Timestamp: " + TimeSent);
-    socket.emit("sendMessage", { chatID, newMessage });
+    socket.emit("sendMessage", { chatID, message: messageText });
 
     setMessages([...messages, newMessage]);
     setMessageId(messageId + 1);

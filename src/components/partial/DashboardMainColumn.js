@@ -22,12 +22,12 @@ const DashboardMainColumn = ({
   setGroupModalOpen,
   setManageFriendsModalOpen,
 }) => {
-  // const friends = [
-  //   { name: "Jack Sparrow", img: "something/src.jpg" },
-  //   { name: "Coco Wood", img: "something/src.jpg" },
-  //   { name: "Juliette Barton", img: "something/src.jpg" },
-  //   { name: "Mark Ruffalo", img: "something/src.jpg" },
-  // ];
+  const friends = [
+    { name: "Jack Sparrow", img: "something/src.jpg" },
+    { name: "Coco Wood", img: "something/src.jpg" },
+    { name: "Juliette Barton", img: "something/src.jpg" },
+    { name: "Mark Ruffalo", img: "something/src.jpg" },
+  ];
 
   const [onlineFriends, setOnlineFriends] = useState([]);
   const { socket } = useSocket();
@@ -65,7 +65,7 @@ const DashboardMainColumn = ({
         {title !== "Quick Actions" && (
           <>
             {/* can be changed back to friends */}
-            {onlineFriends.map((friend, i) => {
+            {friends.map((friend, i) => {
               return <MenuItem key={i} friend={friend} />;
             })}
           </>

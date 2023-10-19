@@ -6,7 +6,7 @@ import { Avatar } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useSocket } from "../../services/SocketContext";
 // PIC FOR TESTING **
 import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
 
@@ -17,11 +17,11 @@ import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
 
 const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
   // TODO - friend profile pic for Avatar component should come from the friend object (API call)
-
+  const { socket } = useSocket();
   const [colorID, setColorID] = useState("green");
-  // const [chatID, setChatID] = useState("");
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const chatID = 10001001; // temp room
   // Determine icon color for online status
   useEffect(() => {
     if (friend.status === 0) setColorID("green");
@@ -34,6 +34,7 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
     setSelectedChat(friend.id);
 
     navigate(`/dashboard/friends/${friend.id}`); //
+    socket.emit("connectChat", { chatID });
   };
 
   return (
