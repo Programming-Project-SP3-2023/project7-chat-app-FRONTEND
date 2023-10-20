@@ -65,7 +65,16 @@ const ChatUI = () => {
     //open listener on message response. for data
     socket.on("messageResponse", (data) => {
       console.log("recieved message response", data);
-      setMessages((messages) => [...messages, data]);
+      // temporary to handle incorrect message format
+
+      const messageRecieved = dayjs(new Date()); // temporary as
+      const formatMessage = {
+        SenderID: data.from,
+        MessageBody: data.message,
+        TimeSent: messageRecieved,
+      };
+
+      setMessages((messages) => [...messages, formatMessage]);
       // setMessages(data);
     });
     // ask for messages
@@ -199,7 +208,7 @@ const ChatUI = () => {
         ) : (
           <div className="chat-messages">
             {messages.map((message, index) =>
-              message.SenderID === userId ? ( //currently gets local stored user
+              message.SenderID === userId || message.from === userId ? ( //currently gets local stored user
                 <div
                   ref={lastMessageRef}
                   className="message-content"
@@ -212,11 +221,6 @@ const ChatUI = () => {
                   {message.MessageBody && (
                     <div className="message-user">
                       <div id="message">{message.MessageBody}</div>
-                    </div>
-                  )}
-                  {message.message && (
-                    <div className="message-user">
-                      <div id="message">{message.message}</div>
                     </div>
                   )}
 
@@ -275,11 +279,6 @@ const ChatUI = () => {
                         src={message.SenderID.Avatar}
                       />
                       <div id="message">{message.MessageBody}</div>
-                    </div>
-                  )}
-                  {message.message && (
-                    <div className="message-user">
-                      <div id="message">{message.message}</div>
                     </div>
                   )}
 
