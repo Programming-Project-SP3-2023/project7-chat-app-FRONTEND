@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
 //local host
-const URL = "http://localhost:4000"; //
+const URL = process.env.REACT_APP_BASE_URL; //
 
 // prevent socket io auto connecting
 const socket = io(URL, { autoConnect: false });
