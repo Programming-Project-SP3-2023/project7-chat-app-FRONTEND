@@ -41,7 +41,9 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
 
     setSelectedChat(userID);
     socket.emit("connectChat", { chatID });
-    navigate(`/dashboard/friends/${userID}`);
+    setTimeout(() => {
+      navigate(`/dashboard/friends/${userID}`);
+    }, 1000);
   };
 
   return (
