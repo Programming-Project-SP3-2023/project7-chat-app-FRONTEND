@@ -42,13 +42,23 @@ export const login = async function (requestBody) {
  * @param {*} userID The user's id
  * @returns The user's data
  */
-export const getUserByID = async function (userID) {
+export const getUserByID = async function (userID, token) {
   const requestBody = {
     AccountID: userID,
   };
 
+  let loginHeaders = {
+    headers: {
+      Authorization: token,
+    },
+  };
+
   try {
-    let response = await axios.get(USER_INFO_ENDPOINT, headers, requestBody);
+    let response = await axios.get(
+      USER_INFO_ENDPOINT,
+      loginHeaders,
+      requestBody
+    );
 
     //Success!
     if (response.status === 200) {
@@ -173,10 +183,20 @@ export const updateAvatar = async function (avatarData) {
  * @param {*} userID The user's id
  * @returns The user's avatar in Base64
  */
-export const getAvatarByID = async function (userID) {
+export const getAvatarByID = async function (userID, token) {
   console.log(`${BASE_URL}avatar/${userID}`);
+
+  let avatarHeaders = {
+    headers: {
+      Authorization: token,
+    },
+  };
+
   try {
-    let response = await axios.get(`${BASE_URL}avatar/${userID}`, headers);
+    let response = await axios.get(
+      `${BASE_URL}avatar/${userID}`,
+      avatarHeaders
+    );
 
     //Success!
     if (response.status === 200) {

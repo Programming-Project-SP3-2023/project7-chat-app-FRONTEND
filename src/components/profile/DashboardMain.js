@@ -12,7 +12,11 @@ import {
   getFriends,
   getFriendRequests,
 } from "../../services/friendsAPI";
-import { getUserID, setUserSession } from "../../utils/localStorage";
+import {
+  getAccessToken,
+  getUserID,
+  setUserSession,
+} from "../../utils/localStorage";
 /**
  * Builds and renders the Dashboard main menu component
  * @returns Dashboard Main Menu component render
@@ -30,8 +34,11 @@ const DashboardMain = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // trigger refresh flag 
+  // trigger refresh flag
   const [refresh, setRefresh] = useState(false);
+
+  const userID = getUserID();
+  const accessToken = getAccessToken();
 
   // Fetch user, all users, friends and friend requests
   useEffect(() => {
@@ -55,7 +62,7 @@ const DashboardMain = () => {
     // 4. define fetch friends requests function
     async function fetchFriendRequests() {
       setLoading(true);
-      console.log("RUNNING")
+      console.log("RUNNING");
       const response = await getFriendRequests();
       console.log("REQUESTS: ", response);
 
@@ -64,9 +71,8 @@ const DashboardMain = () => {
 
     // 5. fetch user details and send to local storage
     async function fetchUser() {
-      const userID = getUserID();
-      const response = await getUserByID(userID);
-      const avatarResponse = await getAvatarByID(userID);
+      const response = await getUserByID(userID, accessToken);
+      const avatarResponse = await getAvatarByID(userID, accessToken);
 
       let user;
       if (response && avatarResponse) {
