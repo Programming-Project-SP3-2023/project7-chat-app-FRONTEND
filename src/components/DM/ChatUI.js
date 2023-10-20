@@ -53,11 +53,6 @@ const ChatUI = () => {
     setLoading(true); // loading
     socket.emit("connectChat", chatID);
 
-    //open listener on message response. for data
-    socket.on("messageResponse", (data) => {
-      console.log("recieved message response", data);
-    });
-
     // open listener of messageHistory for messages
     socket.on("messageHistory", (messages) => {
       // set messages recieved
@@ -65,6 +60,22 @@ const ChatUI = () => {
       // console.log("single message", messages[0][0]); // returns a single message
       setMessages(messages.flat().reverse());
       setLoading(false); //set loading as false
+    });
+
+    //open listener on message response. for data
+    socket.on("messageResponse", (data) => {
+      console.log("recieved message response", data);
+      // temporary to handle incorrect message format
+
+      const messageRecieved = dayjs(new Date()); // temporary as
+      const formatMessage = {
+        SenderID: data.from,
+        MessageBody: data.message,
+        TimeSent: messageRecieved,
+      };
+
+      setMessages((messages) => [...messages, formatMessage]);
+      // setMessages(data);
     });
     // ask for messages
     socket.emit("getMessages", { chatID: chatID });
@@ -181,184 +192,186 @@ const ChatUI = () => {
   // };
 
   return (
-    <Box
-      sx={{
-        height: "100%",
-        width: "100%",
-        overflow: "auto",
-      }}
-      id="chat-ui-container"
-    >
-      {loading ? (
-        <div>
-          <p>Loading...</p>
-        </div>
-      ) : (
-        <div className="chat-messages">
-          {messages.map((message, index) =>
-            message.SenderID === userId ? ( //currently gets local stored user
-              <div
-                ref={lastMessageRef}
-                className="message-content"
-                key={`user-message-${index}`}
-              >
-                <div className="message-timestamp">
-                  {formatDateTime(message.TimeSent)}
-                </div>
-                {/* message only rendering */}
-                {message.MessageBody && (
-                  <div className="message-user">
-                    <div id="message">{message.MessageBody}</div>
-                  </div>
-                )}
-
-                {/* renders image if available */}
-                {message.Image && (
-                  <div className="message-user">
-                    <div
-                      id="message-image-container"
-                      className={`message-image-container`}
-                    >
-                      <img
-                        id="message-image"
-                        className={`message-image other`}
-                        src={message.Image}
-                        alt={message.Image}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {message.File && (
-                  <div id="message-file">
-                    <div>
-                      <Badge
-                        id="message-file-mui"
-                        fontsize="large"
-                        anchorOrigin={{
-                          vertical: "center",
-                          horizontal: "center",
-                        }}
-                        badgeContent={message.FileType}
-                      >
-                        <InsertDriveFileOutlinedIcon fontSize="large" />
-                      </Badge>
-                    </div>
-                    <div className="file-name">{message.FileName}</div>
-                    <div className="file-size">{message.FileSize}</div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              // OTHER
-              <div
-                ref={lastMessageRef}
-                className="message-content"
-                key={`user-message-${index}`}
-              >
-                <div className="message-timestamp">
-                  {formatDateTime(message.TimeSent)}
-                </div>
-                {/* renders text if available */}
-                {message.MessageBody && (
-                  <div className="message-other">
-                    <Avatar
-                      alt={`User ${message.SenderID}`}
-                      src={message.SenderID.Avatar}
-                    />
-                    <div id="message">{message.MessageBody}</div>
-                  </div>
-                )}
-
-                {/* renders image if available */}
-                {message.Image && (
-                  <div className="message-other">
-                    <div
-                      id="message-image-container"
-                      className={`message-other`}
-                    >
-                      <img
-                        id="message-image"
-                        className={`message-other`}
-                        src={message.Image}
-                        alt={message.Image}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {message.File && (
-                  <div id="message-file">
-                    <div>
-                      <Badge
-                        id="message-file-mui"
-                        fontsize="large"
-                        anchorOrigin={{
-                          vertical: "center",
-                          horizontal: "center",
-                        }}
-                        badgeContent={message.FileType}
-                      >
-                        <InsertDriveFileOutlinedIcon fontSize="large" />
-                      </Badge>
-                    </div>
-                    <div className="file-name">{message.FileName}</div>
-                    <div className="file-size">{message.FileSize}</div>
-                  </div>
-                )}
-              </div>
-            )
-          )}
-        </div>
-      )}
-      {/* typing status */}
-      <div className="message-status">
-        <p>{typingStatus}</p>
-      </div>
-      <form id="chat-input-container" onSubmit={handleMessageSubmit}>
-        <FormControl fullWidth>
-          <div className="chat-input">
-            <TextField
-              fullWidth
-              id="chat-input"
-              variant="outlined"
-              label={typingStatus || "Type a Message"}
-              onChange={(event) => setMessageInput(event.target.value)}
-              type="text"
-              placeholder="Type a Message"
-              value={messageInput}
-              onKeyDown={handleTyping}
-              InputProps={{
-                endAdornment: (
-                  <ButtonGroup>
-                    <IconButton
-                      className="image-select-button"
-                      // onClick={handleClick}
-                    >
-                      <input
-                        hidden
-                        // types of files that are accepted
-                        // add to include .pdf, .doc, .txt
-                        accept="image/*"
-                        id="file-input"
-                        type="file"
-                        // ref={hiddenFileInput}
-                        style={{ display: "none" }}
-                        // onChange={handleFileSubmit}
-                      />
-                      <AttachFileIcon />
-                    </IconButton>
-                    <IconButton onClick={handleMessageSubmit} type="submit">
-                      <SendIcon />
-                    </IconButton>
-                  </ButtonGroup>
-                ),
-              }}
-            />
+    <>
+      <Box
+        sx={{
+          height: "100%",
+          width: "100%",
+          overflow: "auto",
+        }}
+        id="chat-ui-container"
+      >
+        {loading ? (
+          <div>
+            <p>Loading...</p>
           </div>
-        </FormControl>
-      </form>
-    </Box>
+        ) : (
+          <div className="chat-messages">
+            {messages.map((message, index) =>
+              message.SenderID === userId || message.from === userId ? ( //currently gets local stored user
+                <div
+                  ref={lastMessageRef}
+                  className="message-content"
+                  key={`user-message-${index}`}
+                >
+                  <div className="message-timestamp">
+                    {formatDateTime(message.TimeSent)}
+                  </div>
+                  {/* message only rendering */}
+                  {message.MessageBody && (
+                    <div className="message-user">
+                      <div id="message">{message.MessageBody}</div>
+                    </div>
+                  )}
+
+                  {/* renders image if available */}
+                  {message.Image && (
+                    <div className="message-user">
+                      <div
+                        id="message-image-container"
+                        className={`message-image-container`}
+                      >
+                        <img
+                          id="message-image"
+                          className={`message-image other`}
+                          src={message.Image}
+                          alt={message.Image}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {message.File && (
+                    <div id="message-file">
+                      <div>
+                        <Badge
+                          id="message-file-mui"
+                          fontsize="large"
+                          anchorOrigin={{
+                            vertical: "center",
+                            horizontal: "center",
+                          }}
+                          badgeContent={message.FileType}
+                        >
+                          <InsertDriveFileOutlinedIcon fontSize="large" />
+                        </Badge>
+                      </div>
+                      <div className="file-name">{message.FileName}</div>
+                      <div className="file-size">{message.FileSize}</div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                // OTHER
+                <div
+                  ref={lastMessageRef}
+                  className="message-content"
+                  key={`user-message-${index}`}
+                >
+                  <div className="message-timestamp">
+                    {formatDateTime(message.TimeSent)}
+                  </div>
+                  {/* renders text if available */}
+                  {message.MessageBody && (
+                    <div className="message-other">
+                      <Avatar
+                        alt={`User ${message.SenderID}`}
+                        src={message.SenderID.Avatar}
+                      />
+                      <div id="message">{message.MessageBody}</div>
+                    </div>
+                  )}
+
+                  {/* renders image if available */}
+                  {message.Image && (
+                    <div className="message-other">
+                      <div
+                        id="message-image-container"
+                        className={`message-other`}
+                      >
+                        <img
+                          id="message-image"
+                          className={`message-other`}
+                          src={message.Image}
+                          alt={message.Image}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {message.File && (
+                    <div id="message-file">
+                      <div>
+                        <Badge
+                          id="message-file-mui"
+                          fontsize="large"
+                          anchorOrigin={{
+                            vertical: "center",
+                            horizontal: "center",
+                          }}
+                          badgeContent={message.FileType}
+                        >
+                          <InsertDriveFileOutlinedIcon fontSize="large" />
+                        </Badge>
+                      </div>
+                      <div className="file-name">{message.FileName}</div>
+                      <div className="file-size">{message.FileSize}</div>
+                    </div>
+                  )}
+                </div>
+              )
+            )}
+          </div>
+        )}
+        {/* typing status */}
+        <div className="message-status">
+          <p>{typingStatus}</p>
+        </div>
+        <form id="chat-input-container" onSubmit={handleMessageSubmit}>
+          <FormControl fullWidth>
+            <div className="chat-input">
+              <TextField
+                fullWidth
+                id="chat-input"
+                variant="outlined"
+                label={typingStatus || "Type a Message"}
+                onChange={(event) => setMessageInput(event.target.value)}
+                type="text"
+                placeholder="Type a Message"
+                value={messageInput}
+                onKeyDown={handleTyping}
+                InputProps={{
+                  endAdornment: (
+                    <ButtonGroup>
+                      <IconButton
+                        className="image-select-button"
+                        // onClick={handleClick}
+                      >
+                        <input
+                          hidden
+                          // types of files that are accepted
+                          // add to include .pdf, .doc, .txt
+                          accept="image/*"
+                          id="file-input"
+                          type="file"
+                          // ref={hiddenFileInput}
+                          style={{ display: "none" }}
+                          // onChange={handleFileSubmit}
+                        />
+                        <AttachFileIcon />
+                      </IconButton>
+                      <IconButton onClick={handleMessageSubmit} type="submit">
+                        <SendIcon />
+                      </IconButton>
+                    </ButtonGroup>
+                  ),
+                }}
+              />
+            </div>
+          </FormControl>
+        </form>
+      </Box>
+    </>
   );
 };
 
