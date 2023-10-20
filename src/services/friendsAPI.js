@@ -42,7 +42,7 @@ export const getUsers = async function (filter) {
       return response.data.userList;
     }
     //Failed!
-    else if (response.status === 401) {
+    else if (response.status === 204) {
       console.log("No Users");
       console.log(response);
       return response.data.message;
@@ -104,12 +104,11 @@ export const getFriendRequests = async function () {
 
     //Success!
     if (response.status === 200) {
-      console.log("Request sent");
       console.log(response.data.Message);
       return response.data.friendships;
     }
-    //Failed!
-    else if (response.status === 401) {
+    // No friend requests 
+    else if (response.status === 204) {
       console.log(response.data.Message);
       return [];
     }
@@ -141,7 +140,7 @@ export const getFriends = async function () {
       return response.data.friendships;
     }
     //Failed!
-    else if (response.status === 401) {
+    else if (response.status === 204) {
       console.log(response.data.Message);
       return response.data.Message;
     }

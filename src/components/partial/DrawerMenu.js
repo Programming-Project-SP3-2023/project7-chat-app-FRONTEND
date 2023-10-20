@@ -47,7 +47,7 @@ const DrawerMenu = ({ setOpenDrawer, setRefresh }) => {
       <div className="settings-header">
         {/* Should be user.name but we don't yet have a complete one at login */}
         <h2>{currentUser && currentUser.displayName}</h2>
-        {currentUser.image ? (
+        {(currentUser && currentUser.image) ? (
           <Avatar src={currentUser.image} id="profile-avatar" />
         ) : (
           <Avatar id="profile-avatar" />
