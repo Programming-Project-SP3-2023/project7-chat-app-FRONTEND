@@ -34,7 +34,7 @@ const ChatUI = () => {
 
   // const { id } = useParams(); // gets id from url id
   // const chatID = id;
-  const chatID = 10001001; // temp for testing
+  const chatID = 10101013; // temp for testing
 
   // Props for messages
   const [messages, setMessages] = useState([]);

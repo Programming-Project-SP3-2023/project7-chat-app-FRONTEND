@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
 //local host
-const URL = process.env.REACT_APP_BASE_URL; //
+const URL = process.env.SOCKET_BASEURL; //
 
 // prevent socket io auto connecting
 const socket = io(URL, { autoConnect: false });
@@ -59,12 +59,13 @@ export function SocketProvider({ children }) {
     socket,
     authData,
     loginSocket: (accountID, username) => {
+      socket.connect();
+
       console.log("accountID: " + accountID);
       console.log("username: " + username);
 
       socket.emit("connectSocket", { accountID, username });
 
-      socket.connect();
     },
     logout: () => {
       setAuthData(null);
