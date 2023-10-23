@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 const URL = "https://echo.matthewrosin.com:4000"; //
 
 // prevent socket io auto connecting
-const socket = io(URL);
+const socket = io(URL, {autoConnect: false});
 
 // creating a socket context in order to use throughout app
 const SocketContext = createContext();
@@ -20,7 +20,7 @@ export function SocketProvider({ children }) {
 
   useEffect(() => {
     if (authData) {
-      //socket.auth = { token: authData.token };
+      socket.auth = { token: authData.token };
     }
   }, [authData]);
 
