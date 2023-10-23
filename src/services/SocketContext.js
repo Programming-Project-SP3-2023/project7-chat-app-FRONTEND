@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
-//local host
-const URL = "http://echo.matthewrosin.com:4000"; //
+// host
+const URL = "https://echo.matthewrosin.com:4000"; //
 
 // prevent socket io auto connecting
 const socket = io(URL);
