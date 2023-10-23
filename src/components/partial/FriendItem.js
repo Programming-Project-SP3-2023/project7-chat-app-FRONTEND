@@ -35,14 +35,15 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
 
   const handleSelect = () => {
     let userID = "";
-
+    let chatID = "";
     if (friend.RequesterID) userID = friend.RequesterID;
     if (friend.AddresseeID) userID = friend.AddresseeID;
-
+    console.log(friend.FriendshipID);
+    chatID = friend.FriendshipID;
     setSelectedChat(userID);
-    socket.emit("connectChat", {chatID} );
+    socket.emit("connectChat", { chatID });
     setTimeout(() => {
-      navigate(`/dashboard/friends/${userID}`);
+      navigate(`/dashboard/friends/${chatID}`);
     }, 1000);
   };
 

@@ -32,9 +32,9 @@ const ChatUI = () => {
   const { socket } = useSocket();
   const [loading, setLoading] = useState(true); // set loading to true
 
-  // const { id } = useParams(); // gets id from url id
-  // const chatID = id;
-  const chatID = 10101013; // temp for testing
+  const { id } = useParams(); // gets id from url id
+  const chatID = id;
+  // const chatID = 10101013; // temp for testing
 
   // Props for messages
   const [messages, setMessages] = useState([]);
@@ -51,7 +51,7 @@ const ChatUI = () => {
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
-    socket.emit("connectChat", {chatID});
+    socket.emit("connectChat", { chatID });
 
     // open listener of messageHistory for messages
     socket.on("messageHistory", (messages) => {
