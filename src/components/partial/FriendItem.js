@@ -38,7 +38,7 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
     let chatID = "";
     if (friend.RequesterID) userID = friend.RequesterID;
     if (friend.AddresseeID) userID = friend.AddresseeID;
-    console.log(friend.FriendshipID);
+    console.log("friendshipID: ", friend.FriendshipID);
     chatID = friend.FriendshipID;
     setSelectedChat(userID);
     socket.emit("connectChat", { chatID });
