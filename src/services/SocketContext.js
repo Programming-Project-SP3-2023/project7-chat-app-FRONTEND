@@ -2,10 +2,10 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
 //local host
-const URL = process.env.SOCKET_BASEURL; //
+const URL = "http://echo.matthewrosin.com:4000"; //
 
 // prevent socket io auto connecting
-const socket = io(URL, { autoConnect: false });
+const socket = io(URL);
 
 // creating a socket context in order to use throughout app
 const SocketContext = createContext();
@@ -20,7 +20,7 @@ export function SocketProvider({ children }) {
 
   useEffect(() => {
     if (authData) {
-      socket.auth = { token: authData.token };
+      //socket.auth = { token: authData.token };
     }
   }, [authData]);
 
