@@ -33,7 +33,7 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
 
   // handle chat select
 
-  const handleSelect = () => {
+  const handleSelect = async () => {
     let userID = "";
     let chatID = "";
     if (friend.RequesterID) userID = friend.RequesterID;
@@ -41,10 +41,34 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
     console.log("friendshipID: ", friend.FriendshipID);
     chatID = friend.FriendshipID;
     setSelectedChat(userID);
+
     socket.emit("connectChat", { chatID });
     setTimeout(() => {
       navigate(`/dashboard/friends/${chatID}`);
     }, 1000);
+
+    // const joinChatPromise = new Promise((resolve, reject) => {
+    //   socket.emit("connectChat", { chatID });
+
+    //   socket.on("connectionResponse", (response) => {
+    //     resolve();
+    //   });
+
+    //   socket.on("error", (error) => {
+    //     reject(error);
+    //   });
+
+    //   setTimeout(() => {
+    //     reject("Socket didn't join the chat in time.");
+    //   }, 5000);
+    // });
+
+    // try {
+    //   await joinChatPromise;
+    //   navigate(`/dashboard/friends/${userID}`);
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   return (
