@@ -49,7 +49,7 @@ const ChatUI = () => {
 
   // render on page chat
   useEffect(() => {
-    //setLoading(true); // loading
+    setLoading(true); // loading
     socket.emit("connectChat", { chatID });
 
     // open listener of messageHistory for messages
