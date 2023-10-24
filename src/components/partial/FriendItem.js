@@ -23,7 +23,7 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const chatID = 10001001; // temp room
+  // const chatID = 10001001; // temp room
   // Determine icon color for online status
   useEffect(() => {
     if (friend.status === 0) setColorID("green");
@@ -35,40 +35,42 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
 
   const handleSelect = async () => {
     let userID = "";
-    let chatID = "";
+    // let chatID = "";
     if (friend.RequesterID) userID = friend.RequesterID;
     if (friend.AddresseeID) userID = friend.AddresseeID;
     console.log("friendshipID: ", friend.FriendshipID);
-    chatID = friend.FriendshipID;
+    let chatID = friend.FriendshipID;
     setSelectedChat(userID);
+
+    //const chatID = 10101013; // temp room
 
     socket.emit("connectChat", { chatID });
     setTimeout(() => {
       navigate(`/dashboard/friends/${chatID}`);
     }, 1000);
 
-    // const joinChatPromise = new Promise((resolve, reject) => {
-    //   socket.emit("connectChat", { chatID });
+    const joinChatPromise = new Promise((resolve, reject) => {
+      socket.emit("connectChat", { chatID });
 
-    //   socket.on("connectionResponse", (response) => {
-    //     resolve();
-    //   });
+      socket.on("connectChatResponse", () => {
+        resolve();
+      });
 
-    //   socket.on("error", (error) => {
-    //     reject(error);
-    //   });
+      socket.on("error", (error) => {
+        reject(error);
+      });
 
-    //   setTimeout(() => {
-    //     reject("Socket didn't join the chat in time.");
-    //   }, 5000);
-    // });
+      setTimeout(() => {
+        reject("Socket didn't join the chat in time.");
+      }, 5000);
+    });
 
-    // try {
-    //   await joinChatPromise;
-    //   navigate(`/dashboard/friends/${userID}`);
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      await joinChatPromise;
+      navigate(`/dashboard/friends/${userID}`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
