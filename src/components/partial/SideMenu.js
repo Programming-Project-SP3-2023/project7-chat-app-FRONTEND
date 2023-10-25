@@ -19,6 +19,7 @@ const SideMenu = ({
   handleSelectOption,
   selectedOpt,
   setGroupModalOpen,
+  groups,
 }) => {
   const handleGroupModalOpen = () => setGroupModalOpen(true);
   const navigate = useNavigate();
@@ -26,9 +27,15 @@ const SideMenu = ({
   const handleNavigate = (index, options) => {
     if (index === 1) navigate("/dashboard/friends");
     if (index === 0) navigate("/dashboard");
-    if (index !== options.length - 1 && index > 1) navigate(`/dashboard/groups/${options[index]}`);
+    if (index !== options.length - 1 && index > 1) {
+      groups.forEach((group) => {
+        if (options[index] === group.GroupName) {
+          // loading group page with a certain ID (which will be used to get the group info)
+          navigate(`/dashboard/groups/${group.GroupID}`);
+        }
+      });
+    }
   };
-
 
   return (
     <Drawer variant="permanent" id="side-menu">
@@ -58,7 +65,7 @@ const SideMenu = ({
                 {index === 1 && <PeopleAltOutlinedIcon />}
                 {index === options.length - 1 && <ControlPointOutlinedIcon />}
                 {index > 1 && index < options.length - 1 && (
-                  <img src={ECHO_LOGO} alt={text} />
+                  <img src={groups[index-2].avatar} alt={text} />
                 )}
               </div>
             </ListItem>

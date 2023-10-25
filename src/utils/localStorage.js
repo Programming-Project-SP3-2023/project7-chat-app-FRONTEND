@@ -110,3 +110,32 @@ export const setSideMenuOption  = function (selected) {
   sessionStorage.setItem("selectedOption", JSON.stringify(selected));
 };
 
+
+/**
+ * Gets groups and channels data from session storage
+ * @returns Groups and Channels data
+ */
+export const getGroups = function () {
+  const groups = sessionStorage.getItem("groups");
+  if (groups === "undefined" || !groups) {
+    return null;
+  } else {
+    return JSON.parse(groups);
+  }
+};
+
+/**
+ * Sets groups and channels data in session storage
+ * @param {*} groups The user data to store
+ */
+export const setGroupsSession = function (groups) {
+  sessionStorage.setItem("groups", JSON.stringify(groups));
+};
+
+/**
+ * Clears groups and channels data from session storage
+ */
+export const resetGroupsSession = async function () {
+  sessionStorage.setItem("groups", null);
+  sessionStorage.removeItem("groups");
+};

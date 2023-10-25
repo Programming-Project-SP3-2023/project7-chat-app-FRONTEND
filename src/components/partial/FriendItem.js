@@ -8,8 +8,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useSocket } from "../../services/SocketContext";
-// PIC FOR TESTING **
-import SAMPLE_PIC_1 from "../../assets/sample-pic.jpeg";
 
 /**
  * Builds and renders the Friend Label Item component
