@@ -32,9 +32,9 @@ export function SocketProvider({ children }) {
       console.log("Connection Response: ", response);
     });
 
-    socket.on("onlineFriends", (friends) => {
-      console.log("Online friends: ", friends);
-    });
+    // socket.on("onlineFriends", (friends) => {
+    //   console.log("Online friends: ", friends);
+    // });
 
     // socket.on("messageHistory", (messages) => {
     //   console.log("Recieved message history: ", messages);

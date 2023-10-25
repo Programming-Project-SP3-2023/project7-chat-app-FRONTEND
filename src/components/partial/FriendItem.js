@@ -20,11 +20,11 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
   // TODO - friend profile pic for Avatar component should come from the friend object (API call)
   const { socket } = useSocket();
   const [colorID, setColorID] = useState("green");
-  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   // const chatID = 10001001; // temp room
   // Determine icon color for online status
+
   useEffect(() => {
     if (friend.status === 0) setColorID("green");
     else if (friend.status === 1) setColorID("orange");
