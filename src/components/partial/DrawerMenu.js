@@ -12,6 +12,7 @@ import {
   resetUserID,
   resetUserSession,
   getUser,
+  resetGroupsSession,
 } from "../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 
@@ -21,7 +22,7 @@ import { useNavigate } from "react-router-dom";
  * @returns Drawer Menu component render
  */
 
-const DrawerMenu = ({ setOpenDrawer, setRefresh }) => {
+const DrawerMenu = ({ setOpenDrawer, setRefresh, refresh }) => {
   // instantiate navigation prop
   const navigate = useNavigate();
 
@@ -32,8 +33,9 @@ const DrawerMenu = ({ setOpenDrawer, setRefresh }) => {
     await setOpenDrawer(false);
     await resetUserSession();
     await resetTokenSession();
+    await resetGroupsSession();
     await resetUserID();
-    await setRefresh(true);
+    await setRefresh(!refresh);
     navigate("/");
   };
 

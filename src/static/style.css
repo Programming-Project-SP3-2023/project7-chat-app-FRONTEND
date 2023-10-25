@@ -424,7 +424,7 @@ footer {
 #side-menu .side-menu-img-container {
   width: 7vw;
   height: 7vw;
-  border-radius: 15px;
+  border-radius: 30%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -434,7 +434,8 @@ footer {
   -o-object-fit: contain;
      object-fit: contain;
   max-width: 100%;
-  height: 100%;
+  max-height: 100%;
+  border-radius: 30%;
 }
 
 .side-menu-item {
@@ -1295,4 +1296,63 @@ footer {
 
 #friends-request {
   background-color: #a9bcd0;
+}
+
+/* ---------------------------- Groups page ---------------------------- */
+.group-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.group-page .group-menu {
+  height: 100%;
+  width: 25%;
+  padding: 1.5%;
+}
+.group-page .group-menu h2 {
+  font-size: 40px;
+}
+.group-page .group-chat-area {
+  height: 100%;
+  width: 75%;
+}
+.group-page #channels-title {
+  margin-top: 30px;
+}
+.group-page .group-options {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 10% 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+.group-page .group-options .group-option {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.group-page .group-options .group-option a {
+  font-size: 20px;
+}
+.group-page .group-options .group-option svg {
+  font-size: 30px;
+}
+.group-page .group-options .group-option div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10%;
+  min-width: 70%;
+  width: -moz-fit-content;
+  width: fit-content;
 }/*# sourceMappingURL=style.css.map */
