@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import ECHO_LOGO from "../../assets/echo_transparent.png";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import { Drawer, Link, setRef } from "@mui/material";
+import { Drawer, Link } from "@mui/material";
 import DrawerMenu from "../partial/DrawerMenu";
 import { getUser } from "../../utils/localStorage";
 
@@ -45,7 +45,7 @@ const Header = ({ isLoggedIn, refresh, setRefresh }) => {
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
       >
-        {<DrawerMenu setOpenDrawer={setOpenDrawer} user={user} setRefresh={setRefresh} />}
+        {<DrawerMenu setOpenDrawer={setOpenDrawer} user={user} refresh={refresh} setRefresh={setRefresh} />}
       </Drawer>
     </header>
   );

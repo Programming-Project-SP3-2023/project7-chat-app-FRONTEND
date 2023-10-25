@@ -3,7 +3,7 @@
  */
 
 // Dependencies
-import { Routes, Route, Navigate} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useSocket } from "../services/SocketContext";
 
 // Components
@@ -29,6 +29,7 @@ function App() {
   const user = getUser();
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   const [refresh, setRefresh] = useState(false);
+  const [headerTitle, setHeaderTitle] = useState("Echo");
 
   useEffect(() => {
     setIsLoggedIn(user ? true : false);
@@ -45,21 +46,46 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="signup" element={<Signup />} />
-        <Route path="dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />}>
+        <Route
+          path="dashboard"
+          element={
+            isLoggedIn ? (
+              <Dashboard refresh={refresh} setRefresh={setRefresh} headerTitle={headerTitle} setHeaderTitle={setHeaderTitle} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        >
           <Route index element={<DashboardMain />} />
           <Route path="friends" element={<Friends />}>
             <Route path=":id" element={<ChatUI />} />
           </Route>
-          <Route path="groups" element={<Groups />}>
-            <Route path=":id" element={<ChatUI />} />
+          <Route path="groups" element={<Groups refresh={refresh} setHeaderTitle={setHeaderTitle}  />}>
+            <Route path=":groupId" element={<ChatUI />}>
+              <Route path=":channelId" element={<ChatUI />} />
+            </Route>
           </Route>
         </Route>
         <Route path="channels">
-          <Route path="" element={isLoggedIn ? <Channels /> : <Navigate to="/login" />} />
-          <Route path="create-new" element={isLoggedIn ? <CreateNewChannel /> : <Navigate to="/login" />} />
-          <Route path="join" element={isLoggedIn ? <JoinChannel /> : <Navigate to="/login" />} />
+          <Route
+            path=""
+            element={isLoggedIn ? <Channels /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="create-new"
+            element={
+              isLoggedIn ? <CreateNewChannel /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="join"
+            element={isLoggedIn ? <JoinChannel /> : <Navigate to="/login" />}
+          />
         </Route>
-        <Route path="search" element={isLoggedIn ? <Search /> : <Navigate to="/login" />} />
+        <Route
+          path="search"
+          element={isLoggedIn ? <Search /> : <Navigate to="/login" />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
