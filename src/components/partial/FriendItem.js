@@ -51,7 +51,7 @@ const FriendItem = ({
     if (onlineFriends.includes(friend.AccountID)) {
       setColorID("green");
     } else {
-      setColorID("red");
+      setColorID("grey");
     }
   }, [colorID, setColorID, onlineFriends, friend.AccountID]);
 

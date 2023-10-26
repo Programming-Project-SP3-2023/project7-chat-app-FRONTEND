@@ -689,6 +689,9 @@ footer {
 .friends-menu .friend-menu-item .friend-item-header #red {
   color: #b92727;
 }
+.friends-menu .friend-menu-item .friend-item-header #grey {
+  color: #495057;
+}
 .friends-menu .friend-menu-item .friend-item-message {
   margin: 2% 0 2% 2%;
   max-width: 230px;
