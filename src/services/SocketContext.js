@@ -32,17 +32,17 @@ export function SocketProvider({ children }) {
       console.log("Connection Response: ", response);
     });
 
-    // socket.on("onlineFriends", (friends) => {
-    //   console.log("Online friends: ", friends);
-    // });
+    socket.on("onlineFriends", (friends) => {
+      console.log("Online friends: ", friends);
+    });
 
-    // socket.on("messageHistory", (messages) => {
-    //   console.log("Recieved message history: ", messages);
-    // });
+    socket.on("messageHistory", (messages) => {
+      console.log("Recieved message history: ", messages);
+    });
 
-    // socket.on("messageResponse", (data) => {
-    //   console.log("recieved message response", data);
-    // });
+    socket.on("messageResponse", (data) => {
+      console.log("recieved message response", data);
+    });
 
     socket.on("userConnected", (userDetails) => {
       console.log("User Connected: ", userDetails);
@@ -55,6 +55,16 @@ export function SocketProvider({ children }) {
     socket.on("userDisconnected", (userDetails) => {
       console.log("user disconnected", userDetails);
     });
+
+    return () => {
+      socket.off("connectionReponse");
+      socket.on("onlineFriends");
+      socket.on("messageHistory");
+      socket.on("messageResponse");
+      socket.on("userConnected");
+      socket.on("error");
+      socket.on("userDisconnected");
+    };
   }, []);
   //
   const contextValue = {

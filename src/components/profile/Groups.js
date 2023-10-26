@@ -10,6 +10,7 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import HeadphonesOutlinedIcon from "@mui/icons-material/HeadphonesOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import { useNavigate } from "react-router-dom";
+import { useSocket } from "../../services/SocketContext";
 
 /**
  * Builds and renders the User groups component
@@ -17,6 +18,7 @@ import { useNavigate } from "react-router-dom";
  */
 const Groups = ({ refresh, setHeaderTitle }) => {
   const [group, setGroup] = useState(null);
+  const { socket } = useSocket(); // socket
   const navigate = useNavigate();
 
   // fetch current group information
@@ -57,9 +59,7 @@ const Groups = ({ refresh, setHeaderTitle }) => {
           <div className="group-option">
             <div>
               <ChatOutlinedIcon />
-              <a onClick={() => handleChannelNavigate("", null)}>
-                General
-              </a>
+              <a onClick={() => handleChannelNavigate("", null)}>General</a>
             </div>
             <PersonAddOutlinedIcon />
           </div>

@@ -24,6 +24,7 @@ import { getUser } from "../utils/localStorage";
 import { useState, useEffect } from "react";
 import DashboardMain from "./profile/DashboardMain";
 import ChatUI from "./DM/ChatUI";
+import GroupChatUI from "./DM/GroupChatUI";
 
 function App() {
   const user = getUser();
@@ -50,7 +51,12 @@ function App() {
           path="dashboard"
           element={
             isLoggedIn ? (
-              <Dashboard refresh={refresh} setRefresh={setRefresh} headerTitle={headerTitle} setHeaderTitle={setHeaderTitle} />
+              <Dashboard
+                refresh={refresh}
+                setRefresh={setRefresh}
+                headerTitle={headerTitle}
+                setHeaderTitle={setHeaderTitle}
+              />
             ) : (
               <Navigate to="/login" />
             )
@@ -60,9 +66,14 @@ function App() {
           <Route path="friends" element={<Friends />}>
             <Route path=":id" element={<ChatUI />} />
           </Route>
-          <Route path="groups" element={<Groups refresh={refresh} setHeaderTitle={setHeaderTitle}  />}>
-            <Route path=":groupId" element={<ChatUI />}>
-              <Route path=":channelId" element={<ChatUI />} />
+          <Route
+            path="groups"
+            element={
+              <Groups refresh={refresh} setHeaderTitle={setHeaderTitle} />
+            }
+          >
+            <Route path=":groupId" element={<GroupChatUI />}>
+              <Route path=":channelId" element={<GroupChatUI />} />
             </Route>
           </Route>
         </Route>

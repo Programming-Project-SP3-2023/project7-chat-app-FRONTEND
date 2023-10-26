@@ -40,13 +40,7 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
     let chatID = friend.FriendshipID;
     setSelectedChat(userID);
 
-    //const chatID = 10101013; // temp room
-
-    socket.emit("connectChat", { chatID });
-    setTimeout(() => {
-      navigate(`/dashboard/friends/${chatID}`);
-    }, 1000);
-
+    // // const chatID = 10101013; // temp room
     const joinChatPromise = new Promise((resolve, reject) => {
       socket.emit("connectChat", { chatID });
 
@@ -65,7 +59,7 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
 
     try {
       await joinChatPromise;
-      navigate(`/dashboard/friends/${userID}`);
+      navigate(`/dashboard/friends/${chatID}`); // required to be chatID
     } catch (error) {
       console.error(error);
     }

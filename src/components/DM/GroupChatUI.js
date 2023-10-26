@@ -51,7 +51,7 @@ const ChatUI = () => {
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
-    socket.emit("connectChat", { chatID });
+    // socket.emit("connectChat", { chatID });
 
     // socket.emit("getMessages", { chatID });
     console.log("attempting to get messages?");
