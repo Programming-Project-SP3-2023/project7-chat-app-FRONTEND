@@ -4,7 +4,6 @@
 
 // Dependencies
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useSocket } from "../services/SocketContext";
 
 // Components
 import Home from "./base/Home";
