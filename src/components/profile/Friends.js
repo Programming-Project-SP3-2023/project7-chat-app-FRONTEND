@@ -48,6 +48,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
 
   // Component state objects
   const [friends, setFriends] = useState([]);
+  const [messageHistories, setMessageHistories] = useState({});
   const [users, setUsers] = useState(null);
   const [searchString, setSearchString] = useState("");
   const [selectedChat, setSelectedChat] = useState(null);
@@ -63,6 +64,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
   const [manageFriendsModalOpen, setManageFriendsModalOpen] = useState(false);
 
   const [fetching, setFetching] = useState(false);
+  const { socket } = useSocket();
 
   // trigger refresh flag
   const [refresh, setRefresh] = useState(false);
@@ -73,6 +75,42 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
     setFriendToAdd(option);
     setAddFriendModalOpen(true);
   };
+
+  // for handling get last message
+  useEffect(() => {
+    //on friendship id / chatID fetch messages
+    const fetchMessageHistoryForFriend = (friendshipID) => {
+      return new Promise((resolve, reject) => {
+        // connect to chat
+        socket.emit("connectChat", { chatID: friendshipID });
+        // listen for chat messages
+        socket.on("messageHistory", (messages) => {
+          resolve(messages);
+        });
+        // ask for single message from chatID
+        socket.emit("moreMessages", { chatID: friendshipID, num: 1 });
+      });
+    };
+
+    const fetchMessageHistories = async () => {
+      // Object to store message history for each friend
+      const messageHistories = {};
+
+      for (const friend of friends) {
+        // call specific friend message
+        const messageHistory = await fetchMessageHistoryForFriend(
+          friend.FriendshipID
+        );
+
+        // Store the message history for specific friend
+        messageHistories[friend.AccountID] = messageHistory;
+      }
+      // set message histories to pass to friend Item
+      setMessageHistories(messageHistories);
+    };
+    //call the method
+    fetchMessageHistories();
+  }, [friends, socket]);
 
   // Effects
   useEffect(() => {
@@ -176,6 +214,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
                     friend={friend}
                     setSelectedChat={setSelectedChat}
                     selectedChat={selectedChat}
+                    messageHistory={messageHistories[friend.AccountID]}
                   />
                 );
               })}

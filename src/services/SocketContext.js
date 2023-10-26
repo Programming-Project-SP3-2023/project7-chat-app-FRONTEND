@@ -18,14 +18,6 @@ export function useSocket() {
 
 // wraps the components to allow use of the socket component
 export function SocketProvider({ children }) {
-  const [authData, setAuthData] = useState(null);
-
-  useEffect(() => {
-    if (authData) {
-      socket.auth = { token: authData.token };
-    }
-  }, [authData]);
-
   useEffect(() => {
     // listeners
     socket.on("connectionResponse", (response) => {
@@ -69,7 +61,6 @@ export function SocketProvider({ children }) {
   //
   const contextValue = {
     socket,
-    authData,
     loginSocket: (accountID, username) => {
       socket.connect();
 
@@ -79,7 +70,6 @@ export function SocketProvider({ children }) {
       socket.emit("connectSocket", { accountID, username });
     },
     logout: () => {
-      setAuthData(null);
       socket.disconnect();
     },
   };

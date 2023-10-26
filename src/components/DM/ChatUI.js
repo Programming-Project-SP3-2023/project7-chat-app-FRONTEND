@@ -117,19 +117,21 @@ const ChatUI = () => {
     const newTimestamp = dayjs(new Date());
     const messageText = messageInput.toString(); // convert user input to string
 
-    // currently being used for local display
-    const newMessage = {
-      ChatID: chatID,
-      MessageBody: messageText,
-      SenderID: userId,
-      TimeSent: newTimestamp,
-    };
-    // sending > emit message of chatID and string of message
-    socket.emit("sendMessage", { chatID, message: messageText });
+    if (messageText.trim() !== "") {
+      // currently being used for local display
+      const newMessage = {
+        ChatID: chatID,
+        MessageBody: messageText,
+        SenderID: userId,
+        TimeSent: newTimestamp,
+      };
+      // sending > emit message of chatID and string of message
+      socket.emit("sendMessage", { chatID, message: messageText });
 
-    setMessages([...messages, newMessage]); //set local messages
-    setMessageInput("");
-    setTypingStatus("");
+      setMessages([...messages, newMessage]); //set local messages
+      setMessageInput("");
+      setTypingStatus("");
+    }
   };
 
   // format date / time

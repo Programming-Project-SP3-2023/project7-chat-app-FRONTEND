@@ -15,51 +15,19 @@ import { getUserID } from "../../utils/localStorage";
  * @returns Friend Label Item component render
  */
 
-const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
+const FriendItem = ({
+  friend,
+  setSelectedChat,
+  selectedChat,
+  messageHistory,
+}) => {
+  const userID = getUserID();
   // TODO - friend profile pic for Avatar component should come from the friend object (API call)
   const { socket } = useSocket();
   const [colorID, setColorID] = useState("green");
   const [onlineFriends, setOnlineFriends] = useState([]);
-  const [lastMessage, setLastMessage] = useState([]);
-  const userId = getUserID();
-
   const navigate = useNavigate();
   // const chatID = 10001001; // temp room
-
-  const getLastMessage = async () => {
-    try {
-      const messageHistory = await new Promise((resolve, reject) => {
-        socket.on("messageHistory", (messageHistory) => {
-          resolve(messageHistory);
-        });
-
-        socket.emit("connectChat", { chatID: friend.FriendshipID });
-        socket.emit("moreMessages", { chatID: friend.FriendshipID, num: 1 }); // return a single message
-
-        setTimeout(() => {
-          reject("getting single message timed out.");
-        }, 5000);
-      });
-
-      const message = messageHistory.find(
-        (chat) => chat[0].chatID === friend.Friend
-      );
-
-      if (message) {
-        setLastMessage(message);
-      } else {
-        setLastMessage("start chatting");
-      }
-      console.log("message: ", message);
-      setLastMessage(message);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getLastMessage();
-  }, []);
 
   //listener for online friends
   useEffect(() => {
@@ -149,20 +117,24 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
           </span>
         </div>
         <div className="friend-item-message">
-          {lastMessage.map((message, index) => (
-            <div
-              key={index}
-              className={`message-content-${
-                message.SenderID === userId ? "user" : "other"
-              }`}
-            >
-              {message.SenderID === userId ? (
-                <p>Me: {message.MessageBody}</p>
-              ) : (
-                <p>{message.MessageBody}</p>
-              )}
-            </div>
-          ))}
+          {messageHistory && messageHistory.length > 0 ? (
+            messageHistory.map((message, index) => (
+              <div
+                key={index}
+                className={`message-content-${
+                  message.SenderID === userID ? "user" : "other"
+                }`}
+              >
+                {message.SenderID === userID ? (
+                  <p>Me: {message[0].MessageBody}</p>
+                ) : (
+                  <p>{message[0].MessageBody}</p>
+                )}
+              </div>
+            ))
+          ) : (
+            <p>No Message Available</p>
+          )}
         </div>
       </div>
     </div>

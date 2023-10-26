@@ -8,9 +8,9 @@ import { SocketProvider } from "../src/services/SocketContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <SocketProvider>
-    <BrowserRouter>
+  <BrowserRouter>
+    <SocketProvider>
       <App />
-    </BrowserRouter>
-  </SocketProvider>
+    </SocketProvider>
+  </BrowserRouter>
 );
