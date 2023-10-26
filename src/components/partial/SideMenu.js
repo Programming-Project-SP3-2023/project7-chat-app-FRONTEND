@@ -6,7 +6,6 @@ import { Drawer, ListItem, Box, List } from "@mui/material";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
-import ECHO_LOGO from "../../assets/echo_transparent.png";
 
 import { useNavigate } from "react-router-dom";
 
