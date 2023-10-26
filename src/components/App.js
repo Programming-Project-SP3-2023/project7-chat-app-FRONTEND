@@ -50,7 +50,12 @@ function App() {
           path="dashboard"
           element={
             isLoggedIn ? (
-              <Dashboard refresh={refresh} setRefresh={setRefresh} headerTitle={headerTitle} setHeaderTitle={setHeaderTitle} />
+              <Dashboard
+                refresh={refresh}
+                setRefresh={setRefresh}
+                headerTitle={headerTitle}
+                setHeaderTitle={setHeaderTitle}
+              />
             ) : (
               <Navigate to="/login" />
             )
@@ -60,7 +65,16 @@ function App() {
           <Route path="friends" element={<Friends />}>
             <Route path=":id" element={<ChatUI />} />
           </Route>
-          <Route path="groups" element={<Groups refresh={refresh} setHeaderTitle={setHeaderTitle}  />}>
+          <Route
+            path="groups"
+            element={
+              <Groups
+                setRefresh={setRefresh}
+                refresh={refresh}
+                setHeaderTitle={setHeaderTitle}
+              />
+            }
+          >
             <Route path=":groupId" element={<ChatUI />}>
               <Route path=":channelId" element={<ChatUI />} />
             </Route>

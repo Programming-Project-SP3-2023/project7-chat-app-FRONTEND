@@ -416,14 +416,13 @@ footer {
 #side-menu .MuiListItem-root {
   justify-content: center;
   text-align: center;
-  max-height: 150px;
-  min-height: 120px;
+  height: 150px;
   width: 100%;
   cursor: pointer;
 }
 #side-menu .side-menu-img-container {
-  width: 7vw;
-  height: 7vw;
+  width: 120px;
+  height: 120px;
   border-radius: 30%;
   display: flex;
   flex-direction: column;
@@ -1311,9 +1310,16 @@ footer {
   height: 100%;
   width: 25%;
   padding: 1.5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 .group-page .group-menu h2 {
   font-size: 40px;
+}
+.group-page .group-menu div {
+  width: 100%;
 }
 .group-page .group-chat-area {
   height: 100%;
@@ -1355,4 +1361,44 @@ footer {
   min-width: 70%;
   width: -moz-fit-content;
   width: fit-content;
+}
+.group-page #group-bttns {
+  gap: 10px;
+  padding: 0;
+}
+.group-page #group-delete-bttn {
+  background-color: #b92727;
+  color: white;
+}
+.group-page .group-button {
+  width: 100%;
+  background-color: #f0eff4;
+  height: 40px;
+  border-radius: 15px;
+  padding: 0 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: #495057;
+  cursor: pointer;
+  border: 0;
+}
+.group-page .group-button h3 {
+  font-size: 20px;
+  font-weight: 200;
+}
+.group-page .group-button svg {
+  font-size: 28px;
+}
+.group-page .group-button:hover {
+  transform: scale(1.02);
+  transition: 0.3s linear;
+}
+.group-page #manage-members-icon {
+  cursor: pointer;
+}
+.group-page #manage-members-icon:hover {
+  transform: scale(1.05);
+  transition: 0.3s linear;
 }/*# sourceMappingURL=style.css.map */

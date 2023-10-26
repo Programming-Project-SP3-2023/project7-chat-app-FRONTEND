@@ -1,28 +1,26 @@
 /**
- * Manage Friends Modal component
+ * Manage Group Members Modal component
  */
 
 import { Modal, Box, InputAdornment, TextField } from "@mui/material";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-import UserChip from "./UserChip";
 import { useState } from "react";
+import MemberChip from "./MemberChip";
 
 /**
- * Builds and renders the Manage Friends Modal component
- * @returns Manage Friends Modalcomponent render
+ * Builds and renders the Manage Group Members Modal component
+ * @returns Manage Members Modal component render
  */
 
-const ManageFriendsModal = ({
-  manageFriendsModalOpen,
-  setManageFriendsModalOpen,
-  users,
-  friends,
-  friendRequests,
-  setRefresh,
+const ManageMembersModal = ({
+  manageMembersModalOpen,
+  setManageMembersModalOpen,
+  members,
+  setRefresh
 }) => {
   // handle modal closing
-  const handleClose = () => setManageFriendsModalOpen(false);
+  const handleClose = () => setManageMembersModalOpen(false);
 
   // Handle friends search
   const friendSearch = () => {
@@ -35,44 +33,32 @@ const ManageFriendsModal = ({
   return (
     <Modal
       id="manage-friends-modal-background"
-      open={manageFriendsModalOpen}
+      open={manageMembersModalOpen}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box id="manage-friends-modal">
         <div id="manage-friends-modal-header">
-          <h2>Manage Friends</h2>
+          <h2>Manage Members</h2>
         </div>
         <div id="manage-friends-modal-whitebox">
-          {friendRequests &&
-            friendRequests.map((friend, i) => {
+          {members &&
+            members.map((member, i) => {
               return (
-                <UserChip
+                <MemberChip
                   key={i}
-                  user={friend}
-                  request={true}
-                  setRefresh={setRefresh}
-                  setManageFriendsModalOpen={setManageFriendsModalOpen}
-                />
-              );
-            })}
-          {friends &&
-            friends.map((friend, i) => {
-              return (
-                <UserChip
-                  key={i}
-                  user={friend}
+                  member={member}
                   request={false}
                   setRefresh={setRefresh}
-                  setManageFriendsModalOpen={setManageFriendsModalOpen}
+                  setManageFriendsModalOpen={setManageMembersModalOpen}
                 />
               );
             })}
         </div>
         <div className="manage-friends-link">
           <PeopleAltOutlinedIcon />
-          <p>Search User</p>
+          <p>Add member</p>
         </div>
         <TextField
           sx={{ width: "90%" }}
@@ -100,5 +86,5 @@ const ManageFriendsModal = ({
   );
 };
 
-//Export the Manage Friends Modal component
-export default ManageFriendsModal;
+//Export the Manage Members Modal component
+export default ManageMembersModal;

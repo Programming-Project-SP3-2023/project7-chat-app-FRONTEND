@@ -455,15 +455,14 @@ footer {
   .MuiListItem-root {
     justify-content: center;
     text-align: center;
-    max-height: 150px;
-    min-height: 120px;
+    height: 150px;
     width: 100%;
     cursor: pointer;
   }
 
   .side-menu-img-container {
-    width: 7vw;
-    height: 7vw;
+    width: 120px;
+    height: 120px;
     border-radius: 30%;
     @include flex-column(center, center);
 
@@ -1265,6 +1264,11 @@ footer {
     h2 {
       font-size: 40px;
     }
+    @include flex-column(space-between, flex-start);
+
+    div {
+      width: 100%;
+    }
   }
 
   .group-chat-area {
@@ -1299,6 +1303,50 @@ footer {
         min-width: 70%;
         width: fit-content;
       }
+    }
+  }
+
+  #group-bttns {
+    gap: 10px;
+    padding: 0;
+  }
+
+  #group-delete-bttn {
+    background-color: $echo-red;
+    color: white;
+  }
+
+  .group-button {
+    width: 100%;
+    background-color: $echo-lightgrey;
+    height: 40px;
+    border-radius: 15px;
+    padding: 0 5%;
+    @include flex-row(space-between, center);
+    color: $echo-darkgrey;
+    cursor: pointer;
+    border: 0;
+
+    h3 {
+      font-size: 20px;
+      font-weight: 200;
+    }
+
+    svg {
+      font-size: 28px;
+    }
+
+    &:hover {
+      transform: scale(1.02);
+      transition: 0.3s linear;
+    }
+  }
+
+  #manage-members-icon {
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.05);
+      transition: 0.3s linear;
     }
   }
 }
