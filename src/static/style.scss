@@ -874,7 +874,7 @@ footer {
   @include flex-column(center, center);
 }
 
-#add-group-modal {
+.add-group-modal {
   aspect-ratio: 3/4;
   @include modal-styling();
 
@@ -1311,37 +1311,6 @@ footer {
     padding: 0;
   }
 
-  #group-delete-bttn {
-    background-color: $echo-red;
-    color: white;
-  }
-
-  .group-button {
-    width: 100%;
-    background-color: $echo-lightgrey;
-    height: 40px;
-    border-radius: 15px;
-    padding: 0 5%;
-    @include flex-row(space-between, center);
-    color: $echo-darkgrey;
-    cursor: pointer;
-    border: 0;
-
-    h3 {
-      font-size: 20px;
-      font-weight: 200;
-    }
-
-    svg {
-      font-size: 28px;
-    }
-
-    &:hover {
-      transform: scale(1.02);
-      transition: 0.3s linear;
-    }
-  }
-
   #manage-members-icon {
     cursor: pointer;
     &:hover {
@@ -1349,4 +1318,56 @@ footer {
       transition: 0.3s linear;
     }
   }
+}
+
+.group-button {
+  width: 100%;
+  background-color: $echo-lightgrey;
+  height: 40px;
+  border-radius: 15px;
+  padding: 0 5%;
+  @include flex-row(space-between, center);
+  color: $echo-darkgrey;
+  cursor: pointer;
+  border: 0;
+
+  h3 {
+    font-size: 20px;
+    font-weight: 200;
+  }
+
+  svg {
+    font-size: 28px;
+  }
+
+  &:hover {
+    transform: scale(1.02);
+    transition: 0.3s linear;
+  }
+}
+
+#group-delete-bttn {
+  background-color: $echo-red;
+  color: white;
+  margin-top: 20%;
+}
+
+/// Manage group modal ////
+
+#manage-group-settings-textfield{
+  width: 100%;
+  p{
+    margin-bottom: 2.1%;
+    padding-left: 1%;
+  }
+}
+
+#manage-group-submit-button{
+  width: 100%;
+  font-size: 19px;
+  background-color: $echo-darkblue;
+}
+
+#manage-group-settings{
+  gap: auto;
 }

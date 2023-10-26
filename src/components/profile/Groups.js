@@ -14,15 +14,20 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 
 import { useNavigate } from "react-router-dom";
 import ManageMembersModal from "../partial/ManageMembersModal";
+import ManageGroupSettings from "../partial/ManageGroupSettings";
 
 /**
  * Builds and renders the User groups component
  * @returns User groups component render
  */
 const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
+  
   const [group, setGroup] = useState(null);
-  // state handler for manage members modal
+
+  // state handler for groups settings modal
   const [manageMembersModalOpen, setManageMembersModalOpen] = useState(false);
+  const [manageGroupSettingsModalOpen, setManageGroupSettingsModalOpen] =
+    useState(false);
 
   const navigate = useNavigate();
   // fetch current group information
@@ -56,14 +61,21 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
 
   return (
     <section className="group-page">
-      {/* Manage group members modal render */}
+      {/* Manage group members modal & group settings modal render */}
       {group && (
-        <ManageMembersModal
-          manageMembersModalOpen={manageMembersModalOpen}
-          setManageMembersModalOpen={setManageMembersModalOpen}
-          members={group.GroupMembers}
-          setRefresh={setRefresh}
-        />
+        <>
+          <ManageMembersModal
+            manageMembersModalOpen={manageMembersModalOpen}
+            setManageMembersModalOpen={setManageMembersModalOpen}
+            members={group.GroupMembers}
+            setRefresh={setRefresh}
+          />
+          <ManageGroupSettings
+          manageGroupSettingsModalOpen={manageGroupSettingsModalOpen}
+          setManageGroupSettingsModalOpen={setManageGroupSettingsModalOpen}
+          group={group}
+           />
+        </>
       )}
 
       {/* Group page render */}
@@ -77,7 +89,10 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
                 <ChatOutlinedIcon />
                 <a onClick={() => handleChannelNavigate("", null)}>General</a>
               </div>
-              <PersonAddOutlinedIcon id="manage-members-icon" onClick={setManageMembersModalOpen} />
+              <PersonAddOutlinedIcon
+                id="manage-members-icon"
+                onClick={setManageMembersModalOpen}
+              />
             </div>
             <div className="group-option">
               <div>
@@ -118,13 +133,9 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
             <PersonAddOutlinedIcon />
             <h3>Manage members</h3>
           </button>
-          <button className="group-button">
+          <button className="group-button" onClick={setManageGroupSettingsModalOpen}>
             <SettingsOutlinedIcon />
             <h3>Group settings</h3>
-          </button>
-          <button id="group-delete-bttn" className="group-button">
-            <DeleteOutlineOutlinedIcon />
-            <h3>Delete group</h3>
           </button>
         </div>
       </div>

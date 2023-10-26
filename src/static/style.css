@@ -859,7 +859,7 @@ footer {
   align-items: center;
 }
 
-#add-group-modal {
+.add-group-modal {
   aspect-ratio: 3/4;
   width: 35%;
   background-color: #a9bcd0;
@@ -870,7 +870,7 @@ footer {
   align-items: center;
   gap: 10%;
 }
-#add-group-modal #add-group-modal-header {
+.add-group-modal #add-group-modal-header {
   height: 13%;
   background-color: #456b9a;
   width: 100%;
@@ -881,11 +881,11 @@ footer {
   justify-content: center;
   align-items: center;
 }
-#add-group-modal #add-group-modal-header h2 {
+.add-group-modal #add-group-modal-header h2 {
   font-weight: 300;
   color: white;
 }
-#add-group-modal #add-group-modal-body {
+.add-group-modal #add-group-modal-body {
   width: 70%;
   height: 70%;
   display: flex;
@@ -893,11 +893,11 @@ footer {
   justify-content: space-around;
   align-items: center;
 }
-#add-group-modal #add-group-modal-body a {
+.add-group-modal #add-group-modal-body a {
   width: 100%;
   text-decoration: none;
 }
-#add-group-modal #add-group-modal-body #add-group-link {
+.add-group-modal #add-group-modal-body #add-group-link {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -906,15 +906,15 @@ footer {
   gap: 10%;
   color: #456b9a;
 }
-#add-group-modal #add-group-modal-body #add-group-bttn {
+.add-group-modal #add-group-modal-body #add-group-bttn {
   background-color: #456b9a;
   width: 70%;
   height: 8%;
 }
-#add-group-modal #add-group-img-input {
+.add-group-modal #add-group-img-input {
   display: none;
 }
-#add-group-modal #img-upload-box {
+.add-group-modal #img-upload-box {
   width: 200px;
   height: 200px;
   background-color: #f0eff4;
@@ -926,12 +926,12 @@ footer {
   align-items: center;
   overflow: hidden;
 }
-#add-group-modal #img-upload-box .MuiSvgIcon-root {
+.add-group-modal #img-upload-box .MuiSvgIcon-root {
   font-size: 90px;
   margin-top: -10px;
   color: #495057;
 }
-#add-group-modal #img-upload-box img {
+.add-group-modal #img-upload-box img {
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
@@ -1366,11 +1366,15 @@ footer {
   gap: 10px;
   padding: 0;
 }
-.group-page #group-delete-bttn {
-  background-color: #b92727;
-  color: white;
+.group-page #manage-members-icon {
+  cursor: pointer;
 }
-.group-page .group-button {
+.group-page #manage-members-icon:hover {
+  transform: scale(1.05);
+  transition: 0.3s linear;
+}
+
+.group-button {
   width: 100%;
   background-color: #f0eff4;
   height: 40px;
@@ -1384,21 +1388,38 @@ footer {
   cursor: pointer;
   border: 0;
 }
-.group-page .group-button h3 {
+.group-button h3 {
   font-size: 20px;
   font-weight: 200;
 }
-.group-page .group-button svg {
+.group-button svg {
   font-size: 28px;
 }
-.group-page .group-button:hover {
+.group-button:hover {
   transform: scale(1.02);
   transition: 0.3s linear;
 }
-.group-page #manage-members-icon {
-  cursor: pointer;
+
+#group-delete-bttn {
+  background-color: #b92727;
+  color: white;
+  margin-top: 20%;
 }
-.group-page #manage-members-icon:hover {
-  transform: scale(1.05);
-  transition: 0.3s linear;
+
+#manage-group-settings-textfield {
+  width: 100%;
+}
+#manage-group-settings-textfield p {
+  margin-bottom: 2.1%;
+  padding-left: 1%;
+}
+
+#manage-group-submit-button {
+  width: 100%;
+  font-size: 19px;
+  background-color: #456b9a;
+}
+
+#manage-group-settings {
+  gap: auto;
 }/*# sourceMappingURL=style.css.map */

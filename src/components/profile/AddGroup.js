@@ -39,7 +39,7 @@ const AddGroup = ({ groupModalOpen, setGroupModalOpen }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box id="add-group-modal">
+      <Box className="add-group-modal">
         <div id="add-group-modal-header">
           <h2>New Group</h2>
         </div>
