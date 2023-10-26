@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useSocket } from "../../services/SocketContext";
+import { getUserID } from "../../utils/localStorage";
 
 /**
  * Builds and renders the Friend Label Item component
@@ -19,10 +20,46 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
   const { socket } = useSocket();
   const [colorID, setColorID] = useState("green");
   const [onlineFriends, setOnlineFriends] = useState([]);
+  const [lastMessage, setLastMessage] = useState([]);
+  const userId = getUserID();
 
   const navigate = useNavigate();
   // const chatID = 10001001; // temp room
-  // Determine icon color for online status
+
+  const getLastMessage = async () => {
+    try {
+      const messageHistory = await new Promise((resolve, reject) => {
+        socket.on("messageHistory", (messageHistory) => {
+          resolve(messageHistory);
+        });
+
+        socket.emit("connectChat", { chatID: friend.FriendshipID });
+        socket.emit("moreMessages", { chatID: friend.FriendshipID, num: 1 }); // return a single message
+
+        setTimeout(() => {
+          reject("getting single message timed out.");
+        }, 5000);
+      });
+
+      const message = messageHistory.find(
+        (chat) => chat[0].chatID === friend.Friend
+      );
+
+      if (message) {
+        setLastMessage(message);
+      } else {
+        setLastMessage("start chatting");
+      }
+      console.log("message: ", message);
+      setLastMessage(message);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getLastMessage();
+  }, []);
 
   //listener for online friends
   useEffect(() => {
@@ -35,12 +72,14 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
     socket.emit("getOnlineFriends");
 
     return () => {
-      // close socket afterwards
+      // close socket listner afterwards
       socket.off("getOnlineFriends");
     };
   }, [socket]);
 
+  // Determine icon color for online status
   useEffect(() => {
+    //looks for online friend based on account id
     if (onlineFriends.includes(friend.AccountID)) {
       setColorID("green");
     } else {
@@ -49,7 +88,6 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
   }, [colorID, setColorID, onlineFriends, friend.AccountID]);
 
   // handle chat select
-
   const handleSelect = async () => {
     let userID = "";
     // let chatID = "";
@@ -60,9 +98,11 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
     setSelectedChat(userID);
 
     // // const chatID = 10101013; // temp room
-    const joinChatPromise = new Promise((resolve, reject) => {
-      socket.emit("connectChat", { chatID });
 
+    const joinChatPromise = new Promise((resolve, reject) => {
+      // attempt to join chat room
+      socket.emit("connectChat", { chatID });
+      // waits for join response
       socket.on("connectChatResponse", () => {
         resolve();
       });
@@ -70,12 +110,13 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
       socket.on("error", (error) => {
         reject(error);
       });
-
+      // timeout response
       setTimeout(() => {
         reject("Socket didn't join the chat in time.");
       }, 5000);
     });
 
+    // attempts to navigate to chatroom id
     try {
       await joinChatPromise;
       navigate(`/dashboard/friends/${chatID}`); // required to be chatID
@@ -108,10 +149,20 @@ const FriendItem = ({ friend, setSelectedChat, selectedChat }) => {
           </span>
         </div>
         <div className="friend-item-message">
-          <p>
-            {!friend.lastSent && "Me: "}
-            {friend.lastMessage ? friend.lastMessage : "..."}
-          </p>
+          {lastMessage.map((message, index) => (
+            <div
+              key={index}
+              className={`message-content-${
+                message.SenderID === userId ? "user" : "other"
+              }`}
+            >
+              {message.SenderID === userId ? (
+                <p>Me: {message.MessageBody}</p>
+              ) : (
+                <p>{message.MessageBody}</p>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </div>
