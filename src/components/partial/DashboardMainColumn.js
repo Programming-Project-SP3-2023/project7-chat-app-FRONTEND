@@ -25,21 +25,23 @@ const DashboardMainColumn = ({
 }) => {
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   // method for checking online friends
-  // const { socket } = useSocket();
-  // const [onlineFriends, setOnlineFriends] = useState([]);
+  const { socket } = useSocket();
+  const [onlineFriends, setOnlineFriends] = useState([]);
 
-  // useEffect(() => {
-  //   socket.on("getOnlineFriends", () => {
-  //     socket.emit("onlineFriends", (onlineFriends) => {
-  //       setOnlineFriends(onlineFriends);
-  //       console.log("online friends: ", onlineFriends);
-  //     });
-  //   });
+  useEffect(() => {
+    //open listener for online friends
+    socket.on("onlineFriends", (data) => {
+      setOnlineFriends(data);
+    });
+    // ask for data
+    socket.emit("getOnlineFriends");
 
-  //   return () => {
-  //     socket.off("getOnlineFriends");
-  //   };
-  // }, [socket]);
+    return () => {
+      socket.off("getOnlineFriends");
+    };
+  }, [socket]);
+
+  useEffect(() => {});
 
   const openEditProfileModal = () => {
     setEditProfileModalOpen(true);
@@ -65,8 +67,11 @@ const DashboardMainColumn = ({
           <>
             {friends &&
               friends.map((friend, i) => {
-                if (friends.status === 2)
+                //searching through onlineFriends account ID and displays if found
+                if (onlineFriends.includes(friend.AccountID)) {
                   return <MenuItem key={i} friend={friend} />;
+                }
+                return null;
               })}
           </>
         )}
