@@ -13,6 +13,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 import { useNavigate } from "react-router-dom";
+import { useSocket } from "../../services/SocketContext";
 import ManageMembersModal from "../partial/ManageMembersModal";
 import ManageGroupSettings from "../partial/ManageGroupSettings";
 
@@ -21,9 +22,9 @@ import ManageGroupSettings from "../partial/ManageGroupSettings";
  * @returns User groups component render
  */
 const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
-  
   const [group, setGroup] = useState(null);
 
+  const { socket } = useSocket(); // socket
   // state handler for groups settings modal
   const [manageMembersModalOpen, setManageMembersModalOpen] = useState(false);
   const [manageGroupSettingsModalOpen, setManageGroupSettingsModalOpen] =
@@ -71,10 +72,10 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
             setRefresh={setRefresh}
           />
           <ManageGroupSettings
-          manageGroupSettingsModalOpen={manageGroupSettingsModalOpen}
-          setManageGroupSettingsModalOpen={setManageGroupSettingsModalOpen}
-          group={group}
-           />
+            manageGroupSettingsModalOpen={manageGroupSettingsModalOpen}
+            setManageGroupSettingsModalOpen={setManageGroupSettingsModalOpen}
+            group={group}
+          />
         </>
       )}
 
@@ -133,7 +134,10 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
             <PersonAddOutlinedIcon />
             <h3>Manage members</h3>
           </button>
-          <button className="group-button" onClick={setManageGroupSettingsModalOpen}>
+          <button
+            className="group-button"
+            onClick={setManageGroupSettingsModalOpen}
+          >
             <SettingsOutlinedIcon />
             <h3>Group settings</h3>
           </button>

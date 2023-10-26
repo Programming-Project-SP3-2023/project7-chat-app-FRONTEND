@@ -4,7 +4,6 @@
 
 // Dependencies
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useSocket } from "../services/SocketContext";
 
 // Components
 import Home from "./base/Home";
@@ -24,6 +23,7 @@ import { getUser } from "../utils/localStorage";
 import { useState, useEffect } from "react";
 import DashboardMain from "./profile/DashboardMain";
 import ChatUI from "./DM/ChatUI";
+import GroupChatUI from "./DM/GroupChatUI";
 
 function App() {
   const user = getUser();
@@ -75,8 +75,8 @@ function App() {
               />
             }
           >
-            <Route path=":groupId" element={<ChatUI />}>
-              <Route path=":channelId" element={<ChatUI />} />
+            <Route path=":groupId" element={<GroupChatUI />}>
+              <Route path=":channelId" element={<GroupChatUI />} />
             </Route>
           </Route>
         </Route>
