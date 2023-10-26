@@ -69,7 +69,11 @@ function App() {
           <Route
             path="groups"
             element={
-              <Groups refresh={refresh} setHeaderTitle={setHeaderTitle} />
+              <Groups
+                setRefresh={setRefresh}
+                refresh={refresh}
+                setHeaderTitle={setHeaderTitle}
+              />
             }
           >
             <Route path=":groupId" element={<GroupChatUI />}>
