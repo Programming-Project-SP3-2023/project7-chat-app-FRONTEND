@@ -706,6 +706,10 @@ footer {
       #red {
         color: $echo-red;
       }
+
+      #grey {
+        color: $echo-darkgrey;
+      }
     }
 
     .friend-item-message {
@@ -1354,20 +1358,20 @@ footer {
 
 /// Manage group modal ////
 
-#manage-group-settings-textfield{
+#manage-group-settings-textfield {
   width: 100%;
-  p{
+  p {
     margin-bottom: 2.1%;
     padding-left: 1%;
   }
 }
 
-#manage-group-submit-button{
+#manage-group-submit-button {
   width: 100%;
   font-size: 19px;
   background-color: $echo-darkblue;
 }
 
-#manage-group-settings{
+#manage-group-settings {
   gap: auto;
 }
