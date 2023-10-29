@@ -113,6 +113,11 @@ a {
   font-size: 15px;
 }
 
+.MuiAutocomplete-listbox{
+  min-height: auto;
+  max-height: 20vh;
+}
+
 /* ---------------------------- HEADER & FOOTER ---------------------------- */
 
 header,
@@ -1375,3 +1380,24 @@ footer {
 #manage-group-settings {
   gap: auto;
 }
+
+
+// ** ------------ Manage members modal -------------- ** //
+
+#manage-members-modal {
+  @include modal-styling(45%, 8%);
+  height: 70%;
+
+  #manage-members-modal-header {
+    @include modal-header-styling();
+    height: 15%;
+  }
+}
+
+.manage-friends-bottom{
+  width: 100%;
+  @include flex-column(center, center);
+  gap: 10px;
+}
+
+

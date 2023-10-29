@@ -247,6 +247,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
                   <li>
                     <Chip
                       clickable
+                      key={option}
                       icon={<PersonOutlineOutlinedIcon />}
                       className="friend-search-chip"
                       label={option.DisplayName}

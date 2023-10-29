@@ -5,6 +5,7 @@
 import { Outlet } from "react-router-dom";
 import { getGroups } from "../../utils/localStorage";
 import { useEffect, useState } from "react";
+import { getFriends } from "../../services/friendsAPI";
 
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import HeadphonesOutlinedIcon from "@mui/icons-material/HeadphonesOutlined";
@@ -23,6 +24,7 @@ import ManageGroupSettings from "../partial/ManageGroupSettings";
  */
 const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
   const [group, setGroup] = useState(null);
+  const [friends, setFriends] = useState([]);
 
   const { socket } = useSocket(); // socket
   // state handler for groups settings modal
@@ -31,7 +33,8 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
     useState(false);
 
   const navigate = useNavigate();
-  // fetch current group information
+
+  // fetch current group information + users
   useEffect(() => {
     // 1. find current group id
     const ID = window.location.pathname.split("/")[3];
@@ -45,6 +48,17 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
         setGroup(g);
       }
     });
+
+    // 4. define fetch friends function
+    async function fetchFriends() {
+      const response = await getFriends();
+      console.log("FRIENDS: ", response);
+      setFriends(response);
+    }
+
+    // 5. Fetch friends
+    fetchFriends();
+
   }, [refresh]);
 
   // handles opening channel chat and relative functions
@@ -70,6 +84,7 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
             setManageMembersModalOpen={setManageMembersModalOpen}
             members={group.GroupMembers}
             setRefresh={setRefresh}
+            users={friends}
           />
           <ManageGroupSettings
             manageGroupSettingsModalOpen={manageGroupSettingsModalOpen}
