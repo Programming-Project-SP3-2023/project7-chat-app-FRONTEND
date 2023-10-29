@@ -126,9 +126,9 @@ const FriendItem = ({
                 }`}
               >
                 {message.SenderID === userID ? (
-                  <p>Me: {message[0].MessageBody}</p>
+                  <p>Me: {message[0]?.MessageBody || " "}</p>
                 ) : (
-                  <p>{message[0].MessageBody}</p>
+                  <p>{message[0]?.MessageBody || " "}</p>
                 )}
               </div>
             ))
