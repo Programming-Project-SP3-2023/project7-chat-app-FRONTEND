@@ -10,6 +10,7 @@ import {
   Autocomplete,
   Chip,
   CircularProgress,
+  Avatar,
 } from "@mui/material";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -132,10 +133,10 @@ const ManageMembersModal = ({
                 <Chip
                   clickable
                   key={option}
-                  icon={<PersonOutlineOutlinedIcon />}
+                  icon={<Avatar src={option.Avatar} />}
                   className="friend-search-chip"
                   label={option.DisplayName}
-                  sx={{ width: "100%" }}
+                  sx={{ width: "100%", height: "fit-content", borderRadius:"80px", padding: "10px" }}
                   deleteIcon={
                     <PersonAddOutlinedIcon className="add-friend-icon" />
                   }
