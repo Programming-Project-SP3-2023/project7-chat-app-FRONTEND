@@ -28,7 +28,7 @@ import { getUserID, getUser } from "../../utils/localStorage";
  * Builds and renders the homepage component
  * @returns Homepage component render
  */
-function ChatUI({ selectedChat }) {
+const ChatUI = () => {
   const { socket } = useSocket();
   const [loading, setLoading] = useState(true); // set loading to true
   // const chatID = 10101013; // temp for testing
@@ -51,9 +51,9 @@ function ChatUI({ selectedChat }) {
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
-    // socket.emit("connectChat", { chatID });
+    socket.emit("connectChat", { chatID });
 
-    socket.emit("getMessages", { chatID });
+    // socket.emit("getMessages", { chatID });
     console.log("attempting to get messages?");
     // open listener of messageHistory for messages
     socket.on("messageHistory", (messages) => {
@@ -332,7 +332,7 @@ function ChatUI({ selectedChat }) {
       </form>
     </Box>
   );
-}
+};
 
 //Export the homepage component
 export default ChatUI;

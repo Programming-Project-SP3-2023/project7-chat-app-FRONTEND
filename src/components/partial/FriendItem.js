@@ -1,7 +1,6 @@
 /**
  * Friend Label Item component
  */
-import { Outlet } from "react-router-dom";
 
 import { Avatar } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -141,6 +140,6 @@ const FriendItem = ({
     </div>
   );
 };
-<Outlet />;
+
 //Export the Friend Label Item component
 export default FriendItem;
