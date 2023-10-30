@@ -2,8 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
 // host
-// const URL = "https://echo.matthewrosin.com:4000";
-const URL = process.env.REACT_APP_BASEURL;
+ const URL = "https://echo.matthewrosin.com:4000";
+//const URL = process.env.REACT_APP_BASEURL;
 console.log("attempting to connect to ", URL);
 
 // prevent socket io auto connecting
