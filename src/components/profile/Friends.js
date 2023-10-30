@@ -204,6 +204,8 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
             friends={friends}
             friendRequests={friendRequests}
             setRefresh={setRefresh}
+            setFriendToAdd={setFriendToAdd}
+            setAddFriendModalOpen={setAddFriendModalOpen}
           />
           <div className="friends-menu">
             <div className="friends-display">

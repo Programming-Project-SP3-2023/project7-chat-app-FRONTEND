@@ -58,6 +58,15 @@ a {
   font-size: 15px;
 }
 
+.MuiAutocomplete-popper {
+  min-height: auto;
+  max-height: 20vh;
+}
+.MuiAutocomplete-popper .MuiAutocomplete-listbox {
+  min-height: auto;
+  max-height: 20vh;
+}
+
 .MuiAutocomplete-listbox {
   min-height: auto;
   max-height: 20vh;
@@ -297,13 +306,14 @@ footer {
   justify-content: center;
   align-items: flex-end;
   padding-right: 15%;
-  background-color: #f0eff4;
+  background-color: #a9bcd0;
   position: relative;
   z-index: 1;
   overflow: hidden;
+  color: #495057;
 }
 #login-screen #login-bg-shape {
-  background-color: #a9bcd0;
+  background-color: #f0eff4;
   width: 2000px;
   height: 2000px;
   position: absolute;
@@ -350,13 +360,13 @@ footer {
 
 #login-link a {
   margin: 0 4px !important;
-  color: white;
+  color: #456b9a;
 }
 
 /* ---------------------------- SignUp PAGE ---------------------------- */
 #sign-up-screen {
   background-color: #456b9a;
-  background-image: -webkit-linear-gradient(138deg, #a9bcd0 60%, #f0eff4 40%);
+  background-image: -webkit-linear-gradient(138deg, #f0eff4 60%, #a9bcd0 40%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1182,8 +1192,8 @@ footer {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 5%;
-  height: 80%;
+  gap: 8%;
+  height: 70%;
 }
 #manage-friends-modal #manage-friends-modal-header {
   background-color: #456b9a;

@@ -30,10 +30,6 @@ const ManageMembersModal = ({
   users,
   setRefresh,
 }) => {
-  // Handle friends search
-  const friendSearch = () => {
-    console.log("This will trigger a search function");
-  };
 
   // Component state objects
   const [searchString, setSearchString] = useState("");

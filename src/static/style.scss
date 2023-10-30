@@ -113,7 +113,17 @@ a {
   font-size: 15px;
 }
 
-.MuiAutocomplete-listbox{
+.MuiAutocomplete-popper {
+  min-height: auto;
+  max-height: 20vh;
+
+  .MuiAutocomplete-listbox {
+    min-height: auto;
+    max-height: 20vh;
+  }
+}
+
+.MuiAutocomplete-listbox {
   min-height: auto;
   max-height: 20vh;
 }
@@ -342,13 +352,14 @@ footer {
 #login-screen {
   @include flex-column(center, flex-end);
   padding-right: 15%;
-  background-color: $echo-lightgrey;
+  background-color: $echo-lightblue;
   position: relative;
   z-index: 1;
   overflow: hidden;
+  color: $echo-darkgrey;
 
   #login-bg-shape {
-    background-color: $echo-lightblue;
+    background-color: $echo-lightgrey;
     width: 2000px;
     height: 2000px;
     position: absolute;
@@ -389,7 +400,7 @@ footer {
 #login-link {
   a {
     margin: 0 4px !important;
-    color: white;
+    color: $echo-darkblue;
   }
 }
 
@@ -399,8 +410,8 @@ footer {
   background-color: $echo-darkblue;
   background-image: -webkit-linear-gradient(
     138deg,
-    $echo-lightblue 60%,
-    $echo-lightgrey 40%
+    $echo-lightgrey 60%,
+    $echo-lightblue 40%
   );
   @include flex-column(center, center);
   gap: 50px;
@@ -1143,8 +1154,8 @@ footer {
 }
 
 #manage-friends-modal {
-  @include modal-styling(45%, 5%);
-  height: 80%;
+  @include modal-styling(45%, 8%);
+  height: 70%;
 
   #manage-friends-modal-header {
     @include modal-header-styling();
@@ -1381,7 +1392,6 @@ footer {
   gap: auto;
 }
 
-
 // ** ------------ Manage members modal -------------- ** //
 
 #manage-members-modal {
@@ -1394,10 +1404,8 @@ footer {
   }
 }
 
-.manage-friends-bottom{
+.manage-friends-bottom {
   width: 100%;
   @include flex-column(center, center);
   gap: 10px;
 }
-
-
