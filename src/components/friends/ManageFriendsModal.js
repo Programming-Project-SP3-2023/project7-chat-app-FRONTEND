@@ -16,7 +16,7 @@ import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-import UserChip from "./UserChip";
+import UserChip from "../partial/UserChip";
 import { useState, useEffect } from "react";
 import { getNonfriends } from "../../utils/utils";
 

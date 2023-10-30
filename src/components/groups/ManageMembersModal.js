@@ -17,7 +17,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
-import MemberChip from "./MemberChip";
+import MemberChip from "../partial/MemberChip";
 
 /**
  * Builds and renders the Manage Group Members Modal component

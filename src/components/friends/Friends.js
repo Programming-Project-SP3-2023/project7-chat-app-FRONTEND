@@ -17,8 +17,8 @@ import {
   Avatar,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import AddFriendConfirmation from "../partial/AddFriendConfirmation";
-import ManageFriendsModal from "../partial/ManageFriendsModal";
+import AddFriendConfirmation from "./AddFriendConfirmation";
+import ManageFriendsModal from "./ManageFriendsModal";
 import { Outlet } from "react-router-dom";
 import {
   getFriends,

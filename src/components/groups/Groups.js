@@ -15,8 +15,8 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
-import ManageMembersModal from "../partial/ManageMembersModal";
-import ManageGroupSettings from "../partial/ManageGroupSettings";
+import ManageMembersModal from "./ManageMembersModal";
+import ManageGroupSettings from "./ManageGroupSettings";
 
 /**
  * Builds and renders the User groups component
