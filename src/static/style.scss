@@ -1139,12 +1139,27 @@ footer {
 
 #add-friend-modal {
   aspect-ratio: 5/2;
-  @include modal-styling(50%, 16%);
+  @include modal-styling(40%, 8%);
 
   #add-friend-modal-header {
     @include modal-header-styling();
     height: 25%;
   }
+}
+
+.confirmation-modal-center{
+  width: 100%;
+   @include flex-row(center, center);
+   gap: 10%;
+
+   .user-chip-avatar{
+    width: 150px;
+    height: 150px;
+   }
+
+   span{
+    font-size: 20px;
+   }
 }
 
 /* ---------------------------- Manage Friends Modal ---------------------------- */

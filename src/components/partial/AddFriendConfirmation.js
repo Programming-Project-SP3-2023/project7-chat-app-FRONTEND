@@ -2,7 +2,7 @@
  * Add Friend Confirmation Modal component
  */
 
-import { Modal, Box, Button } from "@mui/material";
+import { Modal, Box, Button, Avatar } from "@mui/material";
 import { getUserID } from "../../utils/localStorage";
 import { useState } from "react";
 import { submitFriendRequest } from "../../services/friendsAPI";
@@ -30,8 +30,13 @@ const AddFriendConfirmation = ({
     const requesterID = getUserID();
     console.log(requesteeID, requesterID);
 
-    const response = await submitFriendRequest(requesterID, requesteeID);
-    console.log(response);
+    try {
+      const response = await submitFriendRequest(requesterID, requesteeID);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+
     setLoading(false);
     handleClose();
   };
@@ -48,10 +53,17 @@ const AddFriendConfirmation = ({
         <div id="add-friend-modal-header">
           <h2>Friend request</h2>
         </div>
-        <p>
-          Do you want to send {friendToAdd && friendToAdd.DisplayName} a friend
-          request?
-        </p>
+        <div className="confirmation-modal-center">
+          <Avatar
+            className="user-chip-avatar"
+            alt="Sample profile"
+            src={friendToAdd ? friendToAdd.Avatar : null}
+          />
+          <span>
+            Do you want to send {friendToAdd && friendToAdd.DisplayName} a
+            friend request?
+          </span>
+        </div>
         <Button
           id="add-friend-bttn"
           variant="contained"

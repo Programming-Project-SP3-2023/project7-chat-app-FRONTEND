@@ -185,7 +185,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
     <>
       {fetching && (
         <div id="loading-screen">
-          <h2>Loading user data...</h2>
+          <CircularProgress size={100} />
         </div>
       )}
       {!fetching && (

@@ -17,6 +17,9 @@ import {
   getUserID,
   setUserSession,
 } from "../../utils/localStorage";
+
+import { CircularProgress } from "@mui/material";
+
 /**
  * Builds and renders the Dashboard main menu component
  * @returns Dashboard Main Menu component render
@@ -112,7 +115,7 @@ const DashboardMain = () => {
     <>
       {loading ? (
         <div id="loading-screen">
-          <h2>Loading user data...</h2>
+          <CircularProgress size={100} />
         </div>
       ) : (
         <>
@@ -126,6 +129,7 @@ const DashboardMain = () => {
             manageFriendsModalOpen={manageFriendsModalOpen}
             setManageFriendsModalOpen={setManageFriendsModalOpen}
             friends={friends}
+            users={users}
             friendRequests={friendRequests}
             setRefresh={setRefresh}
           />
