@@ -30,7 +30,7 @@ import { getUserID, getUser } from "../../utils/localStorage";
  * @returns Homepage component render
  */
 const ChatUI = () => {
-  const { socket } = useSocket();
+  const { socket, loginSocket } = useSocket();
   const [loading, setLoading] = useState(true); // set loading to true
   // const chatID = 10101013; // temp for testing
   const { id } = useParams(); // gets id from url id
@@ -52,36 +52,40 @@ const ChatUI = () => {
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
-    socket.emit("connectChat", { chatID });
 
-    // socket.emit("getMessages", { chatID });
-    console.log("attempting to get messages?");
-    // open listener of messageHistory for messages
-    socket.on("messageHistory", (messages) => {
-      // set messages recieved
-      // console.log("Recieved message history inside chat: ", messages); // gets all messages
-      // console.log("single message", messages[0][0]); // returns a single message
-      setMessages(messages.flat().reverse());
-      setLoading(false); //set loading as false
-    });
+    if (socket.accountID !== null) {
+      socket.emit("connectChat", { chatID });
 
-    //open listener on message response. for data
-    socket.on("messageResponse", (data) => {
-      console.log("recieved message response", data);
+      // socket.emit("getMessages", { chatID });
+      console.log("attempting to get messages?");
+      // open listener of messageHistory for messages
+      socket.on("messageHistory", (messages) => {
+        // set messages recieved
+        setMessages(messages.flat().reverse());
+        setLoading(false); //set loading as false
+      });
 
-      // const messageRecieved = dayjs(new Date());
-      const formatMessage = {
-        SenderID: data.from,
-        MessageBody: data.message,
-        TimeSent: formatDateTime(data.timestamp),
-      };
+      //open listener on message response. for data
+      socket.on("messageResponse", (data) => {
+        console.log("recieved message response", data);
 
-      setMessages((messages) => [...messages, formatMessage]);
-      // setMessages(data);
-    });
-    // ask for messages
-    socket.emit("getMessages", { chatID: chatID });
+        // const messageRecieved = dayjs(new Date());
+        const formatMessage = {
+          SenderID: data.from,
+          MessageBody: data.message,
+          TimeSent: formatDateTime(data.timestamp),
+        };
 
+        setMessages((messages) => [...messages, formatMessage]);
+        // setMessages(data);
+      });
+      // ask for messages
+      socket.emit("getMessages", { chatID: chatID });
+    } else {
+      console.log("userID", userId);
+      console.log("username...", username);
+      loginSocket(userId, username);
+    }
     // close listeners
     return () => {
       socket.off("messageHistory");

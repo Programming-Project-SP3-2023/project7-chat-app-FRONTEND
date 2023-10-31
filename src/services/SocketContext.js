@@ -1,25 +1,13 @@
 import React, { createContext, useContext, useEffect } from "react";
 import { io } from "socket.io-client";
 
-import { getUserByID } from "./userAPI";
-import { getUser } from "../utils/localStorage";
-
 // host
-
 const URL = process.env.REACT_APP_BASEURL;
-// =======
-//  const URL = "https://echo.matthewrosin.com:4000";
-// //const URL = process.env.REACT_APP_BASEURL;
-// >>>>>>> main
+
 console.log("attempting to connect to ", URL);
 
 // prevent socket io auto connecting
 const socket = io(URL, { autoConnect: false });
-
-// const authData = {
-//   accountID: getUserByID(),
-//   username: getUser().username(),
-// };
 
 // creating a socket context in order to use throughout app
 const SocketContext = createContext();
@@ -74,7 +62,6 @@ export function SocketProvider({ children }) {
   //
   const contextValue = {
     socket,
-    // authData,
     loginSocket: (accountID, username) => {
       if (accountID !== undefined) {
         socket.connect();
@@ -90,13 +77,23 @@ export function SocketProvider({ children }) {
           "AccountID is undefined, Socket connection not established"
         );
       }
-
-      if (socket.accountID === undefined) {
-        console.log("undefined....");
-      }
     },
     logout: () => {
       socket.disconnect();
+    },
+    reconnect: (userID, user) => {
+      // if (!socket.connected) {
+      //   socket.connect();
+      // }
+
+      if (userID !== undefined) {
+        console.log("attempting to reconnect");
+        socket.accountID = userID;
+        socket.username = user;
+        socket.emit("connectSocket", { accountID: userID, username: user });
+      } else {
+        console.log("cannot reconnect please relog in....");
+      }
     },
   };
 

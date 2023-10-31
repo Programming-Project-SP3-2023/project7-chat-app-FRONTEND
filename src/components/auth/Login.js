@@ -38,7 +38,7 @@ const Login = ({ setIsLoggedIn }) => {
   const [message, setMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { loginSocket, socket } = useSocket();
+  const { loginSocket } = useSocket();
 
   // loading state handler
   const [loading, setLoading] = useState(false);
@@ -60,9 +60,8 @@ const Login = ({ setIsLoggedIn }) => {
       setLoading(false);
     } else {
       try {
-
         console.log("THIS ATTEMPT");
-        
+
         const requestBody = {
           username: username,
           password: password,
@@ -72,8 +71,14 @@ const Login = ({ setIsLoggedIn }) => {
         setUserID(response.data.AccountID);
         setAccessToken(response.data.token);
 
-        userDataResponse = await getUserByID(response.data.AccountID, response.data.token);
-        avatarResponse = await getAvatarByID(response.data.AccountID, response.data.token);
+        userDataResponse = await getUserByID(
+          response.data.AccountID,
+          response.data.token
+        );
+        avatarResponse = await getAvatarByID(
+          response.data.AccountID,
+          response.data.token
+        );
 
         let user;
         if (userDataResponse && avatarResponse) {
@@ -92,7 +97,7 @@ const Login = ({ setIsLoggedIn }) => {
             username: userDataResponse.username,
           };
         }
-        
+
         setMessage("Login Succesful");
         setUserSession(user);
         setSideMenuOption(0);

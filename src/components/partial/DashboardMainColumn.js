@@ -9,8 +9,10 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { useState, useEffect } from "react";
 
 import { useSocket } from "../../services/SocketContext";
-
+import { getUser, getUserID } from "../../utils/localStorage";
 import EditProfile from "../profile/EditProfile";
+const user = getUser();
+const accountID = getUserID();
 
 /**
  * Builds and renders the Dashboard Main Column component
@@ -25,16 +27,22 @@ const DashboardMainColumn = ({
 }) => {
   const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   // method for checking online friends
-  const { socket } = useSocket();
+  const { socket, loginSocket } = useSocket();
   const [onlineFriends, setOnlineFriends] = useState([]);
 
   useEffect(() => {
-    //open listener for online friends
-    socket.on("onlineFriends", (data) => {
-      setOnlineFriends(data);
-    });
-    // ask for data
-    socket.emit("getOnlineFriends");
+    if (socket.accountID !== undefined) {
+      //open listener for online friends
+      socket.on("onlineFriends", (data) => {
+        setOnlineFriends(data);
+      });
+      // ask for data
+      socket.emit("getOnlineFriends");
+    } else {
+      // reconnect
+
+      loginSocket(accountID, user);
+    }
 
     return () => {
       socket.off("getOnlineFriends");

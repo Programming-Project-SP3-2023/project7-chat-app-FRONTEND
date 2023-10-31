@@ -28,6 +28,7 @@ import {
 
 import { useSocket } from "../../services/SocketContext";
 import { getNonfriends } from "../../utils/utils";
+import { getUser, getUserID } from "../../utils/localStorage";
 
 /**
  * Builds and renders the friends chats component
@@ -66,10 +67,12 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
   const [manageFriendsModalOpen, setManageFriendsModalOpen] = useState(false);
 
   const [fetching, setFetching] = useState(false);
-  const { socket } = useSocket();
+  const { socket, loginSocket } = useSocket();
 
   // trigger refresh flag
   const [refresh, setRefresh] = useState(false);
+  const user = getUser();
+  const accountID = getUserID();
 
   // Methods
   // Handle friend add
@@ -83,14 +86,19 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
     //on friendship id / chatID fetch messages
     const fetchMessageHistoryForFriend = (friendshipID) => {
       return new Promise((resolve, reject) => {
-        // connect to chat
-        socket.emit("connectChat", { chatID: friendshipID });
-        // listen for chat messages
-        socket.on("messageHistory", (messages) => {
-          resolve(messages);
-        });
-        // ask for single message from chatID
-        socket.emit("moreMessages", { chatID: friendshipID, num: 1 });
+        // console.log("accountID.... here?", socket.AccountID);
+        if (socket.accountID !== undefined) {
+          // connect to chat
+          socket.emit("connectChat", { chatID: friendshipID });
+          // listen for chat messages
+          socket.on("messageHistory", (messages) => {
+            resolve(messages);
+          });
+          // ask for single message from chatID
+          socket.emit("moreMessages", { chatID: friendshipID, num: 1 });
+        } else {
+          loginSocket(accountID, user.username);
+        }
       });
     };
 
@@ -112,7 +120,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
     };
     //call the method
     fetchMessageHistories();
-  }, [friends, socket]);
+  }, [friends, socket, accountID, user.username, setMessageHistories]);
 
   // Effects
   useEffect(() => {
@@ -256,7 +264,12 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
                       icon={<Avatar src={option.Avatar} />}
                       className="friend-search-chip"
                       label={option.DisplayName}
-                      sx={{ width: "100%", height: "fit-content", borderRadius:"80px", padding: "10px" }}
+                      sx={{
+                        width: "100%",
+                        height: "fit-content",
+                        borderRadius: "80px",
+                        padding: "10px",
+                      }}
                       deleteIcon={
                         <PersonAddOutlinedIcon className="add-friend-icon" />
                       }
