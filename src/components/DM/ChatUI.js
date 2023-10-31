@@ -19,6 +19,7 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 
 // date time formatter
 import dayjs from "dayjs";
+
 // useParams can be used to get the url id
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
@@ -29,7 +30,7 @@ import { getUserID, getUser } from "../../utils/localStorage";
  * @returns Homepage component render
  */
 const ChatUI = () => {
-  const { socket } = useSocket();
+  const { socket, loginSocket } = useSocket();
   const [loading, setLoading] = useState(true); // set loading to true
   // const chatID = 10101013; // temp for testing
   const { id } = useParams(); // gets id from url id
@@ -51,36 +52,40 @@ const ChatUI = () => {
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
-    socket.emit("connectChat", { chatID });
 
-    // socket.emit("getMessages", { chatID });
-    console.log("attempting to get messages?");
-    // open listener of messageHistory for messages
-    socket.on("messageHistory", (messages) => {
-      // set messages recieved
-      // console.log("Recieved message history inside chat: ", messages); // gets all messages
-      // console.log("single message", messages[0][0]); // returns a single message
-      setMessages(messages.flat().reverse());
-      setLoading(false); //set loading as false
-    });
+    if (socket.accountID !== null) {
+      socket.emit("connectChat", { chatID });
 
-    //open listener on message response. for data
-    socket.on("messageResponse", (data) => {
-      console.log("recieved message response", data);
+      // socket.emit("getMessages", { chatID });
+      console.log("attempting to get messages?");
+      // open listener of messageHistory for messages
+      socket.on("messageHistory", (messages) => {
+        // set messages recieved
+        setMessages(messages.flat().reverse());
+        setLoading(false); //set loading as false
+      });
 
-      // const messageRecieved = dayjs(new Date());
-      const formatMessage = {
-        SenderID: data.from,
-        MessageBody: data.message,
-        TimeSent: formatDateTime(data.timestamp),
-      };
+      //open listener on message response. for data
+      socket.on("messageResponse", (data) => {
+        console.log("recieved message response", data);
 
-      setMessages((messages) => [...messages, formatMessage]);
-      // setMessages(data);
-    });
-    // ask for messages
-    socket.emit("getMessages", { chatID: chatID });
+        // const messageRecieved = dayjs(new Date());
+        const formatMessage = {
+          SenderID: data.from,
+          MessageBody: data.message,
+          TimeSent: formatDateTime(data.timestamp),
+        };
 
+        setMessages((messages) => [...messages, formatMessage]);
+        // setMessages(data);
+      });
+      // ask for messages
+      socket.emit("getMessages", { chatID: chatID });
+    } else {
+      console.log("userID", userId);
+      console.log("username...", username);
+      loginSocket(userId, username);
+    }
     // close listeners
     return () => {
       socket.off("messageHistory");
@@ -114,9 +119,10 @@ const ChatUI = () => {
   const handleMessageSubmit = (event) => {
     event.preventDefault();
     console.log("Message Handler");
-    const newTimestamp = dayjs(new Date());
+    const newTimestamp = new Date().getTime(); // converts to epoch time
     const messageText = messageInput.toString(); // convert user input to string
 
+    console.log("message submit timestamp: ", newTimestamp);
     if (messageText.trim() !== "") {
       // currently being used for local display
       const newMessage = {
@@ -137,6 +143,7 @@ const ChatUI = () => {
   // format date / time
   const formatDateTime = (timestamp) => {
     let formatTimestamp;
+
     // get today
     const today = dayjs();
     // return only time (if today)
@@ -148,6 +155,17 @@ const ChatUI = () => {
       formatTimestamp = dayjs(timestamp).format("ddd D MMM | HH:mm");
     }
     return formatTimestamp;
+  };
+
+  const formatEpochTime = (timestamp) => {
+    //to set the string of date first it needs to be an integer
+    //then formatted back to string....
+    const date = new Date(parseInt(timestamp)).toString();
+
+    //then formatted accordingly based on time
+    const formatedDate = formatDateTime(date);
+
+    return formatedDate;
   };
 
   // //image file button click
@@ -218,7 +236,7 @@ const ChatUI = () => {
             >
               {/* timestamp */}
               <div id="message-timestamp" className="message-timestamp">
-                {formatDateTime(message.TimeSent)}
+                {formatEpochTime(message.TimeSent)}
               </div>
               <div className="message-content">
                 {/* renders chat message */}

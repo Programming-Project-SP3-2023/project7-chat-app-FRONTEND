@@ -72,7 +72,7 @@ const GroupChatUI = () => {
       const formatMessage = {
         SenderID: data.from,
         MessageBody: data.message,
-        TimeSent: formatDateTime(data.timestamp),
+        TimeSent: data.timestamp,
       };
 
       setMessages((messages) => [...messages, formatMessage]);
@@ -135,8 +135,10 @@ const GroupChatUI = () => {
   };
 
   // format date / time
+  // format date / time
   const formatDateTime = (timestamp) => {
     let formatTimestamp;
+
     // get today
     const today = dayjs();
     // return only time (if today)
@@ -148,6 +150,17 @@ const GroupChatUI = () => {
       formatTimestamp = dayjs(timestamp).format("ddd D MMM | HH:mm");
     }
     return formatTimestamp;
+  };
+
+  const formatEpochTime = (timestamp) => {
+    //to set the string of date first it needs to be an integer
+    //then formatted back to string....
+    const date = new Date(parseInt(timestamp)).toString();
+
+    //then formatted accordingly based on time
+    const formatedDate = formatDateTime(date);
+
+    return formatedDate;
   };
 
   // //image file button click
@@ -218,7 +231,7 @@ const GroupChatUI = () => {
             >
               {/* timestamp */}
               <div id="message-timestamp" className="message-timestamp">
-                {formatDateTime(message.TimeSent)}
+                {formatEpochTime(message.TimeSent)}
               </div>
               <div className="message-content">
                 {/* renders chat message */}

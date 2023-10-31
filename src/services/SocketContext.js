@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { io } from "socket.io-client";
 
 // host
- const URL = "https://echo.matthewrosin.com:4000";
-//const URL = process.env.REACT_APP_BASEURL;
+const URL = process.env.REACT_APP_BASEURL;
+
 console.log("attempting to connect to ", URL);
 
 // prevent socket io auto connecting
@@ -20,6 +20,7 @@ export function useSocket() {
 export function SocketProvider({ children }) {
   useEffect(() => {
     // listeners
+
     socket.on("connectionResponse", (response) => {
       console.log("Connection Response: ", response);
     });
@@ -50,27 +51,49 @@ export function SocketProvider({ children }) {
 
     return () => {
       socket.off("connectionReponse");
-      socket.on("onlineFriends");
-      socket.on("messageHistory");
-      socket.on("messageResponse");
-      socket.on("userConnected");
-      socket.on("error");
-      socket.on("userDisconnected");
+      socket.off("onlineFriends");
+      socket.off("messageHistory");
+      socket.off("messageResponse");
+      socket.off("userConnected");
+      socket.off("error");
+      socket.off("userDisconnected");
     };
   }, []);
   //
   const contextValue = {
     socket,
     loginSocket: (accountID, username) => {
-      socket.connect();
+      if (accountID !== undefined) {
+        socket.connect();
 
-      console.log("accountID: " + accountID);
-      console.log("username: " + username);
+        socket.accountID = accountID;
+        socket.username = username;
+        console.log("accountID: " + accountID);
+        console.log("username: " + username);
 
-      socket.emit("connectSocket", { accountID, username });
+        socket.emit("connectSocket", { accountID, username });
+      } else {
+        console.log(
+          "AccountID is undefined, Socket connection not established"
+        );
+      }
     },
     logout: () => {
       socket.disconnect();
+    },
+    reconnect: (userID, user) => {
+      // if (!socket.connected) {
+      //   socket.connect();
+      // }
+
+      if (userID !== undefined) {
+        console.log("attempting to reconnect");
+        socket.accountID = userID;
+        socket.username = user;
+        socket.emit("connectSocket", { accountID: userID, username: user });
+      } else {
+        console.log("cannot reconnect please relog in....");
+      }
     },
   };
 
