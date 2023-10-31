@@ -10,7 +10,7 @@ import {
 } from "../../utils/localStorage";
 import SideMenu from "../partial/SideMenu";
 import { useEffect, useState } from "react";
-import AddGroup from "./AddGroup";
+import AddGroup from "../groups/AddGroup";
 
 /**
  * Builds and renders the dashboard component

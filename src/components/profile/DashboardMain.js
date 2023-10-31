@@ -3,8 +3,8 @@
  */
 
 import DashboardMainColumn from "../partial/DashboardMainColumn";
-import ManageFriendsModal from "../partial/ManageFriendsModal";
-import AddGroup from "./AddGroup";
+import ManageFriendsModal from "../friends/ManageFriendsModal";
+import AddGroup from "../groups/AddGroup";
 import { useState, useEffect } from "react";
 import { getUserByID, getAvatarByID } from "../../services/userAPI";
 import {

@@ -5,7 +5,12 @@ import { getUserByID } from "./userAPI";
 import { getUser } from "../utils/localStorage";
 
 // host
+
 const URL = process.env.REACT_APP_BASEURL;
+// =======
+//  const URL = "https://echo.matthewrosin.com:4000";
+// //const URL = process.env.REACT_APP_BASEURL;
+// >>>>>>> main
 console.log("attempting to connect to ", URL);
 
 // prevent socket io auto connecting

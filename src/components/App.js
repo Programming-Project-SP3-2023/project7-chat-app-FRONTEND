@@ -11,14 +11,10 @@ import Header from "./base/Header";
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import Dashboard from "./profile/Dashboard";
-import Channels from "./channels/Channels";
-import Search from "./search/Search";
 import Footer from "./base/Footer";
 import NotFound from "./base/NotFound";
-import CreateNewChannel from "./channels/CreateNewChannel";
-import JoinChannel from "./channels/JoinChannel";
-import Friends from "./profile/Friends";
-import Groups from "./profile/Groups";
+import Friends from "./friends/Friends";
+import Groups from "./groups/Groups";
 import { getUser } from "../utils/localStorage";
 import { useState, useEffect } from "react";
 import DashboardMain from "./profile/DashboardMain";
@@ -80,26 +76,6 @@ function App() {
             </Route>
           </Route>
         </Route>
-        <Route path="channels">
-          <Route
-            path=""
-            element={isLoggedIn ? <Channels /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="create-new"
-            element={
-              isLoggedIn ? <CreateNewChannel /> : <Navigate to="/login" />
-            }
-          />
-          <Route
-            path="join"
-            element={isLoggedIn ? <JoinChannel /> : <Navigate to="/login" />}
-          />
-        </Route>
-        <Route
-          path="search"
-          element={isLoggedIn ? <Search /> : <Navigate to="/login" />}
-        />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

@@ -10,13 +10,15 @@ import {
   Autocomplete,
   Chip,
   CircularProgress,
+  Avatar,
 } from "@mui/material";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-import UserChip from "./UserChip";
+import UserChip from "../partial/UserChip";
 import { useState, useEffect } from "react";
+import { getNonfriends } from "../../utils/utils";
 
 /**
  * Builds and renders the Manage Friends Modal component
@@ -58,7 +60,8 @@ const ManageFriendsModal = ({
       await sleep(1e3); // For demo purposes.
 
       if (active) {
-        setOptions([...users]);
+        const notFriends = getNonfriends(users, friends);
+        setOptions([...notFriends]);
       }
     })();
 
@@ -146,10 +149,10 @@ const ManageFriendsModal = ({
                 <Chip
                   clickable
                   key={option}
-                  icon={<PersonOutlineOutlinedIcon />}
+                  icon={<Avatar src={option.Avatar} />}
                   className="friend-search-chip"
                   label={option.DisplayName}
-                  sx={{ width: "100%" }}
+                  sx={{ width: "100%", height: "fit-content", borderRadius:"80px", padding: "10px" }}
                   deleteIcon={
                     <PersonAddOutlinedIcon className="add-friend-icon" />
                   }

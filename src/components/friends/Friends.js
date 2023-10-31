@@ -14,10 +14,11 @@ import {
   Autocomplete,
   CircularProgress,
   Chip,
+  Avatar,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import AddFriendConfirmation from "../partial/AddFriendConfirmation";
-import ManageFriendsModal from "../partial/ManageFriendsModal";
+import AddFriendConfirmation from "./AddFriendConfirmation";
+import ManageFriendsModal from "./ManageFriendsModal";
 import { Outlet } from "react-router-dom";
 import {
   getFriends,
@@ -26,6 +27,7 @@ import {
 } from "../../services/friendsAPI";
 
 import { useSocket } from "../../services/SocketContext";
+import { getNonfriends } from "../../utils/utils";
 
 /**
  * Builds and renders the friends chats component
@@ -124,7 +126,8 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
       await sleep(1e3); // For demo purposes.
 
       if (active) {
-        setOptions([...users]);
+        const notFriends = getNonfriends(users, friends);
+        setOptions([...notFriends]);
       }
     })();
 
@@ -250,10 +253,10 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
                     <Chip
                       clickable
                       key={option}
-                      icon={<PersonOutlineOutlinedIcon />}
+                      icon={<Avatar src={option.Avatar} />}
                       className="friend-search-chip"
                       label={option.DisplayName}
-                      sx={{ width: "100%" }}
+                      sx={{ width: "100%", height: "fit-content", borderRadius:"80px", padding: "10px" }}
                       deleteIcon={
                         <PersonAddOutlinedIcon className="add-friend-icon" />
                       }
