@@ -218,6 +218,7 @@ const Dashboard = ({
           tempGroups.push(groupRes);
         }
         setGroups(tempGroups);
+        setGroupsSession(tempGroups);
       } catch (err) {
         console.log(err);
       }

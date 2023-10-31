@@ -41,10 +41,11 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
 
     // 2. fetch groups data from local storage
     const groups = getGroups();
+    console.log("HERE", groups);
 
     // 3. extract group with current ID
     groups.forEach((g) => {
-      if (g.GroupID === ID) {
+      if (g.groupID === ID) {
         setGroup(g);
       }
     });
@@ -65,7 +66,7 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
   const handleChannelNavigate = (channelID, channelName) => {
     console.log("opening channel chat with id ", channelID);
     // loading channel chat with a certain ID (which will be used to get the channel info)
-    navigate(`/dashboard/groups/${group.GroupID}/${channelID}`);
+    navigate(`/dashboard/groups/${group.groupID}/${channelID}`);
     // change header title to match channel
     if (channelName) {
       setHeaderTitle(channelName);
@@ -120,7 +121,7 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
           {/* Channels */}
           <h2 id="channels-title">Channels</h2>
           <div className="group-options">
-            {group &&
+            {group && group.Channel &&
               group.Channels.map((channel) => (
                 <div className="group-option">
                   <div>
