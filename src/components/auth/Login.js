@@ -30,7 +30,7 @@ import { useSocket } from "../../services/SocketContext";
  * Builds and renders the login component
  * @returns Login component render
  */
-const Login = ({ setIsLoggedIn }) => {
+const Login = ({ setIsLoggedIn, setAccessTokenFast }) => {
   //Props
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -70,6 +70,7 @@ const Login = ({ setIsLoggedIn }) => {
         response = await login(requestBody);
         setUserID(response.data.AccountID);
         setAccessToken(response.data.token);
+        setAccessTokenFast(response.data.token);
 
         userDataResponse = await getUserByID(response.data.AccountID, response.data.token);
         avatarResponse = await getAvatarByID(response.data.AccountID, response.data.token);

@@ -26,6 +26,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   const [refresh, setRefresh] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("Echo");
+  const [accessTokenFast, setAccessTokenFast] = useState(null);
 
   useEffect(() => {
     setIsLoggedIn(user ? true : false);
@@ -40,7 +41,12 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route
+          path="login"
+          element={
+            <Login setIsLoggedIn={setIsLoggedIn} setAccessTokenFast={setAccessTokenFast}/>
+          }
+        />
         <Route path="signup" element={<Signup />} />
         <Route
           path="dashboard"
@@ -51,6 +57,7 @@ function App() {
                 setRefresh={setRefresh}
                 headerTitle={headerTitle}
                 setHeaderTitle={setHeaderTitle}
+                accessTokenFast={accessTokenFast}
               />
             ) : (
               <Navigate to="/login" />
