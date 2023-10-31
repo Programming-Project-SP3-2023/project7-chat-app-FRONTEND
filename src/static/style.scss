@@ -1399,6 +1399,20 @@ footer {
   margin-top: 20%;
 }
 
+.group-admin-flag{
+  width: 120% !important;
+  padding: 3% 7%;
+  @include flex-row(flex-start, center);
+  gap: 10%;
+  margin: -7% 0 5% -7%;
+  background-color: $echo-darkgrey;
+  color: rgb(251, 173, 7);
+  img{
+    width: 15%;
+    max-width: 40px;
+  }
+}
+
 /// Manage group modal ////
 
 #manage-group-settings-textfield {

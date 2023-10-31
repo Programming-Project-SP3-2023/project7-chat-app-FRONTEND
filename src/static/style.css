@@ -1456,6 +1456,23 @@ footer {
   margin-top: 20%;
 }
 
+.group-admin-flag {
+  width: 120% !important;
+  padding: 3% 7%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10%;
+  margin: -7% 0 5% -7%;
+  background-color: #495057;
+  color: rgb(251, 173, 7);
+}
+.group-admin-flag img {
+  width: 15%;
+  max-width: 40px;
+}
+
 #manage-group-settings-textfield {
   width: 100%;
 }

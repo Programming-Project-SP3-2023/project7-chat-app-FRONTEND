@@ -3,15 +3,15 @@
  */
 
 import { Outlet } from "react-router-dom";
-import { getGroups } from "../../utils/localStorage";
+import { getGroups, getUserID } from "../../utils/localStorage";
 import { useEffect, useState } from "react";
 import { getFriends } from "../../services/friendsAPI";
+import CROWN from "../../assets/crown.png";
 
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import HeadphonesOutlinedIcon from "@mui/icons-material/HeadphonesOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
@@ -25,6 +25,7 @@ import ManageGroupSettings from "./ManageGroupSettings";
 const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
   const [group, setGroup] = useState(null);
   const [friends, setFriends] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const { socket } = useSocket(); // socket
   // state handler for groups settings modal
@@ -41,12 +42,22 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
 
     // 2. fetch groups data from local storage
     const groups = getGroups();
-    console.log("HERE", groups);
+    let currentGroup;
 
     // 3. extract group with current ID
     groups.forEach((g) => {
       if (g.groupID === ID) {
+        currentGroup = g;
         setGroup(g);
+      }
+    });
+
+    // 4. Check if User is this group's admin
+    const members = currentGroup.GroupMembers;
+    console.log(members);
+    members.forEach((m) => {
+      if (m.AccountID === getUserID()) {
+        if (m.Role === "Admin") setIsAdmin(true);
       }
     });
 
@@ -56,10 +67,8 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
       console.log("FRIENDS: ", response);
       setFriends(response);
     }
-
-    // 5. Fetch friends
+    // 5. Call function
     fetchFriends();
-
   }, [refresh]);
 
   // handles opening channel chat and relative functions
@@ -98,6 +107,13 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
       {/* Group page render */}
       <div className="group-menu">
         <div>
+          {isAdmin && (
+            <div className="group-admin-flag">
+              {/* <a href="https://www.flaticon.com/free-icons/crown" title="crown icons">Crown icons created by Freepik - Flaticon</a> */}
+              <img src={CROWN} alt="crown" />
+              <h3>You are this group's admin</h3>
+            </div>
+          )}
           {/* General chats */}
           <h2>General</h2>
           <div className="group-options">
@@ -121,7 +137,8 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
           {/* Channels */}
           <h2 id="channels-title">Channels</h2>
           <div className="group-options">
-            {group && group.Channel &&
+            {group &&
+              group.Channel &&
               group.Channels.map((channel) => (
                 <div className="group-option">
                   <div>
@@ -145,19 +162,24 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
               ))}
           </div>
         </div>
-        <div id="group-bttns" className="group-options">
-          <button className="group-button" onClick={setManageMembersModalOpen}>
-            <PersonAddOutlinedIcon />
-            <h3>Manage members</h3>
-          </button>
-          <button
-            className="group-button"
-            onClick={setManageGroupSettingsModalOpen}
-          >
-            <SettingsOutlinedIcon />
-            <h3>Group settings</h3>
-          </button>
-        </div>
+        {isAdmin && (
+          <div id="group-bttns" className="group-options">
+            <button
+              className="group-button"
+              onClick={setManageMembersModalOpen}
+            >
+              <PersonAddOutlinedIcon />
+              <h3>Manage members</h3>
+            </button>
+            <button
+              className="group-button"
+              onClick={setManageGroupSettingsModalOpen}
+            >
+              <SettingsOutlinedIcon />
+              <h3>Group settings</h3>
+            </button>
+          </div>
+        )}
       </div>
       <div className="group-chat-area">
         {/* By default it loads the general chat */}
