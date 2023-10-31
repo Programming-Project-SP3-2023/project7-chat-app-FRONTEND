@@ -886,7 +886,7 @@ footer {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 10%;
+  gap: 6%;
 }
 .add-group-modal #add-group-modal-header {
   height: 13%;
@@ -905,7 +905,7 @@ footer {
 }
 .add-group-modal #add-group-modal-body {
   width: 70%;
-  height: 70%;
+  height: 75%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -954,6 +954,22 @@ footer {
   -o-object-fit: cover;
      object-fit: cover;
   height: 100%;
+}
+.add-group-modal #group-members-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 8%;
+}
+.add-group-modal #group-members-container .group-member-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 1%;
 }
 
 /* ---------------------------- Edit Profile modal ---------------------------- */

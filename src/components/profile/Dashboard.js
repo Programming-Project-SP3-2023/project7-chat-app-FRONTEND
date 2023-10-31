@@ -11,12 +11,13 @@ import {
 import SideMenu from "../partial/SideMenu";
 import { useEffect, useState } from "react";
 import AddGroup from "../groups/AddGroup";
+import { getFriends } from "../../services/friendsAPI";
 
 /**
  * Builds and renders the dashboard component
  * @returns Dashboard component render
  */
-const Dashboard = ({setRefresh, refresh, headerTitle, setHeaderTitle}) => {
+const Dashboard = ({ setRefresh, refresh, headerTitle, setHeaderTitle }) => {
   // separating first two options from groups as in future development
   // the groups will be pulled from a backend endpoint
   const mainOptions = ["Dashboard", "Friends"];
@@ -26,7 +27,8 @@ const Dashboard = ({setRefresh, refresh, headerTitle, setHeaderTitle}) => {
     {
       GroupID: "2345",
       GroupName: "First Group",
-      avatar:"https://images-platform.99static.com//n7liZzsSMdHX6uDJpYOA2QTUVeA=/163x13:1335x1185/fit-in/500x500/99designs-contests-attachments/116/116335/attachment_116335822",
+      avatar:
+        "https://images-platform.99static.com//n7liZzsSMdHX6uDJpYOA2QTUVeA=/163x13:1335x1185/fit-in/500x500/99designs-contests-attachments/116/116335/attachment_116335822",
       GroupMembers: [
         {
           MemberName: "Jake Johns",
@@ -97,7 +99,8 @@ const Dashboard = ({setRefresh, refresh, headerTitle, setHeaderTitle}) => {
     {
       GroupID: "9876",
       GroupName: "Second Group",
-      avatar: "https://images-platform.99static.com//7Q-Hqrtilp5oAiyOnpAbQaY_ADI=/28x1018:923x1913/fit-in/500x500/99designs-contests-attachments/103/103576/attachment_103576322",
+      avatar:
+        "https://images-platform.99static.com//7Q-Hqrtilp5oAiyOnpAbQaY_ADI=/28x1018:923x1913/fit-in/500x500/99designs-contests-attachments/103/103576/attachment_103576322",
       GroupMembers: [
         {
           MemberName: "Jake Johns",
@@ -167,6 +170,29 @@ const Dashboard = ({setRefresh, refresh, headerTitle, setHeaderTitle}) => {
     },
   ];
 
+  // state variables
+  const [loading, setLoading] = useState(false);
+  const [selectedOpt, setSelectedOpt] = useState(0);
+  const [friends, setFriends] = useState([]);
+  // state handler for create group modal
+  const [groupModalOpen, setGroupModalOpen] = useState(false);
+
+  // Fetch friends
+  useEffect(() => {
+    // 1. set fetching state to true for page to be on hold (loading)
+    setLoading(true);
+
+    // 3. define fetch friends function
+    async function fetchFriends() {
+      const response = await getFriends();
+      console.log("FRIENDS: ", response);
+      setFriends(response);
+      setLoading(false);
+    }
+
+    fetchFriends();
+  }, []);
+
   // set groups session on localstorage
   useEffect(() => {
     setGroupsSession(groups);
@@ -181,11 +207,6 @@ const Dashboard = ({setRefresh, refresh, headerTitle, setHeaderTitle}) => {
   // options object
   const options = mainOptions.concat(groupNames);
   options.push("Add Group");
-
-  // state variables
-  const [selectedOpt, setSelectedOpt] = useState(0);
-  // state handler for create group modal
-  const [groupModalOpen, setGroupModalOpen] = useState(false);
 
   // make selected options persistent so it stays in the browser after refresh
   const handleSelectOption = (selected) => {
@@ -203,11 +224,14 @@ const Dashboard = ({setRefresh, refresh, headerTitle, setHeaderTitle}) => {
 
   return (
     <section className="main-section" id="dashboard">
-      {/* Add group modal */}
-      <AddGroup
-        groupModalOpen={groupModalOpen}
-        setGroupModalOpen={setGroupModalOpen}
-      />
+      {!loading && (
+        <AddGroup
+          groupModalOpen={groupModalOpen}
+          setGroupModalOpen={setGroupModalOpen}
+          friends={friends}
+        />
+      )}
+
       <div id="dashboard-header-title">
         <h2>{headerTitle}</h2>
       </div>

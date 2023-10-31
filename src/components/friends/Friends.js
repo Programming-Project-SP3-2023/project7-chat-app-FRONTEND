@@ -6,7 +6,6 @@ import FriendItem from "../partial/FriendItem";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import {
   InputAdornment,
@@ -134,7 +133,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
     return () => {
       active = false;
     };
-  }, [loading]);
+  }, [loading, friends, users]);
 
   useEffect(() => {
     if (!open) {

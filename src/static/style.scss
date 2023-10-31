@@ -896,7 +896,7 @@ footer {
 
 .add-group-modal {
   aspect-ratio: 3/4;
-  @include modal-styling();
+  @include modal-styling(35%, 6%);
 
   #add-group-modal-header {
     height: 13%;
@@ -905,7 +905,7 @@ footer {
 
   #add-group-modal-body {
     width: 70%;
-    height: 70%;
+    height: 75%;
     @include flex-column(space-around, center);
 
     a {
@@ -950,6 +950,18 @@ footer {
       width: 100%;
       object-fit: cover;
       height: 100%;
+    }
+  }
+
+  #group-members-container{
+    @include flex-row(center, center);
+    width: 100%;
+    gap: 8%;
+
+    .group-member-icon{
+      @include flex-column(space-between, center);
+      gap: 10px;
+      padding: 1%;
     }
   }
 }
