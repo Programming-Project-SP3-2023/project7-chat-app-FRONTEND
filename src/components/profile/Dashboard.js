@@ -240,7 +240,7 @@ const Dashboard = ({
     }
 
     fetchData();
-  }, []);
+  }, [refresh]);
 
   // make selected options persistent so it stays in the browser after refresh
   const handleSelectOption = (selected) => {

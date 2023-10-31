@@ -120,3 +120,36 @@ export const getGroupByID = async function (groupID, token) {
 
   return;
 };
+
+/**
+ * Deletes a group
+ * @param {*} groupID group ID
+ * @returns confirmation/error message
+ */
+
+export const deleteGroupByID = async function (groupID, token) {
+  console.log(`${BASE_URL}groups/delete/${groupID}`);
+
+  const deleteHeader = {
+    headers: {
+      Authorization: `${token ? token : getAccessToken()}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    let response = await axios.delete(
+      `${BASE_URL}groups/delete/${groupID}`,
+      deleteHeader
+    );
+
+    //Success!
+    if (response.status === 200) {
+      return response.data.message;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  return;
+};

@@ -100,6 +100,8 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
             manageGroupSettingsModalOpen={manageGroupSettingsModalOpen}
             setManageGroupSettingsModalOpen={setManageGroupSettingsModalOpen}
             group={group}
+            refresh={refresh}
+            setRefresh={setRefresh}
           />
         </>
       )}
@@ -111,7 +113,7 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
             <div className="group-admin-flag">
               {/* <a href="https://www.flaticon.com/free-icons/crown" title="crown icons">Crown icons created by Freepik - Flaticon</a> */}
               <img src={CROWN} alt="crown" />
-              <h3>You are this group's admin</h3>
+              <h4>You are this group's admin</h4>
             </div>
           )}
           {/* General chats */}

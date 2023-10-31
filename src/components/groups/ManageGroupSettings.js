@@ -6,6 +6,8 @@ import { Modal, Box, TextField, Button } from "@mui/material";
 import { useState } from "react";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import { deleteGroupByID } from "../../services/groupsAPI";
+import { getAccessToken } from "../../utils/localStorage";
 /**
  * Builds and renders the Manage Group Settings Modal component
  * @returns Manage Group Settings Modal component render
@@ -15,6 +17,8 @@ const ManageGroupSettings = ({
   manageGroupSettingsModalOpen,
   setManageGroupSettingsModalOpen,
   group,
+  refresh,
+  setRefresh
 }) => {
   // handle modal closing
   const handleClose = () => setManageGroupSettingsModalOpen(false);
@@ -22,6 +26,8 @@ const ManageGroupSettings = ({
   // state variables for form
   const [selectedImage, setSelectedImage] = useState(null);
   const [groupName, setGroupName] = useState(group.GroupName);
+
+  // METHODS
 
   // handles image change and file upload (base64)
   const imageChange = (e) => {
@@ -31,6 +37,19 @@ const ManageGroupSettings = ({
         setSelectedImage(data.result);
       });
       data.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  // handles group delete
+  const deleteGroupHandler = async (e) => {
+    e.preventDefault();
+    console.log(group.groupID);
+    try {
+      const response = await deleteGroupByID(group.groupID, getAccessToken());
+      console.log(response);
+      setRefresh(!refresh);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -86,7 +105,11 @@ const ManageGroupSettings = ({
           >
             Save changes
           </Button>
-          <button id="group-delete-bttn" className="group-button">
+          <button
+            id="group-delete-bttn"
+            className="group-button"
+            onClick={deleteGroupHandler}
+          >
             <DeleteOutlineOutlinedIcon />
             <h3>Delete group</h3>
           </button>
