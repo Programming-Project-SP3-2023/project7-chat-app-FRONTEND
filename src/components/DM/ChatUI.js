@@ -19,6 +19,7 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 
 // date time formatter
 import dayjs from "dayjs";
+
 // useParams can be used to get the url id
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
@@ -114,9 +115,10 @@ const ChatUI = () => {
   const handleMessageSubmit = (event) => {
     event.preventDefault();
     console.log("Message Handler");
-    const newTimestamp = dayjs(new Date());
+    const newTimestamp = new Date().getTime(); // converts to epoch time
     const messageText = messageInput.toString(); // convert user input to string
 
+    console.log("message submit timestamp: ", newTimestamp);
     if (messageText.trim() !== "") {
       // currently being used for local display
       const newMessage = {
@@ -137,6 +139,7 @@ const ChatUI = () => {
   // format date / time
   const formatDateTime = (timestamp) => {
     let formatTimestamp;
+
     // get today
     const today = dayjs();
     // return only time (if today)
@@ -148,6 +151,17 @@ const ChatUI = () => {
       formatTimestamp = dayjs(timestamp).format("ddd D MMM | HH:mm");
     }
     return formatTimestamp;
+  };
+
+  const formatEpochTime = (timestamp) => {
+    //to set the string of date first it needs to be an integer
+    //then formatted back to string....
+    const date = new Date(parseInt(timestamp)).toString();
+
+    //then formatted accordingly based on time
+    const formatedDate = formatDateTime(date);
+
+    return formatedDate;
   };
 
   // //image file button click
@@ -218,7 +232,7 @@ const ChatUI = () => {
             >
               {/* timestamp */}
               <div id="message-timestamp" className="message-timestamp">
-                {formatDateTime(message.TimeSent)}
+                {formatEpochTime(message.TimeSent)}
               </div>
               <div className="message-content">
                 {/* renders chat message */}
