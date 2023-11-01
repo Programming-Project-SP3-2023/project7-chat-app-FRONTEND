@@ -17,6 +17,7 @@ import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import MemberChip from "../partial/MemberChip";
+import { addGroupMember, removeGroupMember } from "../../services/groupsAPI";
 
 /**
  * Builds and renders the Manage Group Members Modal component
@@ -27,8 +28,12 @@ const ManageMembersModal = ({
   manageMembersModalOpen,
   setManageMembersModalOpen,
   members,
+  setMembers,
   friends,
   setRefresh,
+  groupID,
+  groupReload,
+  setGroupReload,
 }) => {
   // Component state objects
   const [searchString, setSearchString] = useState("");
@@ -45,10 +50,54 @@ const ManageMembersModal = ({
     });
   }
 
+  // Methods
+  // Handle member add
+  const handleAddMember = async (option) => {
+    try {
+      const response = await addGroupMember(groupID, option.Email);
+      console.log(response);
+      setGroupReload(!groupReload);
+
+      // set up additional temp member for frontend view/func only.
+      // Next time the modal is open it will have the exact elements
+      const tempMembers = members;
+      const newMember = {
+        AccountID: option.AccountID,
+        MemberName: option.DisplayName,
+        Role: "Member",
+        avatar: option.Avatar,
+      };
+      members.push(newMember);
+      setMembers(tempMembers);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // Handle member remove
+  const handleRemoveMember = async (member, i) => {
+    try {
+      const response = await removeGroupMember(groupID, member.AccountID);
+      console.log(response);
+      setGroupReload(!groupReload);
+      // Manually remove member for frontend view/func only.
+      // Next time the modal is open it will have the exact elements pulled from backend
+      const tempMembers = members;
+      tempMembers.splice(i, 1);
+      setMembers(tempMembers);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // handle modal closing
+  const handleClose = () => setManageMembersModalOpen(false);
+
   // Effects
 
   // calculate friend options
   useEffect(() => {
+    console.log("TRIGGERED");
     // get only members who are not friends
     const possibleOptions = [];
     const notPossible = [];
@@ -66,7 +115,8 @@ const ManageMembersModal = ({
 
     setFriendOptions(possibleOptions);
     console.log("OPTIONS", friendOptions);
-  }, [manageMembersModalOpen]);
+    console.log("MEMBERS", members);
+  }, [manageMembersModalOpen, setMembers, groupReload]);
 
   useEffect(() => {
     let active = true;
@@ -94,16 +144,6 @@ const ManageMembersModal = ({
     }
   }, [open]);
 
-  // Methods
-  // Handle friend add
-  const handleAddMember = (option) => {
-    setFriendToAdd(option);
-    console.log("Add member to group function");
-  };
-
-  // handle modal closing
-  const handleClose = () => setManageMembersModalOpen(false);
-
   return (
     <Modal
       id="manage-friends-modal-background"
@@ -126,6 +166,7 @@ const ManageMembersModal = ({
                   request={false}
                   setRefresh={setRefresh}
                   setManageFriendsModalOpen={setManageMembersModalOpen}
+                  handleRemoveMember={() => handleRemoveMember(member, i)}
                 />
               );
             })}

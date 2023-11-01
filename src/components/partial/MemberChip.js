@@ -10,16 +10,7 @@ import PersonRemoveAlt1OutlinedIcon from "@mui/icons-material/PersonRemoveAlt1Ou
  * @returns Member Chip Item component render
  */
 
-const MemberChip = ({ member, setRefresh, setManageMemberModalOpen }) => {
-  // Add a new member
-  const addMember = () => {
-    console.log("adding member...");
-  };
-
-  // Remove a member
-  const removeMember = () => {
-    console.log("removing member");
-  };
+const MemberChip = ({ member, setRefresh, setManageMemberModalOpen, handleRemoveMember }) => {
 
   return (
     <div className="user-chip">
@@ -32,7 +23,7 @@ const MemberChip = ({ member, setRefresh, setManageMemberModalOpen }) => {
         <span>{member.MemberName}</span>
         <PersonRemoveAlt1OutlinedIcon
           className="remove-friends-icon"
-          onClick={removeMember}
+          onClick={handleRemoveMember}
         />
       </div>
     </div>

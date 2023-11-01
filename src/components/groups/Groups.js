@@ -32,6 +32,7 @@ const Groups = ({
   const [group, setGroup] = useState(null);
   const [friends, setFriends] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [members, setMembers] = useState([]);
 
   const { socket } = useSocket(); // socket
   // state handler for groups settings modal
@@ -55,12 +56,11 @@ const Groups = ({
       if (g.groupID === ID) {
         currentGroup = g;
         setGroup(g);
+        setMembers(currentGroup.GroupMembers);
       }
     });
 
     // 4. Check if User is this group's admin
-    const members = currentGroup.GroupMembers;
-    console.log(members);
     members.forEach((m) => {
       if (m.AccountID === getUserID()) {
         if (m.Role === "Admin") setIsAdmin(true);
@@ -98,9 +98,13 @@ const Groups = ({
           <ManageMembersModal
             manageMembersModalOpen={manageMembersModalOpen}
             setManageMembersModalOpen={setManageMembersModalOpen}
-            members={group.GroupMembers}
+            members={members}
+            setMembers={setMembers}
             setRefresh={setRefresh}
             friends={friends}
+            groupID={group.groupID}
+            groupReload={groupReload}
+            setGroupReload={setGroupReload}
           />
           <ManageGroupSettings
             manageGroupSettingsModalOpen={manageGroupSettingsModalOpen}

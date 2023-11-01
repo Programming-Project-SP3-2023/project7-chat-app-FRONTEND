@@ -11,6 +11,7 @@ const BASE_URL = process.env.REACT_APP_BASEURL;
 const CREATE_GROUP_ENDPOINT = `${BASE_URL}groups/create`;
 const ADD_MEMBER_ENDPOINT = `${BASE_URL}groups/add-member`;
 const GET_MEMBERS_ENDPOINT = `${BASE_URL}groups/current-groups`;
+const REMOVE_MEMBER_ENDPOINT = `${BASE_URL}groups/remove-member`;
 
 // Auth setup
 const headers = {
@@ -141,6 +142,45 @@ export const deleteGroupByID = async function (groupID, token) {
     let response = await axios.delete(
       `${BASE_URL}groups/delete/${groupID}`,
       deleteHeader
+    );
+
+    //Success!
+    if (response.status === 200) {
+      return response.data.message;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  return;
+};
+
+/**
+ * Removes a group member
+ * @param {*} groupId group ID
+ * @param {*} accountId user ID
+ * @returns confirmation/error message
+ */
+export const removeGroupMember = async function (groupId, accountId) {
+  const body = {
+    accountId: accountId,
+    groupId: groupId,
+  };
+
+  const deleteHeaders = {
+    headers: {
+      Authorization: getAccessToken(),
+    },
+  };
+
+  console.log("Headers, ", deleteHeaders);
+  console.log("Body, ", body);
+
+  try {
+    let response = await axios.post(
+      REMOVE_MEMBER_ENDPOINT,
+      body,
+      deleteHeaders
     );
 
     //Success!

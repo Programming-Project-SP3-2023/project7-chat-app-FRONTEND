@@ -198,9 +198,6 @@ export const removeFriendOrRequest = async function (requesterID) {
     },
   };
 
-  console.log(body);
-  console.log(headers);
-
   try {
     let response = await axios.delete(REMOVE_FRIENDSHIP_ENDPOINT, body, {
       headers: {
