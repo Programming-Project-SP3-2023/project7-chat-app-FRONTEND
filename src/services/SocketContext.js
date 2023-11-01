@@ -34,7 +34,7 @@ export function SocketProvider({ children }) {
     });
 
     socket.on("messageResponse", (data) => {
-      console.log("recieved message response", data);
+      console.log("recieved message response: ", data);
     });
 
     socket.on("userConnected", (userDetails) => {
@@ -46,7 +46,11 @@ export function SocketProvider({ children }) {
     });
 
     socket.on("userDisconnected", (userDetails) => {
-      console.log("user disconnected", userDetails);
+      console.log("user disconnected: ", userDetails);
+    });
+
+    socket.on("connectChannelResponse", (channelResponse) => {
+      console.log("channel connect response: ", channelResponse);
     });
 
     return () => {

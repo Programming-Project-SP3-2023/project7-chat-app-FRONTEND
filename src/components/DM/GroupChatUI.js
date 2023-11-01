@@ -32,12 +32,15 @@ import { getUserID, getUser } from "../../utils/localStorage";
 const GroupChatUI = ({ socket }) => {
   const { loginSocket } = useSocket();
   const [loading, setLoading] = useState(true); // set loading to true
-  const { groupId, channelId } = useParams();
-  console.log("groupID: ", groupId);
-  console.log("channelID: ", channelId);
-  // const {  } = useParams(); // gets id from url id
 
-  // Props for messages
+  // const { groupId, channelId } = useParams();  // prefered method
+  const { groupId } = useParams();
+  const channelId = 1234501;
+
+  console.log("groupID: ", groupId);
+  console.log("channelID: ", channelId); // currently channel id / url page has no id
+
+  // messages
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
   const [typingStatus, setTypingStatus] = useState("");
@@ -65,9 +68,12 @@ const GroupChatUI = ({ socket }) => {
 
     // check socket user credentials are still in socket
     if (socket.accountID !== undefined) {
-      socket.emit("connectChat", { channelId });
+      // currently unable to connect to a channel
+      socket.emit("connectChannel", {
+        channelID: channelId,
+        accountID: userId,
+      });
 
-      // socket.emit("getMessages", { chatID });
       console.log("attempting to get messages?");
       // open listener of messageHistory for messages
       socket.on("messageHistory", (messages) => {
