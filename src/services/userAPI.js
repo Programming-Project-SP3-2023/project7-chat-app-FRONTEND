@@ -9,6 +9,7 @@ import { getAccessToken } from "../utils/localStorage";
 // base URLs for API requests
 const BASE_URL = process.env.REACT_APP_BASEURL;
 const REGISTER_ENDPOINT = BASE_URL + "register";
+const EMAIL_VERIFY_ENDPOINT = BASE_URL + "verifyemail";
 const LOGIN_ENDPOINT = BASE_URL + "login";
 const USER_INFO_ENDPOINT = BASE_URL + "profile/user-info";
 const EDIT_DISPLAY_NAME_ENDPOINT = BASE_URL + "profile/edit-displayname";
@@ -28,6 +29,32 @@ const headers = {
 export const register = async function (requestBody) {
   return await axios.post(REGISTER_ENDPOINT, requestBody);
 };
+
+/**
+ * Verify a user's email using the email token
+ * @param {*} emailToken The email verification token
+ * @returns Confirmation/error message
+ */
+export const verifyEmail = async function (emailToken) {
+  try {
+    let response = await axios.get(
+      `${EMAIL_VERIFY_ENDPOINT}?emailToken=${emailToken}`
+    );
+
+    // Success!
+    if (response.status === 200) {
+      return response.data.Message;
+    }
+    // Failed!
+    else {
+      return response.data.Message;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return;
+};
+
 
 /**
  * Log the user in

@@ -10,6 +10,7 @@ import Home from "./base/Home";
 import Header from "./base/Header";
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
+import EmailVerification from "./auth/EmailVerification";
 import Dashboard from "./profile/Dashboard";
 import Footer from "./base/Footer";
 import NotFound from "./base/NotFound";
@@ -52,6 +53,7 @@ function App() {
           }
         />
         <Route path="signup" element={<Signup />} />
+        <Route path="verifyemail" element={<EmailVerification />} />
         <Route
           path="dashboard"
           element={
