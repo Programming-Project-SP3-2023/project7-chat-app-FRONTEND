@@ -15,7 +15,6 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
 import {
-  getUserID,
   setAccessToken,
   setSideMenuOption,
   setUserID,
@@ -31,7 +30,7 @@ import { useSocket } from "../../services/SocketContext";
  * Builds and renders the login component
  * @returns Login component render
  */
-const Login = ({ setIsLoggedIn }) => {
+const Login = ({ setIsLoggedIn, setAccessTokenFast }) => {
   //Props
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -70,6 +69,7 @@ const Login = ({ setIsLoggedIn }) => {
         response = await login(requestBody);
         setUserID(response.data.AccountID);
         setAccessToken(response.data.token);
+        setAccessTokenFast(response.data.token);
 
         userDataResponse = await getUserByID(
           response.data.AccountID,

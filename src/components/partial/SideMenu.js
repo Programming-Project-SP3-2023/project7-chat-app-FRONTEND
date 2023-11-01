@@ -28,13 +28,15 @@ const SideMenu = ({
     if (index === 0) navigate("/dashboard");
     if (index !== options.length - 1 && index > 1) {
       groups.forEach((group) => {
-        if (options[index] === group.GroupName) {
+        if (options[index] === group.groupName) {
           // loading group page with a certain ID (which will be used to get the group info)
-          navigate(`/dashboard/groups/${group.GroupID}`);
+          navigate(`/dashboard/groups/${group.groupID}`);
         }
       });
     }
   };
+
+  console.log("CHECK OUT", options);
 
   return (
     <Drawer variant="permanent" id="side-menu">
@@ -64,7 +66,14 @@ const SideMenu = ({
                 {index === 1 && <PeopleAltOutlinedIcon />}
                 {index === options.length - 1 && <ControlPointOutlinedIcon />}
                 {index > 1 && index < options.length - 1 && (
-                  <img src={groups[index-2].avatar} alt={text} />
+                  <img
+                    src={
+                      groups[index - 2].groupAvatar
+                        ? groups[index - 2].groupAvatar
+                        : "https://images-platform.99static.com//n7liZzsSMdHX6uDJpYOA2QTUVeA=/163x13:1335x1185/fit-in/500x500/99designs-contests-attachments/116/116335/attachment_116335822"
+                    }
+                    alt={text}
+                  />
                 )}
               </div>
             </ListItem>

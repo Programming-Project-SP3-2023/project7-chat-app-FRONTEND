@@ -25,7 +25,9 @@ function App() {
   const user = getUser();
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   const [refresh, setRefresh] = useState(false);
+  const [groupReload, setGroupReload] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("Echo");
+  const [accessTokenFast, setAccessTokenFast] = useState(null);
 
   useEffect(() => {
     setIsLoggedIn(user ? true : false);
@@ -40,17 +42,28 @@ function App() {
       />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route
+          path="login"
+          element={
+            <Login
+              setIsLoggedIn={setIsLoggedIn}
+              setAccessTokenFast={setAccessTokenFast}
+            />
+          }
+        />
         <Route path="signup" element={<Signup />} />
         <Route
           path="dashboard"
           element={
             isLoggedIn ? (
               <Dashboard
+                groupReload={groupReload}
+                setGroupReload={setGroupReload}
                 refresh={refresh}
                 setRefresh={setRefresh}
                 headerTitle={headerTitle}
                 setHeaderTitle={setHeaderTitle}
+                accessTokenFast={accessTokenFast}
               />
             ) : (
               <Navigate to="/login" />
@@ -67,6 +80,8 @@ function App() {
               <Groups
                 setRefresh={setRefresh}
                 refresh={refresh}
+                groupReload={groupReload}
+                setGroupReload={setGroupReload}
                 setHeaderTitle={setHeaderTitle}
               />
             }

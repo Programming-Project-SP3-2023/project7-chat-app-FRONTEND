@@ -123,6 +123,7 @@ const DashboardMain = () => {
           <AddGroup
             groupModalOpen={groupModalOpen}
             setGroupModalOpen={setGroupModalOpen}
+            friends={friends}
           />
           {/* Manage Friends Modal */}
           <ManageFriendsModal
