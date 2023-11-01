@@ -58,6 +58,7 @@ function App() {
             isLoggedIn ? (
               <Dashboard
                 groupReload={groupReload}
+                setGroupReload={setGroupReload}
                 refresh={refresh}
                 setRefresh={setRefresh}
                 headerTitle={headerTitle}

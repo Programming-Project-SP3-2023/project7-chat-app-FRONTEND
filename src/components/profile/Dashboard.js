@@ -24,7 +24,8 @@ const Dashboard = ({
   headerTitle,
   setHeaderTitle,
   accessTokenFast,
-  groupReload
+  groupReload,
+  setGroupReload
 }) => {
   // sample groups object (simulates backend data)
   // const groups = [
@@ -264,6 +265,8 @@ const Dashboard = ({
           groupModalOpen={groupModalOpen}
           setGroupModalOpen={setGroupModalOpen}
           friends={friends}
+          groupReload={groupReload}
+          setGroupReload={setGroupReload}
         />
       )}
 
