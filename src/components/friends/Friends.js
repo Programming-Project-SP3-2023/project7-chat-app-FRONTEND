@@ -42,8 +42,6 @@ function sleep(delay = 0) {
 }
 
 const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
-  //const socket = useSocket();
-
   // dummy friends objects for development.
   // the lastSent flag is denoting if the friend was the last to send a message. If true, the last chat message comes from the friend, else from the logged in user
   // the status flag is set to 0, 1 or 2. 0=offline, 1=busy, 2=online
@@ -85,7 +83,6 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
     //on friendship id / chatID fetch messages
     const fetchMessageHistoryForFriend = (friendshipID) => {
       return new Promise((resolve, reject) => {
-        // console.log("accountID.... here?", socket.AccountID);
         if (socket.accountID !== undefined) {
           // connect to chat
           socket.emit("connectChat", { chatID: friendshipID });
@@ -119,7 +116,14 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
     };
     //call the method
     fetchMessageHistories();
-  }, [friends, socket, accountID, user.username, setMessageHistories]);
+  }, [
+    friends,
+    socket,
+    accountID,
+    user.username,
+    setMessageHistories,
+    loginSocket,
+  ]);
 
   // Effects
   useEffect(() => {

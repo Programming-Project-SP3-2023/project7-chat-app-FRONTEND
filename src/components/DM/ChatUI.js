@@ -32,7 +32,7 @@ import { getUserID, getUser } from "../../utils/localStorage";
 const ChatUI = ({ socket }) => {
   const { loginSocket } = useSocket();
   const [loading, setLoading] = useState(true); // set loading to true
-  // const chatID = 10101013; // temp for testing
+
   const { id } = useParams(); // gets id from url id
   const chatID = id;
 
@@ -49,11 +49,21 @@ const ChatUI = ({ socket }) => {
   const userId = getUserID();
   const username = getUser();
 
+  const reconnect = async () => {
+    await loginSocket(userId, username);
+  };
+
+  const handleReconnect = async () => {
+    setLoading(true);
+    await reconnect();
+  };
+
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
 
-    if (socket.accountID !== null) {
+    // check socket user credentials are still in socket
+    if (socket.accountID !== undefined) {
       socket.emit("connectChat", { chatID });
 
       // socket.emit("getMessages", { chatID });
@@ -75,20 +85,19 @@ const ChatUI = ({ socket }) => {
           MessageBody: data.message,
           TimeSent: formatDateTime(data.timestamp),
         };
-
+        // set messages
         setMessages((messages) => [...messages, formatMessage]);
-        // setMessages(data);
       });
       // ask for messages
       socket.emit("getMessages", { chatID: chatID });
     } else {
-      console.log("userID", userId);
-      console.log("username...", username);
-      loginSocket(userId, username);
+      // attempt to reconnect socket
+      handleReconnect();
     }
     // close listeners
     return () => {
       socket.off("messageHistory");
+      socket.off("messageResponse");
     };
   }, [chatID, socket]);
 
@@ -99,17 +108,20 @@ const ChatUI = ({ socket }) => {
 
   // for emiting typing
   const handleTyping = useCallback(() => {
-    socket.emit("typing", { username });
+    if (socket.accountID !== null) {
+      socket.emit("typing", { username });
+    }
   }, [socket, username]);
 
   // for recieving typing
   useEffect(() => {
-    socket.on("typing", (data) =>
-      socket.broadcast.emit("typingResponse", data)
-    );
+    if (socket.accountID !== null) {
+      socket.on("typing", (data) =>
+        socket.broadcast.emit("typingResponse", data)
+      );
 
-    socket.on("typing", handleTyping);
-
+      socket.on("typing", handleTyping);
+    }
     return () => {
       socket.off("typing", handleTyping);
     };
