@@ -20,6 +20,7 @@ import { useState, useEffect } from "react";
 import DashboardMain from "./profile/DashboardMain";
 import ChatUI from "./DM/ChatUI";
 import GroupChatUI from "./DM/GroupChatUI";
+import { useSocket } from "../services/SocketContext";
 
 function App() {
   const user = getUser();
@@ -27,7 +28,9 @@ function App() {
   const [refresh, setRefresh] = useState(false);
   const [groupReload, setGroupReload] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("Echo");
+
   const [accessTokenFast, setAccessTokenFast] = useState(null);
+  const { socket } = useSocket();
 
   useEffect(() => {
     setIsLoggedIn(user ? true : false);
@@ -71,8 +74,8 @@ function App() {
           }
         >
           <Route index element={<DashboardMain />} />
-          <Route path="friends" element={<Friends />}>
-            <Route path=":id" element={<ChatUI />} />
+          <Route path="friends" element={<Friends socket={socket} />}>
+            <Route path=":id" element={<ChatUI socket={socket} />} />
           </Route>
           <Route
             path="groups"
@@ -86,8 +89,11 @@ function App() {
               />
             }
           >
-            <Route path=":groupId" element={<GroupChatUI />}>
-              <Route path=":channelId" element={<GroupChatUI />} />
+            <Route path=":groupId" element={<GroupChatUI socket={socket} />}>
+              <Route
+                path=":channelId"
+                element={<GroupChatUI socket={socket} />}
+              />
             </Route>
           </Route>
         </Route>

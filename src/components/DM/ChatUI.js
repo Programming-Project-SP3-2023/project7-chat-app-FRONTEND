@@ -29,8 +29,8 @@ import { getUserID, getUser } from "../../utils/localStorage";
  * Builds and renders the homepage component
  * @returns Homepage component render
  */
-const ChatUI = () => {
-  const { socket, loginSocket } = useSocket();
+const ChatUI = ({ socket }) => {
+  const { loginSocket } = useSocket();
   const [loading, setLoading] = useState(true); // set loading to true
   // const chatID = 10101013; // temp for testing
   const { id } = useParams(); // gets id from url id

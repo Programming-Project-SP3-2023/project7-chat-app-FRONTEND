@@ -21,19 +21,22 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 import dayjs from "dayjs";
 // useParams can be used to get the url id
 import { useParams } from "react-router-dom";
-import { useSocket } from "../../services/SocketContext";
+// import { useSocket } from "../../services/SocketContext";
 import { getUserID, getUser } from "../../utils/localStorage";
 
 /**
  * Builds and renders the homepage component
  * @returns Homepage component render
  */
-const GroupChatUI = () => {
-  const { socket } = useSocket();
+const GroupChatUI = ({ socket }) => {
+  const { groupId, id } = useParams();
+  console.log("groupID: ", groupId);
+  console.log("channelID: ", id);
+
   const [loading, setLoading] = useState(true); // set loading to true
   // const chatID = 10101013; // temp for testing
-  const { id } = useParams(); // gets id from url id
-  const chatID = id;
+  // const { id } = useParams(); // gets id from url id
+  const channelID = id;
 
   // Props for messages
   const [messages, setMessages] = useState([]);
@@ -51,9 +54,8 @@ const GroupChatUI = () => {
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
-    // socket.emit("connectChat", { chatID });
-
-    // socket.emit("getMessages", { chatID });
+    // console.log("chaneelID: ", channelID);
+    //socket.emit("connectChannel", { channelID, accountID: userId });
     console.log("attempting to get messages?");
     // open listener of messageHistory for messages
     socket.on("messageHistory", (messages) => {
@@ -79,13 +81,13 @@ const GroupChatUI = () => {
       // setMessages(data);
     });
     // ask for messages
-    socket.emit("getMessages", { chatID: chatID });
+    socket.emit("getMessages", { channelID: channelID });
 
     // close listeners
     return () => {
       socket.off("messageHistory");
     };
-  }, [chatID, socket]);
+  }, [channelID, socket]);
 
   //handle auto-scrolling to latest message
   useEffect(() => {
@@ -120,13 +122,16 @@ const GroupChatUI = () => {
     if (messageText.trim() !== "") {
       // currently being used for local display
       const newMessage = {
-        ChatID: chatID,
+        channelID: channelID,
         MessageBody: messageText,
         SenderID: userId,
         TimeSent: newTimestamp,
       };
       // sending > emit message of chatID and string of message
-      socket.emit("sendMessage", { chatID, message: messageText });
+      socket.emit("sendMessage", {
+        channelID: channelID,
+        message: messageText,
+      });
 
       setMessages([...messages, newMessage]); //set local messages
       setMessageInput("");

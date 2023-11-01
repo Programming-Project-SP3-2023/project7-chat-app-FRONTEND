@@ -41,7 +41,7 @@ function sleep(delay = 0) {
   });
 }
 
-const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
+const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
   //const socket = useSocket();
 
   // dummy friends objects for development.
@@ -66,7 +66,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
   const [manageFriendsModalOpen, setManageFriendsModalOpen] = useState(false);
 
   const [fetching, setFetching] = useState(false);
-  const { socket, loginSocket } = useSocket();
+  const { loginSocket } = useSocket();
 
   // trigger refresh flag
   const [refresh, setRefresh] = useState(false);
