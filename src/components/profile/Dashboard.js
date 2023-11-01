@@ -24,6 +24,7 @@ const Dashboard = ({
   headerTitle,
   setHeaderTitle,
   accessTokenFast,
+  groupReload
 }) => {
   // sample groups object (simulates backend data)
   // const groups = [
@@ -240,7 +241,7 @@ const Dashboard = ({
     }
 
     fetchData();
-  }, [refresh]);
+  }, [groupReload]);
 
   // make selected options persistent so it stays in the browser after refresh
   const handleSelectOption = (selected) => {

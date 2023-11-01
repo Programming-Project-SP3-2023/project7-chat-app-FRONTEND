@@ -25,6 +25,7 @@ function App() {
   const user = getUser();
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   const [refresh, setRefresh] = useState(false);
+  const [groupReload, setGroupReload] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("Echo");
   const [accessTokenFast, setAccessTokenFast] = useState(null);
 
@@ -44,7 +45,10 @@ function App() {
         <Route
           path="login"
           element={
-            <Login setIsLoggedIn={setIsLoggedIn} setAccessTokenFast={setAccessTokenFast}/>
+            <Login
+              setIsLoggedIn={setIsLoggedIn}
+              setAccessTokenFast={setAccessTokenFast}
+            />
           }
         />
         <Route path="signup" element={<Signup />} />
@@ -53,6 +57,7 @@ function App() {
           element={
             isLoggedIn ? (
               <Dashboard
+                groupReload={groupReload}
                 refresh={refresh}
                 setRefresh={setRefresh}
                 headerTitle={headerTitle}
@@ -74,6 +79,8 @@ function App() {
               <Groups
                 setRefresh={setRefresh}
                 refresh={refresh}
+                groupReload={groupReload}
+                setGroupReload={setGroupReload}
                 setHeaderTitle={setHeaderTitle}
               />
             }

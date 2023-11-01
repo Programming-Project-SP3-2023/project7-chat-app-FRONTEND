@@ -27,13 +27,13 @@ const ManageMembersModal = ({
   manageMembersModalOpen,
   setManageMembersModalOpen,
   members,
-  users,
+  friends,
   setRefresh,
 }) => {
-
   // Component state objects
   const [searchString, setSearchString] = useState("");
   const [options, setOptions] = useState([]);
+  const [friendOptions, setFriendOptions] = useState([]);
   const [open, setOpen] = useState(false);
   const [friendToAdd, setFriendToAdd] = useState(null);
   const loading = open && options.length === 0;
@@ -46,6 +46,28 @@ const ManageMembersModal = ({
   }
 
   // Effects
+
+  // calculate friend options
+  useEffect(() => {
+    // get only members who are not friends
+    const possibleOptions = [];
+    const notPossible = [];
+    friends.forEach((friend) => {
+      members.forEach((member) => {
+        if (friend.AccountID === member.AccountID) {
+          notPossible.push(member.AccountID);
+        }
+      });
+    });
+
+    friends.forEach((friend) => {
+      if (!notPossible.includes(friend.AccountID)) possibleOptions.push(friend);
+    });
+
+    setFriendOptions(possibleOptions);
+    console.log("OPTIONS", friendOptions);
+  }, [manageMembersModalOpen]);
+
   useEffect(() => {
     let active = true;
 
@@ -57,7 +79,7 @@ const ManageMembersModal = ({
       await sleep(1e3); // For demo purposes.
 
       if (active) {
-        setOptions([...users]);
+        setOptions([...friendOptions]);
       }
     })();
 
@@ -113,63 +135,78 @@ const ManageMembersModal = ({
             <PeopleAltOutlinedIcon />
             <p>Add member</p>
           </div>
-          <Autocomplete
-            disableCloseOnSelect
-            sx={{ width: "90%" }}
-            open={open}
-            onOpen={() => {
-              setOpen(true);
-            }}
-            onClose={() => {
-              setOpen(false);
-            }}
-            isOptionEqualToValue={(option, value) =>
-              option.DisplayName === value.name
-            }
-            getOptionLabel={(option) => option.DisplayName}
-            renderOption={(props, option) => (
-              <li>
-                <Chip
-                  clickable
-                  key={option}
-                  icon={<Avatar src={option.Avatar} />}
-                  className="friend-search-chip"
-                  label={option.DisplayName}
-                  sx={{ width: "100%", height: "fit-content", borderRadius:"80px", padding: "10px" }}
-                  deleteIcon={
-                    <PersonAddOutlinedIcon className="add-friend-icon" />
-                  }
-                  onDelete={() => handleAddMember(option)}
+          {friendOptions.length > 0 ? (
+            <Autocomplete
+              disableCloseOnSelect
+              sx={{ width: "90%" }}
+              open={open}
+              onOpen={() => {
+                setOpen(true);
+              }}
+              onClose={() => {
+                setOpen(false);
+              }}
+              isOptionEqualToValue={(option, value) =>
+                option.DisplayName === value.name
+              }
+              getOptionLabel={(option) => option.DisplayName}
+              renderOption={(props, option) => (
+                <li>
+                  <Chip
+                    clickable
+                    key={option}
+                    icon={<Avatar src={option.Avatar} />}
+                    className="friend-search-chip"
+                    label={option.DisplayName}
+                    sx={{
+                      width: "100%",
+                      height: "fit-content",
+                      borderRadius: "80px",
+                      padding: "10px",
+                    }}
+                    deleteIcon={
+                      <PersonAddOutlinedIcon className="add-friend-icon" />
+                    }
+                    onDelete={() => handleAddMember(option)}
+                  />
+                </li>
+              )}
+              options={options}
+              loading={loading}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  id="manage-friends-searchbar"
+                  variant="outlined"
+                  placeholder="Add a new group member..."
+                  value={searchString}
+                  onChange={(event) => setSearchString(event.target.value)}
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <>
+                        {loading ? (
+                          <CircularProgress color="inherit" size={20} />
+                        ) : (
+                          <InputAdornment position="end">
+                            <SearchIcon color="primary" />
+                          </InputAdornment>
+                        )}
+                      </>
+                    ),
+                  }}
                 />
-              </li>
-            )}
-            options={options}
-            loading={loading}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                id="manage-friends-searchbar"
-                variant="outlined"
-                placeholder="Add a new group member..."
-                value={searchString}
-                onChange={(event) => setSearchString(event.target.value)}
-                InputProps={{
-                  ...params.InputProps,
-                  endAdornment: (
-                    <>
-                      {loading ? (
-                        <CircularProgress color="inherit" size={20} />
-                      ) : (
-                        <InputAdornment position="end">
-                          <SearchIcon color="primary" />
-                        </InputAdornment>
-                      )}
-                    </>
-                  ),
-                }}
-              />
-            )}
-          />
+              )}
+            />
+          ) : (
+            <TextField
+              sx={{ width: "90%" }}
+              id="manage-friends-searchbar"
+              variant="outlined"
+              placeholder="You have already added all your friends"
+              inputProps={{ readOnly: true }}
+            />
+          )}
         </div>
       </Box>
     </Modal>

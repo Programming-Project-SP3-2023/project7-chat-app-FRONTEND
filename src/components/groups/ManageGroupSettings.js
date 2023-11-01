@@ -8,6 +8,7 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { deleteGroupByID } from "../../services/groupsAPI";
 import { getAccessToken } from "../../utils/localStorage";
+import { useNavigate } from "react-router";
 /**
  * Builds and renders the Manage Group Settings Modal component
  * @returns Manage Group Settings Modal component render
@@ -17,17 +18,18 @@ const ManageGroupSettings = ({
   manageGroupSettingsModalOpen,
   setManageGroupSettingsModalOpen,
   group,
-  refresh,
-  setRefresh
+  groupReload,
+  setGroupReload,
 }) => {
-  // handle modal closing
-  const handleClose = () => setManageGroupSettingsModalOpen(false);
-
   // state variables for form
   const [selectedImage, setSelectedImage] = useState(null);
-  const [groupName, setGroupName] = useState(group.GroupName);
+  const [groupName, setGroupName] = useState(group.groupName);
+
+  const navigate = useNavigate();
 
   // METHODS
+  // handle modal closing
+  const handleClose = () => setManageGroupSettingsModalOpen(false);
 
   // handles image change and file upload (base64)
   const imageChange = (e) => {
@@ -47,7 +49,9 @@ const ManageGroupSettings = ({
     try {
       const response = await deleteGroupByID(group.groupID, getAccessToken());
       console.log(response);
-      setRefresh(!refresh);
+      setGroupReload(!groupReload);
+      handleClose();
+      navigate('/dashboard');
     } catch (err) {
       console.log(err);
     }

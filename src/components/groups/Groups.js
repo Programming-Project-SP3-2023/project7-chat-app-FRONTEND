@@ -22,7 +22,13 @@ import ManageGroupSettings from "./ManageGroupSettings";
  * Builds and renders the User groups component
  * @returns User groups component render
  */
-const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
+const Groups = ({
+  setRefresh,
+  refresh,
+  setHeaderTitle,
+  groupReload,
+  setGroupReload,
+}) => {
   const [group, setGroup] = useState(null);
   const [friends, setFriends] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -94,14 +100,14 @@ const Groups = ({ setRefresh, refresh, setHeaderTitle }) => {
             setManageMembersModalOpen={setManageMembersModalOpen}
             members={group.GroupMembers}
             setRefresh={setRefresh}
-            users={friends}
+            friends={friends}
           />
           <ManageGroupSettings
             manageGroupSettingsModalOpen={manageGroupSettingsModalOpen}
             setManageGroupSettingsModalOpen={setManageGroupSettingsModalOpen}
             group={group}
-            refresh={refresh}
-            setRefresh={setRefresh}
+            groupReload={groupReload}
+            setGroupReload={setGroupReload}
           />
         </>
       )}
