@@ -20,7 +20,6 @@ export function useSocket() {
 export function SocketProvider({ children }) {
   useEffect(() => {
     // listeners
-
     socket.on("connectionResponse", (response) => {
       console.log("Connection Response: ", response);
     });

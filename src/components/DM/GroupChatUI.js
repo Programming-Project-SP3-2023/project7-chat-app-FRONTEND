@@ -11,7 +11,7 @@ import {
   FormControl,
   Badge,
 } from "@mui/material";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
@@ -43,7 +43,6 @@ const GroupChatUI = ({ socket }) => {
   // messages
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
-  const [typingStatus, setTypingStatus] = useState("");
 
   // const [selectedFile, setSelectedFile] = useState(null);
   // const hiddenFileInput = useRef(null);
@@ -74,7 +73,6 @@ const GroupChatUI = ({ socket }) => {
         accountID: userId,
       });
 
-      console.log("attempting to get messages?");
       // open listener of messageHistory for messages
       socket.on("messageHistory", (messages) => {
         // set messages recieved
@@ -113,27 +111,6 @@ const GroupChatUI = ({ socket }) => {
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // for emiting typing
-  const handleTyping = useCallback(() => {
-    if (socket.accountID !== null) {
-      socket.emit("typing", { username });
-    }
-  }, [socket, username]);
-
-  // for recieving typing
-  useEffect(() => {
-    if (socket.accountID !== null) {
-      socket.on("typing", (data) =>
-        socket.broadcast.emit("typingResponse", data)
-      );
-
-      socket.on("typing", handleTyping);
-    }
-    return () => {
-      socket.off("typing", handleTyping);
-    };
-  }, [userId, handleTyping, socket]);
-
   //Message submit handling
   const handleMessageSubmit = (event) => {
     event.preventDefault();
@@ -155,7 +132,6 @@ const GroupChatUI = ({ socket }) => {
 
       setMessages([...messages, newMessage]); //set local messages
       setMessageInput("");
-      setTypingStatus("");
     }
   };
 
@@ -320,10 +296,7 @@ const GroupChatUI = ({ socket }) => {
           ))}
         </div>
       )}
-      {/* typing status */}
-      <div className="message-status">
-        <p>{typingStatus}</p>
-      </div>
+
       <form id="chat-input-container" onSubmit={handleMessageSubmit}>
         <FormControl fullWidth>
           <div className="chat-input">
@@ -331,12 +304,11 @@ const GroupChatUI = ({ socket }) => {
               fullWidth
               id="chat-input"
               variant="outlined"
-              label={typingStatus || "Type a Message"}
+              label={"Type a Message"}
               onChange={(event) => setMessageInput(event.target.value)}
               type="text"
               placeholder="Type a Message"
               value={messageInput}
-              onKeyDown={handleTyping}
               InputProps={{
                 endAdornment: (
                   <ButtonGroup>
