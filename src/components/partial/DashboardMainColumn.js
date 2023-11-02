@@ -47,7 +47,7 @@ const DashboardMainColumn = ({
     return () => {
       socket.off("getOnlineFriends");
     };
-  }, [socket]);
+  }, [socket, loginSocket]);
 
   useEffect(() => {});
 

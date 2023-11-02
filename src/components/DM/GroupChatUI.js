@@ -11,7 +11,7 @@ import {
   FormControl,
   Badge,
 } from "@mui/material";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
@@ -19,6 +19,7 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 
 // date time formatter
 import dayjs from "dayjs";
+
 // useParams can be used to get the url id
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
@@ -28,17 +29,20 @@ import { getUserID, getUser } from "../../utils/localStorage";
  * Builds and renders the homepage component
  * @returns Homepage component render
  */
-const GroupChatUI = () => {
-  const { socket } = useSocket();
+const GroupChatUI = ({ socket }) => {
+  const { loginSocket } = useSocket();
   const [loading, setLoading] = useState(true); // set loading to true
-  // const chatID = 10101013; // temp for testing
-  const { id } = useParams(); // gets id from url id
-  const chatID = id;
 
-  // Props for messages
+  // const { groupId, channelId } = useParams();  // prefered method
+  const { groupId } = useParams();
+  const channelId = 1234501;
+
+  console.log("groupID: ", groupId);
+  console.log("channelID: ", channelId); // currently channel id / url page has no id
+
+  // messages
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
-  const [typingStatus, setTypingStatus] = useState("");
 
   // const [selectedFile, setSelectedFile] = useState(null);
   // const hiddenFileInput = useRef(null);
@@ -48,93 +52,89 @@ const GroupChatUI = () => {
   const userId = getUserID();
   const username = getUser();
 
+  const reconnect = async () => {
+    await loginSocket(userId, username);
+  };
+
+  const handleReconnect = async () => {
+    setLoading(true);
+    await reconnect();
+  };
+
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
-    // socket.emit("connectChat", { chatID });
 
-    // socket.emit("getMessages", { chatID });
-    console.log("attempting to get messages?");
-    // open listener of messageHistory for messages
-    socket.on("messageHistory", (messages) => {
-      // set messages recieved
-      // console.log("Recieved message history inside chat: ", messages); // gets all messages
-      // console.log("single message", messages[0][0]); // returns a single message
-      setMessages(messages.flat().reverse());
-      setLoading(false); //set loading as false
-    });
+    // check socket user credentials are still in socket
+    if (socket.accountID !== undefined) {
+      // currently unable to connect to a channel
+      socket.emit("connectChannel", {
+        channelID: channelId,
+        accountID: userId,
+      });
 
-    //open listener on message response. for data
-    socket.on("messageResponse", (data) => {
-      console.log("recieved message response", data);
+      // open listener of messageHistory for messages
+      socket.on("messageHistory", (messages) => {
+        // set messages recieved
+        setMessages(messages.flat().reverse());
+        setLoading(false); //set loading as false
+      });
 
-      // const messageRecieved = dayjs(new Date());
-      const formatMessage = {
-        SenderID: data.from,
-        MessageBody: data.message,
-        TimeSent: data.timestamp,
-      };
+      //open listener on message response. for data
+      socket.on("messageResponse", (data) => {
+        console.log("recieved message response", data);
 
-      setMessages((messages) => [...messages, formatMessage]);
-      // setMessages(data);
-    });
-    // ask for messages
-    socket.emit("getMessages", { chatID: chatID });
-
+        // const messageRecieved = dayjs(new Date());
+        const formatMessage = {
+          SenderID: data.from,
+          MessageBody: data.message,
+          TimeSent: formatDateTime(data.timestamp),
+        };
+        // set messages
+        setMessages((messages) => [...messages, formatMessage]);
+      });
+      // ask for messages
+      socket.emit("getMessages", { channelID: channelId });
+    } else {
+      // attempt to reconnect socket
+      handleReconnect();
+    }
     // close listeners
     return () => {
       socket.off("messageHistory");
+      socket.off("messageResponse");
     };
-  }, [chatID, socket]);
+  }, [channelId, socket]);
 
   //handle auto-scrolling to latest message
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // for emiting typing
-  const handleTyping = useCallback(() => {
-    socket.emit("typing", { username });
-  }, [socket, username]);
-
-  // for recieving typing
-  useEffect(() => {
-    socket.on("typing", (data) =>
-      socket.broadcast.emit("typingResponse", data)
-    );
-
-    socket.on("typing", handleTyping);
-
-    return () => {
-      socket.off("typing", handleTyping);
-    };
-  }, [userId, handleTyping, socket]);
-
   //Message submit handling
   const handleMessageSubmit = (event) => {
     event.preventDefault();
     console.log("Message Handler");
-    const newTimestamp = dayjs(new Date());
+    const newTimestamp = new Date().getTime(); // converts to epoch time
     const messageText = messageInput.toString(); // convert user input to string
 
+    console.log("message submit timestamp: ", newTimestamp);
     if (messageText.trim() !== "") {
       // currently being used for local display
       const newMessage = {
-        ChatID: chatID,
+        ChannelID: channelId,
         MessageBody: messageText,
         SenderID: userId,
         TimeSent: newTimestamp,
       };
       // sending > emit message of chatID and string of message
-      socket.emit("sendMessage", { chatID, message: messageText });
+      socket.emit("sendMessage", { channelId, message: messageText });
 
       setMessages([...messages, newMessage]); //set local messages
       setMessageInput("");
-      setTypingStatus("");
     }
   };
 
-  // format date / time
   // format date / time
   const formatDateTime = (timestamp) => {
     let formatTimestamp;
@@ -296,10 +296,7 @@ const GroupChatUI = () => {
           ))}
         </div>
       )}
-      {/* typing status */}
-      <div className="message-status">
-        <p>{typingStatus}</p>
-      </div>
+
       <form id="chat-input-container" onSubmit={handleMessageSubmit}>
         <FormControl fullWidth>
           <div className="chat-input">
@@ -307,12 +304,11 @@ const GroupChatUI = () => {
               fullWidth
               id="chat-input"
               variant="outlined"
-              label={typingStatus || "Type a Message"}
+              label={"Type a Message"}
               onChange={(event) => setMessageInput(event.target.value)}
               type="text"
               placeholder="Type a Message"
               value={messageInput}
-              onKeyDown={handleTyping}
               InputProps={{
                 endAdornment: (
                   <ButtonGroup>

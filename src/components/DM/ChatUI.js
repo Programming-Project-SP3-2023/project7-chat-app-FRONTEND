@@ -2,6 +2,12 @@
  * Homepage component
  */
 
+// react related
+import { useState, useEffect, useRef, useContext } from "react";
+import { useParams, useOutletContext } from "react-router-dom";
+import { useSocket } from "../../services/SocketContext";
+
+//material UI related
 import {
   TextField,
   ButtonGroup,
@@ -11,7 +17,6 @@ import {
   FormControl,
   Badge,
 } from "@mui/material";
-import { useState, useEffect, useRef, useCallback } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
@@ -21,25 +26,30 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 import dayjs from "dayjs";
 
 // useParams can be used to get the url id
-import { useParams } from "react-router-dom";
-import { useSocket } from "../../services/SocketContext";
 import { getUserID, getUser } from "../../utils/localStorage";
 
 /**
  * Builds and renders the homepage component
  * @returns Homepage component render
  */
-const ChatUI = () => {
-  const { socket, loginSocket } = useSocket();
+const ChatUI = ({ socket }) => {
+  const friendsArray = Object.values(useOutletContext()); // get friends list from socket context
+  const friends = friendsArray.flat();
+
+  const { loginSocket } = useSocket();
   const [loading, setLoading] = useState(true); // set loading to true
-  // const chatID = 10101013; // temp for testing
   const { id } = useParams(); // gets id from url id
   const chatID = id;
+
+  // loop through SenderID to find friends avatar
+  const findAvatarBySenderID = (SenderID) => {
+    const friend = friends.find((friend) => friend.AccountID === SenderID);
+    return friend ? friend.Avatar : null;
+  };
 
   // Props for messages
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
-  const [typingStatus, setTypingStatus] = useState("");
 
   // const [selectedFile, setSelectedFile] = useState(null);
   // const hiddenFileInput = useRef(null);
@@ -49,11 +59,21 @@ const ChatUI = () => {
   const userId = getUserID();
   const username = getUser();
 
+  const reconnect = async () => {
+    await loginSocket(userId, username);
+  };
+
+  const handleReconnect = async () => {
+    setLoading(true);
+    await reconnect();
+  };
+
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
 
-    if (socket.accountID !== null) {
+    // check socket user credentials are still in socket
+    if (socket.accountID !== undefined && chatID !== null) {
       socket.emit("connectChat", { chatID });
 
       // socket.emit("getMessages", { chatID });
@@ -75,20 +95,19 @@ const ChatUI = () => {
           MessageBody: data.message,
           TimeSent: formatDateTime(data.timestamp),
         };
-
+        // set messages
         setMessages((messages) => [...messages, formatMessage]);
-        // setMessages(data);
       });
       // ask for messages
       socket.emit("getMessages", { chatID: chatID });
     } else {
-      console.log("userID", userId);
-      console.log("username...", username);
-      loginSocket(userId, username);
+      // attempt to reconnect socket
+      handleReconnect();
     }
     // close listeners
     return () => {
       socket.off("messageHistory");
+      socket.off("messageResponse");
     };
   }, [chatID, socket]);
 
@@ -96,24 +115,6 @@ const ChatUI = () => {
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  // for emiting typing
-  const handleTyping = useCallback(() => {
-    socket.emit("typing", { username });
-  }, [socket, username]);
-
-  // for recieving typing
-  useEffect(() => {
-    socket.on("typing", (data) =>
-      socket.broadcast.emit("typingResponse", data)
-    );
-
-    socket.on("typing", handleTyping);
-
-    return () => {
-      socket.off("typing", handleTyping);
-    };
-  }, [userId, handleTyping, socket]);
 
   //Message submit handling
   const handleMessageSubmit = (event) => {
@@ -136,7 +137,6 @@ const ChatUI = () => {
 
       setMessages([...messages, newMessage]); //set local messages
       setMessageInput("");
-      setTypingStatus("");
     }
   };
 
@@ -248,7 +248,7 @@ const ChatUI = () => {
                   <div className="message-other">
                     <Avatar
                       alt={`User ${message.SenderID}`}
-                      src={message.SenderID.Avatar}
+                      src={findAvatarBySenderID(message.SenderID)}
                     />
                     <div id="message">{message.MessageBody}</div>
                   </div>
@@ -301,10 +301,7 @@ const ChatUI = () => {
           ))}
         </div>
       )}
-      {/* typing status */}
-      <div className="message-status">
-        <p>{typingStatus}</p>
-      </div>
+
       <form id="chat-input-container" onSubmit={handleMessageSubmit}>
         <FormControl fullWidth>
           <div className="chat-input">
@@ -312,12 +309,11 @@ const ChatUI = () => {
               fullWidth
               id="chat-input"
               variant="outlined"
-              label={typingStatus || "Type a Message"}
+              label={"Type a Message"}
               onChange={(event) => setMessageInput(event.target.value)}
               type="text"
               placeholder="Type a Message"
               value={messageInput}
-              onKeyDown={handleTyping}
               InputProps={{
                 endAdornment: (
                   <ButtonGroup>
