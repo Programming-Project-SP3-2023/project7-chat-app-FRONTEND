@@ -2,6 +2,12 @@
  * Homepage component
  */
 
+// react related
+import { useState, useEffect, useRef, useContext } from "react";
+import { useParams, useOutletContext } from "react-router-dom";
+import { useSocket } from "../../services/SocketContext";
+
+//material UI related
 import {
   TextField,
   ButtonGroup,
@@ -11,7 +17,6 @@ import {
   FormControl,
   Badge,
 } from "@mui/material";
-import { useState, useEffect, useRef, useCallback } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
@@ -21,8 +26,6 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 import dayjs from "dayjs";
 
 // useParams can be used to get the url id
-import { useParams } from "react-router-dom";
-import { useSocket } from "../../services/SocketContext";
 import { getUserID, getUser } from "../../utils/localStorage";
 
 /**
@@ -30,11 +33,19 @@ import { getUserID, getUser } from "../../utils/localStorage";
  * @returns Homepage component render
  */
 const ChatUI = ({ socket }) => {
+  const friendsArray = Object.values(useOutletContext()); // get friends list from socket context
+  const friends = friendsArray.flat();
+
   const { loginSocket } = useSocket();
   const [loading, setLoading] = useState(true); // set loading to true
-
   const { id } = useParams(); // gets id from url id
   const chatID = id;
+
+  // loop through SenderID to find friends avatar
+  const findAvatarBySenderID = (SenderID) => {
+    const friend = friends.find((friend) => friend.AccountID === SenderID);
+    return friend ? friend.Avatar : null;
+  };
 
   // Props for messages
   const [messages, setMessages] = useState([]);
@@ -62,7 +73,7 @@ const ChatUI = ({ socket }) => {
     setLoading(true); // loading
 
     // check socket user credentials are still in socket
-    if (socket.accountID !== undefined) {
+    if (socket.accountID !== undefined && chatID !== null) {
       socket.emit("connectChat", { chatID });
 
       // socket.emit("getMessages", { chatID });
@@ -237,7 +248,7 @@ const ChatUI = ({ socket }) => {
                   <div className="message-other">
                     <Avatar
                       alt={`User ${message.SenderID}`}
-                      src={message.SenderID.Avatar}
+                      src={findAvatarBySenderID(message.SenderID)}
                     />
                     <div id="message">{message.MessageBody}</div>
                   </div>

@@ -195,6 +195,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
     runFetch();
   }, [refresh]);
 
+  console.log("selected: ", friends);
   return (
     <>
       {fetching && (
@@ -310,7 +311,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
             </div>
           </div>
           <div className="friends-chat-area">
-            <Outlet />
+            <Outlet context={{ friends }} />
             {!selectedChat && (
               <>
                 <h2>No chat selected.</h2>

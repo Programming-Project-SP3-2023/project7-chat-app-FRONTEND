@@ -62,7 +62,7 @@ const FriendItem = ({
     if (friend.RequesterID) userID = friend.RequesterID;
     if (friend.AddresseeID) userID = friend.AddresseeID;
     console.log("friendshipID: ", friend.FriendshipID);
-    let chatID = friend.FriendshipID;
+    const chatID = friend.FriendshipID;
     setSelectedChat(userID);
 
     // // const chatID = 10101013; // temp room
