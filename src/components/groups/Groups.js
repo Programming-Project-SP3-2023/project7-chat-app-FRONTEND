@@ -63,6 +63,8 @@ const Groups = ({
     // 4. Check if User is this group's admin
     members.forEach((m) => {
       if (m.AccountID === getUserID()) {
+        console.log("THIS is USERID:", m.AccountID);
+        console.log("THIS IS my role", m.Role);
         if (m.Role === "Admin") setIsAdmin(true);
       }
     });
