@@ -3,7 +3,7 @@
  */
 
 // react related
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
 
@@ -25,7 +25,7 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 // date time formatter
 import dayjs from "dayjs";
 
-// useParams can be used to get the url id
+// get local user info
 import { getUserID, getUser } from "../../utils/localStorage";
 
 /**
@@ -168,14 +168,14 @@ const ChatUI = ({ socket }) => {
     return formatedDate;
   };
 
-  // //image file button click
+  //image file button click
   // const handleClick = (event) => {
   //   hiddenFileInput.current.click();
   // };
 
   // TODO update image handling into base64
 
-  // //Image submit handling
+  // Image submit handling
   // const handleFileSubmit = (event) => {
   //   event.preventDefault();
 
@@ -187,25 +187,25 @@ const ChatUI = ({ socket }) => {
   //       console.log("image");
 
   //       const newImage = {
-  //         MessageID: messageId,
+  //         ChatID: chatID,
   //         Image: file,
   //         SenderID: userId,
   //         TimeSent: newTimestamp,
   //       };
-  //       socket.emit("privateMessage", { message: newImage });
-  //     } else {
-  //       console.log("randomfile");
+  //       socket.emit("privateMessage", { chatID, message: newImage });
+  //       } else {
+  //         console.log("randomfile");
 
-  //       const newFile = {
-  //         MessageID: messageId,
-  //         File: file,
-  //         FileName: file.name,
-  //         FileType: file.type.split("/")[1], // file type is not currently simple name
-  //         FileSize: file.size, // currently passing file size in bytes
-  //         SenderID: userId,
-  //         TimeSent: newTimestamp,
-  //       };
-  //       socket.emit("privateMessage", { message: newFile });
+  //         const newFile = {
+  //           MessageID: messageId,
+  //           File: file,
+  //           FileName: file.name,
+  //           FileType: file.type.split("/")[1], // file type is not currently simple name
+  //           FileSize: file.size, // currently passing file size in bytes
+  //           SenderID: userId,
+  //           TimeSent: newTimestamp,
+  //         };
+  //         socket.emit("privateMessage", { message: newFile });
   //     }
   //   }
 
@@ -325,6 +325,7 @@ const ChatUI = ({ socket }) => {
                         hidden
                         // types of files that are accepted
                         // add to include .pdf, .doc, .txt
+                        // value={selectedFile}
                         accept="image/*"
                         id="file-input"
                         type="file"

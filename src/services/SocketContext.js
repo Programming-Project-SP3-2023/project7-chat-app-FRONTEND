@@ -84,20 +84,20 @@ export function SocketProvider({ children }) {
     logout: () => {
       socket.disconnect();
     },
-    reconnect: (userID, user) => {
-      // if (!socket.connected) {
-      //   socket.connect();
-      // }
+    // reconnect: (userID, user) => {
+    //   // if (!socket.connected) {
+    //   //   socket.connect();
+    //   // }
 
-      if (userID !== undefined) {
-        console.log("attempting to reconnect");
-        socket.accountID = userID;
-        socket.username = user;
-        socket.emit("connectSocket", { accountID: userID, username: user });
-      } else {
-        console.log("cannot reconnect please relog in....");
-      }
-    },
+    //   if (userID !== undefined) {
+    //     console.log("attempting to reconnect");
+    //     socket.accountID = userID;
+    //     socket.username = user;
+    //     socket.emit("connectSocket", { accountID: userID, username: user });
+    //   } else {
+    //     console.log("cannot reconnect please relog in....");
+    //   }
+    // },
   };
 
   return (
