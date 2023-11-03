@@ -86,6 +86,7 @@ function App() {
                 groupReload={groupReload}
                 setGroupReload={setGroupReload}
                 setHeaderTitle={setHeaderTitle}
+                socket={socket}
               />
             }
           >

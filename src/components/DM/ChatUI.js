@@ -74,10 +74,9 @@ const ChatUI = ({ socket }) => {
 
     // check socket user credentials are still in socket
     if (socket.accountID !== undefined && chatID !== null) {
+      // connect chat id
       socket.emit("connectChat", { chatID });
 
-      // socket.emit("getMessages", { chatID });
-      console.log("attempting to get messages?");
       // open listener of messageHistory for messages
       socket.on("messageHistory", (messages) => {
         // set messages recieved

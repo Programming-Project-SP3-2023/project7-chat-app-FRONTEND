@@ -21,7 +21,7 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 import dayjs from "dayjs";
 
 // useParams can be used to get the url id
-import { useParams } from "react-router-dom";
+import { useParams, useOutletContext } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
 import { getUserID, getUser } from "../../utils/localStorage";
 
@@ -30,15 +30,23 @@ import { getUserID, getUser } from "../../utils/localStorage";
  * @returns Homepage component render
  */
 const GroupChatUI = ({ socket }) => {
+  const friendsArray = Object.values(useOutletContext());
+  const friends = friendsArray.flat();
+
+  // used for re-seating socket
   const { loginSocket } = useSocket();
   const [loading, setLoading] = useState(true); // set loading to true
 
-  // const { groupId, channelId } = useParams();  // prefered method
-  const { groupId } = useParams();
-  const channelId = 1234501;
+  // loop through sender id(by friends) and find their avatar
+  const findAvatarBySenderID = (SenderID) => {
+    const friend = friends.find((friend) => friend.AccountID === SenderID);
+    return friend ? friend.Avatar : null;
+  };
+  // through the url params of groupID and channelID return values
+  const { groupId, channelId } = useParams(); // prefered method
 
-  console.log("groupID: ", groupId);
-  console.log("channelID: ", channelId); // currently channel id / url page has no id
+  // console.log("group id: ", groupId);
+  // console.log("channelID: ", channelId);
 
   // messages
   const [messages, setMessages] = useState([]);
@@ -64,14 +72,10 @@ const GroupChatUI = ({ socket }) => {
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
-
     // check socket user credentials are still in socket
     if (socket.accountID !== undefined) {
-      // currently unable to connect to a channel
-      socket.emit("connectChannel", {
-        channelID: channelId,
-        accountID: userId,
-      });
+      // connect to channel
+      socket.emit("connectChannel", { channelID: channelId });
 
       // open listener of messageHistory for messages
       socket.on("messageHistory", (messages) => {
@@ -81,7 +85,7 @@ const GroupChatUI = ({ socket }) => {
       });
 
       //open listener on message response. for data
-      socket.on("messageResponse", (data) => {
+      socket.on("channelMessageResponse", (data) => {
         console.log("recieved message response", data);
 
         // const messageRecieved = dayjs(new Date());
@@ -94,7 +98,7 @@ const GroupChatUI = ({ socket }) => {
         setMessages((messages) => [...messages, formatMessage]);
       });
       // ask for messages
-      socket.emit("getMessages", { channelID: channelId });
+      socket.emit("getChannelMessages", { channelID: channelId });
     } else {
       // attempt to reconnect socket
       handleReconnect();
@@ -118,7 +122,6 @@ const GroupChatUI = ({ socket }) => {
     const newTimestamp = new Date().getTime(); // converts to epoch time
     const messageText = messageInput.toString(); // convert user input to string
 
-    console.log("message submit timestamp: ", newTimestamp);
     if (messageText.trim() !== "") {
       // currently being used for local display
       const newMessage = {
@@ -127,8 +130,12 @@ const GroupChatUI = ({ socket }) => {
         SenderID: userId,
         TimeSent: newTimestamp,
       };
+
       // sending > emit message of chatID and string of message
-      socket.emit("sendMessage", { channelId, message: messageText });
+      socket.emit("sendChannelMessage", {
+        channelID: channelId,
+        message: messageText,
+      });
 
       setMessages([...messages, newMessage]); //set local messages
       setMessageInput("");
@@ -218,7 +225,7 @@ const GroupChatUI = ({ socket }) => {
     >
       {loading ? (
         <div>
-          <p>Loading...</p>
+          <p>No chat selected, please select a chat...</p>
         </div>
       ) : (
         <div className="chat-messages">
@@ -243,7 +250,7 @@ const GroupChatUI = ({ socket }) => {
                   <div className="message-other">
                     <Avatar
                       alt={`User ${message.SenderID}`}
-                      src={message.SenderID.Avatar}
+                      src={findAvatarBySenderID(message.SenderID)}
                     />
                     <div id="message">{message.MessageBody}</div>
                   </div>
