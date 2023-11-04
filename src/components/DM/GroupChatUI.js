@@ -32,6 +32,7 @@ import { getUserID, getUser } from "../../utils/localStorage";
 const GroupChatUI = ({ socket }) => {
   const friendsArray = Object.values(useOutletContext());
   const friends = friendsArray.flat();
+  console.log("friends > ", friends);
 
   // used for re-seating socket
   const { loginSocket } = useSocket();
@@ -42,6 +43,7 @@ const GroupChatUI = ({ socket }) => {
     const friend = friends.find((friend) => friend.AccountID === SenderID);
     return friend ? friend.Avatar : null;
   };
+
   // through the url params of groupID and channelID return values
   const { groupId, channelId } = useParams(); // prefered method
 
@@ -106,7 +108,7 @@ const GroupChatUI = ({ socket }) => {
     // close listeners
     return () => {
       socket.off("messageHistory");
-      socket.off("messageResponse");
+      socket.off("channelMessageResponse");
     };
   }, [channelId, socket]);
 
@@ -137,7 +139,7 @@ const GroupChatUI = ({ socket }) => {
         message: messageText,
       });
 
-      setMessages([...messages, newMessage]); //set local messages
+      setMessages((messages) => [...messages, newMessage]); //set local messages
       setMessageInput("");
     }
   };
@@ -237,6 +239,8 @@ const GroupChatUI = ({ socket }) => {
               }`}
             >
               {/* timestamp */}
+              <div>{message.SenderID}</div>
+
               <div id="message-timestamp" className="message-timestamp">
                 {formatEpochTime(message.TimeSent)}
               </div>

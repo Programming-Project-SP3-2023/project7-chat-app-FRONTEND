@@ -134,7 +134,7 @@ const ChatUI = ({ socket }) => {
       // sending > emit message of chatID and string of message
       socket.emit("sendMessage", { chatID, message: messageText });
 
-      setMessages([...messages, newMessage]); //set local messages
+      setMessages((messages) => [...messages, newMessage]); //set local messages
       setMessageInput("");
     }
   };
