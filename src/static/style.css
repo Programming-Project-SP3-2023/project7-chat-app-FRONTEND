@@ -1525,4 +1525,18 @@ footer {
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+/* ---------------------------- Email Verification page ---------------------------- */
+#email-verification {
+  background-color: #A9BCD0;
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  height: 100vh;
+}
+
+#email-verification-container {
+  padding: 20px;
+  text-align: center;
 }/*# sourceMappingURL=style.css.map */

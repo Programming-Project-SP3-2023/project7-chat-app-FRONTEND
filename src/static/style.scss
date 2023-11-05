@@ -1450,3 +1450,19 @@ footer {
   @include flex-column(center, center);
   gap: 10px;
 }
+
+
+/* ---------------------------- Email Verification page ---------------------------- */
+
+#email-verification {
+  background-color: #A9BCD0; // Set a blue background color
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  height: 100vh; // Center the content vertically on the page
+}
+
+#email-verification-container {
+  padding: 20px; // Add padding to the container
+  text-align: center; // Center text inside the container
+}

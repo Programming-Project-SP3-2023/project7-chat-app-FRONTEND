@@ -53,7 +53,16 @@ function App() {
           }
         />
         <Route path="signup" element={<Signup />} />
-        <Route path="verifyemail" element={<EmailVerification />} />
+        <Route
+          path="verifyemail"
+          element={
+            isLoggedIn ? (
+              <Navigate to="/dashboard" />
+          ) : (
+            <EmailVerification />
+          )
+          }
+        />
         <Route
           path="dashboard"
           element={

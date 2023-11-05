@@ -43,11 +43,17 @@ export const verifyEmail = async function (emailToken) {
 
     // Success!
     if (response.status === 200) {
-      return response.data.Message;
+      return {
+        message: response.data.Message,
+        status: response.data.Status
+        };
     }
     // Failed!
     else {
-      return response.data.Message;
+      return {
+        message: response.data.Message,
+        status: 'Failed'
+      };
     }
   } catch (error) {
     console.log(error);

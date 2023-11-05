@@ -1,33 +1,52 @@
-// EmailVerification.js
-
+/**
+ * Email Verification component
+ */
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { verifyEmail } from '../../services/userAPI'; // Import the verifyEmail function
+import { verifyEmail } from '../../services/userAPI';
+import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 const EmailVerification = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const emailToken = searchParams.get('emailToken');
-  const [verificationResult, setVerificationResult] = useState('');
+  const [verificationMessage, setVerificationMessage] = useState('');
+  const [verificationStatus, setVerificationStatus] = useState('');
 
   useEffect(() => {
-    // Use the verifyEmail function to verify the email token
     verifyEmail(emailToken)
       .then((result) => {
-        setVerificationResult(result);
+        setVerificationMessage(result.message);
+        setVerificationStatus(result.status); 
       })
       .catch((error) => {
         console.error('Email verification error:', error);
-        setVerificationResult('Email verification failed. Please try again.');
+        setVerificationMessage('Email verification failed. Please try again.');
+        setVerificationStatus('');
       });
   }, [emailToken]);
 
   return (
-    <div>
-      <h1>Email Verification</h1>
-      <p>{verificationResult}</p>
-    </div>
+    <section className="main-section" id="email-verification">
+      <div id="email-verification-container">
+        <h3>Email Verification</h3>
+        <p>{verificationMessage}</p>
+        {verificationStatus === 'Verified' && (
+          <Link to="/login">
+            <Button 
+              variant="contained" 
+              color="primary"
+              style={{ marginTop: '20px' }}  
+            >
+              Go to Login
+            </Button>
+          </Link>
+        )}
+      </div>
+    </section>
   );
 };
 
 export default EmailVerification;
+
