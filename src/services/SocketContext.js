@@ -20,7 +20,6 @@ export function useSocket() {
 export function SocketProvider({ children }) {
   useEffect(() => {
     // listeners
-
     socket.on("connectionResponse", (response) => {
       console.log("Connection Response: ", response);
     });
@@ -34,7 +33,7 @@ export function SocketProvider({ children }) {
     });
 
     socket.on("messageResponse", (data) => {
-      console.log("recieved message response", data);
+      console.log("recieved message response: ", data);
     });
 
     socket.on("userConnected", (userDetails) => {
@@ -46,7 +45,11 @@ export function SocketProvider({ children }) {
     });
 
     socket.on("userDisconnected", (userDetails) => {
-      console.log("user disconnected", userDetails);
+      console.log("user disconnected: ", userDetails);
+    });
+
+    socket.on("connectChannelResponse", (channelResponse) => {
+      console.log("channel connect response: ", channelResponse);
     });
 
     return () => {
@@ -81,20 +84,20 @@ export function SocketProvider({ children }) {
     logout: () => {
       socket.disconnect();
     },
-    reconnect: (userID, user) => {
-      // if (!socket.connected) {
-      //   socket.connect();
-      // }
+    // reconnect: (userID, user) => {
+    //   // if (!socket.connected) {
+    //   //   socket.connect();
+    //   // }
 
-      if (userID !== undefined) {
-        console.log("attempting to reconnect");
-        socket.accountID = userID;
-        socket.username = user;
-        socket.emit("connectSocket", { accountID: userID, username: user });
-      } else {
-        console.log("cannot reconnect please relog in....");
-      }
-    },
+    //   if (userID !== undefined) {
+    //     console.log("attempting to reconnect");
+    //     socket.accountID = userID;
+    //     socket.username = user;
+    //     socket.emit("connectSocket", { accountID: userID, username: user });
+    //   } else {
+    //     console.log("cannot reconnect please relog in....");
+    //   }
+    // },
   };
 
   return (

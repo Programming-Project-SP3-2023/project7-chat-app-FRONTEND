@@ -14,7 +14,7 @@ import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 import { useNavigate } from "react-router-dom";
-import { useSocket } from "../../services/SocketContext";
+// import { useSocket } from "../../services/SocketContext";
 import ManageMembersModal from "./ManageMembersModal";
 import ManageGroupSettings from "./ManageGroupSettings";
 
@@ -34,7 +34,7 @@ const Groups = ({
   const [isAdmin, setIsAdmin] = useState(false);
   const [members, setMembers] = useState([]);
 
-  const { socket } = useSocket(); // socket
+  // const { socket } = useSocket(); // socket
   // state handler for groups settings modal
   const [manageMembersModalOpen, setManageMembersModalOpen] = useState(false);
   const [manageGroupSettingsModalOpen, setManageGroupSettingsModalOpen] =
@@ -63,6 +63,8 @@ const Groups = ({
     // 4. Check if User is this group's admin
     members.forEach((m) => {
       if (m.AccountID === getUserID()) {
+        console.log("THIS is USERID:", m.AccountID);
+        console.log("THIS IS my role", m.Role);
         if (m.Role === "Admin") setIsAdmin(true);
       }
     });

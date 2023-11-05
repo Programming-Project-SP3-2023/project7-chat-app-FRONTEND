@@ -41,9 +41,7 @@ function sleep(delay = 0) {
   });
 }
 
-const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
-  //const socket = useSocket();
-
+const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
   // dummy friends objects for development.
   // the lastSent flag is denoting if the friend was the last to send a message. If true, the last chat message comes from the friend, else from the logged in user
   // the status flag is set to 0, 1 or 2. 0=offline, 1=busy, 2=online
@@ -66,7 +64,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
   const [manageFriendsModalOpen, setManageFriendsModalOpen] = useState(false);
 
   const [fetching, setFetching] = useState(false);
-  const { socket, loginSocket } = useSocket();
+  const { loginSocket } = useSocket();
 
   // trigger refresh flag
   const [refresh, setRefresh] = useState(false);
@@ -85,7 +83,6 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
     //on friendship id / chatID fetch messages
     const fetchMessageHistoryForFriend = (friendshipID) => {
       return new Promise((resolve, reject) => {
-        // console.log("accountID.... here?", socket.AccountID);
         if (socket.accountID !== undefined) {
           // connect to chat
           socket.emit("connectChat", { chatID: friendshipID });
@@ -119,7 +116,14 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
     };
     //call the method
     fetchMessageHistories();
-  }, [friends, socket, accountID, user.username, setMessageHistories]);
+  }, [
+    friends,
+    socket,
+    accountID,
+    user.username,
+    setMessageHistories,
+    loginSocket,
+  ]);
 
   // Effects
   useEffect(() => {
@@ -191,6 +195,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
     runFetch();
   }, [refresh]);
 
+  console.log("selected: ", friends);
   return (
     <>
       {fetching && (
@@ -306,7 +311,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend }) => {
             </div>
           </div>
           <div className="friends-chat-area">
-            <Outlet />
+            <Outlet context={{ friends }} />
             {!selectedChat && (
               <>
                 <h2>No chat selected.</h2>
