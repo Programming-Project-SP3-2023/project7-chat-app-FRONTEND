@@ -66,51 +66,66 @@ const Login = ({ setIsLoggedIn, setAccessTokenFast }) => {
           password: password,
         };
 
+        
         response = await login(requestBody);
-        setUserID(response.data.AccountID);
-        setAccessToken(response.data.token);
-        setAccessTokenFast(response.data.token);
+        
+        if (response.status === 200) 
+        {
+          const data = response.data;
 
-        userDataResponse = await getUserByID(
-          response.data.AccountID,
-          response.data.token
-        );
-        avatarResponse = await getAvatarByID(
-          response.data.AccountID,
-          response.data.token
-        );
-
-        let user;
-        if (userDataResponse && avatarResponse) {
-          user = {
-            email: userDataResponse.email,
-            displayName: userDataResponse.displayName,
-            dob: userDataResponse.dob,
-            username: userDataResponse.username,
-            image: avatarResponse.avatarData,
-          };
-        } else if (userDataResponse && !avatarResponse) {
-          user = {
-            email: userDataResponse.email,
-            displayName: userDataResponse.displayName,
-            dob: userDataResponse.dob,
-            username: userDataResponse.username,
-          };
-        }
-
-        setMessage("Login Succesful");
-        setUserSession(user);
-        setSideMenuOption(0);
-        setIsLoggedIn(true);
-
-        // get session stored user / rather than fetching twice
-        // socket.connect();
-        loginSocket(response.data.AccountID, username);
-        // navigate to dashboard
-        navigate("/dashboard");
+          if(data.errorType === 'InvalidCredentials') {
+            setMessage(data.message);
+          } else if (data.errorType === 'EmailNotVerified') {
+              setMessage(data.message);
+          } else {
+            setUserID(response.data.AccountID);
+            setAccessToken(response.data.token);
+            setAccessTokenFast(response.data.token);
+  
+            userDataResponse = await getUserByID(
+              response.data.AccountID,
+              response.data.token
+            );
+            avatarResponse = await getAvatarByID(
+              response.data.AccountID,
+              response.data.token
+            );
+  
+            let user;
+            if (userDataResponse && avatarResponse) {
+              user = {
+                email: userDataResponse.email,
+                displayName: userDataResponse.displayName,
+                dob: userDataResponse.dob,
+                username: userDataResponse.username,
+                image: avatarResponse.avatarData,
+              };
+            } else if (userDataResponse && !avatarResponse) {
+              user = {
+                email: userDataResponse.email,
+                displayName: userDataResponse.displayName,
+                dob: userDataResponse.dob,
+                username: userDataResponse.username,
+              };
+            }
+  
+            setMessage("Login Succesful");
+            setUserSession(user);
+            setSideMenuOption(0);
+            setIsLoggedIn(true);
+  
+            // get session stored user / rather than fetching twice
+            // socket.connect();
+            loginSocket(response.data.AccountID, username);
+            // navigate to dashboard
+            navigate("/dashboard");
+          }
+        } else {
+          setMessage('An error has occurred on the server! Please try again later');
+        }     
       } catch (error) {
         console.log(error);
-        setMessage("Invalid email or password. Try again.");
+        setMessage("An error has occurred on the server! Please try again later");
       } finally {
         //Disable loading state
         setLoading(false);
