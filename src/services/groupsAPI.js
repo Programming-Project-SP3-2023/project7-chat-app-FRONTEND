@@ -27,7 +27,16 @@ const headers = {
  * @returns confirmation/error message
  */
 export const createGroup = async function (requestBody) {
-  return await axios.post(CREATE_GROUP_ENDPOINT, requestBody, headers);
+
+  const myHeaders = {
+    headers: {
+      Authorization: getAccessToken(),
+    },
+  };
+
+  console.log("HI!:" , myHeaders);
+  console.log("HO: ", requestBody);
+  return await axios.post(CREATE_GROUP_ENDPOINT, requestBody, myHeaders);
 };
 
 /**
