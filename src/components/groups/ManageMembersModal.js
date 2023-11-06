@@ -33,7 +33,7 @@ const ManageMembersModal = ({
   setRefresh,
   groupID,
   groupReload,
-  setGroupReload,
+  setGroupReload
 }) => {
   // Component state objects
   const [searchString, setSearchString] = useState("");

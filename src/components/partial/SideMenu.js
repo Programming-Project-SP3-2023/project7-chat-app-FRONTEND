@@ -40,7 +40,7 @@ const SideMenu = ({
 
   return (
     <Drawer variant="permanent" id="side-menu">
-      <Box sx={{ overflow: "auto", width: "100%" }}>
+      <Box sx={{ overflow: "auto", width: "100%", maxHeight:"82vh" }}>
         <List>
           {options.map((text, index) => (
             <ListItem

@@ -202,3 +202,64 @@ export const removeGroupMember = async function (groupId, accountId) {
 
   return;
 };
+
+/**
+ * Updates a group's name
+ * @param {*} groupID group ID
+ * @param {*} groupName new name
+ * @returns confirmation/error message
+ */
+
+export const updateGroupName = async function (groupID, groupName) {
+  console.log(`${BASE_URL}groups/edit-name/${groupID}`);
+  const body = {
+    newGroupName: groupName
+  };
+
+  try {
+    let response = await axios.post(`${BASE_URL}groups/edit-name/${groupID}`, body, headers);
+
+    //Success!
+    if (response.status === 200) {
+      console.log("Group name updated");
+      console.log(response.data.message);
+      return response.data.message;
+    }
+  } catch (error) {
+    console.log("Error updating group name");
+    console.log(error);
+  }
+
+  return;
+};
+
+
+/**
+ * Updates a group's name
+ * @param {*} groupID group ID
+ * @param {*} groupAvatar new avatar
+ * @returns confirmation/error message
+ */
+
+export const updateGroupAvatar = async function (groupID, groupAvatar) {
+  const body = {
+    groupId: groupID,
+    avatarData: groupAvatar
+  };
+
+  try {
+    let response = await axios.post(`${BASE_URL}avatar/upload-group-avatar`, body, headers);
+
+    //Success!
+    if (response.status === 200) {
+      console.log("Group avatar updated");
+      console.log(response.data.message);
+      return response.data.message;
+    }
+  } catch (error) {
+    console.log("Error updating group avatar");
+    console.log(error);
+  }
+
+  return;
+};
