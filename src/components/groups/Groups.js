@@ -86,13 +86,36 @@ const Groups = ({
   }, [refresh]);
 
   // handles opening channel chat and relative functions
-  const handleChannelNavigate = (channelID, channelName) => {
-    console.log("opening channel chat with id ", channelID);
-    // loading channel chat with a certain ID (which will be used to get the channel info)
-    navigate(`/dashboard/groups/${group.groupID}/${channelID}`);
-    // change header title to match channel
-    if (channelName) {
-      setHeaderTitle(channelName);
+  const handleChannelNavigate = async (channelID, channelName) => {
+    const joinChatPromise = new Promise((resolve, reject) => {
+      // attempt to join chat room
+      console.log("channel id in groups", channelID);
+      socket.emit("connectChannel", { channelID });
+      // waits for join response
+      socket.on("connectChannelResponse", () => {
+        resolve();
+      });
+
+      socket.on("error", (error) => {
+        reject(error);
+      });
+      // timeout response
+      setTimeout(() => {
+        reject("Socket failed to join channel chat in time.");
+      }, 5000);
+    });
+
+    try {
+      await joinChatPromise;
+      console.log("opening channel chat with id ", channelID);
+      // loading channel chat with a certain ID (which will be used to get the channel info)
+      navigate(`/dashboard/groups/${group.groupID}/${channelID}`);
+      // change header title to match channel
+      if (channelName) {
+        setHeaderTitle(channelName);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 

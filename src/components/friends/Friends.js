@@ -195,7 +195,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
     runFetch();
   }, [refresh]);
 
-  console.log("selected: ", friends);
+  // console.log("selected: ", friends);
   return (
     <>
       {fetching && (

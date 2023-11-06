@@ -32,7 +32,9 @@ import { getUserID, getUser } from "../../utils/localStorage";
 const GroupChatUI = ({ socket }) => {
   const friendsArray = Object.values(useOutletContext());
   const friends = friendsArray.flat();
-  console.log("friends > ", friends);
+  // console.log("friends > ", friends);
+  // console.log("group id: ", groupId);
+  // console.log("channelID: ", channelId);
 
   // used for re-seating socket
   const { loginSocket } = useSocket();
@@ -46,9 +48,6 @@ const GroupChatUI = ({ socket }) => {
 
   // through the url params of groupID and channelID return values
   const { groupId, channelId } = useParams(); // prefered method
-
-  // console.log("group id: ", groupId);
-  // console.log("channelID: ", channelId);
 
   // messages
   const [messages, setMessages] = useState([]);
