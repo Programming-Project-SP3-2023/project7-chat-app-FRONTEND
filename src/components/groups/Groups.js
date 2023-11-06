@@ -87,15 +87,15 @@ const Groups = ({
 
   // handles opening channel chat and relative functions
   const handleChannelNavigate = async (channelID, channelName) => {
+    // connect chat promise
     const joinChatPromise = new Promise((resolve, reject) => {
-      // attempt to join chat room
-      console.log("channel id in groups", channelID);
+      // ask to join channel
       socket.emit("connectChannel", { channelID });
-      // waits for join response
+      // listens for connectchannelResponse
       socket.on("connectChannelResponse", () => {
         resolve();
       });
-
+      // if an error is returned it has failed to join
       socket.on("error", (error) => {
         reject(error);
       });
@@ -106,8 +106,8 @@ const Groups = ({
     });
 
     try {
+      //if promise is resolved navigate to channel
       await joinChatPromise;
-      console.log("opening channel chat with id ", channelID);
       // loading channel chat with a certain ID (which will be used to get the channel info)
       navigate(`/dashboard/groups/${group.groupID}/${channelID}`);
       // change header title to match channel
@@ -119,10 +119,8 @@ const Groups = ({
     }
   };
 
-  // socket.emit("connectGroup", { groupID: 3 });
-
   useEffect(() => {
-    // if group
+    // if group exists
     if (group) {
       // attempt to connect
       const connectGroupAsync = async () => {
@@ -131,16 +129,17 @@ const Groups = ({
           // attempt to connect to the group
           await socket.emit("connectGroup", { groupID: group.groupID });
         } else {
-          // attempt to re-connect
+          // re-establish socket info
           await loginSocket(userID, user.username);
         }
       };
       connectGroupAsync();
     }
+
     //is dependent on the group existing
   }, [socket.accountID, group]);
 
-  // console.log(group);
+  console.log("group info", group);
 
   return (
     <section className="group-page">
