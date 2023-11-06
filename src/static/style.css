@@ -1526,3 +1526,36 @@ footer {
   align-items: center;
   gap: 10px;
 }/*# sourceMappingURL=style.css.map */
+
+/* VoiceChat UI */
+
+.user-square {
+  display: flex;
+  align-items: center;
+  background-color: #4d77aa;
+  border: 5px solid transparent; /* Set a transparent border with a fixed width */
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px;
+  width: 325px;
+  height: 100px;
+  transition: border-color 0.2s ease; /* Add a smooth transition effect for border-color */
+}
+
+.user-square img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-square span {
+  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
+}
+
+/* Add a speaking class to change the border color */
+.user-square.speaking {
+  border-color: #43b54e; /* Change the border color when speaking */
+}
