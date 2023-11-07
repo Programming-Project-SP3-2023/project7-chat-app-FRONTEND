@@ -1454,6 +1454,8 @@ footer {
 
 /* VoiceChat UI */
 
+
+
 .user-square {
   display: flex;
   align-items: center;
@@ -1467,6 +1469,9 @@ footer {
   transition: border-color 0.2s ease; 
 }
 
+
+
+
 .user-square img {
   width: 55px;
   height: 55px;
@@ -1478,15 +1483,78 @@ footer {
   font-weight: bold;
   color: #fff;
   font-size: 16px;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  max-width: 300px; 
 }
 
 .user-square.speaking {
   border-color: #43b54e; 
 }
 
+
+@media (max-width: 1540px) {
+  .user-square {
+    width: 150px; 
+    height: 100px; 
+  }
+  .user-square img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  
+  .user-square span {
+    font-weight: bold;
+    color: #fff;
+    font-size: 12px;
+  }
+}
+
+
+@media (max-width: 1035px) {
+  .user-square {
+    width: 100px; 
+    height: 70px; 
+    margin: 0;
+    padding: 0;
+  }
+  .user-square img {
+    position: relative;
+    top: -25px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .user-square span {
+    font-weight: bold;
+    text-wrap: nowrap;
+    color: #fff;
+    font-size: 12px;
+
+  }
+}
+
+
 .voice-chat-room {
+  background-color: $echo-lighterblue;
   position: relative; 
-  height: 80vh;
+  height: 100%;
+
+  
+}
+
+.user-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; 
+  justify-content: center;
+  align-items: flex-start;
+  padding: 10px; 
 }
 
 .join-overlay {
