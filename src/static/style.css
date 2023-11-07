@@ -1559,8 +1559,8 @@ footer {
 }
 #admin-home .admin-home-partial {
   box-shadow: 2px 0px 6px #456b9a;
-  width: 35%;
-  height: 60vh;
+  width: 30%;
+  height: 50vh;
   background-color: #d8dbe2;
   border-radius: 10vh;
   display: flex;
@@ -1579,6 +1579,60 @@ footer {
   color: #456b9a;
 }
 #admin-home .admin-home-partial h2 {
-  font-size: 2.5vw;
+  font-size: 2vw;
   color: #495057;
+}
+
+#grid-loading-screen {
+  width: 100%;
+  height: 60vh;
+  background-color: #a9bcd0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#grid-loading-screen h2 {
+  color: #456b9a;
+}
+
+.admin-manage-screen {
+  width: 100%;
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 5vh;
+}
+.admin-manage-screen .top-buttons-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.admin-manage-screen .top-buttons-wrapper h2 {
+  font-weight: 500;
+  color: #00274c;
+}
+
+#admin-box, #admin-datagrid, .MuiDataGrid-root {
+  border-radius: 20px;
+  border: 0 !important;
+  max-height: 65vh;
+}
+
+.top-row {
+  background-color: #456b9a;
+  min-width: 100%;
+  color: white;
+  font-size: larger;
+}
+
+#admin-add-user {
+  width: 20vw;
+  min-width: 200px;
+  background-color: #456b9a;
+  font-size: larger;
 }/*# sourceMappingURL=style.css.map */

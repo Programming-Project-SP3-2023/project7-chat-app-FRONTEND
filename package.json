@@ -8,6 +8,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.14.7",
     "@mui/material": "^5.14.7",
+    "@mui/x-data-grid": "^6.18.0",
     "@mui/x-date-pickers": "^6.13.0",
     "@react-spring/web": "^9.7.3",
     "@testing-library/jest-dom": "^5.17.0",
@@ -51,8 +52,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "node-sass": "^7.0.3"
   }
 }

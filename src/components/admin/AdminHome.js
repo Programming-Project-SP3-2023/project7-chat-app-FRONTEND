@@ -5,6 +5,7 @@
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 /**
  * Builds and renders the Admin Home component
@@ -16,13 +17,15 @@ const AdminHome = ({setAdminTitle}) => {
     setAdminTitle("Admin Page");
   },[])
 
+  const navigate = useNavigate();
+
   return (
-<>
-      <div className="admin-home-partial">
+<>    
+      <div className="admin-home-partial" onClick={() => navigate('users')}>
         <PersonOutlinedIcon />
         <h2>Manage Users</h2>
       </div>
-      <div className="admin-home-partial">
+      <div className="admin-home-partial" onClick={() => navigate('groups')}>
         <PeopleAltOutlinedIcon />
         <h2>Manage Groups</h2>
       </div>
