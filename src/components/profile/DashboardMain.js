@@ -25,7 +25,7 @@ import { CircularProgress } from "@mui/material";
  * @returns Dashboard Main Menu component render
  */
 
-const DashboardMain = () => {
+const DashboardMain = ({groupReload, setGroupReload}) => {
   // state handler for create group modal
   const [groupModalOpen, setGroupModalOpen] = useState(false);
   // state handler for manage friends modal
@@ -124,6 +124,8 @@ const DashboardMain = () => {
             groupModalOpen={groupModalOpen}
             setGroupModalOpen={setGroupModalOpen}
             friends={friends}
+            groupReload={groupReload}
+            setGroupReload={setGroupReload}
           />
           {/* Manage Friends Modal */}
           <ManageFriendsModal
