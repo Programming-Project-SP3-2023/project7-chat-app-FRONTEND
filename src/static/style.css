@@ -1539,4 +1539,46 @@ footer {
 #email-verification-container {
   padding: 20px;
   text-align: center;
+}
+
+/* ---------------------------- ADMIN HOME ---------------------------- */
+#admin-home {
+  background-color: #a9bcd0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+#admin-home #admin-title {
+  position: absolute;
+  top: 26px;
+  z-index: 2;
+  font-size: 40px;
+  font-weight: 400;
+  color: white;
+}
+#admin-home .admin-home-partial {
+  box-shadow: 2px 0px 6px #456b9a;
+  width: 35%;
+  height: 60vh;
+  background-color: #d8dbe2;
+  border-radius: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+}
+#admin-home .admin-home-partial:hover {
+  transform: scale(1.02);
+}
+#admin-home .admin-home-partial svg {
+  font-size: 10vw;
+  color: #456b9a;
+}
+#admin-home .admin-home-partial h2 {
+  font-size: 2.5vw;
+  color: #495057;
 }/*# sourceMappingURL=style.css.map */

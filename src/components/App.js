@@ -16,6 +16,8 @@ import Footer from "./base/Footer";
 import NotFound from "./base/NotFound";
 import Friends from "./friends/Friends";
 import Groups from "./groups/Groups";
+import AdminHome from "./admin/AdminHome";
+import AdminLogin from "./admin/AdminLogin";
 import { getUser } from "../utils/localStorage";
 import { useState, useEffect } from "react";
 import DashboardMain from "./profile/DashboardMain";
@@ -25,6 +27,10 @@ import { useSocket } from "../services/SocketContext";
 
 function App() {
   const user = getUser();
+  // TODO: Change to get admin function once we have the proper login set up
+  const admin = getUser();
+  const [adminIsLoggedIn, setAdminIsLoggedIn] = useState(true);
+
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   const [refresh, setRefresh] = useState(false);
   const [groupReload, setGroupReload] = useState(false);
@@ -40,6 +46,8 @@ function App() {
   return (
     <div className="App">
       <Header
+        adminIsLoggedIn={adminIsLoggedIn}
+        setAdminIsLoggedIn={setAdminIsLoggedIn}
         isLoggedIn={isLoggedIn}
         refresh={refresh}
         setRefresh={setRefresh}
@@ -59,11 +67,7 @@ function App() {
         <Route
           path="verifyemail"
           element={
-            isLoggedIn ? (
-              <Navigate to="/dashboard" />
-          ) : (
-            <EmailVerification />
-          )
+            isLoggedIn ? <Navigate to="/dashboard" /> : <EmailVerification />
           }
         />
         <Route
@@ -84,7 +88,15 @@ function App() {
             )
           }
         >
-          <Route index element={<DashboardMain groupReload={groupReload} setGroupReload={setGroupReload} />} />
+          <Route
+            index
+            element={
+              <DashboardMain
+                groupReload={groupReload}
+                setGroupReload={setGroupReload}
+              />
+            }
+          />
           <Route path="friends" element={<Friends socket={socket} />}>
             <Route path=":id" element={<ChatUI socket={socket} />} />
           </Route>
@@ -108,6 +120,19 @@ function App() {
             </Route>
           </Route>
         </Route>
+        <Route
+          path="admin"
+          element={
+            <AdminLogin
+              setAdminIsLoggedIn={setAdminIsLoggedIn}
+              adminIsLoggedIn={adminIsLoggedIn}
+            />
+          }
+        />
+        <Route
+          path="admin-home"
+          element={<AdminHome adminIsLoggedIn={adminIsLoggedIn} />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
