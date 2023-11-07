@@ -16,6 +16,9 @@ import Footer from "./base/Footer";
 import NotFound from "./base/NotFound";
 import Friends from "./friends/Friends";
 import Groups from "./groups/Groups";
+import Admin from "./admin/Admin";
+import AdminLogin from "./admin/AdminLogin";
+import AdminUsers from "./admin/AdminUsers";
 import { getUser } from "../utils/localStorage";
 import { useState, useEffect } from "react";
 import DashboardMain from "./profile/DashboardMain";
@@ -25,10 +28,15 @@ import { useSocket } from "../services/SocketContext";
 
 function App() {
   const user = getUser();
+  // TODO: Change to get admin function once we have the proper login set up
+  const admin = getUser();
+  const [adminIsLoggedIn, setAdminIsLoggedIn] = useState(true);
+
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   const [refresh, setRefresh] = useState(false);
   const [groupReload, setGroupReload] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("Echo");
+  const [adminTitle, setAdminTitle] = useState("Echo - Admin");
 
   const [accessTokenFast, setAccessTokenFast] = useState(null);
   const { socket } = useSocket();
@@ -40,6 +48,8 @@ function App() {
   return (
     <div className="App">
       <Header
+        adminIsLoggedIn={adminIsLoggedIn}
+        setAdminIsLoggedIn={setAdminIsLoggedIn}
         isLoggedIn={isLoggedIn}
         refresh={refresh}
         setRefresh={setRefresh}
@@ -59,11 +69,7 @@ function App() {
         <Route
           path="verifyemail"
           element={
-            isLoggedIn ? (
-              <Navigate to="/dashboard" />
-          ) : (
-            <EmailVerification />
-          )
+            isLoggedIn ? <Navigate to="/dashboard" /> : <EmailVerification />
           }
         />
         <Route
@@ -84,7 +90,15 @@ function App() {
             )
           }
         >
-          <Route index element={<DashboardMain groupReload={groupReload} setGroupReload={setGroupReload} />} />
+          <Route
+            index
+            element={
+              <DashboardMain
+                groupReload={groupReload}
+                setGroupReload={setGroupReload}
+              />
+            }
+          />
           <Route path="friends" element={<Friends socket={socket} />}>
             <Route path=":id" element={<ChatUI socket={socket} />} />
           </Route>
@@ -108,6 +122,22 @@ function App() {
               />
             </Route>
           </Route>
+        </Route>
+        <Route path="admin" element={<Admin adminTitle={adminTitle} />}>
+          <Route
+            index
+            element={
+              <AdminLogin
+                setAdminIsLoggedIn={setAdminIsLoggedIn}
+                adminIsLoggedIn={adminIsLoggedIn}
+                setAdminTitle={setAdminTitle}
+              />
+            }
+          />
+          <Route
+            path="users"
+            element={<AdminUsers setAdminTitle={setAdminTitle} />}
+          />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
