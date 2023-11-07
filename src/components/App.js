@@ -85,7 +85,7 @@ function App() {
             )
           }
         >
-          <Route index element={<DashboardMain />} />
+          <Route index element={<DashboardMain groupReload={groupReload} setGroupReload={setGroupReload} />} />
           <Route path="friends" element={<Friends socket={socket} />}>
             <Route path=":id" element={<ChatUI socket={socket} />} />
           </Route>

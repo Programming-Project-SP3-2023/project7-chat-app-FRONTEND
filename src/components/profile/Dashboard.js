@@ -25,7 +25,7 @@ const Dashboard = ({
   setHeaderTitle,
   accessTokenFast,
   groupReload,
-  setGroupReload
+  setGroupReload,
 }) => {
   // sample groups object (simulates backend data)
   // const groups = [
