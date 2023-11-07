@@ -16,8 +16,11 @@ import Footer from "./base/Footer";
 import NotFound from "./base/NotFound";
 import Friends from "./friends/Friends";
 import Groups from "./groups/Groups";
+import Admin from "./admin/Admin";
 import AdminHome from "./admin/AdminHome";
 import AdminLogin from "./admin/AdminLogin";
+import AdminUsers from "./admin/AdminUsers";
+import AdminGroups from "./admin/AdminGroups";
 import { getUser } from "../utils/localStorage";
 import { useState, useEffect } from "react";
 import DashboardMain from "./profile/DashboardMain";
@@ -35,6 +38,7 @@ function App() {
   const [refresh, setRefresh] = useState(false);
   const [groupReload, setGroupReload] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("Echo");
+  const [adminTitle, setAdminTitle] = useState("Echo - Admin");
 
   const [accessTokenFast, setAccessTokenFast] = useState(null);
   const { socket } = useSocket();
@@ -120,19 +124,35 @@ function App() {
             </Route>
           </Route>
         </Route>
-        <Route
-          path="admin"
-          element={
-            <AdminLogin
-              setAdminIsLoggedIn={setAdminIsLoggedIn}
-              adminIsLoggedIn={adminIsLoggedIn}
-            />
-          }
-        />
-        <Route
-          path="admin-home"
-          element={<AdminHome adminIsLoggedIn={adminIsLoggedIn} />}
-        />
+        <Route path="admin" element={<Admin adminTitle={adminTitle} />}>
+          <Route
+            index
+            element={
+              <AdminHome
+                adminIsLoggedIn={adminIsLoggedIn}
+                setAdminTitle={setAdminTitle}
+              />
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <AdminLogin
+                setAdminIsLoggedIn={setAdminIsLoggedIn}
+                adminIsLoggedIn={adminIsLoggedIn}
+                setAdminTitle={setAdminTitle}
+              />
+            }
+          />
+          <Route
+            path="users"
+            element={<AdminUsers setAdminTitle={setAdminTitle} />}
+          />
+          <Route
+            path="groups"
+            element={<AdminGroups setAdminTitle={setAdminTitle} />}
+          />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
