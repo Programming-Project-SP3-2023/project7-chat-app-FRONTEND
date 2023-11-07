@@ -13,10 +13,10 @@ const CREATE_CHANNEL_ENDPOINT = `${BASE_URL}groups/:groupId/channels`;
 //const DELETE_CHANNEL_ENDPOINT = `${BASE_URL}groups/:groupId/channels/:channelId`;
 const ADD_CHANNEL_MEMBER_ENDPOINT = `${BASE_URL}groups/:groupId/channels/:channelId/members`;
 const REMOVE_CHANNEL_MEMBER_ENDPOINT = `${BASE_URL}groups/:groupId/channels/:channelId/members/:userId`;
-//const GET_CHANNEL_LIST_ENDPOINT = `${BASE_URL}groups/:groupId/channels`;
-const GET_CHANNEL_INFO_ENDPOINT = `${BASE_URL}groups/:groupId/channels/:channelId`;
-const GET_CHANNEL_UPDATE_NAME_ENDPOINT = `${BASE_URL}groups/:groupId/channels/:channelId/name`;
-//const GET_CHANNEL_MEMBERS_ENDPOINT = `${BASE_URL}groups/current-groups`;
+const GET_CHANNEL_LIST_ENDPOINT = `${BASE_URL}groups/:groupId/channels`;
+// const GET_CHANNEL_INFO_ENDPOINT = `${BASE_URL}groups/:groupId/channels/:channelId`;
+// const GET_CHANNEL_UPDATE_NAME_ENDPOINT = `${BASE_URL}groups/:groupId/channels/:channelId/name`;
+const GET_CHANNEL_MEMBERS_ENDPOINT = `${BASE_URL}groups/current-groups`;
 
 // Auth setup
 const headers = {
@@ -45,7 +45,7 @@ export const createChannel = async function (requestBody) {
 };
 
 /**
- * Adds a member to a group
+ * Adds a member to a channel
  * @param {*} groupID group ID
  * @param {*} memberEmail new member's email
  * @returns confirmation/error message
@@ -75,8 +75,8 @@ export const addChannelMember = async function (groupID, memberEmail) {
 };
 
 /**
- * Gets a list of group IDs the user is part of
- * @returns an array of group IDs
+ * Gets a list of channel IDs the user is part of
+ * @returns an array of channel IDs
  */
 // TODO
 export const getChannelList = async function (token) {
@@ -88,7 +88,7 @@ export const getChannelList = async function (token) {
   };
 
   try {
-    let response = await axios.get(GET_CHANNEL_INFO_ENDPOINT, getGroupsHeader);
+    let response = await axios.get(GET_CHANNEL_LIST_ENDPOINT, getGroupsHeader);
 
     //Success!
     if (response.status === 200) {
@@ -105,7 +105,7 @@ export const getChannelList = async function (token) {
 };
 
 /**
- * Get a group info by id
+ * Get a channel info by id
  * @param {*} groupID The group's id
  * @returns The group's info
  */
@@ -137,7 +137,7 @@ export const getChannelbyID = async function (groupID, channelID, token) {
 };
 
 /**
- * Deletes a group
+ * Deletes a channel
  * @param {*} channelID channel ID and group id?
  * @returns confirmation/error message
  */
@@ -202,6 +202,39 @@ export const removeChannelMember = async function (
       REMOVE_CHANNEL_MEMBER_ENDPOINT,
       body,
       deleteHeaders
+    );
+
+    //Success!
+    if (response.status === 200) {
+      return response.data.message;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  return;
+};
+
+export const getChannelMembers = async function (groupId, channelId) {
+  const body = {
+    groupId: groupId,
+    channelId: channelId,
+  };
+
+  const getMembersHeader = {
+    headers: {
+      Authorization: getAccessToken(),
+    },
+  };
+
+  console.log("Headers, ", getMembersHeader);
+  console.log("Body, ", body);
+
+  try {
+    let response = await axios.post(
+      GET_CHANNEL_MEMBERS_ENDPOINT,
+      body,
+      getMembersHeader
     );
 
     //Success!

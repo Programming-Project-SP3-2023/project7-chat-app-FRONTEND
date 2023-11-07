@@ -24,6 +24,7 @@ import {
   addChannelMember,
   removeChannelMember,
   deleteChannel,
+  getChannelMembers,
 } from "../../services/channelsAPI";
 
 /**
@@ -34,8 +35,6 @@ import {
 const ManageChannelModal = ({
   manageChannelModalOpen,
   setManageChannelModalOpen,
-  members,
-  setMembers,
   friends,
   setRefresh,
   channelId,
@@ -50,6 +49,7 @@ const ManageChannelModal = ({
   const [friendOptions, setFriendOptions] = useState([]);
   const [open, setOpen] = useState(false);
   const [friendToAdd, setFriendToAdd] = useState(null);
+  const [members, setMembers] = useState([]);
   const loading = open && options.length === 0;
 
   // Loading function (async)
@@ -140,6 +140,23 @@ const ManageChannelModal = ({
   const handleClose = () => setManageChannelModalOpen(false);
 
   // Effects
+  // get channel members
+  // TODO fix continous loop of fetch channel members
+  useEffect(() => {
+    const fetchChannelMembers = async (option) => {
+      try {
+        const response = await getChannelMembers(group.groupID, channelId);
+        console.log(response);
+
+        setMembers(response);
+
+        setGroupReload(!groupReload);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    //fetchChannelMembers(); // continuous loop...
+  }, [groupReload]);
 
   // calculate friend options
   useEffect(() => {
@@ -148,7 +165,8 @@ const ManageChannelModal = ({
     const possibleOptions = [];
     const notPossible = [];
 
-    // console.log("friends, ", friends);
+    console.log("friends, ", friends);
+
     // friends.forEach((friend) => {
     //   members.forEach((member) => {
     //     if (friend.AccountID === member.AccountID) {

@@ -97,13 +97,13 @@ const Groups = ({
       await fetchFriends();
 
       // 6 attempt to get channel list
-      async function getChannelList() {
+      async function fetchChannelList() {
         const response = await getChannelList();
         console.log("Channels List: ", response);
         setChannelList(response);
       }
       // 7 call channel list function
-      await getChannelList();
+      await fetchChannelList();
     };
     fetchData();
   }, [refresh]);
