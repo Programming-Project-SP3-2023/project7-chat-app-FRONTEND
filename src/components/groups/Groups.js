@@ -40,7 +40,7 @@ const Groups = ({
   const [isAdmin, setIsAdmin] = useState(false);
   const [members, setMembers] = useState([]);
 
-  const [channelID, setChannel] = useState(null); //
+  const [channelId, setChannelId] = useState(null); //
 
   const user = getUser(); // user
   const userID = getUserID(); // userid
@@ -172,7 +172,7 @@ const Groups = ({
             manageChannelModalOpen={manageChannelsModalOpen}
             setManageChannelModalOpen={setManageChannelsModalOpen}
             setRefresh={setRefresh}
-            channelID={channelID} // currently null value
+            channelID={channelId} // currently null value
             group={group}
             friends={friends}
             groupReload={groupReload}
@@ -271,7 +271,8 @@ const Groups = ({
             {/* addChannel Modal */}
             <button
               className="group-button"
-              onClick={setManageAddChannelModalOpen}
+              onClick={setManageChannelsModalOpen}
+              // onClick={setManageAddChannelModalOpen}
             >
               <WorkspacesOutlinedIcon />
               <h3>Add channel</h3>

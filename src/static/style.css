@@ -1529,7 +1529,7 @@ footer {
 
 /* ---------------------------- Email Verification page ---------------------------- */
 #email-verification {
-  background-color: #A9BCD0;
+  background-color: #a9bcd0;
   display: flex;
   justify-content: center;
   align-items: top;
@@ -1539,4 +1539,48 @@ footer {
 #email-verification-container {
   padding: 20px;
   text-align: center;
+}
+
+/* ---------------------------- channel page ---------------------------- */
+.channel-delete-bttn-container {
+  padding-block: 1%;
+}
+.channel-delete-bttn-container .channel-button {
+  width: 100%;
+  background-color: #f0eff4;
+  height: 40px;
+  border-radius: 15px;
+  padding-block: 2%;
+  padding: 0 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: #495057;
+  cursor: pointer;
+  border: 0;
+}
+.channel-delete-bttn-container .channel-button h3 {
+  font-size: 20px;
+  font-weight: 200;
+}
+.channel-delete-bttn-container .channel-button svg {
+  font-size: 28px;
+}
+.channel-delete-bttn-container .channel-button:hover {
+  transform: scale(1.02);
+  transition: 0.3s linear;
+}
+.channel-delete-bttn-container #channel-delete-bttn {
+  background-color: #b92727;
+  color: white;
+  margin-top: 20%;
+}
+
+#channel-name-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px;
 }/*# sourceMappingURL=style.css.map */

@@ -11,15 +11,20 @@ import {
   Chip,
   CircularProgress,
   Avatar,
+  Button,
 } from "@mui/material";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import WorkspacesOutlinedIcon from "@mui/icons-material/WorkspacesOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import MemberChip from "../partial/MemberChip";
 import {
   addChannelMember,
   removeChannelMember,
+  deleteChannel,
+  updateChannelInfo,
 } from "../../services/channelsAPI";
 
 /**
@@ -34,13 +39,14 @@ const ManageChannelModal = ({
   setMembers,
   friends,
   setRefresh,
-  channel,
-  groupID,
+  channelId,
+  group,
   groupReload,
   setGroupReload,
 }) => {
   // Component state objects
   const [searchString, setSearchString] = useState("");
+  const [channelName, setChannelName] = useState("");
   const [options, setOptions] = useState([]);
   const [friendOptions, setFriendOptions] = useState([]);
   const [open, setOpen] = useState(false);
@@ -54,11 +60,17 @@ const ManageChannelModal = ({
     });
   }
 
+  console.log("group id...", group.groupID);
+
   // Methods
   // Handle member add
   const handleAddMember = async (option) => {
     try {
-      const response = await addChannelMember(groupID, channel, option.Email);
+      const response = await addChannelMember(
+        group.groupID,
+        channelId,
+        option.Email
+      );
       console.log(response);
       setGroupReload(!groupReload);
 
@@ -82,8 +94,8 @@ const ManageChannelModal = ({
   const handleRemoveMember = async (member, i) => {
     try {
       const response = await removeChannelMember(
-        groupID,
-        channel,
+        group.groupID,
+        channelId,
         member.AccountID
       );
       console.log(response);
@@ -93,6 +105,33 @@ const ManageChannelModal = ({
       const tempMembers = members;
       tempMembers.splice(i, 1);
       setMembers(tempMembers);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // handle updating the channel name
+  async function updateChannelInfo(e) {
+    e.preventDefault();
+    try {
+      const response = await updateChannelInfo(
+        group.groupID,
+        channelId,
+        channelName
+      );
+      console.log(response);
+      setGroupReload(!groupReload);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const deleteChannelHandler = async (group, channelId) => {
+    try {
+      const response = await deleteChannel(group.groupID, channelId);
+      console.log(response);
+      setGroupReload(!groupReload);
+      //not sure entirely what I'd update here
     } catch (err) {
       console.log(err);
     }
@@ -164,8 +203,33 @@ const ManageChannelModal = ({
     >
       <Box id="manage-members-modal">
         <div id="manage-members-modal-header">
-          <h2>Manage Channels</h2>
+          <h2>Manage Channel</h2>
         </div>
+        <div id="manage-channel-settings-textfield">
+          <form>
+            <p id="channel-name-header">
+              <WorkspacesOutlinedIcon />
+              Channel Name
+            </p>
+            <TextField
+              fullWidth
+              id="group-name-txtfield"
+              variant="outlined"
+              placeholder="Enter channel name..."
+              value={channelName}
+              onChange={(event) => setChannelName(event.target.value)}
+            />
+            <Button
+              id="manage-group-submit-button"
+              variant="contained"
+              type="submit"
+              onClick={updateChannelInfo}
+            >
+              Save changes
+            </Button>
+          </form>
+        </div>
+
         <div id="manage-friends-modal-whitebox">
           {members &&
             members.map((member, i) => {
@@ -258,6 +322,17 @@ const ManageChannelModal = ({
               inputProps={{ readOnly: true }}
             />
           )}
+
+          <div className="channel-delete-bttn-container">
+            <button
+              id="channel-delete-bttn"
+              className="channel-button"
+              onClick={deleteChannelHandler}
+            >
+              <DeleteOutlineOutlinedIcon />
+              <h3>Delete Channel</h3>
+            </button>
+          </div>
         </div>
       </Box>
     </Modal>

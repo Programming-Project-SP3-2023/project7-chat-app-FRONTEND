@@ -953,12 +953,12 @@ footer {
     }
   }
 
-  #group-members-container{
+  #group-members-container {
     @include flex-row(center, center);
     width: 100%;
     gap: 8%;
 
-    .group-member-icon{
+    .group-member-icon {
       @include flex-column(space-between, center);
       gap: 10px;
       padding: 1%;
@@ -1159,19 +1159,19 @@ footer {
   }
 }
 
-.confirmation-modal-center{
+.confirmation-modal-center {
   width: 100%;
-   @include flex-row(center, center);
-   gap: 10%;
+  @include flex-row(center, center);
+  gap: 10%;
 
-   .user-chip-avatar{
+  .user-chip-avatar {
     width: 150px;
     height: 150px;
-   }
+  }
 
-   span{
+  span {
     font-size: 20px;
-   }
+  }
 }
 
 /* ---------------------------- Manage Friends Modal ---------------------------- */
@@ -1399,7 +1399,7 @@ footer {
   margin-top: 20%;
 }
 
-.group-admin-flag{
+.group-admin-flag {
   width: 120% !important;
   padding: 3% 7%;
   @include flex-row(flex-start, center);
@@ -1407,7 +1407,7 @@ footer {
   margin: -7% 0 5% -7%;
   background-color: $echo-darkgrey;
   color: rgb(251, 173, 7);
-  img{
+  img {
     width: 15%;
     max-width: 40px;
   }
@@ -1451,11 +1451,10 @@ footer {
   gap: 10px;
 }
 
-
 /* ---------------------------- Email Verification page ---------------------------- */
 
 #email-verification {
-  background-color: #A9BCD0; // Set a blue background color
+  background-color: #a9bcd0; // Set a blue background color
   display: flex;
   justify-content: center;
   align-items: top;
@@ -1465,4 +1464,47 @@ footer {
 #email-verification-container {
   padding: 20px; // Add padding to the container
   text-align: center; // Center text inside the container
+}
+
+/* ---------------------------- channel page ---------------------------- */
+
+.channel-delete-bttn-container {
+  padding-block: 1%;
+  .channel-button {
+    width: 100%;
+    background-color: $echo-lightgrey;
+    height: 40px;
+    border-radius: 15px;
+    padding-block: 2%;
+    padding: 0 5%;
+    @include flex-row(space-between, center);
+    color: $echo-darkgrey;
+    cursor: pointer;
+    border: 0;
+
+    h3 {
+      font-size: 20px;
+      font-weight: 200;
+    }
+
+    svg {
+      font-size: 28px;
+    }
+
+    &:hover {
+      transform: scale(1.02);
+      transition: 0.3s linear;
+    }
+  }
+
+  #channel-delete-bttn {
+    background-color: $echo-red;
+    color: white;
+    margin-top: 20%;
+  }
+}
+
+#channel-name-header {
+  @include flex-row(flex-start, center);
+  padding: 5px;
 }
