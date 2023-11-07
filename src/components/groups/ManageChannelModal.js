@@ -24,7 +24,6 @@ import {
   addChannelMember,
   removeChannelMember,
   deleteChannel,
-  updateChannelInfo,
 } from "../../services/channelsAPI";
 
 /**
@@ -149,7 +148,7 @@ const ManageChannelModal = ({
     const possibleOptions = [];
     const notPossible = [];
 
-    console.log("friends, ", friends);
+    // console.log("friends, ", friends);
     // friends.forEach((friend) => {
     //   members.forEach((member) => {
     //     if (friend.AccountID === member.AccountID) {

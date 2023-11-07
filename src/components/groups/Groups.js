@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 import { getGroups, getUserID } from "../../utils/localStorage";
 import { useEffect, useState } from "react";
 import { getFriends } from "../../services/friendsAPI";
+import { getChannelList } from "../../services/channelsAPI";
 import CROWN from "../../assets/crown.png";
 
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
@@ -40,6 +41,7 @@ const Groups = ({
   const [isAdmin, setIsAdmin] = useState(false);
   const [members, setMembers] = useState([]);
 
+  const [channelList, setChannelList] = useState(null);
   const [channelId, setChannelId] = useState(null); //
 
   const user = getUser(); // user
@@ -93,6 +95,15 @@ const Groups = ({
       }
       // 5. Call function
       await fetchFriends();
+
+      // 6 attempt to get channel list
+      async function getChannelList() {
+        const response = await getChannelList();
+        console.log("Channels List: ", response);
+        setChannelList(response);
+      }
+      // 7 call channel list function
+      await getChannelList();
     };
     fetchData();
   }, [refresh]);
