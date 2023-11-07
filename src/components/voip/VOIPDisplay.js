@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSocket } from "../../services/SocketContext";
+import Peer from 'peerjs';
+import webRTCAdapter_import from "webrtc-adapter"
+
 
 
 const VoiceChatRoom = ({socket}) => {
@@ -9,81 +12,164 @@ const VoiceChatRoom = ({socket}) => {
   const maxUsers = 36;
 
   useEffect(() => {
-    let testUsers = [
-      {
-        username: "Richard Hippopotomousasasasasasasasasasasasas",
-        profilePicture: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuxP2c3L7G6YnNzHwmn7K8W4UWUkcnh9RNMw&usqp=CAU",
-        id: 1001
-      },
-      {
-        username: "Adrian Whogivesadamn",
-        profilePicture: "https://i.pinimg.com/originals/d2/4b/be/d24bbe79387549086d159aa4462bf4c9.png",
-        id: 1002
-      },      {
-        username: "Richard Hippopotomous",
-        profilePicture: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuxP2c3L7G6YnNzHwmn7K8W4UWUkcnh9RNMw&usqp=CAU",
-        id: 1001
-      },
-      {
-        username: "Adrian Whogivesadamn",
-        profilePicture: "https://i.pinimg.com/originals/d2/4b/be/d24bbe79387549086d159aa4462bf4c9.png",
-        id: 1002
-      },      {
-        username: "Richard Hippopotomous",
-        profilePicture: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuxP2c3L7G6YnNzHwmn7K8W4UWUkcnh9RNMw&usqp=CAU",
-        id: 1001
-      },
-      {
-        username: "Adrian Whogivesadamn",
-        profilePicture: "https://i.pinimg.com/originals/d2/4b/be/d24bbe79387549086d159aa4462bf4c9.png",
-        id: 1002
-      },      {
-        username: "Richard Hippopotomous",
-        profilePicture: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuxP2c3L7G6YnNzHwmn7K8W4UWUkcnh9RNMw&usqp=CAU",
-        id: 1001
-      },
-      {
-        username: "Adrian Whogivesadamn",
-        profilePicture: "https://i.pinimg.com/originals/d2/4b/be/d24bbe79387549086d159aa4462bf4c9.png",
-        id: 1002
-      },      {
-        username: "Richard Hippopotomous",
-        profilePicture: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuxP2c3L7G6YnNzHwmn7K8W4UWUkcnh9RNMw&usqp=CAU",
-        id: 1001
-      },
-      {
-        username: "Adrian Whogivesadamn",
-        profilePicture: "https://i.pinimg.com/originals/d2/4b/be/d24bbe79387549086d159aa4462bf4c9.png",
-        id: 1002
-      },      {
-        username: "Richard Hippopotomous",
-        profilePicture: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuxP2c3L7G6YnNzHwmn7K8W4UWUkcnh9RNMw&usqp=CAU",
-        id: 1001
-      },
-      {
-        username: "Adrian Whogivesadamn",
-        profilePicture: "https://i.pinimg.com/originals/d2/4b/be/d24bbe79387549086d159aa4462bf4c9.png",
-        id: 1002
-      }, 
-      
-    ];
-    //getCurrentUsers();
 
-    socket.on("userJoinVC", (user) => {
+    const peer = new Peer();
 
+    let currentUsers = [
+      {
+
+      }
+    ]
+    
+    peer.on('open', (id) => {
+      setPeerId(id);
     });
 
-    socket.on("userLeftVC", (user) => {
+    //listen for peers that are calling the user
+    peer.on('call', (call) => {
+      var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-    });
+      const remotePeerId = call.peer;
+      setRemotePeers((prevPeers) => [...prevPeers, remotePeerId]);
+      setRemoteCalls((prevCalls) => [...prevCalls, call]);
 
+      getUserMedia({ video: false, audio: true }, (mediaStream) => {
+        call.answer(mediaStream)
+        call.on('stream', function(remoteStream) {
+          remoteAudioRef.current.srcObject = remoteStream
+          remoteAudioRef.current.play();
+        });
+      });
+    })
+
+    peerInstance.current = peer;
+
+
+    setUsers(currentUsers)
     setShowJoinOverlay(true);
 
-    setUsers(testUsers);
   }, []); // Empty dependency array ensures it runs once on component mount
 
-
   const isRoomFull = users.length >= maxUsers;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  socket.on("connectionResponse", (connectionResponse) => {
+    console.log(connectionResponse);
+  });
+
+  //will receive a peerID whenever someone joins a channel you are in and calls them
+  socket.on("userJoinVC", (user) => {
+    console.log(user);
+    let newUser = [{
+      username: user.username,
+      peerID: user.peerID,
+      profilePicture: "https://wallpapers.com/images/hd/funny-pictures-dzujtlgoq3utq7j4.jpg"
+    }]
+    addUser(newUser);
+    call(newUser.peerID);
+  });
+
+  socket.on("error", () => {
+    console.log("error");
+  })
+
+  socket.on("userLeftVC", (peerID) => {
+    closeCall(peerID);
+  })
+
+  const [peerId, setPeerId] = useState('');
+  const [remotePeers, setRemotePeers] = useState([]);
+  const [remoteCalls, setRemoteCalls] = useState([]);
+  //other users Peer IDs
+  const remoteAudioRefs = useRef({});
+  const remoteAudioRef = useRef(null);
+  //current user
+  const peerInstance = useRef(null);
+
+  // join a VC
+  const joinVC = (ChannelID, peerId) => {
+    console.log(ChannelID);
+    //joins you to the VC, server will check if you have access and will throw error if it fails
+    socket.emit("joinVC", ChannelID, );
+  }
+
+//call peeps
+const call = (remotePeerId) => {
+  var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+  setRemotePeers((prevPeers) => [...prevPeers, remotePeerId]);
+
+  getUserMedia({ video: false, audio: true }, (mediaStream) => {
+    const call = peerInstance.current.call(remotePeerId, mediaStream);
+    setRemoteCalls((prevCalls) => [...prevCalls, call]);
+    
+    console.log(call);
+    call.on('stream', (remoteStream) => {
+      remoteAudioRef.current.srcObject = remoteStream
+      remoteAudioRef.current.play();
+    });
+  });
+}
+
+//close connections with all users in the room
+const closeCalls = (ChannelID) => {
+  //emit to other users that the user is leaving the channel
+  socket.emit("leaveVC", ChannelID);
+
+  //close the peer connection for each user.
+  for(var i=0; i<remoteCalls.length; i++){
+    remoteCalls[i].close();
+  }
+  //clear the remote calls array
+  remoteCalls.splice(0, remoteCalls.length);
+}
+
+// close a connection with a specific user
+const closeCall = (peerID) => {
+  console.log(peerID);
+  for(var i=0; i<remoteCalls.length; i++){
+    if(remoteCalls[i].peer = peerID){
+      console.log("removed: " + peerID);
+      remoteCalls[i].close();
+      remoteCalls.splice(i, 1);
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   const toggleSpeakingStatus = (userId) => {
@@ -93,23 +179,25 @@ const VoiceChatRoom = ({socket}) => {
     }));
   };
   
-  const handleJoinChannel = () => {
+  const handleJoinChannel = (channelID) => {
     console.log("Joining channel");
+    socket.emit("joinVC", channelID, peerId)
     setShowJoinOverlay(false);
     // Handle the logic for joining the channel, e.g., navigating to the channel page
   };
 
 
   const addUser = (newUser) => {
+    console.log("adding new user");
     setUsers((prevUsers) => [...prevUsers, newUser]);
+    console.log(users.length);
   };
 
    // Function to get the current users from a socket.io call
    const getCurrentUsers = () => {
-    // Call your socket.io method to get the current users
-    // This function should populate the users array with the received data
-    // For example: socket.emit('getUsers', (data) => setUsers(data));
-  };
+
+   };
+
 
   // Function to handle removing a user from the list
   const removeUserFromUserList = (userId) => {
@@ -156,7 +244,7 @@ const VoiceChatRoom = ({socket}) => {
             {isRoomFull ? (
               <p>Pick a different channel.</p>
             ) : (
-              <button onClick={handleJoinChannel}>Join</button>
+              <button onClick={() => handleJoinChannel(10)}>Join</button>
             )}
           </div>
         </div>
@@ -165,12 +253,15 @@ const VoiceChatRoom = ({socket}) => {
       <div className="user-grid">
         {users.map((user) => (
           <div
-            key={user.id}
-            className={`user-square ${speakingStatus[user.id] ? 'speaking' : ''}`}
-            onClick={() => toggleSpeakingStatus(user.id)}
+            key={user.peerID}
+            className={`user-square ${speakingStatus[user.peerID] ? 'speaking' : ''}`}
+            onClick={() => toggleSpeakingStatus(user.peerID)}
           >
             <img src={user.profilePicture} alt={`${user.username}'s profile`} />
             <span>{user.username}</span>
+            <div>
+              <audio ref={remoteAudioRef}></audio>
+            </div>
           </div>
         ))}
       </div>
