@@ -40,7 +40,7 @@ const Groups = ({
   const [isAdmin, setIsAdmin] = useState(false);
   const [members, setMembers] = useState([]);
 
-  const [channel, setChannel] = useState(null); //
+  const [channelID, setChannel] = useState(null); //
 
   const user = getUser(); // user
   const userID = getUserID(); // userid
@@ -59,39 +59,42 @@ const Groups = ({
 
   // fetch current group information + users
   useEffect(() => {
-    // 1. find current group id
-    const ID = window.location.pathname.split("/")[3];
+    const fetchData = async () => {
+      // 1. find current group id
+      const ID = window.location.pathname.split("/")[3];
 
-    // 2. fetch groups data from local storage
-    const groups = getGroups();
-    let currentGroup;
+      // 2. fetch groups data from local storage
+      const groups = getGroups();
+      let currentGroup;
 
-    // 3. extract group with current ID
-    groups.forEach((g) => {
-      if (g.groupID === ID) {
-        currentGroup = g;
-        setGroup(g);
-        setMembers(currentGroup.GroupMembers);
+      // 3. extract group with current ID
+      groups.forEach((g) => {
+        if (g.groupID === ID) {
+          currentGroup = g;
+          setGroup(g);
+          setMembers(currentGroup.GroupMembers);
+        }
+      });
+
+      // 4. Check if User is this group's admin
+      members.forEach((m) => {
+        if (m.AccountID === getUserID()) {
+          console.log("THIS is USERID:", m.AccountID);
+          console.log("THIS IS my role", m.Role);
+          if (m.Role === "Admin") setIsAdmin(true);
+        }
+      });
+
+      // 4. define fetch friends function
+      async function fetchFriends() {
+        const response = await getFriends();
+        console.log("FRIENDS: ", response);
+        setFriends(response);
       }
-    });
-
-    // 4. Check if User is this group's admin
-    members.forEach((m) => {
-      if (m.AccountID === getUserID()) {
-        console.log("THIS is USERID:", m.AccountID);
-        console.log("THIS IS my role", m.Role);
-        if (m.Role === "Admin") setIsAdmin(true);
-      }
-    });
-
-    // 4. define fetch friends function
-    async function fetchFriends() {
-      const response = await getFriends();
-      console.log("FRIENDS: ", response);
-      setFriends(response);
-    }
-    // 5. Call function
-    fetchFriends();
+      // 5. Call function
+      await fetchFriends();
+    };
+    fetchData();
   }, [refresh]);
 
   // handles opening channel chat and relative functions
@@ -159,19 +162,21 @@ const Groups = ({
             manageAddChannelModalOpen={manageAddChannelModalOpen}
             setManageAddChannelModalOpen={setManageAddChannelModalOpen}
             setRefresh={setRefresh}
-            groupReload={groupReload}
             group={group}
             friends={friends}
+            groupReload={groupReload}
+            setGroupReload={setGroupReload}
           />
 
           <ManageChannelModal
             manageChannelModalOpen={manageChannelsModalOpen}
             setManageChannelModalOpen={setManageChannelsModalOpen}
-            groupReload={groupReload}
             setRefresh={setRefresh}
-            channel={channel} // currently null value
+            channelID={channelID} // currently null value
             group={group}
             friends={friends}
+            groupReload={groupReload}
+            setGroupReload={setGroupReload}
           />
 
           <ManageMembersModal

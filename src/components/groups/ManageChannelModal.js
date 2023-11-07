@@ -109,6 +109,8 @@ const ManageChannelModal = ({
     // get only members who are not friends
     const possibleOptions = [];
     const notPossible = [];
+
+    console.log("friends, ", friends);
     // friends.forEach((friend) => {
     //   members.forEach((member) => {
     //     if (friend.AccountID === member.AccountID) {

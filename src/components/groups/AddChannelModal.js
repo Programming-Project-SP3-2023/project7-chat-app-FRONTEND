@@ -34,7 +34,6 @@ const AddChannelModal = ({
   setManageAddChannelModalOpen,
   friends,
   group,
-  channelID,
   groupReload,
   setGroupReload,
 }) => {
@@ -50,10 +49,15 @@ const AddChannelModal = ({
   const [message, setMessage] = useState(null);
   const loading = open && options.length === 0;
 
-  const [alignment, setAlignment] = React.useState("text");
+  // by default the channel type is text unless the user changes the toggle
+  const [messageType, setMessageType] = React.useState("text");
 
-  const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment);
+  // handle channel type selection
+  const handleChange = (event, newMessageType) => {
+    // prevent the user from selecting a null type of channel
+    if (newMessageType !== null) {
+      setMessageType(newMessageType);
+    }
   };
 
   const navigate = useNavigate();
@@ -126,6 +130,9 @@ const AddChannelModal = ({
     setOpen(false);
   };
 
+  console.log("message type: ", messageType);
+  console.log("channelName: ", channelName);
+
   // handle create channel
   const handleCreateChannel = async () => {
     setProcessing(true);
@@ -133,6 +140,7 @@ const AddChannelModal = ({
       // i'm guessing it'll need group & channel id
       groupdID: group.groupID,
       channelName: channelName,
+      channelType: messageType,
     };
 
     try {
@@ -274,7 +282,7 @@ const AddChannelModal = ({
             <div>
               <ToggleButtonGroup
                 color="primary"
-                value={alignment}
+                value={messageType}
                 variant="contained"
                 exclusive
                 onChange={handleChange}

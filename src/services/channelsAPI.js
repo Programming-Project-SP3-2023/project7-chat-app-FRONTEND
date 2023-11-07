@@ -8,6 +8,7 @@ import { getAccessToken } from "../utils/localStorage";
 
 // base URLs for API requests
 const BASE_URL = process.env.REACT_APP_BASEURL;
+//TODO set end points
 const CREATE_CHANNEL_ENDPOINT = `${BASE_URL}groups/create`;
 const ADD_CHANNEL_MEMBER_ENDPOINT = `${BASE_URL}groups/add-member`;
 const GET_CHANNEL_MEMBERS_ENDPOINT = `${BASE_URL}groups/current-groups`;
@@ -35,6 +36,7 @@ export const createChannel = async function (requestBody) {
 
   console.log("HI!:", myHeaders);
   console.log("HO: ", requestBody);
+  //   asumption that the request body would contain groupID, channeName & messagetype(text/voice)
   return await axios.post(CREATE_CHANNEL_ENDPOINT, requestBody, myHeaders);
 };
 
