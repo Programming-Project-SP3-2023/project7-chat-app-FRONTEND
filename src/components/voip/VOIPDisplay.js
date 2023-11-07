@@ -65,6 +65,19 @@ const VoiceChatRoom = ({socket}) => {
     setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
   };
 
+  const overlayMessages = [
+    "It's just not the same without you! Click to join.",
+    "Join the conversation with others!",
+    "Ready to chat? Join now!",
+    "Join the voice chat and have fun!",
+  ];
+
+  const getRandomMessage = () => {
+    // Get a random message from the array
+    const randomIndex = Math.floor(Math.random() * overlayMessages.length);
+    return overlayMessages[randomIndex];
+  };
+
   return (
     <div className="voice-chat-room">
       {users.map((user) => (
@@ -80,8 +93,9 @@ const VoiceChatRoom = ({socket}) => {
       {showJoinOverlay && (
         <div className="join-overlay">
           <div className="join-content">
-            <h2>Join This Channel</h2>
-            <p>Preview who's in the channel and decide if you want to join.</p>
+            <h2>Join Channel?</h2>
+            <p>{getRandomMessage()}
+            </p>
             <button onClick={handleJoinChannel}>Join</button>
           </div>
         </div>
