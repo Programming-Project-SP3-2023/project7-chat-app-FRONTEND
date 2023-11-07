@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useSocket } from "../../services/SocketContext";
 
-const VoiceChatRoom = () => {
+
+const VoiceChatRoom = ({socket}) => {
   const [speakingStatus, setSpeakingStatus] = useState({});
   const [users, setUsers] = useState([]);
+  const [showJoinOverlay, setShowJoinOverlay] = useState(false);
+
 
   useEffect(() => {
     let testUsers = [
@@ -17,6 +21,18 @@ const VoiceChatRoom = () => {
         id: 1002
       }
     ];
+    //getCurrentUsers();
+
+    socket.on("userJoinVC", (user) => {
+
+    });
+
+    socket.on("userLeftVC", (user) => {
+
+    });
+
+    setShowJoinOverlay(true);
+
     setUsers(testUsers);
   }, []); // Empty dependency array ensures it runs once on component mount
 
@@ -26,9 +42,27 @@ const VoiceChatRoom = () => {
       [userId]: !prevStatus[userId], // Toggle the status for the user
     }));
   };
+  
+  const handleJoinChannel = () => {
+    console.log("Joining channel");
+    setShowJoinOverlay(false);
+    // Handle the logic for joining the channel, e.g., navigating to the channel page
+  };
 
   const addUser = (newUser) => {
     setUsers((prevUsers) => [...prevUsers, newUser]);
+  };
+
+   // Function to get the current users from a socket.io call
+   const getCurrentUsers = () => {
+    // Call your socket.io method to get the current users
+    // This function should populate the users array with the received data
+    // For example: socket.emit('getUsers', (data) => setUsers(data));
+  };
+
+  // Function to handle removing a user from the list
+  const removeUserFromUserList = (userId) => {
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
   };
 
   return (
@@ -43,6 +77,15 @@ const VoiceChatRoom = () => {
           <span>{user.username}</span>
         </div>
       ))}
+      {showJoinOverlay && (
+        <div className="join-overlay">
+          <div className="join-content">
+            <h2>Join This Channel</h2>
+            <p>Preview who's in the channel and decide if you want to join.</p>
+            <button onClick={handleJoinChannel}>Join</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
