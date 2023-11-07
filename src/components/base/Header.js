@@ -57,7 +57,7 @@ const Header = ({
   return (
     <header id={headerId}>
       <div id="logo-container">
-        <Link href={!isAdmin ? "/" : "/admin-home"}>
+        <Link href={!isAdmin ? "/" : "/admin/users"}>
           <img src={ECHO_LOGO} alt="Echo - a professional chat tool" />
         </Link>
       </div>

@@ -3,7 +3,7 @@
  */
 
 import { useState, useEffect } from "react";
-import { Box, Button, Stack, CircularProgress } from "@mui/material";
+import { Box, Button, Stack, CircularProgress, Avatar } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import NoRowsOverlay from "../partial/NoRowsOverlay";
 import { getUsers } from "../../services/friendsAPI";
@@ -19,7 +19,7 @@ const AdminUsers = ({ setAdminTitle }) => {
 
   // set header title
   useEffect(() => {
-    setAdminTitle("Manage Users");
+    setAdminTitle("User Management Portal");
   }, []);
 
   // fetch users
@@ -71,21 +71,21 @@ const AdminUsers = ({ setAdminTitle }) => {
       field: "AccountID",
       headerName: "ID",
       minWidth: 100,
-      flex: 0.1,
+      flex: 0.2,
       headerClassName: "top-row",
     },
     {
       field: "Email",
       headerName: "Email",
       minWidth: 200,
-      flex: 0.2,
+      flex: 0.3,
       headerClassName: "top-row",
     },
     {
       field: "DisplayName",
       headerName: "Name",
       minWidth: 150,
-      flex: 0.15,
+      flex: 0.2,
       headerClassName: "top-row",
     },
     {
@@ -93,8 +93,11 @@ const AdminUsers = ({ setAdminTitle }) => {
       headerName: "Avatar",
       sortable: false,
       minWidth: 200,
-      flex: 0.4,
+      flex: 0.1,
       headerClassName: "top-row",
+      renderCell: (params) => {
+        return <Avatar src={params.value} alt={params.row.DisplayName} />;
+      },
     },
     {
       field: "actions",

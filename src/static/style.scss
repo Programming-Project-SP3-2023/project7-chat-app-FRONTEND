@@ -1471,7 +1471,7 @@ footer {
 
 #admin-home{
   background-color: $echo-lightblue;
-  @include flex-row(space-around, center);
+  @include flex-row(center, center);
 
   #admin-title {
     position: absolute;

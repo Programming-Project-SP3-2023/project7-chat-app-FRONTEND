@@ -43,7 +43,7 @@ const AdminLogin = ({ setIsLoggedIn, setAccessTokenFast, setAdminTitle }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setAdminTitle("Admin Login");
+    setAdminTitle("Admin Portal Login");
   }, []);
 
   const loginHandler = async (event) => {
@@ -198,11 +198,6 @@ const AdminLogin = ({ setIsLoggedIn, setAccessTokenFast, setAdminTitle }) => {
             </div>
           </FormControl>
         </form>
-        <span id="login-link">
-          Need to create an account?
-          <a href="/signup">Register</a>
-          here
-        </span>
       </div>
 
       <div id="login-bg-shape"></div>
