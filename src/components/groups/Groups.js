@@ -12,11 +12,14 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import HeadphonesOutlinedIcon from "@mui/icons-material/HeadphonesOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import WorkspacesOutlinedIcon from "@mui/icons-material/WorkspacesOutlined";
 
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
+import ManageChannelModal from "./ManageChannelModal";
 import ManageMembersModal from "./ManageMembersModal";
 import ManageGroupSettings from "./ManageGroupSettings";
+import AddChannelModal from "./AddChannelModal";
 import { UndoRounded } from "@mui/icons-material";
 import { getUser } from "../../utils/localStorage";
 
@@ -37,6 +40,8 @@ const Groups = ({
   const [isAdmin, setIsAdmin] = useState(false);
   const [members, setMembers] = useState([]);
 
+  const [channel, setChannel] = useState(null); //
+
   const user = getUser(); // user
   const userID = getUserID(); // userid
 
@@ -44,6 +49,10 @@ const Groups = ({
   // state handler for groups settings modal
   const [manageMembersModalOpen, setManageMembersModalOpen] = useState(false);
   const [manageGroupSettingsModalOpen, setManageGroupSettingsModalOpen] =
+    useState(false);
+  // state handler for channel modal
+  const [manageChannelsModalOpen, setManageChannelsModalOpen] = useState(false);
+  const [manageAddChannelModalOpen, setManageAddChannelModalOpen] =
     useState(false);
 
   const navigate = useNavigate();
@@ -146,6 +155,25 @@ const Groups = ({
       {/* Manage group members modal & group settings modal render */}
       {group && (
         <>
+          <AddChannelModal
+            manageAddChannelModalOpen={manageAddChannelModalOpen}
+            setManageAddChannelModalOpen={setManageAddChannelModalOpen}
+            setRefresh={setRefresh}
+            groupReload={groupReload}
+            group={group}
+            friends={friends}
+          />
+
+          <ManageChannelModal
+            manageChannelModalOpen={manageChannelsModalOpen}
+            setManageChannelModalOpen={setManageChannelsModalOpen}
+            groupReload={groupReload}
+            setRefresh={setRefresh}
+            channel={channel} // currently null value
+            group={group}
+            friends={friends}
+          />
+
           <ManageMembersModal
             manageMembersModalOpen={manageMembersModalOpen}
             setManageMembersModalOpen={setManageMembersModalOpen}
@@ -157,6 +185,7 @@ const Groups = ({
             groupReload={groupReload}
             setGroupReload={setGroupReload}
           />
+
           <ManageGroupSettings
             manageGroupSettingsModalOpen={manageGroupSettingsModalOpen}
             setManageGroupSettingsModalOpen={setManageGroupSettingsModalOpen}
@@ -185,7 +214,7 @@ const Groups = ({
                 <ChatOutlinedIcon />
                 {/* TEMPORARY set to 10 until channels are implemented */}
                 {/* will be expecint a channel id once implemented */}
-                <a onClick={() => handleChannelNavigate("10", null)}>General</a>
+                <a onClick={() => handleChannelNavigate("", null)}>General</a>
               </div>
               <PersonAddOutlinedIcon
                 id="manage-members-icon"
@@ -222,6 +251,11 @@ const Groups = ({
                     >
                       {channel.ChannelName}
                     </a>
+                    {/* manage channel modal */}
+                    <PersonAddOutlinedIcon
+                      id="manage-members-icon"
+                      onClick={setManageChannelsModalOpen}
+                    />
                   </div>
                 </div>
               ))}
@@ -229,6 +263,15 @@ const Groups = ({
         </div>
         {isAdmin && (
           <div id="group-bttns" className="group-options">
+            {/* addChannel Modal */}
+            <button
+              className="group-button"
+              onClick={setManageAddChannelModalOpen}
+            >
+              <WorkspacesOutlinedIcon />
+              <h3>Add channel</h3>
+            </button>
+            {/* manage memebers modal */}
             <button
               className="group-button"
               onClick={setManageMembersModalOpen}
@@ -236,6 +279,7 @@ const Groups = ({
               <PersonAddOutlinedIcon />
               <h3>Manage members</h3>
             </button>
+            {/* manage group settings modal */}
             <button
               className="group-button"
               onClick={setManageGroupSettingsModalOpen}
