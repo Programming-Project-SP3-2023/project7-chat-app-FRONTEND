@@ -212,16 +212,17 @@ const ManageChannelModal = ({
 
   return (
     <Modal
-      id="manage-friends-modal-background"
+      id="manage-channels-modal-background"
       open={manageChannelModalOpen}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box id="manage-members-modal">
-        <div id="manage-members-modal-header">
+      <Box id="manage-channels-modal">
+        <div id="manage-channel-modal-header">
           <h2>Manage Channel</h2>
         </div>
+
         <div id="manage-channel-settings-textfield">
           <form>
             <p id="channel-name-header">
@@ -230,14 +231,14 @@ const ManageChannelModal = ({
             </p>
             <TextField
               fullWidth
-              id="group-name-txtfield"
+              id="channel-name-txtfield"
               variant="outlined"
               placeholder="Enter channel name..."
               value={channelName}
               onChange={(event) => setChannelName(event.target.value)}
             />
             <Button
-              id="manage-group-submit-button"
+              id="manage-channel-submit-button"
               variant="contained"
               type="submit"
               onClick={updateChannelInfo}
@@ -247,7 +248,7 @@ const ManageChannelModal = ({
           </form>
         </div>
 
-        <div id="manage-friends-modal-whitebox">
+        <div id="manage-channels-modal-whitebox">
           {members &&
             members.map((member, i) => {
               return (
@@ -262,8 +263,8 @@ const ManageChannelModal = ({
               );
             })}
         </div>
-        <div className="manage-friends-bottom">
-          <div className="manage-friends-link">
+        <div className="manage-channels-bottom">
+          <div className="manage-channels-link">
             <PeopleAltOutlinedIcon />
             <p>Add member</p>
           </div>

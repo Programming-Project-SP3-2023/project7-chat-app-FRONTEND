@@ -1599,3 +1599,129 @@ footer {
   background-color: $echo-darkblue;
   font-size: larger;
 }
+
+/* ---------------------------- Manage Channel Modal ---------------------------- */
+
+#manage-channels-modal-background {
+  @include flex-row(center, center);
+
+  #manage-channels-modal {
+    @include modal-styling(65%, 8%);
+    height: 70%;
+
+    #manage-channel-modal-header {
+      @include modal-header-styling();
+      height: 15%;
+    }
+  }
+
+  #manage-channel-settings-textfield {
+    padding-inline: 5%;
+  }
+
+  #manage-channels-modal-whitebox {
+    width: 90%;
+    height: 45%;
+    max-height: 45%;
+    background-color: #ffffff;
+    overflow: auto;
+    padding-left: 5%;
+    gap: 15px;
+    padding-top: 20px;
+  }
+
+  .manage-channels-link {
+    width: 90%;
+    @include flex-row(flex-start, center);
+    gap: 20px;
+    text-decoration: none;
+    color: $echo-darkgrey;
+    padding-left: 2%;
+  }
+
+  #manage-channel-submit-button {
+    width: 100%;
+    font-size: 19px;
+    background-color: $echo-darkblue;
+  }
+
+  .manage-channels-bottom {
+    width: 100%;
+    @include flex-column(center, center);
+    gap: 10px;
+  }
+
+  .manage-channels-link {
+    @include flex-row(flex-start, center);
+
+    width: 90%;
+    gap: 20px;
+    text-decoration: none;
+    color: $echo-darkgrey;
+    padding-left: 2%;
+  }
+}
+
+/* ---------------------------- Add / Create Channel Modal ---------------------------- */
+
+#add-channel-modal-background {
+  @include flex-column(center, center);
+}
+
+.add-channel-modal {
+  aspect-ratio: 3/4;
+  @include modal-styling(40%, 6%);
+
+  #add-channel-modal-header {
+    height: 13%;
+    @include modal-header-styling();
+  }
+
+  #add-channel-modal-body {
+    width: 70%;
+    height: 75%;
+    @include flex-column(space-around, center);
+
+    a {
+      width: 100%;
+      text-decoration: none;
+    }
+
+    #add-channel-link {
+      width: 100%;
+      @include flex-row(center, center);
+      gap: 10%;
+      color: $echo-darkblue;
+    }
+
+    #add-channel-bttn {
+      background-color: $echo-darkblue;
+      width: 70%;
+      height: 8%;
+    }
+  }
+
+  .manage-channel-bottom {
+    width: 100%;
+    @include flex-column(center, center);
+    gap: 10px;
+  }
+
+  #channel-members-container {
+    @include flex-row(center, center);
+    width: 100%;
+    gap: 8%;
+
+    .channel-members-icon {
+      @include flex-column(space-between, center);
+      gap: 10px;
+      padding: 1%;
+    }
+  }
+  #channe-toggle-select {
+    padding-inline: 5%;
+    .channel-toggle-btn {
+      padding-inline: 5%;
+    }
+  }
+}

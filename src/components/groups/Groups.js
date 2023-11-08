@@ -282,8 +282,8 @@ const Groups = ({
             {/* addChannel Modal */}
             <button
               className="group-button"
-              onClick={setManageChannelsModalOpen}
-              // onClick={setManageAddChannelModalOpen}
+              // onClick={setManageChannelsModalOpen}
+              onClick={setManageAddChannelModalOpen}
             >
               <WorkspacesOutlinedIcon />
               <h3>Add channel</h3>

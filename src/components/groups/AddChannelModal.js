@@ -173,29 +173,29 @@ const AddChannelModal = ({
 
   return (
     <Modal
-      id="add-group-modal-background"
+      id="add-channel-modal-background"
       open={manageAddChannelModalOpen}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box className="add-group-modal">
-        <div id="add-group-modal-header">
+      <Box className="add-channel-modal">
+        <div id="add-channel-modal-header">
           <h2>New Channel</h2>
         </div>
         {processing ? (
           <CircularProgress size={100} />
         ) : (
-          <form id="add-group-modal-body">
+          <form id="add-channel-modal-body">
             <TextField
               fullWidth
-              id="group-name-txtfield"
+              id="channel-name-txtfield"
               variant="outlined"
               placeholder="Enter channel name..."
               value={channelName}
               onChange={(event) => setChannelName(event.target.value)}
             />
-            <div className="manage-friends-bottom">
+            <div className="manage-channel-bottom">
               {friendOptions && friendOptions.length > 0 ? (
                 <Autocomplete
                   sx={{ width: "100%" }}
@@ -233,7 +233,7 @@ const AddChannelModal = ({
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      id="manage-friends-searchbar"
+                      id="manage-channel-searchbar"
                       variant="outlined"
                       placeholder="Add a new channel member..."
                       value={searchString}
@@ -258,7 +258,7 @@ const AddChannelModal = ({
               ) : (
                 <TextField
                   sx={{ width: "100%" }}
-                  id="manage-friends-searchbar"
+                  id="manage-channel-searchbar"
                   variant="outlined"
                   placeholder="You have already added all your friends"
                   inputProps={{ readOnly: true }}
@@ -268,9 +268,9 @@ const AddChannelModal = ({
             {newMembers.length > 0 && (
               <>
                 <h3>Group members:</h3>
-                <div id="group-members-container">
+                <div id="channel-members-container">
                   {newMembers.map((member) => (
-                    <div className="group-member-icon">
+                    <div className="channel-member-icon">
                       <Avatar src={member.Avatar} />
                       <p>{member.DisplayName}</p>
                     </div>
@@ -279,7 +279,7 @@ const AddChannelModal = ({
               </>
             )}
             <h3>Channel Type:</h3>
-            <div>
+            <div id="channel-toggle-select">
               <ToggleButtonGroup
                 color="primary"
                 value={messageType}
@@ -288,8 +288,12 @@ const AddChannelModal = ({
                 onChange={handleChange}
                 aria-label="Platform"
               >
-                <ToggleButton value="text">Message</ToggleButton>
-                <ToggleButton value="voice">Voice Chat</ToggleButton>
+                <ToggleButton className="channel-toggle-btn" value="text">
+                  Message
+                </ToggleButton>
+                <ToggleButton className="channel-toggle-btn" value="voice">
+                  Voice Chat
+                </ToggleButton>
               </ToggleButtonGroup>
             </div>
 
