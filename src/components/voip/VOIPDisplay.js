@@ -2,110 +2,165 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useSocket } from "../../services/SocketContext";
 import Peer from 'peerjs';
 import webRTCAdapter_import from "webrtc-adapter"
+import { useLocation } from 'react-router-dom';
+
 
 
 
 const VoiceChatRoom = ({socket}) => {
   const [speakingStatus, setSpeakingStatus] = useState({});
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showJoinOverlay, setShowJoinOverlay] = useState(false);
-  const maxUsers = 36;
-
-  useEffect(() => {
-
-    const peer = new Peer();
-
-    let currentUsers = [
-      {
-
-      }
-    ]
-    
-    peer.on('open', (id) => {
-      setPeerId(id);
-    });
-
-    //listen for peers that are calling the user
-    peer.on('call', (call) => {
-      var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-      const remotePeerId = call.peer;
-      setRemotePeers((prevPeers) => [...prevPeers, remotePeerId]);
-      setRemoteCalls((prevCalls) => [...prevCalls, call]);
-
-      getUserMedia({ video: false, audio: true }, (mediaStream) => {
-        call.answer(mediaStream)
-        call.on('stream', function(remoteStream) {
-          remoteAudioRef.current.srcObject = remoteStream
-          remoteAudioRef.current.play();
-        });
-      });
-    })
-
-    peerInstance.current = peer;
-
-
-    setUsers(currentUsers)
-    setShowJoinOverlay(true);
-
-  }, []); // Empty dependency array ensures it runs once on component mount
-
-  const isRoomFull = users.length >= maxUsers;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  socket.on("connectionResponse", (connectionResponse) => {
-    console.log(connectionResponse);
-  });
-
-  //will receive a peerID whenever someone joins a channel you are in and calls them
-  socket.on("userJoinVC", (user) => {
-    console.log(user);
-    let newUser = [{
-      username: user.username,
-      peerID: user.peerID,
-      profilePicture: "https://wallpapers.com/images/hd/funny-pictures-dzujtlgoq3utq7j4.jpg"
-    }]
-    addUser(newUser);
-    call(newUser.peerID);
-  });
-
-  socket.on("error", () => {
-    console.log("error");
-  })
-
-  socket.on("userLeftVC", (peerID) => {
-    closeCall(peerID);
-  })
+  const maxUsers = 12;
 
   const [peerId, setPeerId] = useState('');
   const [remotePeers, setRemotePeers] = useState([]);
   const [remoteCalls, setRemoteCalls] = useState([]);
   //other users Peer IDs
-  const remoteAudioRefs = useRef({});
+  const [remoteAudioRefs, setRemoteAudioRefs] = useState([]);
   const remoteAudioRef = useRef(null);
   //current user
   const peerInstance = useRef(null);
+  let currentVC = null;
+  const location = useLocation();
+  const currentRoute = location.pathname;
+  const route = currentRoute.split('/');
+  const channelID = route[route.length - 1];
 
-  // join a VC
-  const joinVC = (ChannelID, peerId) => {
-    console.log(ChannelID);
-    //joins you to the VC, server will check if you have access and will throw error if it fails
-    socket.emit("joinVC", ChannelID, );
+  useEffect(() => {
+
+    
+    setShowJoinOverlay(true);
+
+    async function getCurrentUsers(){
+      socket.on("currentUsers", (users) => {
+        let currusers = [];
+        if(users){
+        for(let i=0; i<users.length; i++){
+          let user = {
+            username: users[i].username, 
+            peerID: users[i].peerID
+          }
+          currusers.push(user);
+        }
+      }
+      console.log(currusers);
+        setUsers(currusers);
+        setLoading(false);
+      });
+  
+      socket.emit("getCurrentUsers", {channelID:10});
+    }
+
+    getCurrentUsers();
+
+
+    const refreshInterval = setInterval(() => {
+      console.log("show overlay is " + showJoinOverlay);
+      if(showJoinOverlay){ 
+        getCurrentUsers();
+      }
+    }, 10000); 
+  
+
+    const peer = new Peer();
+    
+    peer.on('open', (id) => {
+      setPeerId(id);
+    });
+
+       //listen for peers that are calling the user
+       peer.on('call', (call) => {
+        var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+   
+        const remotePeerId = call.peer;
+        setRemotePeers((prevPeers) => [...prevPeers, remotePeerId]);
+        setRemoteCalls((prevCalls) => [...prevCalls, call]);
+   
+        getUserMedia({ video: false, audio: true }, (mediaStream) => {
+          call.answer(mediaStream)
+          call.on('stream', function(remoteStream) {
+            addMediaStream(remoteStream);
+          });
+        });
+      })
+
+    //socket handlers
+
+  socket.on("connectionResponse", ({connectionResponse}) => {
+    console.log(connectionResponse);
+  });
+
+  //will receive a peerID whenever someone joins a channel you are in and calls them
+  socket.on("userJoinVC", (user) => {
+    console.log("user incoming");
+    let newuser = {
+      username: user.username,
+      profilePicture: "",
+      peerID: user.peerID
+    }
+    addUser(newuser);
+    call(user.peerID);
+    socket.emit("callResponse", ({
+      socketID: user.socketID,
+      myPeerID: peerId
+    }));
+  });
+
+  socket.on('callAnswered', ({peerID}) => {
+    console.log("got it :)");
+    //call(peerID);
+  })
+
+  socket.on("error", () => {
+    console.log("error");
+  })
+
+  socket.on("userLeftVC", ({peerID}) => {
+    console.log("user going "+ peerID);
+    closeCall(peerID);
+    removeUser(peerID);
+  })
+
+    peerInstance.current = peer;
+
+  return () => {
+    if(currentVC){
+    handleLeaveChannel(currentVC);
+    }
+  };
+
+  }, []);
+
+  const isRoomFull = users.length >= maxUsers;
+
+
+
+  const renderMediaStream = () => {
+    console.log("checking remoterefs")
+    console.log(typeof remoteAudioRefs);
+    if(remoteAudioRefs){
+    return remoteAudioRefs.map((remoteStream, index) => (
+      <audio key={index} autoPlay ref={(audioRef) => audioRef.srcObject = remoteStream} />
+      ));
+    }
+    else{
+      return ""
+    }
   }
+
+// Function to add a new media stream to the state
+const addMediaStream = (remoteStream) => {
+  // setRemoteAudioRefs((prevStreams) => [...prevStreams, remoteStream]);
+  setRemoteAudioRefs((prevStreams) => {
+    if(!prevStreams){
+      return [remoteStream];
+    } else {
+      return [...prevStreams, remoteStream];
+    }
+  });
+};
 
 //call peeps
 const call = (remotePeerId) => {
@@ -116,19 +171,12 @@ const call = (remotePeerId) => {
   getUserMedia({ video: false, audio: true }, (mediaStream) => {
     const call = peerInstance.current.call(remotePeerId, mediaStream);
     setRemoteCalls((prevCalls) => [...prevCalls, call]);
-    
-    console.log(call);
-    call.on('stream', (remoteStream) => {
-      remoteAudioRef.current.srcObject = remoteStream
-      remoteAudioRef.current.play();
-    });
   });
 }
 
 //close connections with all users in the room
 const closeCalls = (ChannelID) => {
   //emit to other users that the user is leaving the channel
-  socket.emit("leaveVC", ChannelID);
 
   //close the peer connection for each user.
   for(var i=0; i<remoteCalls.length; i++){
@@ -151,57 +199,61 @@ const closeCall = (peerID) => {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  const toggleSpeakingStatus = (userId) => {
+  const toggleSpeakingStatus = (peerID) => {
     setSpeakingStatus((prevStatus) => ({
       ...prevStatus,
-      [userId]: !prevStatus[userId], // Toggle the status for the user
+      [peerID]: !prevStatus[peerID], // Toggle the status for the user
     }));
   };
   
   const handleJoinChannel = (channelID) => {
     console.log("Joining channel");
-    socket.emit("joinVC", channelID, peerId)
+    //remove overlay
     setShowJoinOverlay(false);
+    let myUser = {
+      username: "Me!",
+      peerID: peerId,
+      profilePicture: ""
+    }
+    addUser(myUser);
+    
+    socket.emit("joinVC", {
+      channelID: channelID,
+      peerID: peerId 
+    })
+    currentVC = channelID;
+    socket.emit("getCurrentUsers", {channelID:10});
+    console.log(currentVC);
     // Handle the logic for joining the channel, e.g., navigating to the channel page
+  };
+
+  const handleLeaveChannel = (channelID) => {
+
+
+    socket.emit("leaveVC", {channelID:channelID});
+    //remove my own user to disappear
+    removeUser(peerId);
+    setShowJoinOverlay(true);
+
   };
 
 
   const addUser = (newUser) => {
-    console.log("adding new user");
-    setUsers((prevUsers) => [...prevUsers, newUser]);
-    console.log(users.length);
+    setUsers((prevUsers) => {
+      if (!prevUsers) {
+        // If the users array is empty, initialize it with the new user
+        return [newUser];
+      } else {
+        // If the users array is not empty, add the new user to the existing array
+        return [...prevUsers, newUser];
+      }
+    });
   };
-
-   // Function to get the current users from a socket.io call
-   const getCurrentUsers = () => {
-
-   };
 
 
   // Function to handle removing a user from the list
-  const removeUserFromUserList = (userId) => {
-    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+  const removeUser = (peerID) => {
+    setUsers((prevUsers) => prevUsers.filter((user) => user.peerID !== peerID));
   };
 
   const overlayMessages = [
@@ -234,13 +286,40 @@ const closeCall = (peerID) => {
     return isRoomFull ? getRandomFullMessage() : getRandomMessage();
   };
 
+  // Function to handle audio play/pause events
+  const handleAudioPlayPause = (userId, isPlaying) => {
+    if (isPlaying) {
+      // Audio is playing, indicating the user is speaking
+      toggleSpeakingStatus(userId);
+    } else {
+      // Audio is paused, indicating the user is not speaking
+      toggleSpeakingStatus(userId);
+    }
+  };
+
+  // Function to handle audio ended event
+  const handleAudioEnded = (userId) => {
+    // Audio has ended, indicating the user is not speaking
+    toggleSpeakingStatus(userId);
+  };
+
+  const handleVolumeChange = (event) => {
+    console.log("changing vol");
+    console.log(event.target.value);
+    const audio = remoteAudioRef;
+    if (audio) {
+      audio.volume = event.target.value;
+    }
+  };
+
   return (
     <div className="voice-chat-room">
+      <p>{channelID}</p>
       {showJoinOverlay && (
         <div className="join-overlay">
           <div className="join-content">
             <h2>{isRoomFull ? "Oops!" : "Join Channel?"}</h2>
-            <p>{getOverlayMessage()}</p>
+            <p className="overlay-message">{getOverlayMessage()}</p>
             {isRoomFull ? (
               <p>Pick a different channel.</p>
             ) : (
@@ -251,20 +330,55 @@ const closeCall = (peerID) => {
       )}
 
       <div className="user-grid">
-        {users.map((user) => (
+      {users && users.length > 0 ? ( 
+        users.map((user) => (
           <div
             key={user.peerID}
             className={`user-square ${speakingStatus[user.peerID] ? 'speaking' : ''}`}
             onClick={() => toggleSpeakingStatus(user.peerID)}
           >
             <img src={user.profilePicture} alt={`${user.username}'s profile`} />
-            <span>{user.username}</span>
+            <span>{user.username} {user.peerID === peerId ? ' (Me!)' : ''} </span>
+            {user.peerID === peerId ?
+              <input type="hidden"></input>
+              :
+              <input
+              className="user-audio-slider"
+              type="range"
+              min="0"
+              max="1"
+              step="0.1"
+              value={remoteAudioRef.volume || 1}
+              onChange={(e) => handleVolumeChange(e)}
+            />
+            }
             <div>
-              <audio ref={remoteAudioRef}></audio>
+              {  <audio 
+              ref={remoteAudioRef}
+
+              ></audio>  }
+              {//renderMediaStream()
+              }
             </div>
           </div>
-        ))}
+        
+        ))
+        ) : (
+          <p>No one's here right now.. jump in?</p>
+        )}
       </div>
+      {showJoinOverlay ? (
+        <p></p>
+      ) : (
+        <button
+        className="leave-button"
+        onClick={() => {
+          handleLeaveChannel(10);
+        }}
+      >
+        Leave
+      </button>
+      )}
     </div>
   );
 };
