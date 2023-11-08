@@ -1606,7 +1606,7 @@ footer {
   @include flex-row(center, center);
 
   #manage-channels-modal {
-    @include modal-styling(65%, 8%);
+    @include modal-styling(55%, 8%);
     height: 70%;
 
     #manage-channel-modal-header {

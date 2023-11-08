@@ -1691,7 +1691,7 @@ footer {
   align-items: center;
 }
 #manage-channels-modal-background #manage-channels-modal {
-  width: 65%;
+  width: 55%;
   background-color: #a9bcd0;
   border-radius: 30px;
   display: flex;

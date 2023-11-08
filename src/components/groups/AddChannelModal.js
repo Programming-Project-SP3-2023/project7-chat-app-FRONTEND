@@ -190,7 +190,6 @@ const AddChannelModal = ({
             <TextField
               fullWidth
               id="channel-name-txtfield"
-              variant="outlined"
               placeholder="Enter channel name..."
               value={channelName}
               onChange={(event) => setChannelName(event.target.value)}
@@ -283,7 +282,6 @@ const AddChannelModal = ({
               <ToggleButtonGroup
                 color="primary"
                 value={messageType}
-                variant="contained"
                 exclusive
                 onChange={handleChange}
                 aria-label="Platform"
