@@ -139,12 +139,12 @@ footer {
 }
 
 header {
-  min-height: 6vh;
   @include flex-row(flex-start, center);
+  min-height: 100px;
 }
 
 #header {
-  height: 100px;
+  height: 8vh;
   #logo-container {
     width: 40%;
     height: 100%;
@@ -158,7 +158,7 @@ header {
 }
 
 #header-dark {
-  height: 100px;
+  height: 8vh;
   background-color: $echo-darkblue;
   @include flex-row(space-between, center);
   padding-right: 2%;
@@ -449,8 +449,9 @@ footer {
 
 #side-menu {
   .MuiDrawer-paper {
-    top: unset;
-    width: 8vw;
+    top: 100px;
+    width: 8vh;
+    min-width: 130px;
     @include flex-column(flex-start, center);
     border: 0;
     background-color: $echo-lightblue;
@@ -471,21 +472,22 @@ footer {
   .MuiListItem-root {
     justify-content: center;
     text-align: center;
-    height: 130px;
     width: 100%;
     cursor: pointer;
   }
 
   .side-menu-img-container {
-    width: 100px;
-    height: 100px;
+    width: 7vh;
+    min-width: 100px;
+    height: 7vh;
+    min-height: 100px;
     border-radius: 30%;
     @include flex-column(center, center);
     object-fit: contain;
 
     img {
       width: 100%;
-      height: 100%;
+      height: 95%;
       border-radius: 30%;
     }
   }
@@ -527,7 +529,7 @@ footer {
 .dashboard-main {
   height: 100%;
   width: 96%;
-  margin-left: 6vw;
+  margin-left: 110px;
 }
 
 #dashboard {
@@ -540,7 +542,7 @@ footer {
   color: white;
   position: absolute;
   top: 0px;
-  left: 22vw;
+  left: 20vw;
   right: 10vw;
   width: 68%;
   height: 100px;
@@ -551,9 +553,9 @@ footer {
 // *** Dashboard Main *** //
 
 .dashboard-main-menu {
-  width: 100%;
+  width: 90%;
   height: 100%;
-  padding: 0 20%;
+  padding: 0 0 0 8%;
   @include flex-row(center, flex-start);
   gap: 8%;
 }
@@ -563,8 +565,7 @@ footer {
   min-width: 22vw;
   background-color: $echo-lighterblue;
   border-radius: 0 0 20px 20px;
-  min-height: 90%;
-  height: fit-content;
+  height: 90%;
 
   .column-header {
     width: 100%;
@@ -578,11 +579,11 @@ footer {
   }
 
   .column-options {
-    height: 100%;
+    height: 93%;
     width: 100%;
     padding: 20px 5%;
-    @include flex-column(flex-start, center);
     gap: 10px;
+    overflow: auto;
   }
 
   .dashboard-menu-item {
@@ -593,6 +594,7 @@ footer {
     background-color: $echo-lightblue;
     @include flex-row(flex-start, center);
     gap: 5%;
+    margin-bottom: 10px;
     cursor: pointer;
 
     .menu-item-avatar {
@@ -1401,10 +1403,10 @@ footer {
 
 .group-admin-flag {
   width: 120% !important;
-  padding: 3% 7%;
+  padding: 3% 2% 3% 9%;
   @include flex-row(flex-start, center);
   gap: 10%;
-  margin: -7% 0 5% -7%;
+  margin: -7% 0 5% -12%;
   background-color: $echo-darkgrey;
   color: rgb(251, 173, 7);
   img {

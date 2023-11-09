@@ -29,8 +29,8 @@ import { useSocket } from "../services/SocketContext";
 function App() {
   const user = getUser();
   // TODO: Change to get admin function once we have the proper login set up
-  const admin = getUser();
-  const [adminIsLoggedIn, setAdminIsLoggedIn] = useState(true);
+  // const admin = getUser();
+  const [adminIsLoggedIn, setAdminIsLoggedIn] = useState(false);
 
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   const [refresh, setRefresh] = useState(false);
