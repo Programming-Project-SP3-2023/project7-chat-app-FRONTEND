@@ -13,12 +13,13 @@ const VoiceChatRoom = ({socket}) => {
   const [loading, setLoading] = useState(true);
   const [showJoinOverlay, setShowJoinOverlay] = useState(false);
   const maxUsers = 12;
+  const availableAudioElements = Array(maxUsers).fill(true);
 
   const [peerId, setPeerId] = useState('');
   const [remotePeers, setRemotePeers] = useState([]);
   const [remoteCalls, setRemoteCalls] = useState([]);
   //other users Peer IDs
-  const [remoteAudioRefs, setRemoteAudioRefs] = useState([]);
+  const remoteAudioRefs = useRef([]);
   const remoteAudioRef = useRef(null);
   //current user
   const peerInstance = useRef(null);
@@ -32,6 +33,8 @@ const VoiceChatRoom = ({socket}) => {
 
     
     setShowJoinOverlay(true);
+    remoteAudioRefs.current = Array.from({ length: 12 }, () => React.createRef());
+
 
     async function getCurrentUsers(){
       socket.on("currentUsers", (users) => {
@@ -81,7 +84,7 @@ const VoiceChatRoom = ({socket}) => {
         getUserMedia({ video: false, audio: true }, (mediaStream) => {
           call.answer(mediaStream)
           call.on('stream', function(remoteStream) {
-            addMediaStream(remoteStream);
+            assignRemoteStreamToAudio(remoteStream, remotePeerId);
           });
         });
       })
@@ -102,15 +105,18 @@ const VoiceChatRoom = ({socket}) => {
     }
     addUser(newuser);
     call(user.peerID);
+    let myPeerId = peer.id;
+    console.log("calling " +user.peerID);
+    console.log("sending my peer ID to socket " +myPeerId);
     socket.emit("callResponse", ({
       socketID: user.socketID,
-      myPeerID: peerId
+      myPeerID: myPeerId
     }));
   });
 
   socket.on('callAnswered', ({peerID}) => {
-    console.log("got it :)");
-    //call(peerID);
+    console.log("call answered, received peerID, calling " +peerID);
+    call(peerID);
   })
 
   socket.on("error", () => {
@@ -135,32 +141,47 @@ const VoiceChatRoom = ({socket}) => {
 
   const isRoomFull = users.length >= maxUsers;
 
-
-
-  const renderMediaStream = () => {
-    console.log("checking remoterefs")
-    console.log(typeof remoteAudioRefs);
-    if(remoteAudioRefs){
-    return remoteAudioRefs.map((remoteStream, index) => (
-      <audio key={index} autoPlay ref={(audioRef) => audioRef.srcObject = remoteStream} />
-      ));
-    }
-    else{
-      return ""
-    }
+  const getPeerID = () =>{
+    return peerId;
   }
 
-// Function to add a new media stream to the state
-const addMediaStream = (remoteStream) => {
-  // setRemoteAudioRefs((prevStreams) => [...prevStreams, remoteStream]);
-  setRemoteAudioRefs((prevStreams) => {
-    if(!prevStreams){
-      return [remoteStream];
-    } else {
-      return [...prevStreams, remoteStream];
+  const assignRemoteStreamToAudio = (remoteStream, peerID) => {
+    const index = availableAudioElements.findIndex((available) => available);
+
+    if (index !== -1) {
+      console.log("There is an available element at index " + index)
+      const audioElement = remoteAudioRefs.current[index].current;
+      audioElement.srcObject = remoteStream;
+
+      // Mark the audio element as unavailable
+      availableAudioElements[index] = false;
+
+      audioElement.setAttribute('data-audio-id', peerID);
     }
-  });
-};
+    else{
+      console.log("There is no avail element");
+
+    }
+  };
+
+  const releaseAudioElement = (peerID) => {
+    const audioElement = document.querySelector(`[data-audio-id="${peerID}"]`);
+
+    if (audioElement) {
+      const index = availableAudioElements.findIndex((available, i) => !available && remoteAudioRefs[i].current === audioElement);
+      audioElement.srcObject = null;
+      console.log("making element for peerID "+ peerID+" available")
+
+      // Mark the audio element as available
+      availableAudioElements[index] = true;
+    }
+  };
+
+  const renderMediaRefs = () => {
+    return remoteAudioRefs.current.map((audioRef, index) => (
+      <audio key={index} ref={audioRef} autoPlay controls />
+    ));
+  }
 
 //call peeps
 const call = (remotePeerId) => {
@@ -189,11 +210,15 @@ const closeCalls = (ChannelID) => {
 // close a connection with a specific user
 const closeCall = (peerID) => {
   console.log(peerID);
+  console.log(remoteCalls.length);
+
   for(var i=0; i<remoteCalls.length; i++){
-    if(remoteCalls[i].peer = peerID){
+    console.log(remoteCalls[i].peer);
+    if(remoteCalls[i].peer === peerID){
       console.log("removed: " + peerID);
       remoteCalls[i].close();
       remoteCalls.splice(i, 1);
+      releaseAudioElement(peerID);
     }
   }
 }
@@ -353,12 +378,6 @@ const closeCall = (peerID) => {
             />
             }
             <div>
-              {  <audio 
-              ref={remoteAudioRef}
-
-              ></audio>  }
-              {//renderMediaStream()
-              }
             </div>
           </div>
         
@@ -366,6 +385,9 @@ const closeCall = (peerID) => {
         ) : (
           <p>No one's here right now.. jump in?</p>
         )}
+      </div>
+      <div>
+      {renderMediaRefs()}
       </div>
       {showJoinOverlay ? (
         <p></p>
