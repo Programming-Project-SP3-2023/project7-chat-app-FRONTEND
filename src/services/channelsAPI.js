@@ -32,7 +32,7 @@ export const createChannel = async function (
       "Content-Type": "application/json",
     },
   };
-
+  console.log("step 2....", groupId, channelType, visibility, channelName);
   const body = {
     groupId: groupId,
     channelType: channelType,

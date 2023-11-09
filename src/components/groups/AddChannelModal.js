@@ -51,7 +51,7 @@ const AddChannelModal = ({
 
   // by default the channel type is text unless the user changes the toggle
   const [messageType, setMessageType] = React.useState("text");
-  const [visibility, setVisibility] = useState(true);
+  const [visibility, setVisibility] = useState("public");
 
   // handle channel type selection
   const handleChange = (event, newMessageType) => {
@@ -137,22 +137,18 @@ const AddChannelModal = ({
   // handle create channel
   const handleCreateChannel = async () => {
     setProcessing(true);
-    // const requestBody = {
-    //   // i'm guessing it'll need group & channel id
-    //   groupdId: group.groupID,
-    //   channelType: messageType,
-    //   visibility: visibility,
-    //   channelName: channelName,
-    // };
-
     try {
+      const groupId = group.groupID;
+
+      console.log("step 1.....", groupId, messageType, visibility, channelName);
+
       const response = await createChannel({
-        groupId: group.groupID,
+        groupId: groupId,
         channelType: messageType,
         visibility,
         channelName,
       });
-      console.log(response.data.message);
+      //console.log(response.data.message);
       //TODO verify what information is required for the create
       const groupID = response.data.groupID;
       const channelID = response.data.channelID;
@@ -296,7 +292,7 @@ const AddChannelModal = ({
                 <ToggleButton className="channel-toggle-btn" value="text">
                   Message
                 </ToggleButton>
-                <ToggleButton className="channel-toggle-btn" value="voice">
+                <ToggleButton className="channel-toggle-btn" value="VOIP">
                   Voice Chat
                 </ToggleButton>
               </ToggleButtonGroup>
