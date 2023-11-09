@@ -113,3 +113,39 @@ export const getChannelInfo = async function (groupId, channelId) {
 
   return;
 };
+
+/**
+ * Updates a channel's name
+ * @param {*} groupId group ID
+ * @param {*} channelId channel ID
+ * @param {*} newChannelName updated name for the channel
+ * @returns confirmation/error message
+ */
+export const updateChannelName = async function (groupId, channelId, newChannelName) {
+  const headers = {
+    headers: {
+      Authorization: getAccessToken(),
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = {
+    channelId: channelId,
+    newChannelName: newChannelName,
+  };
+
+  const UPDATE_CHANNEL_NAME_ENDPOINT = `${CHANNELS_BASE_ENDPOINT}${groupId}/channels/${channelId}/name`;
+
+  try {
+    const response = await axios.put(UPDATE_CHANNEL_NAME_ENDPOINT, body, headers);
+    //Success!
+    if (response.status === 200) {
+      console.log("Channel Name Updated");
+      return response.data.message;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
+  return;
+};
