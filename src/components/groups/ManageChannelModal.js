@@ -24,7 +24,8 @@ import {
   addChannelMember,
   removeChannelMember,
   deleteChannel,
-  getChannelMembers,
+  getChannelInfo,
+  updateChannelName,
 } from "../../services/channelsAPI";
 
 /**
@@ -113,11 +114,7 @@ const ManageChannelModal = ({
   async function updateChannelInfo(e) {
     e.preventDefault();
     try {
-      const response = await updateChannelInfo(
-        group.groupID,
-        channelId,
-        channelName
-      );
+      const response = await updateChannelName(channelId, channelName);
       console.log(response);
       setGroupReload(!groupReload);
     } catch (err) {
@@ -125,9 +122,9 @@ const ManageChannelModal = ({
     }
   }
 
-  const deleteChannelHandler = async (group, channelId) => {
+  const deleteChannelHandler = async (channelId) => {
     try {
-      const response = await deleteChannel(group.groupID, channelId);
+      const response = await deleteChannel(group.groupdID, channelId);
       console.log(response);
       setGroupReload(!groupReload);
       //not sure entirely what I'd update here
@@ -145,7 +142,7 @@ const ManageChannelModal = ({
   useEffect(() => {
     const fetchChannelMembers = async (option) => {
       try {
-        const response = await getChannelMembers(group.groupID, channelId);
+        const response = await getChannelInfo(group.groupID, channelId);
         console.log(response);
 
         setMembers(response);

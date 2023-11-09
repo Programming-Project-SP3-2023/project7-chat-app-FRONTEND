@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 import { getGroups, getUserID } from "../../utils/localStorage";
 import { useEffect, useState } from "react";
 import { getFriends } from "../../services/friendsAPI";
-import { getChannelList } from "../../services/channelsAPI";
+import { getChannels } from "../../services/channelsAPI";
 import CROWN from "../../assets/crown.png";
 
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
@@ -96,9 +96,11 @@ const Groups = ({
       // 5. Call function
       await fetchFriends();
 
+      console.log("groupid...", group.groupID);
       // 6 attempt to get channel list
       async function fetchChannelList() {
-        const response = await getChannelList();
+        const groupID = group.groupID;
+        const response = await getChannels(groupID);
         console.log("Channels List: ", response);
 
         setChannelList(response);

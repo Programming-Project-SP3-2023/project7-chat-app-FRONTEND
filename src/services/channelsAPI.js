@@ -18,6 +18,8 @@ const CHANNELS_BASE_ENDPOINT = `${BASE_URL}channels/groups/`;
  * @param {*} channelName name of the channel
  * @returns confirmation/error message
  */
+
+/*             Create Channel             */
 export const createChannel = async function (
   groupId,
   channelType,
@@ -260,7 +262,6 @@ export const deleteChannel = async function (groupId, channelId) {
       "Content-Type": "application/json",
     },
   };
-
 
   const REMOVE_CHANNEL_ENDPOINT = `${CHANNELS_BASE_ENDPOINT}${groupId}/channels/${channelId}`;
 

@@ -137,16 +137,21 @@ const AddChannelModal = ({
   // handle create channel
   const handleCreateChannel = async () => {
     setProcessing(true);
-    const requestBody = {
-      // i'm guessing it'll need group & channel id
-      groupdId: group.groupID,
-      channelType: messageType,
-      visibility: visibility,
-      channelName: channelName,
-    };
+    // const requestBody = {
+    //   // i'm guessing it'll need group & channel id
+    //   groupdId: group.groupID,
+    //   channelType: messageType,
+    //   visibility: visibility,
+    //   channelName: channelName,
+    // };
 
     try {
-      const response = await createChannel(requestBody);
+      const response = await createChannel({
+        groupId: group.groupID,
+        channelType: messageType,
+        visibility,
+        channelName,
+      });
       console.log(response.data.message);
       //TODO verify what information is required for the create
       const groupID = response.data.groupID;
