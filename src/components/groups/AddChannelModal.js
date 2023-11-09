@@ -34,6 +34,7 @@ const AddChannelModal = ({
   setManageAddChannelModalOpen,
   friends,
   group,
+  channelList,
   groupReload,
   setGroupReload,
 }) => {
@@ -131,46 +132,60 @@ const AddChannelModal = ({
     setOpen(false);
   };
 
-  console.log("message type: ", messageType);
-  console.log("channelName: ", channelName);
+  // console.log("message type: ", messageType);
+  // console.log("channelName: ", channelName);
 
   // handle create channel
   const handleCreateChannel = async () => {
-    setProcessing(true);
-    try {
-      const groupId = group.groupID;
+    if (channelName.trim() === "") {
+      setMessage("Channel Name cannot be empty");
 
-      console.log("step 1.....", groupId, messageType, visibility, channelName);
+      // TODO add method to loop through channel list for same name
+    } else {
+      setProcessing(true);
+      try {
+        const groupId = group.groupID;
 
-      const response = await createChannel({
-        groupId: groupId,
-        channelType: messageType,
-        visibility,
-        channelName,
-      });
-      //console.log(response.data.message);
-      //TODO verify what information is required for the create
-      const groupID = response.data.groupID;
-      const channelID = response.data.channelID;
+        console.log(
+          "step 1.....",
+          groupId,
+          messageType,
+          visibility,
+          channelName
+        );
 
-      if (newMembers.length > 0) {
-        newMembers.forEach(async (member) => {
-          let newMemberRes = await addChannelMember(
-            groupID,
-            channelID,
-            member.Email
-          );
-          console.log(newMemberRes);
-        });
+        const response = await createChannel(
+          groupId,
+          messageType,
+          visibility,
+          channelName
+        );
+        console.log(response.data.message);
+        //TODO verify what information is required for the create
+        const groupID = response.data.groupID;
+        const channelID = response.data.channelID;
+
+        if (newMembers.length > 0) {
+          newMembers.forEach(async (member) => {
+            let newMemberRes = await addChannelMember(
+              groupID,
+              channelID,
+              member.Email
+            );
+            console.log(newMemberRes);
+          });
+        }
+        setGroupReload(!groupReload);
+        setProcessing(false);
+        setManageAddChannelModalOpen(false);
+        navigate(`/dashboard/groups/${group.groupdID}`);
+      } catch (err) {
+        console.log(err);
+        setMessage(
+          "Something went wrong. We were unable to create the channel."
+        );
+        setProcessing(false);
       }
-      setGroupReload(!groupReload);
-      setProcessing(false);
-      setManageAddChannelModalOpen(false);
-      navigate(`/dashboard/groups/${group.groupdID}`);
-    } catch (err) {
-      console.log(err);
-      setMessage("Something went wrong. We were unable to create the channel.");
-      setProcessing(false);
     }
   };
 

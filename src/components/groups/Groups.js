@@ -43,6 +43,7 @@ const Groups = ({
 
   const [channelList, setChannelList] = useState(null);
   const [channelId, setChannelId] = useState(null); //
+  const [selectChannelId, setSelectChannelId] = useState(null);
 
   const user = getUser(); // user
   const userID = getUserID(); // userid
@@ -58,6 +59,11 @@ const Groups = ({
     useState(false);
 
   const navigate = useNavigate();
+
+  const handleOpenManageChannelsModal = (channelID) => {
+    setSelectChannelId(channelID);
+    setManageChannelsModalOpen(true);
+  };
 
   // fetch current group information + users
   useEffect(() => {
@@ -81,8 +87,8 @@ const Groups = ({
       // 4. Check if User is this group's admin
       members.forEach((m) => {
         if (m.AccountID === getUserID()) {
-          console.log("THIS is USERID:", m.AccountID);
-          console.log("THIS IS my role", m.Role);
+          // console.log("THIS is USERID:", m.AccountID);
+          // console.log("THIS IS my role", m.Role);
           if (m.Role === "Admin") setIsAdmin(true);
         }
       });
@@ -90,18 +96,20 @@ const Groups = ({
       // 4. define fetch friends function
       async function fetchFriends() {
         const response = await getFriends();
-        console.log("FRIENDS: ", response);
+        // console.log("FRIENDS: ", response);
         setFriends(response);
       }
       // 5. Call function
       await fetchFriends();
 
-      console.log("groupid...", group.groupID);
+      // if (group.groupID) {
+      //   console.log("groupid...", group.groupID);
+      // }
       // 6 attempt to get channel list
       async function fetchChannelList() {
         const groupID = group.groupID;
         const response = await getChannels(groupID);
-        console.log("Channels List: ", response);
+        // console.log("Channels List: ", response);
 
         setChannelList(response);
       }
@@ -165,7 +173,7 @@ const Groups = ({
     //is dependent on the group existing
   }, [socket.accountID, group]);
 
-  console.log("group info", group);
+  // console.log("group info", group);
 
   return (
     <section className="group-page">
@@ -177,6 +185,7 @@ const Groups = ({
             setManageAddChannelModalOpen={setManageAddChannelModalOpen}
             setRefresh={setRefresh}
             group={group}
+            channels={channelList}
             friends={friends}
             groupReload={groupReload}
             setGroupReload={setGroupReload}
@@ -186,7 +195,7 @@ const Groups = ({
             manageChannelModalOpen={manageChannelsModalOpen}
             setManageChannelModalOpen={setManageChannelsModalOpen}
             setRefresh={setRefresh}
-            channelID={channelId} // currently null value
+            channelID={selectChannelId} // currently null value
             group={group}
             friends={friends}
             groupReload={groupReload}
@@ -250,12 +259,11 @@ const Groups = ({
           {/* Channels */}
           <h2 id="channels-title">Channels</h2>
           <div className="group-options">
-            {group &&
-              group.Channel &&
-              group.Channels.map((channel) => (
+            {channelList &&
+              channelList.map((channel) => (
                 <div className="group-option">
                   <div>
-                    {channel.ChannelType === "Text" ? (
+                    {channel.ChannelType === "text" ? (
                       <ChatOutlinedIcon />
                     ) : (
                       <HeadphonesOutlinedIcon />
@@ -273,7 +281,9 @@ const Groups = ({
                     {/* manage channel modal */}
                     <PersonAddOutlinedIcon
                       id="manage-members-icon"
-                      onClick={setManageChannelsModalOpen}
+                      onClick={() =>
+                        handleOpenManageChannelsModal(channel.ChannelID)
+                      }
                     />
                   </div>
                 </div>

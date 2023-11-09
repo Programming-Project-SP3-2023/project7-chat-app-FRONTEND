@@ -20,6 +20,7 @@ import WorkspacesOutlinedIcon from "@mui/icons-material/WorkspacesOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import MemberChip from "../partial/MemberChip";
+import { getUserID } from "../../utils/localStorage";
 import {
   addChannelMember,
   removeChannelMember,
@@ -38,7 +39,7 @@ const ManageChannelModal = ({
   setManageChannelModalOpen,
   friends,
   setRefresh,
-  channelId,
+  channelID,
   group,
   groupReload,
   setGroupReload,
@@ -52,7 +53,7 @@ const ManageChannelModal = ({
   const [friendToAdd, setFriendToAdd] = useState(null);
   const [members, setMembers] = useState([]);
   const loading = open && options.length === 0;
-
+  const userId = getUserID();
   // Loading function (async)
   function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -61,14 +62,16 @@ const ManageChannelModal = ({
   }
 
   console.log("group id...", group.groupID);
+  console.log("channel id...", channelID);
 
   // Methods
   // Handle member add
   const handleAddMember = async (option) => {
+    console.log("adding member...");
     try {
       const response = await addChannelMember(
         group.groupID,
-        channelId,
+        channelID,
         option.Email
       );
       console.log(response);
@@ -92,10 +95,11 @@ const ManageChannelModal = ({
 
   // Handle member remove
   const handleRemoveMember = async (member, i) => {
+    console.log("removing member...");
     try {
       const response = await removeChannelMember(
         group.groupID,
-        channelId,
+        channelID,
         member.AccountID
       );
       console.log(response);
@@ -114,7 +118,7 @@ const ManageChannelModal = ({
   async function updateChannelInfo(e) {
     e.preventDefault();
     try {
-      const response = await updateChannelName(channelId, channelName);
+      const response = await updateChannelName(channelID, channelName);
       console.log(response);
       setGroupReload(!groupReload);
     } catch (err) {
@@ -122,9 +126,12 @@ const ManageChannelModal = ({
     }
   }
 
-  const deleteChannelHandler = async (channelId) => {
+  const deleteChannelHandler = async () => {
+    const groupID = group.groupID;
+
+    console.log("step 1 to delete channel....", channelID, "group", groupID);
     try {
-      const response = await deleteChannel(group.groupdID, channelId);
+      const response = await deleteChannel(groupID, channelID);
       console.log(response);
       setGroupReload(!groupReload);
       //not sure entirely what I'd update here
@@ -142,7 +149,7 @@ const ManageChannelModal = ({
   useEffect(() => {
     const fetchChannelMembers = async (option) => {
       try {
-        const response = await getChannelInfo(group.groupID, channelId);
+        const response = await getChannelInfo(group.groupID, channelID);
         console.log(response);
 
         setMembers(response);
