@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 // import { useSocket } from "../../services/SocketContext";
 import ManageMembersModal from "./ManageMembersModal";
 import ManageGroupSettings from "./ManageGroupSettings";
-import { updateChannelName } from "../../services/channelsAPI";
 
 /**
  * Builds and renders the User groups component
@@ -75,10 +74,6 @@ const Groups = ({
       const response = await getFriends();
       console.log("FRIENDS: ", response);
       setFriends(response);
-
-      // TEST
-      const testRes = await updateChannelName(39,8,"Updated Channel");
-      console.log(testRes);
     }
     // 5. Call function
     fetchFriends();
