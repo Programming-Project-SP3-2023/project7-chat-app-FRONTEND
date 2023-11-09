@@ -134,7 +134,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
     }
 
     (async () => {
-      await sleep(1e3); // For demo purposes.
+      await sleep(1e3); 
 
       if (active) {
         const notFriends = getNonfriends(users, friends);

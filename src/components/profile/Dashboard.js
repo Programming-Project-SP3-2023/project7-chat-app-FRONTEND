@@ -271,7 +271,7 @@ const Dashboard = ({
       )}
 
       <div id="dashboard-header-title">
-        <h2>{headerTitle}</h2>
+        <h1>{headerTitle}</h1>
       </div>
       {/* Side menu rendering */}
       {!loading && (
