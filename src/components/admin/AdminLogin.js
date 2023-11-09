@@ -30,7 +30,7 @@ import { useSocket } from "../../services/SocketContext";
  * Builds and renders the login component
  * @returns Login component render
  */
-const AdminLogin = ({ setIsLoggedIn, setAccessTokenFast, setAdminTitle }) => {
+const AdminLogin = ({ setAdminIsLoggedIn, adminIsLoggedIn, setAdminTitle }) => {
   //Props
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -51,92 +51,95 @@ const AdminLogin = ({ setIsLoggedIn, setAccessTokenFast, setAdminTitle }) => {
     console.log("LOGIN HANDLER");
     // set loading flag to true
     setLoading(true);
+    await setAdminIsLoggedIn(true);
+    setLoading(false);
+    navigate('users');
 
-    let response;
-    let userDataResponse;
-    let avatarResponse;
+    // let response;
+    // let userDataResponse;
+    // let avatarResponse;
 
-    if (username === "" || password === "") {
-      // Set error message
-      setMessage("Both email and password required. Try again.");
-      //Disable loading state
-      setLoading(false);
-    } else {
-      try {
-        console.log("THIS ATTEMPT");
+    // if (username === "" || password === "") {
+    //   // Set error message
+    //   setMessage("Both email and password required. Try again.");
+    //   //Disable loading state
+    //   setLoading(false);
+    // } else {
+    //   try {
+    //     console.log("THIS ATTEMPT");
 
-        const requestBody = {
-          username: username,
-          password: password,
-        };
+    //     const requestBody = {
+    //       username: username,
+    //       password: password,
+    //     };
 
-        response = await login(requestBody);
+    //     response = await login(requestBody);
 
-        if (response.status === 200) {
-          const data = response.data;
+    //     if (response.status === 200) {
+    //       const data = response.data;
 
-          if (data.errorType === "InvalidCredentials") {
-            setMessage(data.message);
-          } else if (data.errorType === "EmailNotVerified") {
-            setMessage(data.message);
-          } else {
-            setUserID(response.data.AccountID);
-            setAccessToken(response.data.token);
-            setAccessTokenFast(response.data.token);
+    //       if (data.errorType === "InvalidCredentials") {
+    //         setMessage(data.message);
+    //       } else if (data.errorType === "EmailNotVerified") {
+    //         setMessage(data.message);
+    //       } else {
+    //         setUserID(response.data.AccountID);
+    //         setAccessToken(response.data.token);
+    //         setAccessTokenFast(response.data.token);
 
-            userDataResponse = await getUserByID(
-              response.data.AccountID,
-              response.data.token
-            );
-            avatarResponse = await getAvatarByID(
-              response.data.AccountID,
-              response.data.token
-            );
+    //         userDataResponse = await getUserByID(
+    //           response.data.AccountID,
+    //           response.data.token
+    //         );
+    //         avatarResponse = await getAvatarByID(
+    //           response.data.AccountID,
+    //           response.data.token
+    //         );
 
-            let user;
-            if (userDataResponse && avatarResponse) {
-              user = {
-                email: userDataResponse.email,
-                displayName: userDataResponse.displayName,
-                dob: userDataResponse.dob,
-                username: userDataResponse.username,
-                image: avatarResponse.avatarData,
-              };
-            } else if (userDataResponse && !avatarResponse) {
-              user = {
-                email: userDataResponse.email,
-                displayName: userDataResponse.displayName,
-                dob: userDataResponse.dob,
-                username: userDataResponse.username,
-              };
-            }
+    //         let user;
+    //         if (userDataResponse && avatarResponse) {
+    //           user = {
+    //             email: userDataResponse.email,
+    //             displayName: userDataResponse.displayName,
+    //             dob: userDataResponse.dob,
+    //             username: userDataResponse.username,
+    //             image: avatarResponse.avatarData,
+    //           };
+    //         } else if (userDataResponse && !avatarResponse) {
+    //           user = {
+    //             email: userDataResponse.email,
+    //             displayName: userDataResponse.displayName,
+    //             dob: userDataResponse.dob,
+    //             username: userDataResponse.username,
+    //           };
+    //         }
 
-            setMessage("Login Succesful");
-            setUserSession(user);
-            setSideMenuOption(0);
-            setIsLoggedIn(true);
+    //         setMessage("Login Succesful");
+    //         setUserSession(user);
+    //         setSideMenuOption(0);
+    //         setIsLoggedIn(true);
 
-            // get session stored user / rather than fetching twice
-            // socket.connect();
-            loginSocket(response.data.AccountID, username);
-            // navigate to dashboard
-            navigate("/dashboard");
-          }
-        } else {
-          setMessage(
-            "An error has occurred on the server! Please try again later"
-          );
-        }
-      } catch (error) {
-        console.log(error);
-        setMessage(
-          "An error has occurred on the server! Please try again later"
-        );
-      } finally {
-        //Disable loading state
-        setLoading(false);
-      }
-    }
+    //         // get session stored user / rather than fetching twice
+    //         // socket.connect();
+    //         loginSocket(response.data.AccountID, username);
+    //         // navigate to dashboard
+    //         navigate("/dashboard");
+    //       }
+    //     } else {
+    //       setMessage(
+    //         "An error has occurred on the server! Please try again later"
+    //       );
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //     setMessage(
+    //       "An error has occurred on the server! Please try again later"
+    //     );
+    //   } finally {
+    //     //Disable loading state
+    //     setLoading(false);
+    //   }
+    // }
   };
 
   return (

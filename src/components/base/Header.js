@@ -52,7 +52,7 @@ const Header = ({
     if (URI === "admin" || URI === "admin-home") {
       setIsAdmin(true);
     }
-  }, [isLoggedIn, refresh]);
+  }, [adminIsLoggedIn, isLoggedIn, refresh]);
 
   return (
     <header id={headerId}>
