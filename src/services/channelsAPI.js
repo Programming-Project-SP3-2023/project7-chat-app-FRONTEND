@@ -262,7 +262,7 @@ export const deleteChannel = async function (groupId, channelId) {
       "Content-Type": "application/json",
     },
   };
-
+  console.log("step 2 to delete channel....", channelId, "group", groupId);
   const REMOVE_CHANNEL_ENDPOINT = `${CHANNELS_BASE_ENDPOINT}${groupId}/channels/${channelId}`;
 
   try {
