@@ -16,7 +16,7 @@ const REMOVE_CHANNEL_MEMBER_ENDPOINT = `${BASE_URL}groups/:groupId/channels/:cha
 const GET_CHANNEL_LIST_ENDPOINT = `${BASE_URL}groups/:groupId/channels`;
 // const GET_CHANNEL_INFO_ENDPOINT = `${BASE_URL}groups/:groupId/channels/:channelId`;
 // const GET_CHANNEL_UPDATE_NAME_ENDPOINT = `${BASE_URL}groups/:groupId/channels/:channelId/name`;
-const GET_CHANNEL_MEMBERS_ENDPOINT = `${BASE_URL}groups/current-groups`;
+const GET_CHANNEL_MEMBERS_ENDPOINT = `${BASE_URL}groups/:groupId/channels/:channelId/members`;
 
 // Auth setup
 const headers = {

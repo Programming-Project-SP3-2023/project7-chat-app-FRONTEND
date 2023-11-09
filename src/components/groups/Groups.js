@@ -100,6 +100,7 @@ const Groups = ({
       async function fetchChannelList() {
         const response = await getChannelList();
         console.log("Channels List: ", response);
+
         setChannelList(response);
       }
       // 7 call channel list function

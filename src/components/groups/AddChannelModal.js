@@ -51,6 +51,7 @@ const AddChannelModal = ({
 
   // by default the channel type is text unless the user changes the toggle
   const [messageType, setMessageType] = React.useState("text");
+  const [visibility, setVisibility] = useState(true);
 
   // handle channel type selection
   const handleChange = (event, newMessageType) => {
@@ -138,9 +139,10 @@ const AddChannelModal = ({
     setProcessing(true);
     const requestBody = {
       // i'm guessing it'll need group & channel id
-      groupdID: group.groupID,
-      channelName: channelName,
+      groupdId: group.groupID,
       channelType: messageType,
+      visibility: visibility,
+      channelName: channelName,
     };
 
     try {
