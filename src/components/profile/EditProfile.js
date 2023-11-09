@@ -1,7 +1,7 @@
 import { TextField, Avatar, Box, FormControl, Button } from "@mui/material";
 import { Modal } from "@mui/material";
 import { getUser } from "../../utils/localStorage";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dayjs from "dayjs";
 
 import ButtonGroup from "@mui/material/ButtonGroup";
