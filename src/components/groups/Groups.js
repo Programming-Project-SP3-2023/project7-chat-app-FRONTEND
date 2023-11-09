@@ -43,7 +43,8 @@ const Groups = ({
 
   const [channelList, setChannelList] = useState(null);
   const [channelId, setChannelId] = useState(null); //
-  const [selectChannelId, setSelectChannelId] = useState(null);
+  // const [selectChannelId, setSelectChannelId] = useState(null);
+  const [selectChannelIdModal, setSelectChannelIdModal] = useState(null);
 
   const user = getUser(); // user
   const userID = getUserID(); // userid
@@ -61,7 +62,8 @@ const Groups = ({
   const navigate = useNavigate();
 
   const handleOpenManageChannelsModal = (channelID) => {
-    setSelectChannelId(channelID);
+    setSelectChannelIdModal(channelID);
+    console.log("channelid", channelID);
     setManageChannelsModalOpen(true);
   };
 
@@ -84,11 +86,15 @@ const Groups = ({
         }
       });
 
+      if (!currentGroup) {
+        console.error("group not found with ID:", ID);
+        return;
+      }
       // 4. Check if User is this group's admin
       members.forEach((m) => {
         if (m.AccountID === getUserID()) {
-          // console.log("THIS is USERID:", m.AccountID);
-          // console.log("THIS IS my role", m.Role);
+          console.log("THIS is USERID:", m.AccountID);
+          console.log("THIS IS my role", m.Role);
           if (m.Role === "Admin") setIsAdmin(true);
         }
       });
@@ -107,11 +113,15 @@ const Groups = ({
       // }
       // 6 attempt to get channel list
       async function fetchChannelList() {
-        const groupID = group.groupID;
-        const response = await getChannels(groupID);
-        // console.log("Channels List: ", response);
+        if (group && group.groupID) {
+          const groupID = group.groupID;
+          const response = await getChannels(groupID);
+          // console.log("Channels List: ", response);
 
-        setChannelList(response);
+          setChannelList(response);
+        } else {
+          console.error("group or groupId is null...");
+        }
       }
       // 7 call channel list function
       await fetchChannelList();
@@ -121,6 +131,7 @@ const Groups = ({
 
   // handles opening channel chat and relative functions
   const handleChannelNavigate = async (channelID, channelName) => {
+    console.log("channeId...", channelID);
     // connect chat promise
     const joinChatPromise = new Promise((resolve, reject) => {
       // ask to join channel
@@ -195,7 +206,7 @@ const Groups = ({
             manageChannelModalOpen={manageChannelsModalOpen}
             setManageChannelModalOpen={setManageChannelsModalOpen}
             setRefresh={setRefresh}
-            channelID={selectChannelId} // currently null value
+            channelID={selectChannelIdModal} // currently null value
             group={group}
             friends={friends}
             groupReload={groupReload}
@@ -268,6 +279,7 @@ const Groups = ({
                     ) : (
                       <HeadphonesOutlinedIcon />
                     )}
+                    {/* {channel.channelID} */}
                     <a
                       onClick={() =>
                         handleChannelNavigate(

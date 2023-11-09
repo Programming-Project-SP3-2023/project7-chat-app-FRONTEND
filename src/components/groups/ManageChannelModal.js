@@ -129,7 +129,6 @@ const ManageChannelModal = ({
   const deleteChannelHandler = async () => {
     const groupID = group.groupID;
 
-    console.log("step 1 to delete channel....", channelID, "group", groupID);
     try {
       const response = await deleteChannel(groupID, channelID);
       console.log(response);

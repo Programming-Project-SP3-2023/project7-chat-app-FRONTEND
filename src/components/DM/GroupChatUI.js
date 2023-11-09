@@ -73,6 +73,7 @@ const GroupChatUI = ({ socket }) => {
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
+    console.log("channel...", channelId);
     // check socket user credentials are still in socket
     if (socket.accountID !== undefined) {
       // connect to channel
