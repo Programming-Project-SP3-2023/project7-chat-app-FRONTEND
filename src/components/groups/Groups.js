@@ -14,9 +14,11 @@ import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 import { useNavigate } from "react-router-dom";
-// import { useSocket } from "../../services/SocketContext";
+import { useSocket } from "../../services/SocketContext";
 import ManageMembersModal from "./ManageMembersModal";
 import ManageGroupSettings from "./ManageGroupSettings";
+import { UndoRounded } from "@mui/icons-material";
+import { getUser } from "../../utils/localStorage";
 
 /**
  * Builds and renders the User groups component
@@ -28,13 +30,17 @@ const Groups = ({
   setHeaderTitle,
   groupReload,
   setGroupReload,
+  socket,
 }) => {
   const [group, setGroup] = useState(null);
   const [friends, setFriends] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [members, setMembers] = useState([]);
 
-  // const { socket } = useSocket(); // socket
+  const user = getUser(); // user
+  const userID = getUserID(); // userid
+
+  const { loginSocket } = useSocket(); // socket
   // state handler for groups settings modal
   const [manageMembersModalOpen, setManageMembersModalOpen] = useState(false);
   const [manageGroupSettingsModalOpen, setManageGroupSettingsModalOpen] =
@@ -90,7 +96,33 @@ const Groups = ({
     }
   };
 
-  console.log(group);
+  // socket.emit("connectGroup", { groupID: 3 });
+
+  const handleVOIPJoin = (channelID, channelName) => {
+    console.log("Connecting to Voice Channel :)");
+    navigate(`/dashboard/groups/${group.groupID}/v/${channelID}`);
+  }
+
+  useEffect(() => {
+    // if group
+    if (group) {
+      // attempt to connect
+      const connectGroupAsync = async () => {
+        // check to see if accountID still conntected & groupID exists
+        if (socket.accountID !== undefined && group.groupID !== null) {
+          // attempt to connect to the group
+          await socket.emit("connectGroup", { groupID: group.groupID });
+        } else {
+          // attempt to re-connect
+          await loginSocket(userID, user.username);
+        }
+      };
+      connectGroupAsync();
+    }
+    //is dependent on the group existing
+  }, [socket.accountID, group]);
+
+  // console.log(group);
 
   return (
     <section className="group-page">
@@ -134,7 +166,9 @@ const Groups = ({
             <div className="group-option">
               <div>
                 <ChatOutlinedIcon />
-                <a onClick={() => handleChannelNavigate("", null)}>General</a>
+                {/* TEMPORARY set to 10 until channels are implemented */}
+                {/* will be expecint a channel id once implemented */}
+                <a onClick={() => handleChannelNavigate("10", null)}>General</a>
               </div>
               <PersonAddOutlinedIcon
                 id="manage-members-icon"
@@ -144,7 +178,7 @@ const Groups = ({
             <div className="group-option">
               <div>
                 <HeadphonesOutlinedIcon />
-                <a>Meeting Room</a>
+                <a onClick={() => handleVOIPJoin("10", null)}>Meeting Room</a>
               </div>
             </div>
           </div>
@@ -197,7 +231,8 @@ const Groups = ({
       </div>
       <div className="group-chat-area">
         {/* By default it loads the general chat */}
-        <Outlet />
+        {/* if we want ^^^ to happen it would be required to navigate to the channel */}
+        <Outlet context={friends} />
       </div>
     </section>
   );

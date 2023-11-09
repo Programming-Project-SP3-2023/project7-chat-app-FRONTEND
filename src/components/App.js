@@ -25,6 +25,7 @@ import DashboardMain from "./profile/DashboardMain";
 import ChatUI from "./DM/ChatUI";
 import GroupChatUI from "./DM/GroupChatUI";
 import { useSocket } from "../services/SocketContext";
+import VoiceChatRoom from "../components/voip/VOIPDisplay"
 
 function App() {
   const user = getUser();
@@ -111,14 +112,24 @@ function App() {
                 groupReload={groupReload}
                 setGroupReload={setGroupReload}
                 setHeaderTitle={setHeaderTitle}
+                socket={socket}
               />
             }
           >
-            <Route path=":groupId" element={<GroupChatUI socket={socket} />}>
+            <Route path=":groupId" element={<GroupChatUI socket={socket} />}>          
               <Route
                 path=":channelId"
                 element={<GroupChatUI socket={socket} />}
               />
+            </Route>
+
+            <Route path=":v" element={<VoiceChatRoom socket={socket} />}>'
+            <Route path=":groupId" element={<VoiceChatRoom socket={socket} />}>          
+              <Route
+                path=":channelId"
+                element={<VoiceChatRoom socket={socket} />}
+              />
+            </Route>
             </Route>
           </Route>
         </Route>
