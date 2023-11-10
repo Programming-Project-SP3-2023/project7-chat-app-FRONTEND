@@ -18,6 +18,8 @@ const CHANNELS_BASE_ENDPOINT = `${BASE_URL}channels/groups/`;
  * @param {*} channelName name of the channel
  * @returns confirmation/error message
  */
+
+/*             Create Channel             */
 export const createChannel = async function (
   groupId,
   channelType,
@@ -30,7 +32,7 @@ export const createChannel = async function (
       "Content-Type": "application/json",
     },
   };
-
+  console.log("step 2....", groupId, channelType, visibility, channelName);
   const body = {
     groupId: groupId,
     channelType: channelType,
@@ -170,6 +172,10 @@ export const addChannelMember = async function (
   channelId,
   userIdToAdd
 ) {
+  console.log("step 2..... attempting to push member");
+  console.log("group ID", groupId);
+  console.log("channelId", channelId);
+  console.log("user to add", userIdToAdd);
   const headers = {
     headers: {
       Authorization: getAccessToken(),
@@ -181,7 +187,8 @@ export const addChannelMember = async function (
     channelId: channelId,
     userIdToAdd: userIdToAdd,
   };
-
+  console.log("body...", body);
+  //                                                              /groups/:groupId/channels/:channelId/members
   const ADD_MEMBER_CHANNEL_ENDPOINT = `${CHANNELS_BASE_ENDPOINT}${groupId}/channels/${channelId}/members`;
 
   try {
@@ -254,6 +261,8 @@ export const deleteChannel = async function (groupId, channelId) {
       "Content-Type": "application/json",
     },
   };
+
+  console.log("step 2 to delete channel....", channelId, "group", groupId);
 
   const REMOVE_CHANNEL_ENDPOINT = `${CHANNELS_BASE_ENDPOINT}${groupId}/channels/${channelId}`;
 

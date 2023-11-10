@@ -29,13 +29,13 @@ import { getUserID, getUser } from "../../utils/localStorage";
  * Builds and renders the homepage component
  * @returns Homepage component render
  */
-const GroupChatUI = ({ socket }) => {
+const GroupChatUI = () => {
   const friendsArray = Object.values(useOutletContext());
   const friends = friendsArray.flat();
-  console.log("friends > ", friends);
+  // console.log("friends > ", friends);
 
   // used for re-seating socket
-  const { loginSocket } = useSocket();
+  const { loginSocket, socket } = useSocket();
   const [loading, setLoading] = useState(true); // set loading to true
 
   // loop through sender id(by friends) and find their avatar
@@ -46,10 +46,13 @@ const GroupChatUI = ({ socket }) => {
 
   // through the url params of groupID and channelID return values
   const { groupId, channelId } = useParams(); // prefered method
+  console.log("inside group chat....");
 
-  // console.log("group id: ", groupId);
-  // console.log("channelID: ", channelId);
-
+  const groupID = groupId;
+  const channelID = parseInt(channelId);
+  console.log("groupID...", groupID);
+  console.log("channelId...", channelID);
+  console.log("socket.accountID", socket.accountID);
   // messages
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
@@ -74,10 +77,11 @@ const GroupChatUI = ({ socket }) => {
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
+    console.log("channel...");
     // check socket user credentials are still in socket
     if (socket.accountID !== undefined) {
       // connect to channel
-      socket.emit("connectChannel", { channelID: channelId });
+      socket.emit("connectChannel", { channelID });
 
       // open listener of messageHistory for messages
       socket.on("messageHistory", (messages) => {
@@ -100,7 +104,7 @@ const GroupChatUI = ({ socket }) => {
         setMessages((messages) => [...messages, formatMessage]);
       });
       // ask for messages
-      socket.emit("getChannelMessages", { channelID: channelId });
+      socket.emit("getChannelMessages", { channelID });
     } else {
       // attempt to reconnect socket
       handleReconnect();
@@ -110,7 +114,7 @@ const GroupChatUI = ({ socket }) => {
       socket.off("messageHistory");
       socket.off("channelMessageResponse");
     };
-  }, [channelId, socket]);
+  }, [channelID, socket]);
 
   //handle auto-scrolling to latest message
   useEffect(() => {
@@ -127,7 +131,7 @@ const GroupChatUI = ({ socket }) => {
     if (messageText.trim() !== "") {
       // currently being used for local display
       const newMessage = {
-        ChannelID: channelId,
+        ChannelID: channelID,
         MessageBody: messageText,
         SenderID: userId,
         TimeSent: newTimestamp,
@@ -135,7 +139,7 @@ const GroupChatUI = ({ socket }) => {
 
       // sending > emit message of chatID and string of message
       socket.emit("sendChannelMessage", {
-        channelID: channelId,
+        channelID: channelID,
         message: messageText,
       });
 
