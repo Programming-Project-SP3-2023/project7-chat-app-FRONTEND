@@ -50,14 +50,20 @@ const AddChannelModal = ({
   const loading = open && options.length === 0;
 
   // by default the channel type is text unless the user changes the toggle
-  const [messageType, setMessageType] = React.useState("text");
-  const [visibility, setVisibility] = useState("public");
+  const [messageType, setMessageType] = React.useState("Chat");
+  const [visibility, setVisibility] = useState("Public");
 
   // handle channel type selection
   const handleChange = (event, newMessageType) => {
     // prevent the user from selecting a null type of channel
     if (newMessageType !== null) {
       setMessageType(newMessageType);
+    }
+  };
+
+  const handleVisibility = (event, newVisibilityType) => {
+    if (newVisibilityType !== null) {
+      setVisibility(newVisibilityType);
     }
   };
 
@@ -296,24 +302,42 @@ const AddChannelModal = ({
                 </div>
               </>
             )}
-            <h3>Channel Type:</h3>
-            <div id="channel-toggle-select">
-              <ToggleButtonGroup
-                color="primary"
-                value={messageType}
-                exclusive
-                onChange={handleChange}
-                aria-label="Platform"
-              >
-                <ToggleButton className="channel-toggle-btn" value="text">
-                  Message
-                </ToggleButton>
-                <ToggleButton className="channel-toggle-btn" value="VOIP">
-                  Voice Chat
-                </ToggleButton>
-              </ToggleButtonGroup>
+            <div className="toggle-buttons-group">
+              <h3>Channel Type:</h3>
+              <div id="channel-toggle-select">
+                <ToggleButtonGroup
+                  color="primary"
+                  value={messageType}
+                  exclusive
+                  onChange={handleChange}
+                  aria-label="Platform"
+                >
+                  <ToggleButton className="channel-toggle-btn" value="Chat">
+                    Message
+                  </ToggleButton>
+                  <ToggleButton className="channel-toggle-btn" value="Voice">
+                    Voice Chat
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </div>
+              <h3>Channel Visibility</h3>
+              <div id="channel-toggle-select">
+                <ToggleButtonGroup
+                  color="primary"
+                  value={visibility}
+                  exclusive
+                  onChange={handleVisibility}
+                  aria-label="Platform"
+                >
+                  <ToggleButton className="channel-toggle-btn" value="Public">
+                    Public
+                  </ToggleButton>
+                  <ToggleButton className="channel-toggle-btn" value="Private">
+                    Private
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </div>
             </div>
-
             <Button
               id="add-group-bttn"
               variant="contained"

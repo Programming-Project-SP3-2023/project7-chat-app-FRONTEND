@@ -41,9 +41,10 @@ const Groups = ({
   const [members, setMembers] = useState([]);
 
   const [channelList, setChannelList] = useState(null);
-  const [channelId, setChannelId] = useState(null); //
-  // const [selectChannelId, setSelectChannelId] = useState(null);
   const [selectChannelIdModal, setSelectChannelIdModal] = useState(null);
+
+  const [generalChat, setGeneralChat] = useState(null);
+  const [voiceChat, setVoiceChat] = useState(null);
 
   const user = getUser(); // user
   const userID = getUserID(); // userid
@@ -62,7 +63,7 @@ const Groups = ({
 
   const handleOpenManageChannelsModal = (channelID) => {
     setSelectChannelIdModal(channelID);
-    console.log("channelid", channelID);
+    //console.log("channelid", channelID);
     setManageChannelsModalOpen(true);
   };
 
@@ -133,9 +134,6 @@ const Groups = ({
     // connect chat promise
     const joinChatPromise = new Promise((resolve, reject) => {
       // ask to join channel
-      console.log("first step...");
-      console.log("selecting channeId...", channelID);
-      console.log(" selecting channelName...", channelName);
       socket.emit("connectChannel", { channelID });
 
       const connectChannelResponseHandler = () => {
@@ -172,7 +170,7 @@ const Groups = ({
   // socket.emit("connectGroup", { groupID: 3 });
 
   const handleVOIPJoin = (channelID, channelName) => {
-    console.log("Connecting to Voice Channel :)");
+    //console.log("Connecting to Voice Channel :)");
     navigate(`/dashboard/groups/${group.groupID}/v/${channelID}`);
   };
 
@@ -196,8 +194,8 @@ const Groups = ({
     //is dependent on the group existing
   }, [socket.accountID, group]);
 
-  console.log("group info", group);
-  console.log("channels info", channelList);
+  // console.log("group info", group);
+  // console.log("channels info", channelList);
   return (
     <section className="group-page">
       {/* Manage group members modal & group settings modal render */}
@@ -284,17 +282,12 @@ const Groups = ({
               channelList.map((channel) => (
                 <div className="group-option">
                   <div>
-                    {channel.ChannelType === "text" ? (
+                    {channel.ChannelType === "Chat" ? (
                       <ChatOutlinedIcon />
                     ) : (
                       <HeadphonesOutlinedIcon />
                     )}
-                    {console.log(
-                      "channelID...",
-                      channel.ChannelID,
-                      "channelName",
-                      channel.ChannelName
-                    )}
+
                     <a
                       onClick={() =>
                         handleChannelNavigate(
