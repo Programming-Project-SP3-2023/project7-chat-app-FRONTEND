@@ -33,7 +33,6 @@ const AddChannelModal = ({
   manageAddChannelModalOpen,
   setManageAddChannelModalOpen,
   group,
-  channelList,
   groupReload,
   setGroupReload,
 }) => {
@@ -43,6 +42,7 @@ const AddChannelModal = ({
   const [searchString, setSearchString] = useState("");
   const [options, setOptions] = useState([]);
   const [open, setOpen] = useState(false);
+
   const [newMembers, setNewMembers] = useState([]);
   const [groupMembersOptions, setGroupMemberOptions] = useState([]);
   const [processing, setProcessing] = useState(false);
@@ -161,21 +161,21 @@ const AddChannelModal = ({
           visibility,
           channelName
         );
-        console.log(response.data.message);
+        console.log("the response...", response);
         //TODO verify what information is required for the create
-        const groupID = response.data.groupID;
-        const channelID = response.data.channelID;
 
-        if (newMembers.length > 0) {
-          newMembers.forEach(async (member) => {
-            let newMemberRes = await addChannelMember(
-              groupID,
-              channelID,
-              member.Email
-            );
-            console.log(newMemberRes);
-          });
-        }
+        // const groupID = group.groupID;
+
+        // if (newMembers.length > 0) {
+        //   newMembers.forEach(async (member) => {
+        //     let newMemberRes = await addChannelMember(
+        //       groupID,
+        //       channelID,
+        //       member.accountID
+        //     );
+        //     console.log(newMemberRes);
+        //   });
+        // }
         setGroupReload(!groupReload);
         setProcessing(false);
         setManageAddChannelModalOpen(false);

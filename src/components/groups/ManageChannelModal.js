@@ -47,7 +47,7 @@ const ManageChannelModal = ({
   const [searchString, setSearchString] = useState("");
   const [channelName, setChannelName] = useState("");
   const [options, setOptions] = useState([]);
-  const [friendOptions, setFriendOptions] = useState([]);
+  const [channelOptions, setChannelOptions] = useState([]);
   const [open, setOpen] = useState(false);
   //const [friendToAdd, setFriendToAdd] = useState(null);
   const [members, setMembers] = useState([]);
@@ -60,8 +60,18 @@ const ManageChannelModal = ({
     });
   }
 
-  console.log("group id...", group.groupID);
-  console.log("channel id...", channelID);
+  // console.log("group id...", group.groupID);
+  // console.log("channel id...", channelID);
+  // console.log("group info..", group);
+
+  useEffect(() => async () => {
+    try {
+      const response = await getChannelInfo(group.groupID, channelID);
+      console.log(response);
+    } catch (err) {
+      console.log("error getting channel info", err);
+    }
+  });
 
   // Methods
   // Handle member add
@@ -174,22 +184,23 @@ const ManageChannelModal = ({
 
     console.log("group members....", group.GroupMembers);
 
-    // console.log("friends, ", friends);
-
-    // friends.forEach((friend) => {
+    const groupMemberTemp = group.GroupMembers;
+    console.log("group Member.. temp", groupMemberTemp);
+    // groupMemberTemp.forEach((groupMember) => {
     //   members.forEach((member) => {
-    //     if (friend.AccountID === member.AccountID) {
+    //     if (groupMember.AccountID === member.AccountID) {
     //       notPossible.push(member.AccountID);
     //     }
     //   });
     // });
 
-    // friends.forEach((friend) => {
-    //   if (!notPossible.includes(friend.AccountID)) possibleOptions.push(friend);
+    // groupMemberTemp.forEach((groupMember) => {
+    //   if (!notPossible.includes(groupMember.AccountID))
+    //     possibleOptions.push(groupMember);
     // });
 
-    setFriendOptions(possibleOptions);
-    console.log("OPTIONS", friendOptions);
+    setChannelOptions(possibleOptions);
+    console.log("OPTIONS", channelOptions);
     console.log("MEMBERS", members);
   }, [manageChannelModalOpen, setMembers, groupReload]);
 
@@ -204,7 +215,7 @@ const ManageChannelModal = ({
       await sleep(1e3); // For demo purposes.
 
       if (active) {
-        setOptions([...friendOptions]);
+        setOptions([...channelOptions]);
       }
     })();
 
@@ -277,7 +288,7 @@ const ManageChannelModal = ({
             <PeopleAltOutlinedIcon />
             <p>Add member</p>
           </div>
-          {friendOptions.length > 0 ? (
+          {channelOptions.length > 0 ? (
             <Autocomplete
               disableCloseOnSelect
               sx={{ width: "90%" }}

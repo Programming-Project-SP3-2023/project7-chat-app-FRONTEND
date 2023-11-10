@@ -34,7 +34,6 @@ const Groups = ({
   setHeaderTitle,
   groupReload,
   setGroupReload,
-  socket,
 }) => {
   const [group, setGroup] = useState(null);
   const [friends, setFriends] = useState([]);
@@ -49,7 +48,7 @@ const Groups = ({
   const user = getUser(); // user
   const userID = getUserID(); // userid
 
-  const { loginSocket } = useSocket(); // socket
+  const { loginSocket, socket } = useSocket(); // socket
   // state handler for groups settings modal
   const [manageMembersModalOpen, setManageMembersModalOpen] = useState(false);
   const [manageGroupSettingsModalOpen, setManageGroupSettingsModalOpen] =
@@ -131,12 +130,18 @@ const Groups = ({
 
   // handles opening channel chat and relative functions
   const handleChannelNavigate = async (channelID, channelName) => {
-    console.log("channeId...", channelID);
-    console.log("channelName...", channelName);
+    console.log("selecting channeId...", channelID);
+    console.log(" selecting channelName...", channelName);
+
     // connect chat promise
     const joinChatPromise = new Promise((resolve, reject) => {
       // ask to join channel
-      socket.emit("connectChannel", { channelID });
+      console.log("first step...");
+      console.log("socket.AccountID", socket.accountID);
+      console.log("socket.AccountID", channelID);
+
+      socket.emit("connectChannel", channelID);
+
       // listens for connectchannelResponse
       socket.on("connectChannelResponse", () => {
         resolve();
@@ -186,7 +191,7 @@ const Groups = ({
   }, [socket.accountID, group]);
 
   console.log("group info", group);
-
+  console.log("channels info", channelList);
   return (
     <section className="group-page">
       {/* Manage group members modal & group settings modal render */}
@@ -206,7 +211,7 @@ const Groups = ({
             manageChannelModalOpen={manageChannelsModalOpen}
             setManageChannelModalOpen={setManageChannelsModalOpen}
             setRefresh={setRefresh}
-            channelID={selectChannelIdModal} // currently null value
+            channelID={selectChannelIdModal}
             group={group}
             groupReload={groupReload}
             setGroupReload={setGroupReload}
@@ -278,7 +283,7 @@ const Groups = ({
                     ) : (
                       <HeadphonesOutlinedIcon />
                     )}
-                    {/* {channel.channelID} */}
+                    {channel.channelID}
                     <a
                       onClick={() =>
                         handleChannelNavigate(
