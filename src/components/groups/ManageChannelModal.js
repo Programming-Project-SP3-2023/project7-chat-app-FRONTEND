@@ -61,25 +61,27 @@ const ManageChannelModal = ({
   }
 
   // console.log("group id...", group.groupID);
-  console.log("channel id...", channelID);
+  //console.log("channel id...", channelID);
   // console.log("group info..", group);
 
   useEffect(() => async () => {
-    try {
-      const response = await getChannelInfo(group.groupID, channelID);
-      console.log(response); // seems to only return channelId, name channelType & visibility
-    } catch (err) {
-      console.log("error getting channel info", err);
+    if (channelID !== null && group.groupID !== null) {
+      try {
+        const response = await getChannelInfo(group.groupID, channelID);
+        console.log(response); // seems to only return channelId, name channelType & visibility
+      } catch (err) {
+        console.log("error getting channel info", err);
+      }
     }
   });
 
   // Methods
   // Handle member add
   const handleAddMember = async (option) => {
-    console.log("step 1.... adding member...");
-    console.log("group.groupid", group.groupID);
-    console.log("channelId", channelID);
-    console.log("option...", option.AccountID);
+    // console.log("step 1.... adding member...");
+    // console.log("group.groupid", group.groupID);
+    // console.log("channelId", channelID);
+    // console.log("option...", option.AccountID);
 
     try {
       const response = await addChannelMember(
@@ -163,19 +165,21 @@ const ManageChannelModal = ({
   // TODO fix continous loop of fetch channel members
   useEffect(() => {
     const fetchChannelMembers = async (option) => {
-      console.log("groupd id...", group.groupID);
-      console.log("channelid right?", channelID);
-      try {
-        const response = await getChannelInfo(group.groupID, channelID);
-        console.log("channel info response...", response);
+      // console.log("groupd id...", group.groupID);
+      // console.log("channelid right?", channelID);
+      if (group.groupID !== null && channelID !== null) {
+        try {
+          const response = await getChannelInfo(group.groupID, channelID);
+          console.log("channel info response...", response);
 
-        if (response.members) {
-          setMembers(response.members);
+          if (response.members) {
+            setMembers(response.members);
+          }
+
+          setGroupReload(!groupReload);
+        } catch (err) {
+          console.log(err);
         }
-
-        setGroupReload(!groupReload);
-      } catch (err) {
-        console.log(err);
       }
     };
     fetchChannelMembers(); // continuous loop...
