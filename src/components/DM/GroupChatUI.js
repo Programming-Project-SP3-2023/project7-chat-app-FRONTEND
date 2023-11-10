@@ -34,7 +34,6 @@ const GroupChatUI = ({ socket }) => {
   const friends = friendsArray.flat();
   // console.log("friends > ", friends);
   // console.log("group id: ", groupId);
-  // console.log("channelID: ", channelId);
 
   // used for re-seating socket
   const { loginSocket } = useSocket();
@@ -48,7 +47,7 @@ const GroupChatUI = ({ socket }) => {
 
   // through the url params of groupID and channelID return values
   const { groupId, channelId } = useParams(); // prefered method
-
+  console.log("channelID: ", channelId);
   // messages
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");

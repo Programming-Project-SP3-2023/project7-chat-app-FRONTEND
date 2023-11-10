@@ -37,7 +37,6 @@ import {
 const ManageChannelModal = ({
   manageChannelModalOpen,
   setManageChannelModalOpen,
-  friends,
   setRefresh,
   channelID,
   group,
@@ -50,10 +49,10 @@ const ManageChannelModal = ({
   const [options, setOptions] = useState([]);
   const [friendOptions, setFriendOptions] = useState([]);
   const [open, setOpen] = useState(false);
-  const [friendToAdd, setFriendToAdd] = useState(null);
+  //const [friendToAdd, setFriendToAdd] = useState(null);
   const [members, setMembers] = useState([]);
   const loading = open && options.length === 0;
-  const userId = getUserID();
+
   // Loading function (async)
   function sleep(delay = 0) {
     return new Promise((resolve) => {
@@ -117,8 +116,13 @@ const ManageChannelModal = ({
   // handle updating the channel name
   async function updateChannelInfo(e) {
     e.preventDefault();
+    console.log("attempting to update...", channelName);
     try {
-      const response = await updateChannelName(channelID, channelName);
+      const response = await updateChannelName(
+        group.groupID,
+        channelID,
+        channelName
+      );
       console.log(response);
       setGroupReload(!groupReload);
     } catch (err) {
@@ -127,10 +131,8 @@ const ManageChannelModal = ({
   }
 
   const deleteChannelHandler = async () => {
-    const groupID = group.groupID;
-
     try {
-      const response = await deleteChannel(groupID, channelID);
+      const response = await deleteChannel(group.groupID, channelID);
       console.log(response);
       setGroupReload(!groupReload);
       //not sure entirely what I'd update here
@@ -147,9 +149,11 @@ const ManageChannelModal = ({
   // TODO fix continous loop of fetch channel members
   useEffect(() => {
     const fetchChannelMembers = async (option) => {
+      console.log("groupd id...", group.groupID);
+      console.log("channelid right?", channelID);
       try {
         const response = await getChannelInfo(group.groupID, channelID);
-        console.log(response);
+        console.log("channel info response...", response);
 
         setMembers(response);
 
@@ -158,8 +162,8 @@ const ManageChannelModal = ({
         console.log(err);
       }
     };
-    //fetchChannelMembers(); // continuous loop...
-  }, [groupReload]);
+    fetchChannelMembers(); // continuous loop...
+  }, []);
 
   // calculate friend options
   useEffect(() => {
@@ -168,7 +172,9 @@ const ManageChannelModal = ({
     const possibleOptions = [];
     const notPossible = [];
 
-    console.log("friends, ", friends);
+    console.log("group members....", group.GroupMembers);
+
+    // console.log("friends, ", friends);
 
     // friends.forEach((friend) => {
     //   members.forEach((member) => {

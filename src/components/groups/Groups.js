@@ -132,6 +132,7 @@ const Groups = ({
   // handles opening channel chat and relative functions
   const handleChannelNavigate = async (channelID, channelName) => {
     console.log("channeId...", channelID);
+    console.log("channelName...", channelName);
     // connect chat promise
     const joinChatPromise = new Promise((resolve, reject) => {
       // ask to join channel
@@ -184,7 +185,7 @@ const Groups = ({
     //is dependent on the group existing
   }, [socket.accountID, group]);
 
-  // console.log("group info", group);
+  console.log("group info", group);
 
   return (
     <section className="group-page">
@@ -197,7 +198,6 @@ const Groups = ({
             setRefresh={setRefresh}
             group={group}
             channels={channelList}
-            friends={friends}
             groupReload={groupReload}
             setGroupReload={setGroupReload}
           />
@@ -208,7 +208,6 @@ const Groups = ({
             setRefresh={setRefresh}
             channelID={selectChannelIdModal} // currently null value
             group={group}
-            friends={friends}
             groupReload={groupReload}
             setGroupReload={setGroupReload}
           />

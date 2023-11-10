@@ -32,7 +32,6 @@ import { useNavigate } from "react-router";
 const AddChannelModal = ({
   manageAddChannelModalOpen,
   setManageAddChannelModalOpen,
-  friends,
   group,
   channelList,
   groupReload,
@@ -45,7 +44,7 @@ const AddChannelModal = ({
   const [options, setOptions] = useState([]);
   const [open, setOpen] = useState(false);
   const [newMembers, setNewMembers] = useState([]);
-  const [friendOptions, setFriendOptions] = useState([]);
+  const [groupMembersOptions, setGroupMemberOptions] = useState([]);
   const [processing, setProcessing] = useState(false);
   const [message, setMessage] = useState(null);
   const loading = open && options.length === 0;
@@ -75,7 +74,8 @@ const AddChannelModal = ({
 
   // Effects
   useEffect(() => {
-    setFriendOptions(friends);
+    console.log("groupmember options...", group.GroupMembers);
+    setGroupMemberOptions(group.GroupMembers);
   }, []);
 
   useEffect(() => {
@@ -89,7 +89,7 @@ const AddChannelModal = ({
       await sleep(1e3); // For demo purposes.
 
       if (active) {
-        setOptions([...friendOptions]);
+        setOptions([...groupMembersOptions]);
       }
     })();
 
@@ -107,6 +107,7 @@ const AddChannelModal = ({
   // handle modal closing
   const handleClose = () => setManageAddChannelModalOpen(false);
 
+  console.log("groupdMember options...", groupMembersOptions);
   // Handle friend add
   const handleAddMember = (option) => {
     // 1. add member to new members array
@@ -117,23 +118,23 @@ const AddChannelModal = ({
 
     // 2. remove members from the potential members array
     let indexToRemove;
-    for (let i = 0; i < friendOptions.length; i++) {
-      if (friendOptions[i] === option) {
+    for (let i = 0; i < groupMembersOptions.length; i++) {
+      if (groupMembersOptions[i] === option) {
         indexToRemove = i;
         break;
       }
     }
-    const tempOpt = friendOptions;
+    const tempOpt = groupMembersOptions;
     tempOpt.splice(indexToRemove, 1);
 
-    setFriendOptions(tempOpt);
-
+    setGroupMemberOptions(tempOpt);
+    console.log("tempOpt", tempOpt);
     // 3. close dropdown
     setOpen(false);
   };
 
-  // console.log("message type: ", messageType);
-  // console.log("channelName: ", channelName);
+  //  console.log("message type: ", messageType);
+  //  console.log("channelName: ", channelName);
 
   // handle create channel
   const handleCreateChannel = async () => {
@@ -213,7 +214,7 @@ const AddChannelModal = ({
               onChange={(event) => setChannelName(event.target.value)}
             />
             <div className="manage-channel-bottom">
-              {friendOptions && friendOptions.length > 0 ? (
+              {groupMembersOptions && groupMembersOptions.length > 0 ? (
                 <Autocomplete
                   sx={{ width: "100%" }}
                   open={open}
@@ -232,9 +233,9 @@ const AddChannelModal = ({
                       <Chip
                         clickable
                         key={option}
-                        icon={<Avatar src={option.Avatar} />}
+                        icon={<Avatar src={option.avatar} />}
                         className="friend-search-chip"
-                        label={option.DisplayName}
+                        label={option.MemberName}
                         sx={{
                           width: "100%",
                           height: "fit-content",
@@ -277,7 +278,7 @@ const AddChannelModal = ({
                   sx={{ width: "100%" }}
                   id="manage-channel-searchbar"
                   variant="outlined"
-                  placeholder="You have already added all your friends"
+                  placeholder="All your Available group members have been added"
                   inputProps={{ readOnly: true }}
                 />
               )}
@@ -288,8 +289,8 @@ const AddChannelModal = ({
                 <div id="channel-members-container">
                   {newMembers.map((member) => (
                     <div className="channel-member-icon">
-                      <Avatar src={member.Avatar} />
-                      <p>{member.DisplayName}</p>
+                      <Avatar src={member.avatar} />
+                      <p>{member.MemberName}</p>
                     </div>
                   ))}
                 </div>
