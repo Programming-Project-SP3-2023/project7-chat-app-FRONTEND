@@ -61,7 +61,7 @@ const ManageChannelModal = ({
   }
 
   // console.log("group id...", group.groupID);
-  // console.log("channel id...", channelID);
+  console.log("channel id...", channelID);
   // console.log("group info..", group);
 
   useEffect(() => async () => {
@@ -81,7 +81,7 @@ const ManageChannelModal = ({
       const response = await addChannelMember(
         group.groupID,
         channelID,
-        option.Email
+        option.AccountID
       );
       console.log(response);
       setGroupReload(!groupReload);
@@ -91,9 +91,9 @@ const ManageChannelModal = ({
       const tempMembers = members;
       const newMember = {
         AccountID: option.AccountID,
-        MemberName: option.DisplayName,
+        MemberName: option.MemberName,
         Role: "Member",
-        avatar: option.Avatar,
+        avatar: option.avatar,
       };
       members.push(newMember);
       setMembers(tempMembers);
@@ -165,7 +165,9 @@ const ManageChannelModal = ({
         const response = await getChannelInfo(group.groupID, channelID);
         console.log("channel info response...", response);
 
-        setMembers(response);
+        if (response.members) {
+          setMembers(response.members);
+        }
 
         setGroupReload(!groupReload);
       } catch (err) {
@@ -186,18 +188,18 @@ const ManageChannelModal = ({
 
     const groupMemberTemp = group.GroupMembers;
     console.log("group Member.. temp", groupMemberTemp);
-    // groupMemberTemp.forEach((groupMember) => {
-    //   members.forEach((member) => {
-    //     if (groupMember.AccountID === member.AccountID) {
-    //       notPossible.push(member.AccountID);
-    //     }
-    //   });
-    // });
+    groupMemberTemp.forEach((groupMember) => {
+      members.forEach((member) => {
+        if (groupMember.AccountID === member.AccountID) {
+          notPossible.push(member.AccountID);
+        }
+      });
+    });
 
-    // groupMemberTemp.forEach((groupMember) => {
-    //   if (!notPossible.includes(groupMember.AccountID))
-    //     possibleOptions.push(groupMember);
-    // });
+    groupMemberTemp.forEach((groupMember) => {
+      if (!notPossible.includes(groupMember.AccountID))
+        possibleOptions.push(groupMember);
+    });
 
     setChannelOptions(possibleOptions);
     console.log("OPTIONS", channelOptions);
@@ -308,9 +310,9 @@ const ManageChannelModal = ({
                   <Chip
                     clickable
                     key={option}
-                    icon={<Avatar src={option.Avatar} />}
+                    icon={<Avatar src={option.avatar} />}
                     className="friend-search-chip"
-                    label={option.DisplayName}
+                    label={option.MemberName}
                     sx={{
                       width: "100%",
                       height: "fit-content",
@@ -356,7 +358,7 @@ const ManageChannelModal = ({
               sx={{ width: "90%" }}
               id="manage-friends-searchbar"
               variant="outlined"
-              placeholder="You have already added all your friends"
+              placeholder="All possible channel members have been added"
               inputProps={{ readOnly: true }}
             />
           )}
