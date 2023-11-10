@@ -172,6 +172,10 @@ export const addChannelMember = async function (
   channelId,
   userIdToAdd
 ) {
+  console.log("step 2..... attempting to push member");
+  console.log("group ID", groupId);
+  console.log("channelId", channelId);
+  console.log("user to add", userIdToAdd);
   const headers = {
     headers: {
       Authorization: getAccessToken(),
@@ -183,7 +187,8 @@ export const addChannelMember = async function (
     channelId: channelId,
     userIdToAdd: userIdToAdd,
   };
-
+  console.log("body...", body);
+  //                                                              /groups/:groupId/channels/:channelId/members
   const ADD_MEMBER_CHANNEL_ENDPOINT = `${CHANNELS_BASE_ENDPOINT}${groupId}/channels/${channelId}/members`;
 
   try {

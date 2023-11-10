@@ -67,7 +67,7 @@ const ManageChannelModal = ({
   useEffect(() => async () => {
     try {
       const response = await getChannelInfo(group.groupID, channelID);
-      console.log(response);
+      console.log(response); // seems to only return channelId, name channelType & visibility
     } catch (err) {
       console.log("error getting channel info", err);
     }
@@ -76,14 +76,18 @@ const ManageChannelModal = ({
   // Methods
   // Handle member add
   const handleAddMember = async (option) => {
-    console.log("adding member...");
+    console.log("step 1.... adding member...");
+    console.log("group.groupid", group.groupID);
+    console.log("channelId", channelID);
+    console.log("option...", option.AccountID);
+
     try {
       const response = await addChannelMember(
         group.groupID,
         channelID,
         option.AccountID
       );
-      console.log(response);
+      console.log(response.data);
       setGroupReload(!groupReload);
 
       // set up additional temp member for frontend view/func only.

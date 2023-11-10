@@ -130,22 +130,21 @@ const Groups = ({
 
   // handles opening channel chat and relative functions
   const handleChannelNavigate = async (channelID, channelName) => {
-    console.log("selecting channeId...", channelID);
-    console.log(" selecting channelName...", channelName);
-
     // connect chat promise
     const joinChatPromise = new Promise((resolve, reject) => {
       // ask to join channel
       console.log("first step...");
-      console.log("socket.AccountID", socket.accountID);
-      console.log("socket.AccountID", channelID);
+      console.log("selecting channeId...", channelID);
+      console.log(" selecting channelName...", channelName);
+      socket.emit("connectChannel", { channelID });
 
-      socket.emit("connectChannel", channelID);
+      const connectChannelResponseHandler = () => {
+        socket.off("connectChannelResponse", connectChannelResponseHandler);
+        resolve();
+      };
 
       // listens for connectchannelResponse
-      socket.on("connectChannelResponse", () => {
-        resolve();
-      });
+      socket.on("connectChannelResponse", connectChannelResponseHandler);
       // if an error is returned it has failed to join
       socket.on("error", (error) => {
         reject(error);
@@ -290,7 +289,12 @@ const Groups = ({
                     ) : (
                       <HeadphonesOutlinedIcon />
                     )}
-                    {channel.channelID}
+                    {console.log(
+                      "channelID...",
+                      channel.ChannelID,
+                      "channelName",
+                      channel.ChannelName
+                    )}
                     <a
                       onClick={() =>
                         handleChannelNavigate(
