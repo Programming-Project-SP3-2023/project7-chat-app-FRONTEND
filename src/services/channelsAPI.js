@@ -228,13 +228,7 @@ export const removeChannelMember = async function (
   try {
     const response = await axios.delete(
       REMOVE_MEMBER_CHANNEL_ENDPOINT,
-      headers,
-      {
-        data: {
-          channelId: channelId,
-          userIdToRemove: userIdToRemove,
-        },
-      }
+      headers
     );
     //Success!
     if (response.status === 200) {
@@ -262,7 +256,9 @@ export const deleteChannel = async function (groupId, channelId) {
       "Content-Type": "application/json",
     },
   };
+
   console.log("step 2 to delete channel....", channelId, "group", groupId);
+
   const REMOVE_CHANNEL_ENDPOINT = `${CHANNELS_BASE_ENDPOINT}${groupId}/channels/${channelId}`;
 
   try {

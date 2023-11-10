@@ -1453,6 +1453,309 @@ footer {
   gap: 10px;
 }
 
+/* VoiceChat UI */
+
+
+
+.user-square {
+  display: flex;
+  align-items: center;
+  background-color: $echo-darkblue;
+  border: 5px solid transparent; 
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px;
+  width: 325px;
+  height: 100px;
+  transition: border-color 0.2s ease; 
+  position:relative;
+}
+
+
+.user-square div{
+  position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-size: 1.25rem;
+    line-height: 1;
+    border-radius: 50%;
+    overflow: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.user-square img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  margin-right: 10px;
+  position:relative;
+}
+
+.user-square span {
+  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  max-width: 800px; 
+}
+
+.user-square.speaking {
+  border-color: #43b54e; 
+}
+
+.user-square input[type="range"] {
+  width: 80%; 
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom:3px;
+}
+
+input[type="range"] {
+  width: 100%; 
+  height: 5px; 
+  background: #ccc; 
+  border: none; 
+  border-radius: 5px; 
+  outline: none; 
+}
+
+
+
+
+@media (max-width: 1540px) {
+  .user-square {
+    width: 150px; 
+    height: 100px; 
+  }
+  .user-square img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  
+  .user-square span {
+    font-weight: bold;
+    color: #fff;
+    font-size: 12px;
+  }
+  .user-square div{
+    position: absolute;
+
+
+    left: 50%;
+    transform: translateX(-50%);
+    top:-2px;
+    left: 18px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-flex-shrink: 0;
+      -ms-flex-negative: 0;
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      font-family: "Roboto","Helvetica","Arial",sans-serif;
+      font-size: 1.25rem;
+      line-height: 0;
+      border-radius: 0%;
+      overflow: hidden;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+  }
+}
+
+
+@media (max-width: 1035px) {
+  .user-square {
+    width: 100px; 
+    height: 70px; 
+    margin: 0;
+    padding: 0;
+  }
+  .user-square img { 
+    position: relative;
+    top: -25px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .user-square span {
+    font-weight: bold;
+    text-wrap: nowrap;
+    color: #fff;
+    font-size: 12px;
+
+  }
+  .user-square div{
+    position: absolute;
+
+ 
+    left: 50%;
+    transform: translateX(-50%);
+    top:10px;
+    left: 18px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-flex-shrink: 0;
+      -ms-flex-negative: 0;
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      font-family: "Roboto","Helvetica","Arial",sans-serif;
+      font-size: 1.25rem;
+      line-height: 0;
+      border-radius: 0%;
+      overflow: hidden;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+  }
+}
+
+
+.voice-chat-room {
+  background-color: $echo-lighterblue;
+  position: relative; 
+  height: 100%;
+
+  
+}
+
+.user-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; 
+  justify-content: center;
+  align-items: flex-start;
+  padding: 10px; 
+}
+
+.join-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2; 
+}
+
+.join-content {
+  position:relative;
+  text-align: center;
+  width:500px;
+  height:170px;
+  padding: 20px;
+  background: #fff; 
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+}
+
+.join-content h2 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.join-content p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.join-content button {
+  position:absolute;
+  bottom: 10px; 
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4d77aa;
+  width: 120px;
+  color: #fff; 
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.join-content button[disabled] {
+  background: #ccc; /* Gray background color */
+  color: #666; /* Darker text color */
+  cursor: default; /* Change cursor to indicate it's not clickable */
+}
+
+.join-content button[disabled]:hover,
+.join-content button[disabled]:focus {
+  background: #ccc; 
+}
+
+.join-content button:hover,
+.join-content button:focus {
+  background: #43b581; 
+}
+
+.leave-button {
+  position: absolute;
+  bottom: 25px; /* Adjust the bottom distance as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: $echo-red;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  /* Add additional button styles as needed */
+}
+
 /* ---------------------------- Email Verification page ---------------------------- */
 
 #email-verification {

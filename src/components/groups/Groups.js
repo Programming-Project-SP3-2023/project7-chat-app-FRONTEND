@@ -170,6 +170,13 @@ const Groups = ({
     }
   };
 
+  // socket.emit("connectGroup", { groupID: 3 });
+
+  const handleVOIPJoin = (channelID, channelName) => {
+    console.log("Connecting to Voice Channel :)");
+    navigate(`/dashboard/groups/${group.groupID}/v/${channelID}`);
+  };
+
   useEffect(() => {
     // if group exists
     if (group) {
@@ -267,7 +274,7 @@ const Groups = ({
             <div className="group-option">
               <div>
                 <HeadphonesOutlinedIcon />
-                <a>Meeting Room</a>
+                <a onClick={() => handleVOIPJoin("10", null)}>Meeting Room</a>
               </div>
             </div>
           </div>
