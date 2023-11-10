@@ -101,7 +101,7 @@ const Groups = ({
   const handleVOIPJoin = (channelID, channelName) => {
     console.log("Connecting to Voice Channel :)");
     navigate(`/dashboard/groups/${group.groupID}/v/${channelID}`);
-  }
+  };
 
   useEffect(() => {
     // if group
