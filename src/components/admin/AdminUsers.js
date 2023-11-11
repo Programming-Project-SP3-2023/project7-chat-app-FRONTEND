@@ -44,7 +44,9 @@ const AdminUsers = ({ setAdminTitle }) => {
       try {
         const response = await getAccounts();
         console.log("ACCOUNTS", response);
-        setUsers(response);
+        if (response) {
+          setUsers(response);
+        }
         setLoading(false);
       } catch (err) {
         console.log(err);
