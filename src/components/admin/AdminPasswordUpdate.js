@@ -33,8 +33,7 @@ const AdminPasswordUpdate = ({
     setRefresh(!refresh);
   };
 
-  const passwordUpdateHandler = async (event) => {
-    event.preventDefault();
+  const passwordUpdateHandler = async () => {
     console.log("Password Update Handler");
 
     // 1. validate
@@ -72,59 +71,54 @@ const AdminPasswordUpdate = ({
         <div id="password-update-modal-header">
           <h3>Update Password for Account {user.AccountID}</h3>
         </div>
-
-        <form onSubmit={passwordUpdateHandler} id="password-update-modal-body">
-          <FormControl>
-            <p>New Password</p>
-            {/* textfield with users email */}
-            <TextField
-              fullWidth
-              id="newPassword"
-              variant="outlined"
-              type="password"
-              value={newPassword}
-              onChange={(event) => setNewPassword(event.target.value)}
-              placeholder="Enter your new password"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockOutlinedIcon color="primary" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <p>Repeat Password</p>
-            {/* textfield with users date of birth */}
-            <TextField
-              fullWidth
-              id="repeatPassword"
-              variant="outlined"
-              type="password"
-              value={repeatPassword}
-              onChange={(event) => setRepeatPassword(event.target.value)}
-              placeholder="Enter your new Password again."
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockOutlinedIcon color="primary" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            {/* change password button/modal/dialog box */}
-            {/* if the message is defined, show it */}
-            {message && <p className="error-message">{message}</p>}
-            <div id="password-update-modal-btn-container">
-              <Button
-                variant="contained"
-                id="update-password-btn"
-                type="submit"
-              >
-                Update
-              </Button>
-            </div>
-          </FormControl>
-        </form>
+        <p>New Password</p>
+        {/* textfield with users email */}
+        <TextField
+          fullWidth
+          id="newPassword"
+          variant="outlined"
+          type="password"
+          value={newPassword}
+          onChange={(event) => setNewPassword(event.target.value)}
+          placeholder="Enter your new password"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockOutlinedIcon color="primary" />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <p>Repeat Password</p>
+        {/* textfield with users date of birth */}
+        <TextField
+          fullWidth
+          id="repeatPassword"
+          variant="outlined"
+          type="password"
+          value={repeatPassword}
+          onChange={(event) => setRepeatPassword(event.target.value)}
+          placeholder="Enter your new Password again."
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockOutlinedIcon color="primary" />
+              </InputAdornment>
+            ),
+          }}
+        />
+        {/* change password button/modal/dialog box */}
+        {/* if the message is defined, show it */}
+        {message && <p className="error-message">{message}</p>}
+        <div id="password-update-modal-btn-container">
+          <Button
+            variant="contained"
+            id="update-password-btn"
+            onClick={passwordUpdateHandler}
+          >
+            Update
+          </Button>
+        </div>
         <div id="password-update-modal-btn-container">
           <Button id="cancel-password-modal-btn" onClick={handleClose}>
             Cancel

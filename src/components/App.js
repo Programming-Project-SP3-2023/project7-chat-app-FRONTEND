@@ -57,7 +57,7 @@ function App() {
         setRefresh={setRefresh}
       />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={!isLoggedIn ? <Home /> : <Navigate to="/dashboard" />} />
         <Route
           path="login"
           element={
