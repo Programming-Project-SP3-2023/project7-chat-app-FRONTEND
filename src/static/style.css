@@ -1928,6 +1928,11 @@ input[type=range] {
   font-size: larger;
 }
 
+#admin-login-title {
+  margin-bottom: 10vh;
+  color: #456b9a;
+}
+
 /* ---------------------------- Manage Channel Modal ---------------------------- */
 #manage-channels-modal-background {
   display: flex;
