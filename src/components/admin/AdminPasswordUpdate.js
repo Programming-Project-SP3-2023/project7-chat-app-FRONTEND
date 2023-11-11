@@ -71,16 +71,15 @@ const AdminPasswordUpdate = ({
         <div id="password-update-modal-header">
           <h3>Update Password for Account {user.AccountID}</h3>
         </div>
-        <p>New Password</p>
         {/* textfield with users email */}
         <TextField
-          fullWidth
+          sx={{width:"90%", marginTop:"15px"}}
           id="newPassword"
           variant="outlined"
           type="password"
           value={newPassword}
           onChange={(event) => setNewPassword(event.target.value)}
-          placeholder="Enter your new password"
+          placeholder="Enter new password"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -89,16 +88,15 @@ const AdminPasswordUpdate = ({
             ),
           }}
         />
-        <p>Repeat Password</p>
         {/* textfield with users date of birth */}
         <TextField
-          fullWidth
+          sx={{width:"90%", marginTop:"15px"}}
           id="repeatPassword"
           variant="outlined"
           type="password"
           value={repeatPassword}
           onChange={(event) => setRepeatPassword(event.target.value)}
-          placeholder="Enter your new Password again."
+          placeholder="Enter new password again."
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">

@@ -21,10 +21,10 @@ const UserChip = ({ user, request, setRefresh, setManageFriendsModalOpen }) => {
   // Accept a friend request
   const acceptRequest = async () => {
     // 1. get userID
-    let userID = "";
-    if (user.RequesterID) userID = user.RequesterID;
-    if (user.AddresseeID) userID = user.AddresseeID;
-    console.log(userID);
+    let userID = user.RequesterID;
+    
+    console.log("THIS USER", user);
+    console.log("Accepting request by ", userID);
 
     // 2. Send request to endpoint
     const response = await acceptFriendRequest(userID);
