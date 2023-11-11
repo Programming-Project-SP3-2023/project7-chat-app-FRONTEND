@@ -151,7 +151,7 @@ function App() {
           />
           <Route
             path="users"
-            element={<AdminUsers setAdminTitle={setAdminTitle} />}
+            element={adminIsLoggedIn ? <AdminUsers setAdminTitle={setAdminTitle} /> : <Navigate to="/admin" />}
           />
         </Route>
         <Route path="*" element={<NotFound />} />

@@ -7,7 +7,10 @@ import { Box, Button, Stack, CircularProgress, Avatar } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import NoRowsOverlay from "../partial/NoRowsOverlay";
 import { getUsers } from "../../services/friendsAPI";
+import { getAccounts } from "../../services/adminAPI";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import dayjs from "dayjs";
+import AdminEditProfile from "./AdminEditProfile.js";
 
 /**
  * Builds and renders the Admin Users component
@@ -16,6 +19,10 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 const AdminUsers = ({ setAdminTitle }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [adminEditProfileModalOpen, setAdminEditProfileModalOpen] =
+    useState(false);
+  const [selectedUser, setSelectedUser] = useState({});
+  const [refresh, setRefresh] = useState(false);
 
   // set header title
   useEffect(() => {
@@ -26,12 +33,12 @@ const AdminUsers = ({ setAdminTitle }) => {
   useEffect(() => {
     setLoading(true);
 
-    // 1. define fetch users function
-    async function fetchUsers() {
+    // 1. define fetch user accounts
+    async function fetchAccounts() {
       try {
-        const response = await getUsers("");
-        console.log("USERS: ", response[0]);
-        setUsers(response[0]);
+        const response = await getAccounts();
+        console.log("ACCOUNTS", response);
+        setUsers(response);
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -39,14 +46,16 @@ const AdminUsers = ({ setAdminTitle }) => {
       }
     }
 
-    // 2. call functions
-    fetchUsers();
-  }, []);
+    // 2. call function
+    fetchAccounts();
+  }, [refresh]);
 
   // Handles editing user (row item)
   const handleEdit = (params) => {
     const currentRow = params.row;
-    return alert(JSON.stringify(currentRow, null, 4));
+    setSelectedUser(currentRow);
+    console.log(currentRow);
+    setAdminEditProfileModalOpen(true);
   };
 
   // Handles deleting user (row item)
@@ -78,7 +87,7 @@ const AdminUsers = ({ setAdminTitle }) => {
       field: "Email",
       headerName: "Email",
       minWidth: 200,
-      flex: 0.3,
+      flex: 0.25,
       headerClassName: "top-row",
     },
     {
@@ -89,10 +98,18 @@ const AdminUsers = ({ setAdminTitle }) => {
       headerClassName: "top-row",
     },
     {
+      field: "Dob",
+      headerName: "Date of Birth",
+      minWidth: 150,
+      flex: 0.15,
+      headerClassName: "top-row",
+      valueFormatter: (params) => dayjs(params.value).format("DD/MM/YYYY"),
+    },
+    {
       field: "Avatar",
       headerName: "Avatar",
       sortable: false,
-      minWidth: 200,
+      minWidth: 100,
       flex: 0.1,
       headerClassName: "top-row",
       renderCell: (params) => {
@@ -102,9 +119,9 @@ const AdminUsers = ({ setAdminTitle }) => {
     {
       field: "actions",
       headerName: "Actions",
-      minWidth: "220",
+      minWidth: "200",
       disableClickEventBubbling: true,
-      flex: 0.15,
+      flex: 0.1,
       headerClassName: "top-row",
       renderCell: (params) => {
         return (
@@ -133,6 +150,13 @@ const AdminUsers = ({ setAdminTitle }) => {
 
   return (
     <div className="admin-manage-screen">
+      <AdminEditProfile
+        adminEditProfileModalOpen={adminEditProfileModalOpen}
+        setAdminEditProfileModalOpen={setAdminEditProfileModalOpen}
+        user={selectedUser}
+        refresh={refresh}
+        setRefresh={setRefresh}
+      ></AdminEditProfile>
       <div className="top-buttons-wrapper">
         <h2>Echo's users</h2>
         <Button
@@ -153,7 +177,7 @@ const AdminUsers = ({ setAdminTitle }) => {
           <DataGrid
             id="admin-datagrid"
             getRowId={getRowId}
-            rows={users}
+            rows={users && users}
             columns={columns}
             disableRowSelectionOnClick
             slots={{ noRowsOverlay: NoRowsOverlay }}
