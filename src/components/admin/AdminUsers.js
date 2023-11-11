@@ -7,7 +7,12 @@ import { Box, Button, Stack, CircularProgress, Avatar } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import NoRowsOverlay from "../partial/NoRowsOverlay";
 import { getUsers } from "../../services/friendsAPI";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { getAccounts, deleteAccount } from "../../services/adminAPI";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import dayjs from "dayjs";
+import AdminEditProfile from "./AdminEditProfile.js";
+import DeleteConfirmation from "./DeleteConfirmation.js";
+import AdminPasswordUpdate from "./AdminPasswordUpdate.js";
 
 /**
  * Builds and renders the Admin Users component
@@ -16,6 +21,14 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 const AdminUsers = ({ setAdminTitle }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [adminEditProfileModalOpen, setAdminEditProfileModalOpen] =
+    useState(false);
+  const [deleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
+    useState(false);
+  const [passwordUpdateOpen, setPasswordUpdateOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState({});
+  const [refresh, setRefresh] = useState(false);
+  const [deleteOutcome, setDeleteOutcome] = useState(false);
 
   // set header title
   useEffect(() => {
@@ -26,12 +39,14 @@ const AdminUsers = ({ setAdminTitle }) => {
   useEffect(() => {
     setLoading(true);
 
-    // 1. define fetch users function
-    async function fetchUsers() {
+    // 1. define fetch user accounts
+    async function fetchAccounts() {
       try {
-        const response = await getUsers("");
-        console.log("USERS: ", response[0]);
-        setUsers(response[0]);
+        const response = await getAccounts();
+        console.log("ACCOUNTS", response);
+        if (response) {
+          setUsers(response);
+        }
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -39,25 +54,43 @@ const AdminUsers = ({ setAdminTitle }) => {
       }
     }
 
-    // 2. call functions
-    fetchUsers();
-  }, []);
+    // 2. call function
+    fetchAccounts();
+  }, [refresh]);
 
   // Handles editing user (row item)
   const handleEdit = (params) => {
     const currentRow = params.row;
-    return alert(JSON.stringify(currentRow, null, 4));
+    setSelectedUser(currentRow);
+    console.log(currentRow);
+    setAdminEditProfileModalOpen(true);
+  };
+
+  // Handles editing password (row item)
+  const handleEditPwd = (params) => {
+    const currentRow = params.row;
+    setSelectedUser(currentRow);
+    console.log(currentRow);
+    setPasswordUpdateOpen(true);
   };
 
   // Handles deleting user (row item)
-  const handleDelete = (params) => {
+  const handleDelete = async (params) => {
     const currentRow = params.row;
-    return alert(JSON.stringify(currentRow, null, 4));
-  };
+    await setSelectedUser(currentRow);
+    console.log(currentRow);
 
-  // Handles adding new user
-  const handleAddUser = () => {
-    alert("adding new user....");
+    try {
+      console.log("Deleting....", currentRow.AccountID);
+      const response = await deleteAccount(currentRow.AccountID);
+      console.log(response);
+      await setDeleteOutcome(true);
+    } catch (err) {
+      console.log(err);
+      await setDeleteOutcome(false);
+    }
+
+    setDeleteConfirmationModalOpen(true);
   };
 
   // specifies ID
@@ -78,7 +111,7 @@ const AdminUsers = ({ setAdminTitle }) => {
       field: "Email",
       headerName: "Email",
       minWidth: 200,
-      flex: 0.3,
+      flex: 0.23,
       headerClassName: "top-row",
     },
     {
@@ -89,11 +122,19 @@ const AdminUsers = ({ setAdminTitle }) => {
       headerClassName: "top-row",
     },
     {
+      field: "Dob",
+      headerName: "Date of Birth",
+      minWidth: 150,
+      flex: 0.15,
+      headerClassName: "top-row",
+      valueFormatter: (params) => dayjs(params.value).format("DD/MM/YYYY"),
+    },
+    {
       field: "Avatar",
       headerName: "Avatar",
       sortable: false,
-      minWidth: 200,
-      flex: 0.1,
+      minWidth: 100,
+      flex: 0.12,
       headerClassName: "top-row",
       renderCell: (params) => {
         return <Avatar src={params.value} alt={params.row.DisplayName} />;
@@ -102,9 +143,9 @@ const AdminUsers = ({ setAdminTitle }) => {
     {
       field: "actions",
       headerName: "Actions",
-      minWidth: "220",
+      minWidth: "200",
       disableClickEventBubbling: true,
-      flex: 0.15,
+      flex: 0.3,
       headerClassName: "top-row",
       renderCell: (params) => {
         return (
@@ -116,6 +157,13 @@ const AdminUsers = ({ setAdminTitle }) => {
               onClick={() => handleEdit(params)}
             >
               Edit
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => handleEditPwd(params)}
+            >
+              Change Password
             </Button>
             <Button
               variant="outlined"
@@ -133,15 +181,39 @@ const AdminUsers = ({ setAdminTitle }) => {
 
   return (
     <div className="admin-manage-screen">
+      {/* Modals */}
+      <AdminEditProfile
+        adminEditProfileModalOpen={adminEditProfileModalOpen}
+        setAdminEditProfileModalOpen={setAdminEditProfileModalOpen}
+        user={selectedUser}
+        refresh={refresh}
+        setRefresh={setRefresh}
+      />
+      <DeleteConfirmation
+        outcome={deleteOutcome}
+        deleteConfirmationModalOpen={deleteConfirmationModalOpen}
+        setDeleteConfirmationModalOpen={setDeleteConfirmationModalOpen}
+        ID={selectedUser.AccountID}
+        refresh={refresh}
+        setRefresh={setRefresh}
+      />
+      <AdminPasswordUpdate
+        selectedUser={selectedUser}
+        passwordUpdateOpen={passwordUpdateOpen}
+        setPasswordUpdateOpen={setPasswordUpdateOpen}
+        refresh={refresh}
+        setRefresh={setRefresh}
+      />
+      {/* Main Body */}
       <div className="top-buttons-wrapper">
         <h2>Echo's users</h2>
         <Button
           id="admin-add-user"
           variant="contained"
-          startIcon={<AddCircleOutlineIcon />}
-          onClick={handleAddUser}
+          startIcon={<RefreshIcon />}
+          onClick={() => setRefresh(!refresh)}
         >
-          Add new user
+          Refresh users
         </Button>
       </div>
       <Box id="admin-box" sx={{ width: "100%", backgroundColor: "white" }}>

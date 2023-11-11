@@ -1928,6 +1928,23 @@ input[type=range] {
   font-size: larger;
 }
 
+#admin-login-title {
+  margin-bottom: 10vh;
+  color: #456b9a;
+}
+
+.delete-modal {
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10%;
+  padding: 5%;
+  text-align: center;
+}
+
 /* ---------------------------- Manage Channel Modal ---------------------------- */
 #manage-channels-modal-background {
   display: flex;
