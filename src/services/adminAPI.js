@@ -83,3 +83,32 @@ export const updateAccount = async function (requestBody) {
   }
   return;
 };
+
+/**
+ * Deletes a user account
+ * @param {*} AccountID ID of the user to delete
+ * @returns true if successful, false if failed
+ */
+export const deleteAccount = async function (AccountID) {
+
+  const REMOVE_ACCOUNT_ENDPOINT = `${ADMIN_BASE_ENDPOINT}delete`;
+
+  try {
+    const response = await axios.delete(REMOVE_ACCOUNT_ENDPOINT, {
+      headers: {
+        Authorization: getAccessToken(),
+      },
+      data: { AccountID: AccountID },
+    });
+    //Success!
+    if (response.status === 200) {
+      console.log("Account Deleted!");
+      console.log(response.data.Message);
+      return true;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
+  return false;
+};

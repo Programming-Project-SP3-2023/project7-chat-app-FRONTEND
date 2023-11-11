@@ -7,10 +7,11 @@ import { Box, Button, Stack, CircularProgress, Avatar } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import NoRowsOverlay from "../partial/NoRowsOverlay";
 import { getUsers } from "../../services/friendsAPI";
-import { getAccounts } from "../../services/adminAPI";
+import { getAccounts, deleteAccount } from "../../services/adminAPI";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import dayjs from "dayjs";
 import AdminEditProfile from "./AdminEditProfile.js";
+import DeleteConfirmation from "./DeleteConfirmation.js";
 
 /**
  * Builds and renders the Admin Users component
@@ -21,8 +22,11 @@ const AdminUsers = ({ setAdminTitle }) => {
   const [loading, setLoading] = useState(true);
   const [adminEditProfileModalOpen, setAdminEditProfileModalOpen] =
     useState(false);
+  const [deleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
+    useState(false);
   const [selectedUser, setSelectedUser] = useState({});
   const [refresh, setRefresh] = useState(false);
+  const [deleteOutcome, setDeleteOutcome] = useState(false);
 
   // set header title
   useEffect(() => {
@@ -59,9 +63,23 @@ const AdminUsers = ({ setAdminTitle }) => {
   };
 
   // Handles deleting user (row item)
-  const handleDelete = (params) => {
+  const handleDelete = async (params) => {
     const currentRow = params.row;
-    return alert(JSON.stringify(currentRow, null, 4));
+    await setSelectedUser(currentRow);
+    console.log(currentRow);
+
+    try {
+      console.log("Deleting....", currentRow.AccountID);
+      const response = await deleteAccount(currentRow.AccountID);
+      console.log(response);
+      await setDeleteOutcome(response);
+      setRefresh(!refresh);
+    } catch (err) {
+      console.log(err);
+      await setDeleteOutcome(false);
+    }
+
+    setDeleteConfirmationModalOpen(true);
   };
 
   // Handles adding new user
@@ -150,13 +168,21 @@ const AdminUsers = ({ setAdminTitle }) => {
 
   return (
     <div className="admin-manage-screen">
+      {/* Modals */}
       <AdminEditProfile
         adminEditProfileModalOpen={adminEditProfileModalOpen}
         setAdminEditProfileModalOpen={setAdminEditProfileModalOpen}
         user={selectedUser}
         refresh={refresh}
         setRefresh={setRefresh}
-      ></AdminEditProfile>
+      />
+      <DeleteConfirmation
+        outcome={deleteOutcome}
+        deleteConfirmationModalOpen={deleteConfirmationModalOpen}
+        setDeleteConfirmationModalOpen={setDeleteConfirmationModalOpen}
+        ID={selectedUser.AccountID}
+      />
+      {/* Main Body */}
       <div className="top-buttons-wrapper">
         <h2>Echo's users</h2>
         <Button
@@ -177,7 +203,7 @@ const AdminUsers = ({ setAdminTitle }) => {
           <DataGrid
             id="admin-datagrid"
             getRowId={getRowId}
-            rows={users && users}
+            rows={users}
             columns={columns}
             disableRowSelectionOnClick
             slots={{ noRowsOverlay: NoRowsOverlay }}
