@@ -2,7 +2,7 @@
  * Delete Confirmation Modal component
  */
 
-import { Modal, Box, Button } from "@mui/material";
+import { Modal, Box, Button, setRef } from "@mui/material";
 
 /**
  * Builds and renders the Add Group component
@@ -14,9 +14,14 @@ const DeleteConfirmation = ({
   setDeleteConfirmationModalOpen,
   deleteConfirmationModalOpen,
   ID,
+  refresh,
+  setRefresh,
 }) => {
   // handle modal closing
-  const handleClose = () => setDeleteConfirmationModalOpen(false);
+  const handleClose = () => {
+    setDeleteConfirmationModalOpen(false);
+    setRefresh(!refresh);
+  };
 
   return (
     <Modal
@@ -27,14 +32,20 @@ const DeleteConfirmation = ({
       aria-describedby="modal-modal-description"
     >
       <Box id="add-friend-modal">
-        <h2>
-          {outcome
-            ? `User ${ID} account successfully deleted.`
-            : "An error occurred. Try again later."}
-        </h2>
-        <Button id="add-friend-bttn" variant="contained" onClick={handleClose}>
-          Close
-        </Button>
+        <div className="delete-modal">
+          <h2>
+            {outcome
+              ? `User ${ID} account successfully deleted.`
+              : "An error occurred. Try again later."}
+          </h2>
+          <Button
+            id="add-friend-bttn"
+            variant="contained"
+            onClick={handleClose}
+          >
+            Close
+          </Button>
+        </div>
       </Box>
     </Modal>
   );

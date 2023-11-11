@@ -1910,6 +1910,15 @@ input[type="range"] {
   color: $echo-darkblue;
 }
 
+.delete-modal{
+  width: 90%;
+  height: 100%;
+  @include flex-column(space-around, center);
+  gap: 10%;
+  padding: 5%;
+  text-align: center;
+}
+
 /* ---------------------------- Manage Channel Modal ---------------------------- */
 
 #manage-channels-modal-background {

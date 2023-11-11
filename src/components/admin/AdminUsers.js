@@ -8,10 +8,11 @@ import { DataGrid } from "@mui/x-data-grid";
 import NoRowsOverlay from "../partial/NoRowsOverlay";
 import { getUsers } from "../../services/friendsAPI";
 import { getAccounts, deleteAccount } from "../../services/adminAPI";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import dayjs from "dayjs";
 import AdminEditProfile from "./AdminEditProfile.js";
 import DeleteConfirmation from "./DeleteConfirmation.js";
+import AdminPasswordUpdate from "./AdminPasswordUpdate.js";
 
 /**
  * Builds and renders the Admin Users component
@@ -24,6 +25,7 @@ const AdminUsers = ({ setAdminTitle }) => {
     useState(false);
   const [deleteConfirmationModalOpen, setDeleteConfirmationModalOpen] =
     useState(false);
+  const [passwordUpdateOpen, setPasswordUpdateOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
   const [refresh, setRefresh] = useState(false);
   const [deleteOutcome, setDeleteOutcome] = useState(false);
@@ -62,6 +64,14 @@ const AdminUsers = ({ setAdminTitle }) => {
     setAdminEditProfileModalOpen(true);
   };
 
+  // Handles editing password (row item)
+  const handleEditPwd = (params) => {
+    const currentRow = params.row;
+    setSelectedUser(currentRow);
+    console.log(currentRow);
+    setPasswordUpdateOpen(true);
+  };
+
   // Handles deleting user (row item)
   const handleDelete = async (params) => {
     const currentRow = params.row;
@@ -72,19 +82,13 @@ const AdminUsers = ({ setAdminTitle }) => {
       console.log("Deleting....", currentRow.AccountID);
       const response = await deleteAccount(currentRow.AccountID);
       console.log(response);
-      await setDeleteOutcome(response);
-      setRefresh(!refresh);
+      await setDeleteOutcome(true);
     } catch (err) {
       console.log(err);
       await setDeleteOutcome(false);
     }
 
     setDeleteConfirmationModalOpen(true);
-  };
-
-  // Handles adding new user
-  const handleAddUser = () => {
-    alert("adding new user....");
   };
 
   // specifies ID
@@ -105,7 +109,7 @@ const AdminUsers = ({ setAdminTitle }) => {
       field: "Email",
       headerName: "Email",
       minWidth: 200,
-      flex: 0.25,
+      flex: 0.23,
       headerClassName: "top-row",
     },
     {
@@ -128,7 +132,7 @@ const AdminUsers = ({ setAdminTitle }) => {
       headerName: "Avatar",
       sortable: false,
       minWidth: 100,
-      flex: 0.1,
+      flex: 0.12,
       headerClassName: "top-row",
       renderCell: (params) => {
         return <Avatar src={params.value} alt={params.row.DisplayName} />;
@@ -139,7 +143,7 @@ const AdminUsers = ({ setAdminTitle }) => {
       headerName: "Actions",
       minWidth: "200",
       disableClickEventBubbling: true,
-      flex: 0.1,
+      flex: 0.3,
       headerClassName: "top-row",
       renderCell: (params) => {
         return (
@@ -151,6 +155,13 @@ const AdminUsers = ({ setAdminTitle }) => {
               onClick={() => handleEdit(params)}
             >
               Edit
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => handleEditPwd(params)}
+            >
+              Change Password
             </Button>
             <Button
               variant="outlined"
@@ -181,6 +192,15 @@ const AdminUsers = ({ setAdminTitle }) => {
         deleteConfirmationModalOpen={deleteConfirmationModalOpen}
         setDeleteConfirmationModalOpen={setDeleteConfirmationModalOpen}
         ID={selectedUser.AccountID}
+        refresh={refresh}
+        setRefresh={setRefresh}
+      />
+      <AdminPasswordUpdate
+        selectedUser={selectedUser}
+        passwordUpdateOpen={passwordUpdateOpen}
+        setPasswordUpdateOpen={setPasswordUpdateOpen}
+        refresh={refresh}
+        setRefresh={setRefresh}
       />
       {/* Main Body */}
       <div className="top-buttons-wrapper">
@@ -188,10 +208,10 @@ const AdminUsers = ({ setAdminTitle }) => {
         <Button
           id="admin-add-user"
           variant="contained"
-          startIcon={<AddCircleOutlineIcon />}
-          onClick={handleAddUser}
+          startIcon={<RefreshIcon />}
+          onClick={() => setRefresh(!refresh)}
         >
-          Add new user
+          Refresh users
         </Button>
       </div>
       <Box id="admin-box" sx={{ width: "100%", backgroundColor: "white" }}>

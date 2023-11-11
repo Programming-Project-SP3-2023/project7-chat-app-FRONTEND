@@ -90,7 +90,6 @@ export const updateAccount = async function (requestBody) {
  * @returns true if successful, false if failed
  */
 export const deleteAccount = async function (AccountID) {
-
   const REMOVE_ACCOUNT_ENDPOINT = `${ADMIN_BASE_ENDPOINT}delete`;
 
   try {
@@ -111,4 +110,43 @@ export const deleteAccount = async function (AccountID) {
   }
 
   return false;
+};
+
+/**
+ * Updates a user's password
+ * @param {*} AccountID the ID of the account in question
+ * @param {*} password the new password
+ * @returns confirmation/error message
+ */
+export const updatePassword = async function (AccountID, password) {
+  const header = {
+    headers: {
+      Authorization: getAccessToken(),
+      "Content-Type": "application/json",
+    },
+  };
+
+  const requestBody = {
+    AccountID: AccountID,
+    password: password,
+  };
+
+  const ADMIN_UPDATE_PWD_ENDPOINT = `${ADMIN_BASE_ENDPOINT}changePassword`;
+
+  try {
+    let response = await axios.put(
+      ADMIN_UPDATE_PWD_ENDPOINT,
+      requestBody,
+      header
+    );
+
+    //Success!
+    if (response.status === 200) {
+      // return success message
+      return response.data.Message;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  return;
 };

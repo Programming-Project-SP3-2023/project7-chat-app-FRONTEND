@@ -76,7 +76,7 @@ const AdminEditProfile = ({
       return;
     }
 
-    // 3. Update Req TODO
+    // 3. Update Req
     const requestBody = {
       AccountID: ID,
       Email: email,
