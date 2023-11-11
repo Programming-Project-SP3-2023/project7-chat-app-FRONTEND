@@ -1396,6 +1396,14 @@ footer {
 }
 .group-page .group-options .group-option a {
   font-size: 20px;
+  width: 100%;
+  -moz-text-align-last: justify;
+       text-align-last: justify;
+}
+.group-page .group-options .group-option a::after {
+  content: "";
+  display: inline-block;
+  width: 80%;
 }
 .group-page .group-options .group-option svg {
   font-size: 30px;
@@ -1407,8 +1415,7 @@ footer {
   align-items: center;
   gap: 10%;
   min-width: 70%;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 100%;
 }
 .group-page #group-bttns {
   gap: 10px;

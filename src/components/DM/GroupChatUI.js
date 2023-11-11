@@ -81,7 +81,7 @@ const GroupChatUI = () => {
     // check socket user credentials are still in socket
     if (socket.accountID !== undefined) {
       // connect to channel
-      socket.emit("connectChannel", { channelID });
+      
 
       // open listener of messageHistory for messages
       socket.on("messageHistory", (messages) => {
@@ -103,7 +103,11 @@ const GroupChatUI = () => {
         // set messages
         setMessages((messages) => [...messages, formatMessage]);
       });
-      // ask for messages
+      socket.emit("connectChannel", { channelID });
+      // ask for messages after delay
+      const timeoutId = setTimeout(() => {
+        console.log("2 seconds later...")
+            }, 2000);
       socket.emit("getChannelMessages", { channelID });
     } else {
       // attempt to reconnect socket
@@ -111,10 +115,11 @@ const GroupChatUI = () => {
     }
     // close listeners
     return () => {
+      setMessages(null);
       socket.off("messageHistory");
       socket.off("channelMessageResponse");
     };
-  }, [channelID, socket]);
+    }, [channelID, socket]);
 
   //handle auto-scrolling to latest message
   useEffect(() => {
@@ -231,7 +236,7 @@ const GroupChatUI = () => {
     >
       {loading ? (
         <div>
-          <p>No chat selected, please select a chat...</p>
+          <p>Loading messages...</p>
         </div>
       ) : (
         <div className="chat-messages">
