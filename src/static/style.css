@@ -2111,9 +2111,16 @@ input[type=range] {
   gap: 10px;
   padding: 1%;
 }
-.add-channel-modal #channe-toggle-select {
+
+.toggle-buttons-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.toggle-buttons-group .channe-toggle-select {
   padding-inline: 5%;
 }
-.add-channel-modal #channe-toggle-select .channel-toggle-btn {
+.toggle-buttons-group .channe-toggle-select .channel-toggle-btn {
   padding-inline: 5%;
 }/*# sourceMappingURL=style.css.map */
