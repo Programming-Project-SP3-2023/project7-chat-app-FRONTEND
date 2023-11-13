@@ -304,7 +304,7 @@ const AddChannelModal = ({
             )}
             <div className="toggle-buttons-group">
               <h3>Channel Type:</h3>
-              <div id="channel-toggle-select">
+              <div className="channel-toggle-select">
                 <ToggleButtonGroup
                   color="primary"
                   value={messageType}
@@ -321,13 +321,14 @@ const AddChannelModal = ({
                 </ToggleButtonGroup>
               </div>
               <h3>Channel Visibility</h3>
-              <div id="channel-toggle-select">
+              <div className="channel-toggle-select">
                 <ToggleButtonGroup
                   color="primary"
                   value={visibility}
                   exclusive
                   onChange={handleVisibility}
                   aria-label="Platform"
+                  id="channel-visibility-toggle"
                 >
                   <ToggleButton className="channel-toggle-btn" value="Public">
                     Public
