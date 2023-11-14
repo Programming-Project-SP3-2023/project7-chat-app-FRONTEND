@@ -117,7 +117,7 @@ const AddChannelModal = ({
   // Handle friend add
   const handleAddMember = (option) => {
     // 1. add member to new members array
-    const temp = newMembers;
+    let temp = newMembers;
     temp.push(option);
     console.log("NEW MEMBERS", temp);
     setNewMembers(temp);
@@ -167,25 +167,31 @@ const AddChannelModal = ({
           visibility,
           channelName
         );
-        console.log("the response...", response);
+        console.log("the Response", response.data.message);
+
         //TODO verify what information is required for the create
 
-        // const groupID = group.groupID;
+        const groupID = group.groupID;
 
-        // if (newMembers.length > 0) {
-        //   newMembers.forEach(async (member) => {
-        //     let newMemberRes = await addChannelMember(
-        //       groupID,
-        //       channelID,
-        //       member.accountID
-        //     );
-        //     console.log(newMemberRes);
-        //   });
-        // }
+        const channelId = response.data.channelId;
+
+        console.log("channelID....", channelId);
+
+        if (newMembers.length > 0) {
+          newMembers.forEach(async (member) => {
+            let newMemberRes = await addChannelMember(
+              groupID,
+              channelId,
+              member.accountID
+            );
+            console.log(newMemberRes);
+          });
+        }
         setGroupReload(!groupReload);
         setProcessing(false);
         setManageAddChannelModalOpen(false);
         navigate(`/dashboard/groups/${group.groupdID}`);
+        console.log("the Response", response);
       } catch (err) {
         console.log(err);
         setMessage(

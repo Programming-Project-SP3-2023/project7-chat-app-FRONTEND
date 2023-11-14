@@ -259,6 +259,7 @@ const Groups = ({
                 setManageChannelModalOpen={setManageChannelsModalOpen}
                 setRefresh={setRefresh}
                 channelID={selectChannelIdModal}
+                channels={channelList}
                 group={group}
                 groupReload={groupReload}
                 setGroupReload={setGroupReload}

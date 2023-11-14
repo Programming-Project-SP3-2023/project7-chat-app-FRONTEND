@@ -48,7 +48,7 @@ export const createChannel = async function (
     if (response.status === 201) {
       console.log("Channel Created!");
       console.log(response.data.message);
-      return response.data.message;
+      return response;
     }
   } catch (err) {
     console.log(err);
