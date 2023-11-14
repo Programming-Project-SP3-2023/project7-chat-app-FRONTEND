@@ -1899,12 +1899,12 @@ input[type="range"] {
   font-size: larger;
 }
 
-#admin-login-title{
+#admin-login-title {
   margin-bottom: 10vh;
   color: $echo-darkblue;
 }
 
-.delete-modal{
+.delete-modal {
   width: 90%;
   height: 100%;
   @include flex-column(space-around, center);
