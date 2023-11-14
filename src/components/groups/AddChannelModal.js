@@ -130,7 +130,7 @@ const AddChannelModal = ({
         break;
       }
     }
-    const tempOpt = groupMembersOptions;
+    let tempOpt = groupMembersOptions;
     tempOpt.splice(indexToRemove, 1);
 
     setGroupMemberOptions(tempOpt);

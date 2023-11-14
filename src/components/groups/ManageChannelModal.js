@@ -72,6 +72,7 @@ const ManageChannelModal = ({
       try {
         const response = await getChannelInfo(group.groupID, channelID);
         console.log(response); // seems to only return channelId, name channelType & visibility
+        setChannelName(response.ChannelName);
       } catch (err) {
         console.log("error getting channel info", err);
       }
@@ -92,7 +93,7 @@ const ManageChannelModal = ({
         channelID,
         option.AccountID
       );
-      //console.log(response.data);
+      console.log(response.data);
       setGroupReload(!groupReload);
 
       // set up additional temp member for frontend view/func only.
@@ -120,7 +121,7 @@ const ManageChannelModal = ({
         channelID,
         member.AccountID
       );
-      //console.log(response);
+      console.log(response);
       setGroupReload(!groupReload);
       // Manually remove member for frontend view/func only.
       // Next time the modal is open it will have the exact elements pulled from backend
@@ -142,7 +143,7 @@ const ManageChannelModal = ({
         channelID,
         channelName
       );
-      //console.log(response);
+      console.log(response);
       setGroupReload(!groupReload);
     } catch (err) {
       console.log(err);
