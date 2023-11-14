@@ -116,8 +116,10 @@ const ManageChannelModal = ({
   const handleRemoveMember = async (member, i) => {
     console.log("removing member...");
     try {
+      const groupId = group.groupID;
+
       const response = await removeChannelMember(
-        group.groupID,
+        groupId,
         channelID,
         member.AccountID
       );

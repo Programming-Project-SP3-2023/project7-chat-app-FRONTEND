@@ -211,12 +211,13 @@ const Groups = ({
 
   useEffect(() => {
     // if group exists
-    if (group) {
+    if (group !== null) {
       // attempt to connect
       const connectGroupAsync = async () => {
         // check to see if accountID still conntected & groupID exists
         if (socket.accountID !== undefined && group.groupID !== null) {
           // attempt to connect to the group
+          console.log("attempting to connect to group...", group.groupID);
           await socket.emit("connectGroup", { groupID: group.groupID });
         } else {
           // re-establish socket info
@@ -228,7 +229,7 @@ const Groups = ({
     }
 
     //is dependent on the group existing
-  }, [socket.accountID]);
+  }, [group]);
 
   // console.log("group info", group);
   // console.log("channels info", channelList);

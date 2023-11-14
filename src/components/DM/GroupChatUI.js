@@ -44,7 +44,7 @@ const GroupChatUI = () => {
     return friend ? friend.Avatar : null;
   };
 
-  // through the url params of groupID and channelID return values
+  // through the url params of -groupID and channelID return values
   const { groupId, channelId } = useParams(); // prefered method
   console.log("inside group chat....");
 
@@ -77,49 +77,57 @@ const GroupChatUI = () => {
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
-    console.log("channel...");
-    // check socket user credentials are still in socket
-    if (socket.accountID !== undefined) {
-      // connect to channel
-      
+    const fetchData = async () => {
+      try {
+        console.log("channel...");
+        // check socket user credentials are still in socket
+        if (socket.accountID !== undefined && channelID !== undefined) {
+          // connect to channel
 
-      // open listener of messageHistory for messages
-      socket.on("messageHistory", (messages) => {
-        // set messages recieved
-        setMessages(messages.flat().reverse());
-        setLoading(false); //set loading as false
-      });
+          // open listener of messageHistory for messages
+          socket.on("messageHistory", (messages) => {
+            // set messages recieved
+            setMessages(messages.flat().reverse());
+            setLoading(false); //set loading as false
+          });
 
-      //open listener on message response. for data
-      socket.on("channelMessageResponse", (data) => {
-        console.log("recieved message response", data);
+          //open listener on message response. for data
+          socket.on("channelMessageResponse", (data) => {
+            console.log("recieved message response", data);
 
-        // const messageRecieved = dayjs(new Date());
-        const formatMessage = {
-          SenderID: data.from,
-          MessageBody: data.message,
-          TimeSent: formatDateTime(data.timestamp),
+            // const messageRecieved = dayjs(new Date());
+            const formatMessage = {
+              SenderID: data.from,
+              MessageBody: data.message,
+              TimeSent: formatDateTime(data.timestamp),
+            };
+            // set messages
+            setMessages((messages) => [...messages, formatMessage]);
+          });
+
+          //ask for messages after delay
+          // const timeoutId = setTimeout(() => {
+          //   console.log("2 seconds later...");
+          // }, 2000);
+          console.log("attemtping to connect with channelID", channelID);
+          socket.emit("connectChannel", { channelID: channelID });
+          socket.emit("getChannelMessages", { channelID: channelID });
+        } else {
+          // attempt to reconnect socket
+          handleReconnect();
+        }
+        // close listeners
+        return () => {
+          setMessages(null);
+          socket.off("messageHistory");
+          socket.off("channelMessageResponse");
         };
-        // set messages
-        setMessages((messages) => [...messages, formatMessage]);
-      });
-      socket.emit("connectChannel", { channelID });
-      // ask for messages after delay
-      const timeoutId = setTimeout(() => {
-        console.log("2 seconds later...")
-            }, 2000);
-      socket.emit("getChannelMessages", { channelID });
-    } else {
-      // attempt to reconnect socket
-      handleReconnect();
-    }
-    // close listeners
-    return () => {
-      setMessages(null);
-      socket.off("messageHistory");
-      socket.off("channelMessageResponse");
+      } catch (error) {
+        console.error("error getting channel info", error);
+      }
     };
-    }, [channelID, socket]);
+    fetchData();
+  }, [channelID, socket]);
 
   //handle auto-scrolling to latest message
   useEffect(() => {
