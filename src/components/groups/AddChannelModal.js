@@ -80,9 +80,9 @@ const AddChannelModal = ({
 
   // Effects
   useEffect(() => {
-    console.log("groupmember options...", group.GroupMembers);
+    //console.log("groupmember options...", group.GroupMembers);
     setGroupMemberOptions(group.GroupMembers);
-  }, []);
+  }, [groupMembersOptions]);
 
   useEffect(() => {
     let active = true;
@@ -111,12 +111,17 @@ const AddChannelModal = ({
   }, [open]);
 
   // handle modal closing
-  const handleClose = () => setManageAddChannelModalOpen(false);
+  const handleClose = () => {
+    setManageAddChannelModalOpen(false);
+    setNewMembers([]);
+    setGroupMemberOptions([]);
+  };
 
-  console.log("groupdMember options...", groupMembersOptions);
+  //console.log("groupdMember options...", groupMembersOptions);
   // Handle friend add
   const handleAddMember = (option) => {
     // 1. add member to new members array
+
     let temp = newMembers;
     temp.push(option);
     console.log("NEW MEMBERS", temp);
@@ -134,7 +139,7 @@ const AddChannelModal = ({
     tempOpt.splice(indexToRemove, 1);
 
     setGroupMemberOptions(tempOpt);
-    console.log("tempOpt", tempOpt);
+    //console.log("tempOpt", tempOpt);
     // 3. close dropdown
     setOpen(false);
   };
@@ -152,14 +157,6 @@ const AddChannelModal = ({
       setProcessing(true);
       try {
         const groupId = group.groupID;
-
-        console.log(
-          "step 1.....",
-          groupId,
-          messageType,
-          visibility,
-          channelName
-        );
 
         const response = await createChannel(
           groupId,
@@ -191,6 +188,9 @@ const AddChannelModal = ({
         setProcessing(false);
         setManageAddChannelModalOpen(false);
         navigate(`/dashboard/groups/${group.groupdID}`);
+        // clear fields after creation
+        setNewMembers([]);
+        setGroupMemberOptions([]);
         console.log("the Response", response);
       } catch (err) {
         console.log(err);
