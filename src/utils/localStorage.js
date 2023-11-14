@@ -139,3 +139,33 @@ export const resetGroupsSession = async function () {
   sessionStorage.setItem("groups", null);
   sessionStorage.removeItem("groups");
 };
+
+
+/**
+ * Gets admin ID from session storage
+ * @returns Admin ID
+ */
+export const getAdminID = function () {
+  const adminID = sessionStorage.getItem("adminID");
+  if (adminID === "undefined" || !adminID) {
+    return null;
+  } else {
+    return JSON.parse(adminID);
+  }
+};
+
+/**
+ * Sets user ID in session storage
+ * @param {*} adminID The user ID to store
+ */
+export const setAdminID = function (adminID) {
+  sessionStorage.setItem("adminID", JSON.stringify(adminID));
+};
+
+/**
+ * Clears user ID from session storage
+ */
+export const resetAdminID = async function () {
+  sessionStorage.setItem("adminID", null);
+  sessionStorage.removeItem("adminID");
+};

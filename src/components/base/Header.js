@@ -9,7 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Drawer, Link } from "@mui/material";
 import DrawerMenu from "../partial/DrawerMenu";
-import { getUser } from "../../utils/localStorage";
+import { getUser, resetAdminID, resetTokenSession } from "../../utils/localStorage";
 import { useNavigate } from "react-router";
 
 /**
@@ -40,6 +40,8 @@ const Header = ({
 
   const adminLogout = () => {
     setAdminIsLoggedIn(false);
+    resetAdminID();
+    resetTokenSession();
     navigate("/admin");
   };
 

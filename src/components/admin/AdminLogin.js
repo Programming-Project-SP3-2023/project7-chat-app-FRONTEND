@@ -16,34 +16,29 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useState, useEffect } from "react";
 import {
   setAccessToken,
-  setSideMenuOption,
-  setUserID,
-  setUserSession,
+  setAdminID
 } from "../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
+import { adminLogin } from "../../services/adminAPI";
 
-import { getAvatarByID, getUserByID, login } from "../../services/userAPI";
-
-import { useSocket } from "../../services/SocketContext";
 
 /**
  * Builds and renders the login component
  * @returns Login component render
  */
-const AdminLogin = ({ setAdminIsLoggedIn, adminIsLoggedIn, setAdminTitle }) => {
+const AdminLogin = ({ setAdminIsLoggedIn, setAdminTitle }) => {
   //Props
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { loginSocket } = useSocket();
 
   // loading state handler
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setAdminTitle("Admin Portal Login");
+    setAdminTitle("");
   }, []);
 
   const loginHandler = async (event) => {
@@ -51,100 +46,58 @@ const AdminLogin = ({ setAdminIsLoggedIn, adminIsLoggedIn, setAdminTitle }) => {
     console.log("LOGIN HANDLER");
     // set loading flag to true
     setLoading(true);
-    await setAdminIsLoggedIn(true);
-    setLoading(false);
-    navigate('users');
 
-    // let response;
-    // let userDataResponse;
-    // let avatarResponse;
+    let response;
 
-    // if (username === "" || password === "") {
-    //   // Set error message
-    //   setMessage("Both email and password required. Try again.");
-    //   //Disable loading state
-    //   setLoading(false);
-    // } else {
-    //   try {
-    //     console.log("THIS ATTEMPT");
+    if (username === "" || password === "") {
+      // Set error message
+      setMessage("Both email and password required. Try again.");
+      //Disable loading state
+      setLoading(false);
+    } else {
+      try {
+        const requestBody = {
+          username: username,
+          password: password,
+        };
 
-    //     const requestBody = {
-    //       username: username,
-    //       password: password,
-    //     };
+        response = await adminLogin(requestBody);
 
-    //     response = await login(requestBody);
+        if (response.status === 200) {
+          const data = response.data;
 
-    //     if (response.status === 200) {
-    //       const data = response.data;
-
-    //       if (data.errorType === "InvalidCredentials") {
-    //         setMessage(data.message);
-    //       } else if (data.errorType === "EmailNotVerified") {
-    //         setMessage(data.message);
-    //       } else {
-    //         setUserID(response.data.AccountID);
-    //         setAccessToken(response.data.token);
-    //         setAccessTokenFast(response.data.token);
-
-    //         userDataResponse = await getUserByID(
-    //           response.data.AccountID,
-    //           response.data.token
-    //         );
-    //         avatarResponse = await getAvatarByID(
-    //           response.data.AccountID,
-    //           response.data.token
-    //         );
-
-    //         let user;
-    //         if (userDataResponse && avatarResponse) {
-    //           user = {
-    //             email: userDataResponse.email,
-    //             displayName: userDataResponse.displayName,
-    //             dob: userDataResponse.dob,
-    //             username: userDataResponse.username,
-    //             image: avatarResponse.avatarData,
-    //           };
-    //         } else if (userDataResponse && !avatarResponse) {
-    //           user = {
-    //             email: userDataResponse.email,
-    //             displayName: userDataResponse.displayName,
-    //             dob: userDataResponse.dob,
-    //             username: userDataResponse.username,
-    //           };
-    //         }
-
-    //         setMessage("Login Succesful");
-    //         setUserSession(user);
-    //         setSideMenuOption(0);
-    //         setIsLoggedIn(true);
-
-    //         // get session stored user / rather than fetching twice
-    //         // socket.connect();
-    //         loginSocket(response.data.AccountID, username);
-    //         // navigate to dashboard
-    //         navigate("/dashboard");
-    //       }
-    //     } else {
-    //       setMessage(
-    //         "An error has occurred on the server! Please try again later"
-    //       );
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //     setMessage(
-    //       "An error has occurred on the server! Please try again later"
-    //     );
-    //   } finally {
-    //     //Disable loading state
-    //     setLoading(false);
-    //   }
-    // }
+          if (data.errorType === "InvalidCredentials") {
+            setMessage(data.message);
+          } else if (data.errorType === "EmailNotVerified") {
+            setMessage(data.message);
+          } else {
+            setAdminID(response.data.AccountID);
+            setAccessToken(response.data.token);
+            setMessage("Login Succesful");
+            setAdminIsLoggedIn(true);
+            navigate("users");
+          }
+        } else {
+          setMessage(
+            "An error has occurred on the server! Please try again later"
+          );
+        }
+      } catch (error) {
+        console.log(error);
+        setMessage(
+          "An error has occurred on the server! Please try again later"
+        );
+      } finally {
+        //Disable loading state
+        setLoading(false);
+      }
+    }
   };
 
   return (
     <>
       <div id="login-form-container">
+        <h1 id="admin-login-title">Admin Portal Login</h1>
         <form onSubmit={loginHandler}>
           <FormControl id="login-form">
             <p>Username:</p>
