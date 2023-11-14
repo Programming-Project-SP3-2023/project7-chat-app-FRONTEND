@@ -1341,6 +1341,13 @@ footer {
       @include flex-row(space-between, center);
       a {
         font-size: 20px;
+        width: 100%;
+        text-align-last: justify;
+      }
+      a::after {
+        content: "";
+        display: inline-block;
+        width: 80%;
       }
 
       svg {
@@ -1350,7 +1357,7 @@ footer {
         @include flex-row(flex-start, center);
         gap: 10%;
         min-width: 70%;
-        width: fit-content;
+        width: 100%;
       }
     }
   }
@@ -1455,25 +1462,113 @@ footer {
 
 /* VoiceChat UI */
 
-
-
 .user-square {
   display: flex;
   align-items: center;
   background-color: $echo-darkblue;
-  border: 5px solid transparent; 
+  border: 5px solid transparent;
   border-radius: 8px;
   padding: 8px;
   margin: 8px;
   width: 325px;
   height: 100px;
-  transition: border-color 0.2s ease; 
-  position:relative;
+  transition: border-color 0.2s ease;
+  position: relative;
 }
 
-
-.user-square div{
+.user-square div {
   position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 1.25rem;
+  line-height: 1;
+  border-radius: 50%;
+  overflow: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.user-square img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  margin-right: 10px;
+  position: relative;
+}
+
+.user-square span {
+  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 800px;
+}
+
+.user-square.speaking {
+  border-color: #43b54e;
+}
+
+.user-square input[type="range"] {
+  width: 80%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 3px;
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 5px;
+  background: #ccc;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+@media (max-width: 1540px) {
+  .user-square {
+    width: 150px;
+    height: 100px;
+  }
+  .user-square img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+
+  .user-square span {
+    font-weight: bold;
+    color: #fff;
+    font-size: 12px;
+  }
+  .user-square div {
+    position: absolute;
+
+    left: 50%;
+    transform: translateX(-50%);
+    top: -2px;
+    left: 18px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -1489,124 +1584,28 @@ footer {
     -webkit-flex-shrink: 0;
     -ms-flex-negative: 0;
     flex-shrink: 0;
-    width: 60px;
-    height: 60px;
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    width: 40px;
+    height: 40px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-size: 1.25rem;
-    line-height: 1;
-    border-radius: 50%;
-    overflow: none;
+    line-height: 0;
+    border-radius: 0%;
+    overflow: hidden;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-.user-square img {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  margin-right: 10px;
-  position:relative;
-}
-
-.user-square span {
-  font-weight: bold;
-  color: #fff;
-  font-size: 16px;
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-  max-width: 800px; 
-}
-
-.user-square.speaking {
-  border-color: #43b54e; 
-}
-
-.user-square input[type="range"] {
-  width: 80%; 
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom:3px;
-}
-
-input[type="range"] {
-  width: 100%; 
-  height: 5px; 
-  background: #ccc; 
-  border: none; 
-  border-radius: 5px; 
-  outline: none; 
-}
-
-
-
-
-@media (max-width: 1540px) {
-  .user-square {
-    width: 150px; 
-    height: 100px; 
-  }
-  .user-square img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 5px;
-  }
-  
-  .user-square span {
-    font-weight: bold;
-    color: #fff;
-    font-size: 12px;
-  }
-  .user-square div{
-    position: absolute;
-
-
-    left: 50%;
-    transform: translateX(-50%);
-    top:-2px;
-    left: 18px;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-align-items: center;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      align-items: center;
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-flex-shrink: 0;
-      -ms-flex-negative: 0;
-      flex-shrink: 0;
-      width: 40px;
-      height: 40px;
-      font-family: "Roboto","Helvetica","Arial",sans-serif;
-      font-size: 1.25rem;
-      line-height: 0;
-      border-radius: 0%;
-      overflow: hidden;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
   }
 }
-
 
 @media (max-width: 1035px) {
   .user-square {
-    width: 100px; 
-    height: 70px; 
+    width: 100px;
+    height: 70px;
     margin: 0;
     padding: 0;
   }
-  .user-square img { 
+  .user-square img {
     position: relative;
     top: -25px;
     width: 15px;
@@ -1614,67 +1613,62 @@ input[type="range"] {
     border-radius: 50%;
     margin-right: 10px;
   }
-  
+
   .user-square span {
     font-weight: bold;
     text-wrap: nowrap;
     color: #fff;
     font-size: 12px;
-
   }
-  .user-square div{
+  .user-square div {
     position: absolute;
 
- 
     left: 50%;
     transform: translateX(-50%);
-    top:10px;
+    top: 10px;
     left: 18px;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-align-items: center;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      align-items: center;
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-flex-shrink: 0;
-      -ms-flex-negative: 0;
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      font-family: "Roboto","Helvetica","Arial",sans-serif;
-      font-size: 1.25rem;
-      line-height: 0;
-      border-radius: 0%;
-      overflow: hidden;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 1.25rem;
+    line-height: 0;
+    border-radius: 0%;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 }
 
-
 .voice-chat-room {
   background-color: $echo-lighterblue;
-  position: relative; 
+  position: relative;
   height: 100%;
-
-  
 }
 
 .user-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px; 
+  gap: 10px;
   justify-content: center;
   align-items: flex-start;
-  padding: 10px; 
+  padding: 10px;
 }
 
 .join-overlay {
@@ -1683,22 +1677,22 @@ input[type="range"] {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7); 
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2; 
+  z-index: 2;
 }
 
 .join-content {
-  position:relative;
+  position: relative;
   text-align: center;
-  width:500px;
-  height:170px;
+  width: 500px;
+  height: 170px;
   padding: 20px;
-  background: #fff; 
+  background: #fff;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .join-content h2 {
@@ -1712,13 +1706,13 @@ input[type="range"] {
 }
 
 .join-content button {
-  position:absolute;
-  bottom: 10px; 
+  position: absolute;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
   background: #4d77aa;
   width: 120px;
-  color: #fff; 
+  color: #fff;
   border: none;
   padding: 10px 20px;
   border-radius: 8px;
@@ -1734,12 +1728,12 @@ input[type="range"] {
 
 .join-content button[disabled]:hover,
 .join-content button[disabled]:focus {
-  background: #ccc; 
+  background: #ccc;
 }
 
 .join-content button:hover,
 .join-content button:focus {
-  background: #43b581; 
+  background: #43b581;
 }
 
 .leave-button {
@@ -1905,12 +1899,12 @@ input[type="range"] {
   font-size: larger;
 }
 
-#admin-login-title{
+#admin-login-title {
   margin-bottom: 10vh;
   color: $echo-darkblue;
 }
 
-.delete-modal{
+.delete-modal {
   width: 90%;
   height: 100%;
   @include flex-column(space-around, center);
@@ -1947,6 +1941,7 @@ input[type="range"] {
     padding-left: 5%;
     gap: 15px;
     padding-top: 20px;
+    min-height: 30%;
   }
 
   .manage-channels-link {
@@ -2037,10 +2032,9 @@ input[type="range"] {
       padding: 1%;
     }
   }
-  #channe-toggle-select {
-    padding-inline: 5%;
-    .channel-toggle-btn {
-      padding-inline: 5%;
-    }
-  }
+}
+
+.toggle-buttons-group {
+  @include flex-column(center, center);
+  gap: 1rem;
 }

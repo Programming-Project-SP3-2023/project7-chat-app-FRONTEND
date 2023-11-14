@@ -1396,6 +1396,14 @@ footer {
 }
 .group-page .group-options .group-option a {
   font-size: 20px;
+  width: 100%;
+  -moz-text-align-last: justify;
+       text-align-last: justify;
+}
+.group-page .group-options .group-option a::after {
+  content: "";
+  display: inline-block;
+  width: 80%;
 }
 .group-page .group-options .group-option svg {
   font-size: 30px;
@@ -1407,8 +1415,7 @@ footer {
   align-items: center;
   gap: 10%;
   min-width: 70%;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 100%;
 }
 .group-page #group-bttns {
   gap: 10px;
@@ -1990,6 +1997,7 @@ input[type=range] {
   padding-left: 5%;
   gap: 15px;
   padding-top: 20px;
+  min-height: 30%;
 }
 #manage-channels-modal-background .manage-channels-link {
   width: 90%;
@@ -2111,9 +2119,11 @@ input[type=range] {
   gap: 10px;
   padding: 1%;
 }
-.add-channel-modal #channe-toggle-select {
-  padding-inline: 5%;
-}
-.add-channel-modal #channe-toggle-select .channel-toggle-btn {
-  padding-inline: 5%;
+
+.toggle-buttons-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }/*# sourceMappingURL=style.css.map */

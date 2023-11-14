@@ -80,9 +80,9 @@ const AddChannelModal = ({
 
   // Effects
   useEffect(() => {
-    console.log("groupmember options...", group.GroupMembers);
+    //console.log("groupmember options...", group.GroupMembers);
     setGroupMemberOptions(group.GroupMembers);
-  }, []);
+  }, [groupMembersOptions]);
 
   useEffect(() => {
     let active = true;
@@ -111,13 +111,18 @@ const AddChannelModal = ({
   }, [open]);
 
   // handle modal closing
-  const handleClose = () => setManageAddChannelModalOpen(false);
+  const handleClose = () => {
+    setManageAddChannelModalOpen(false);
+    setNewMembers([]);
+    setGroupMemberOptions([]);
+  };
 
-  console.log("groupdMember options...", groupMembersOptions);
+  //console.log("groupdMember options...", groupMembersOptions);
   // Handle friend add
   const handleAddMember = (option) => {
     // 1. add member to new members array
-    const temp = newMembers;
+
+    let temp = newMembers;
     temp.push(option);
     console.log("NEW MEMBERS", temp);
     setNewMembers(temp);
@@ -130,11 +135,11 @@ const AddChannelModal = ({
         break;
       }
     }
-    const tempOpt = groupMembersOptions;
+    let tempOpt = groupMembersOptions;
     tempOpt.splice(indexToRemove, 1);
 
     setGroupMemberOptions(tempOpt);
-    console.log("tempOpt", tempOpt);
+    //console.log("tempOpt", tempOpt);
     // 3. close dropdown
     setOpen(false);
   };
@@ -153,39 +158,40 @@ const AddChannelModal = ({
       try {
         const groupId = group.groupID;
 
-        console.log(
-          "step 1.....",
-          groupId,
-          messageType,
-          visibility,
-          channelName
-        );
-
         const response = await createChannel(
           groupId,
           messageType,
           visibility,
           channelName
         );
-        console.log("the response...", response);
+        console.log("the Response", response.data.message);
+
         //TODO verify what information is required for the create
 
-        // const groupID = group.groupID;
+        const groupID = group.groupID;
 
-        // if (newMembers.length > 0) {
-        //   newMembers.forEach(async (member) => {
-        //     let newMemberRes = await addChannelMember(
-        //       groupID,
-        //       channelID,
-        //       member.accountID
-        //     );
-        //     console.log(newMemberRes);
-        //   });
-        // }
+        const channelId = response.data.channelId;
+
+        console.log("channelID....", channelId);
+
+        if (newMembers.length > 0) {
+          newMembers.forEach(async (member) => {
+            let newMemberRes = await addChannelMember(
+              groupID,
+              channelId,
+              member.accountID
+            );
+            console.log(newMemberRes);
+          });
+        }
         setGroupReload(!groupReload);
         setProcessing(false);
         setManageAddChannelModalOpen(false);
         navigate(`/dashboard/groups/${group.groupdID}`);
+        // clear fields after creation
+        setNewMembers([]);
+        setGroupMemberOptions([]);
+        console.log("the Response", response);
       } catch (err) {
         console.log(err);
         setMessage(
@@ -304,7 +310,7 @@ const AddChannelModal = ({
             )}
             <div className="toggle-buttons-group">
               <h3>Channel Type:</h3>
-              <div id="channel-toggle-select">
+              <div className="channel-toggle-select">
                 <ToggleButtonGroup
                   color="primary"
                   value={messageType}
@@ -321,13 +327,14 @@ const AddChannelModal = ({
                 </ToggleButtonGroup>
               </div>
               <h3>Channel Visibility</h3>
-              <div id="channel-toggle-select">
+              <div className="channel-toggle-select">
                 <ToggleButtonGroup
                   color="primary"
                   value={visibility}
                   exclusive
                   onChange={handleVisibility}
                   aria-label="Platform"
+                  id="channel-visibility-toggle"
                 >
                   <ToggleButton className="channel-toggle-btn" value="Public">
                     Public

@@ -39,6 +39,7 @@ const ManageChannelModal = ({
   setManageChannelModalOpen,
   setRefresh,
   channelID,
+  channels,
   group,
   groupReload,
   setGroupReload,
@@ -64,11 +65,14 @@ const ManageChannelModal = ({
   //console.log("channel id...", channelID);
   // console.log("group info..", group);
 
+  console.log("channels...", channels);
+
   useEffect(() => async () => {
     if (channelID !== null && group.groupID !== null) {
       try {
         const response = await getChannelInfo(group.groupID, channelID);
         console.log(response); // seems to only return channelId, name channelType & visibility
+        setChannelName(response.ChannelName);
       } catch (err) {
         console.log("error getting channel info", err);
       }
@@ -85,7 +89,7 @@ const ManageChannelModal = ({
 
     try {
       const response = await addChannelMember(
-        group.groupID,
+        parseInt(group.groupID),
         channelID,
         option.AccountID
       );
@@ -112,8 +116,10 @@ const ManageChannelModal = ({
   const handleRemoveMember = async (member, i) => {
     console.log("removing member...");
     try {
+      const groupId = group.groupID;
+
       const response = await removeChannelMember(
-        group.groupID,
+        groupId,
         channelID,
         member.AccountID
       );
@@ -164,16 +170,18 @@ const ManageChannelModal = ({
   // get channel members
   // TODO fix continous loop of fetch channel members
   useEffect(() => {
-    const fetchChannelMembers = async (option) => {
+    const fetchChannelMembers = async () => {
       // console.log("groupd id...", group.groupID);
       // console.log("channelid right?", channelID);
       if (group.groupID !== null && channelID !== null) {
         try {
           const response = await getChannelInfo(group.groupID, channelID);
-          console.log("channel info response...", response);
+          //console.log("channel info response...", response);
 
           if (response.members) {
             setMembers(response.members);
+            //console.log("response...", response.members);
+            //console.log(members);
           }
 
           setGroupReload(!groupReload);
@@ -182,8 +190,8 @@ const ManageChannelModal = ({
         }
       }
     };
-    fetchChannelMembers(); // continuous loop...
-  }, []);
+    fetchChannelMembers();
+  }, [channelID]);
 
   // calculate friend options
   useEffect(() => {
@@ -192,10 +200,10 @@ const ManageChannelModal = ({
     const possibleOptions = [];
     const notPossible = [];
 
-    console.log("group members....", group.GroupMembers);
+    //console.log("group members....", group.GroupMembers);
 
     const groupMemberTemp = group.GroupMembers;
-    console.log("group Member.. temp", groupMemberTemp);
+    //console.log("group Member.. temp", groupMemberTemp);
     groupMemberTemp.forEach((groupMember) => {
       members.forEach((member) => {
         if (groupMember.AccountID === member.AccountID) {
@@ -210,8 +218,8 @@ const ManageChannelModal = ({
     });
 
     setChannelOptions(possibleOptions);
-    console.log("OPTIONS", channelOptions);
-    console.log("MEMBERS", members);
+    //console.log("OPTIONS", channelOptions);
+    //console.log("MEMBERS", members);
   }, [manageChannelModalOpen, setMembers, groupReload]);
 
   useEffect(() => {
@@ -318,7 +326,7 @@ const ManageChannelModal = ({
                   <Chip
                     clickable
                     key={option}
-                    icon={<Avatar src={option.avatar} />}
+                    icon={<Avatar src={option.avatar || option.MemberAvatar} />}
                     className="friend-search-chip"
                     label={option.MemberName}
                     sx={{
@@ -341,7 +349,7 @@ const ManageChannelModal = ({
                   {...params}
                   id="manage-friends-searchbar"
                   variant="outlined"
-                  placeholder="Add a new group member..."
+                  placeholder="Add a new Channel member..."
                   value={searchString}
                   onChange={(event) => setSearchString(event.target.value)}
                   InputProps={{
