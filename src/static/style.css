@@ -1918,7 +1918,7 @@ input[type=range] {
 .MuiDataGrid-root {
   border-radius: 20px;
   border: 0 !important;
-  max-height: 65vh;
+  max-height: 60vh;
 }
 
 .top-row {
