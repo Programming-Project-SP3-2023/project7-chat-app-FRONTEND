@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./static/style.css";
+import "./static/responsive.css";
 import App from "./components/App";
 //React Router for client-side routing
 import { BrowserRouter } from "react-router-dom";

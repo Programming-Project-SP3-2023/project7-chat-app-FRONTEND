@@ -381,9 +381,10 @@ footer {
   align-items: flex-start;
   gap: 15px;
   width: 500px;
+  padding-bottom: 10%;
 }
 #sign-up-form .MuiTextField-root {
-  margin-bottom: 5%;
+  margin-bottom: 3%;
 }
 
 #registration-btn-div {

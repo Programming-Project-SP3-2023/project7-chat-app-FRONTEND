@@ -1,1 +1,37 @@
-/*# sourceMappingURL=responsive.css.map */
+@media (max-width: 821px) {
+  .main-section {
+    padding: 0;
+  }
+  #login-screen {
+    padding-right: 0;
+    padding-top: 10%;
+    align-items: center;
+  }
+  #sign-up-screen {
+    padding-top: 20%;
+  }
+}
+@media (max-width: 481px) {
+  #header {
+    height: 8vh;
+    min-height: 70px;
+    padding: 3%;
+  }
+  #login-form, #login-link {
+    width: 80vw;
+  }
+  #login-link {
+    text-align: center;
+  }
+  #sign-up-screen {
+    padding-top: 25%;
+    gap: 20px;
+  }
+  #sign-up-screen h1 {
+    font-size: 35px;
+  }
+  #sign-up-form {
+    width: 80vw;
+    gap: 8px;
+  }
+}/*# sourceMappingURL=responsive.css.map */
