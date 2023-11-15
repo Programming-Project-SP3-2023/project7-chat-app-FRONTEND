@@ -71,12 +71,13 @@ export function SocketProvider({ children }) {
     socket,
     loginSocket: (accountID, username) => {
       if (accountID !== undefined) {
+        socket.disconnect();
         socket.connect();
 
         socket.accountID = accountID;
         socket.username = username;
-        console.log("accountID: " + accountID);
-        console.log("username: " + username);
+        // console.log("accountID: " + accountID);
+        // console.log("username: " + username);
 
         socket.emit("connectSocket", { accountID, username });
       } else {
