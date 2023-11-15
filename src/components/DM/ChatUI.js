@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
 
-//material UI related
+// material UI related
 import {
   TextField,
   ButtonGroup,
@@ -33,31 +33,39 @@ import { getUserID, getUser } from "../../utils/localStorage";
  * @returns Homepage component render
  */
 const ChatUI = ({ socket }) => {
-  const friendsArray = Object.values(useOutletContext()); // get friends list from socket context
+  // gets friends list from friends outlet socket
+  const friendsArray = Object.values(useOutletContext());
   const friends = friendsArray.flat();
 
+  //socket related
   const { loginSocket } = useSocket();
-  const [loading, setLoading] = useState(true); // set loading to true
-  const { id } = useParams(); // gets id from url id
+
+  // select id located in url
+  const { id } = useParams();
   const chatID = id;
 
-  // loop through SenderID to find friends avatar
-  const findAvatarBySenderID = (SenderID) => {
-    const friend = friends.find((friend) => friend.AccountID === SenderID);
-    return friend ? friend.Avatar : null;
-  };
+  // for message loading/rendering
+  const [loading, setLoading] = useState(true); // set loading to true
 
-  // Props for messages
+  // for messages handling
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
 
+  // for image handling
   // const [selectedFile, setSelectedFile] = useState(null);
   // const hiddenFileInput = useRef(null);
-  const lastMessageRef = useRef(null); // for scrolling to latest message
+
+  const lastMessageRef = useRef(null); // for scrolling to latest message // currently broken
 
   // getting local user
   const userId = getUserID();
   const username = getUser();
+
+  // loop through SenderID to find friends avatar in friends list
+  const findAvatarBySenderID = (SenderID) => {
+    const friend = friends.find((friend) => friend.AccountID === SenderID);
+    return friend ? friend.Avatar : null;
+  };
 
   const reconnect = async () => {
     await loginSocket(userId, username);
@@ -74,10 +82,9 @@ const ChatUI = ({ socket }) => {
 
     // check socket user credentials are still in socket
     if (socket.accountID !== undefined && chatID !== null) {
+      // connect chat id
       socket.emit("connectChat", { chatID });
 
-      // socket.emit("getMessages", { chatID });
-      console.log("attempting to get messages?");
       // open listener of messageHistory for messages
       socket.on("messageHistory", (messages) => {
         // set messages recieved
@@ -135,7 +142,7 @@ const ChatUI = ({ socket }) => {
       // sending > emit message of chatID and string of message
       socket.emit("sendMessage", { chatID, message: messageText });
 
-      setMessages([...messages, newMessage]); //set local messages
+      setMessages((messages) => [...messages, newMessage]); //set local messages
       setMessageInput("");
     }
   };

@@ -48,6 +48,10 @@ export function SocketProvider({ children }) {
       console.log("user disconnected: ", userDetails);
     });
 
+    socket.on("connectGroupResponse", (groupResponse) => {
+      console.log("Group Connect response", groupResponse);
+    });
+
     socket.on("connectChannelResponse", (channelResponse) => {
       console.log("channel connect response: ", channelResponse);
     });

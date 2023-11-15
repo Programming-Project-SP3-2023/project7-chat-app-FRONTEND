@@ -14,14 +14,6 @@ const GET_FRIENDSHIPS_ENDPOINT = BASE_URL + "friendships/friends";
 const ACCEPT_FRIENDSHIP_ENDPOINT = BASE_URL + "friendships/accept";
 const REMOVE_FRIENDSHIP_ENDPOINT = BASE_URL + "friendships/delete";
 
-// Auth setup
-const headers = {
-  headers: {
-    Authorization: getAccessToken(),
-    "Content-Type": "application/json",
-  },
-};
-
 /**
  * Get a list of users
  * * @param {*} filter any search filter option
@@ -67,6 +59,13 @@ export const submitFriendRequest = async function (requesterID, requesteeID) {
     requesteeID: requesteeID,
   };
 
+  const headers = {
+    headers: {
+      Authorization: getAccessToken(),
+      "Content-Type": "application/json",
+    },
+  };
+
   try {
     let response = await axios.post(ADD_FRIEND_ENDPOINT, body, headers);
 
@@ -99,6 +98,13 @@ export const getFriendRequests = async function () {
     status: "Pending",
   };
 
+  const headers = {
+    headers: {
+      Authorization: getAccessToken(),
+      "Content-Type": "application/json",
+    },
+  };
+
   try {
     let response = await axios.post(GET_FRIENDSHIPS_ENDPOINT, body, headers);
 
@@ -107,7 +113,7 @@ export const getFriendRequests = async function () {
       console.log(response.data.Message);
       return response.data.friendships;
     }
-    // No friend requests 
+    // No friend requests
     else if (response.status === 204) {
       console.log(response.data.Message);
       return [];
@@ -117,7 +123,7 @@ export const getFriendRequests = async function () {
     console.log(error);
   }
 
-  return ;
+  return;
 };
 
 /**
@@ -128,6 +134,13 @@ export const getFriends = async function () {
   const body = {
     currentUserID: getUserID(),
     status: "Active",
+  };
+
+  const headers = {
+    headers: {
+      Authorization: getAccessToken(),
+      "Content-Type": "application/json",
+    },
   };
 
   try {
@@ -161,6 +174,14 @@ export const acceptFriendRequest = async function (requesterID) {
   const body = {
     currentUserID: getUserID(),
     requesterID: requesterID,
+  };
+
+
+  const headers = {
+    headers: {
+      Authorization: getAccessToken(),
+      "Content-Type": "application/json",
+    },
   };
 
   try {

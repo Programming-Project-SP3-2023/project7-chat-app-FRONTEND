@@ -1396,6 +1396,14 @@ footer {
 }
 .group-page .group-options .group-option a {
   font-size: 20px;
+  width: 100%;
+  -moz-text-align-last: justify;
+       text-align-last: justify;
+}
+.group-page .group-options .group-option a::after {
+  content: "";
+  display: inline-block;
+  width: 80%;
 }
 .group-page .group-options .group-option svg {
   font-size: 30px;
@@ -1407,8 +1415,7 @@ footer {
   align-items: center;
   gap: 10%;
   min-width: 70%;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 100%;
 }
 .group-page #group-bttns {
   gap: 10px;
@@ -1525,6 +1532,253 @@ footer {
   gap: 10px;
 }
 
+/* VoiceChat UI */
+.user-square {
+  display: flex;
+  align-items: center;
+  background-color: #456b9a;
+  border: 5px solid transparent;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px;
+  width: 325px;
+  height: 100px;
+  transition: border-color 0.2s ease;
+  position: relative;
+}
+
+.user-square div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 1.25rem;
+  line-height: 1;
+  border-radius: 50%;
+  overflow: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.user-square img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  margin-right: 10px;
+  position: relative;
+}
+
+.user-square span {
+  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 800px;
+}
+
+.user-square.speaking {
+  border-color: #43b54e;
+}
+
+.user-square input[type=range] {
+  width: 80%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 3px;
+}
+
+input[type=range] {
+  width: 100%;
+  height: 5px;
+  background: #ccc;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+@media (max-width: 1540px) {
+  .user-square {
+    width: 150px;
+    height: 100px;
+  }
+  .user-square img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  .user-square span {
+    font-weight: bold;
+    color: #fff;
+    font-size: 12px;
+  }
+  .user-square div {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -2px;
+    left: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 1.25rem;
+    line-height: 0;
+    border-radius: 0%;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+}
+@media (max-width: 1035px) {
+  .user-square {
+    width: 100px;
+    height: 70px;
+    margin: 0;
+    padding: 0;
+  }
+  .user-square img {
+    position: relative;
+    top: -25px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .user-square span {
+    font-weight: bold;
+    text-wrap: nowrap;
+    color: #fff;
+    font-size: 12px;
+  }
+  .user-square div {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10px;
+    left: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 1.25rem;
+    line-height: 0;
+    border-radius: 0%;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+}
+.voice-chat-room {
+  background-color: #d8dbe2;
+  position: relative;
+  height: 100%;
+}
+
+.user-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 10px;
+}
+
+.join-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.join-content {
+  position: relative;
+  text-align: center;
+  width: 500px;
+  height: 170px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.join-content h2 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.join-content p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.join-content button {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4d77aa;
+  width: 120px;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.join-content button[disabled] {
+  background: #ccc; /* Gray background color */
+  color: #666; /* Darker text color */
+  cursor: default; /* Change cursor to indicate it's not clickable */
+}
+
+.join-content button[disabled]:hover,
+.join-content button[disabled]:focus {
+  background: #ccc;
+}
+
+.join-content button:hover,
+.join-content button:focus {
+  background: #43b581;
+}
+
+.leave-button {
+  position: absolute;
+  bottom: 25px; /* Adjust the bottom distance as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #b92727;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  /* Add additional button styles as needed */
+}
+
 /* ---------------------------- Email Verification page ---------------------------- */
 #email-verification {
   background-color: #a9bcd0;
@@ -1537,6 +1791,50 @@ footer {
 #email-verification-container {
   padding: 20px;
   text-align: center;
+}
+
+/* ---------------------------- channel page ---------------------------- */
+.channel-delete-bttn-container {
+  padding-block: 1%;
+}
+.channel-delete-bttn-container .channel-button {
+  width: 100%;
+  background-color: #f0eff4;
+  height: 40px;
+  border-radius: 15px;
+  padding-block: 2%;
+  padding: 0 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: #495057;
+  cursor: pointer;
+  border: 0;
+}
+.channel-delete-bttn-container .channel-button h3 {
+  font-size: 20px;
+  font-weight: 200;
+}
+.channel-delete-bttn-container .channel-button svg {
+  font-size: 28px;
+}
+.channel-delete-bttn-container .channel-button:hover {
+  transform: scale(1.02);
+  transition: 0.3s linear;
+}
+.channel-delete-bttn-container #channel-delete-bttn {
+  background-color: #b92727;
+  color: white;
+  margin-top: 20%;
+}
+
+#channel-name-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px;
 }
 
 /* ---------------------------- ADMIN HOME ---------------------------- */
@@ -1620,7 +1918,7 @@ footer {
 .MuiDataGrid-root {
   border-radius: 20px;
   border: 0 !important;
-  max-height: 65vh;
+  max-height: 60vh;
 }
 
 .top-row {
@@ -1635,4 +1933,197 @@ footer {
   min-width: 200px;
   background-color: #456b9a;
   font-size: larger;
+}
+
+#admin-login-title {
+  margin-bottom: 10vh;
+  color: #456b9a;
+}
+
+.delete-modal {
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10%;
+  padding: 5%;
+  text-align: center;
+}
+
+/* ---------------------------- Manage Channel Modal ---------------------------- */
+#manage-channels-modal-background {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+#manage-channels-modal-background #manage-channels-modal {
+  width: 55%;
+  background-color: #a9bcd0;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8%;
+  height: 70%;
+}
+#manage-channels-modal-background #manage-channels-modal #manage-channel-modal-header {
+  background-color: #456b9a;
+  width: 100%;
+  border-radius: 30px 30px 0 0;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 15%;
+}
+#manage-channels-modal-background #manage-channels-modal #manage-channel-modal-header h2 {
+  font-weight: 300;
+  color: white;
+}
+#manage-channels-modal-background #manage-channel-settings-textfield {
+  padding-inline: 5%;
+}
+#manage-channels-modal-background #manage-channels-modal-whitebox {
+  width: 90%;
+  height: 45%;
+  max-height: 45%;
+  background-color: #ffffff;
+  overflow: auto;
+  padding-left: 5%;
+  gap: 15px;
+  padding-top: 20px;
+  min-height: 30%;
+}
+#manage-channels-modal-background .manage-channels-link {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  text-decoration: none;
+  color: #495057;
+  padding-left: 2%;
+}
+#manage-channels-modal-background #manage-channel-submit-button {
+  width: 100%;
+  font-size: 19px;
+  background-color: #456b9a;
+}
+#manage-channels-modal-background .manage-channels-bottom {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+#manage-channels-modal-background .manage-channels-link {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 90%;
+  gap: 20px;
+  text-decoration: none;
+  color: #495057;
+  padding-left: 2%;
+}
+
+/* ---------------------------- Add / Create Channel Modal ---------------------------- */
+#add-channel-modal-background {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-channel-modal {
+  aspect-ratio: 3/4;
+  width: 40%;
+  background-color: #a9bcd0;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6%;
+}
+.add-channel-modal #add-channel-modal-header {
+  height: 13%;
+  background-color: #456b9a;
+  width: 100%;
+  border-radius: 30px 30px 0 0;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.add-channel-modal #add-channel-modal-header h2 {
+  font-weight: 300;
+  color: white;
+}
+.add-channel-modal #add-channel-modal-body {
+  width: 70%;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.add-channel-modal #add-channel-modal-body a {
+  width: 100%;
+  text-decoration: none;
+}
+.add-channel-modal #add-channel-modal-body #add-channel-link {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
+  color: #456b9a;
+}
+.add-channel-modal #add-channel-modal-body #add-channel-bttn {
+  background-color: #456b9a;
+  width: 70%;
+  height: 8%;
+}
+.add-channel-modal .manage-channel-bottom {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.add-channel-modal #channel-members-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 8%;
+}
+.add-channel-modal #channel-members-container .channel-members-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 1%;
+}
+
+.toggle-buttons-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }/*# sourceMappingURL=style.css.map */

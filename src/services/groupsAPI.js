@@ -1,5 +1,5 @@
 /**
- * HTTP request handler for Friends-related endpoints
+ * HTTP request handler for Groups-related endpoints
  */
 
 // imports
@@ -34,8 +34,6 @@ export const createGroup = async function (requestBody) {
     },
   };
 
-  console.log("HI!:" , myHeaders);
-  console.log("HO: ", requestBody);
   return await axios.post(CREATE_GROUP_ENDPOINT, requestBody, myHeaders);
 };
 

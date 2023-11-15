@@ -132,6 +132,7 @@ const Signup = () => {
             type="date"
             onChange={(event) => setDateOfBirth(event.target.value)}
             placeholder="Enter your date of birth"
+            inputProps={{ min: "1900-01-01", max: "2010-01-01" }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

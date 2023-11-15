@@ -19,19 +19,21 @@ import Groups from "./groups/Groups";
 import Admin from "./admin/Admin";
 import AdminLogin from "./admin/AdminLogin";
 import AdminUsers from "./admin/AdminUsers";
-import { getUser } from "../utils/localStorage";
+import { getAdminID, getUser } from "../utils/localStorage";
 import { useState, useEffect } from "react";
 import DashboardMain from "./profile/DashboardMain";
 import ChatUI from "./DM/ChatUI";
 import GroupChatUI from "./DM/GroupChatUI";
 import { useSocket } from "../services/SocketContext";
+import VoiceChatRoom from "../components/voip/VOIPDisplay";
 
 function App() {
   const user = getUser();
-  // TODO: Change to get admin function once we have the proper login set up
-  // const admin = getUser();
-  const [adminIsLoggedIn, setAdminIsLoggedIn] = useState(false);
+  const adminID = getAdminID();
 
+  const [adminIsLoggedIn, setAdminIsLoggedIn] = useState(
+    adminID ? true : false
+  );
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   const [refresh, setRefresh] = useState(false);
   const [groupReload, setGroupReload] = useState(false);
@@ -55,7 +57,7 @@ function App() {
         setRefresh={setRefresh}
       />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={!isLoggedIn ? <Home /> : <Navigate to="/dashboard" />} />
         <Route
           path="login"
           element={
@@ -111,6 +113,7 @@ function App() {
                 groupReload={groupReload}
                 setGroupReload={setGroupReload}
                 setHeaderTitle={setHeaderTitle}
+                socket={socket}
               />
             }
           >
@@ -119,6 +122,19 @@ function App() {
                 path=":channelId"
                 element={<GroupChatUI socket={socket} />}
               />
+            </Route>
+
+            <Route path=":v" element={<VoiceChatRoom socket={socket} />}>
+              '
+              <Route
+                path=":groupId"
+                element={<VoiceChatRoom socket={socket} />}
+              >
+                <Route
+                  path=":channelId"
+                  element={<VoiceChatRoom socket={socket} />}
+                />
+              </Route>
             </Route>
           </Route>
         </Route>
@@ -135,7 +151,7 @@ function App() {
           />
           <Route
             path="users"
-            element={<AdminUsers setAdminTitle={setAdminTitle} />}
+            element={adminIsLoggedIn ? <AdminUsers setAdminTitle={setAdminTitle} /> : <Navigate to="/admin" />}
           />
         </Route>
         <Route path="*" element={<NotFound />} />
