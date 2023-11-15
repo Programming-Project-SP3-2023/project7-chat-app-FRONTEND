@@ -71,7 +71,7 @@ body {
   height: fit-content;
   min-height: 100vh;
   width: 100%;
-  padding: 100px 2% 0;
+  padding: 100px 0 0;
 }
 
 h1 {
@@ -422,9 +422,10 @@ footer {
 
   gap: 15px;
   width: 500px;
+  padding-bottom: 10%;;
 
   .MuiTextField-root {
-    margin-bottom: 5%;
+    margin-bottom: 3%;
   }
 }
 
@@ -464,16 +465,13 @@ footer {
     font-size: 250%;
   }
 
-  .MuiList-root {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  .MuiListItem-root {
+  .side-menu-item  {
+    display: flex;
     justify-content: center;
     text-align: center;
     width: 100%;
     cursor: pointer;
+    padding: 2%;
   }
 
   .side-menu-img-container {
@@ -528,8 +526,8 @@ footer {
 
 .dashboard-main {
   height: 100%;
-  width: 96%;
-  margin-left: 110px;
+  width: 100%;
+  padding-left: 13%;
 }
 
 #dashboard {
@@ -626,7 +624,8 @@ footer {
 
 .friends-menu {
   height: 100%;
-  width: 25%;
+  width: 30%;
+  margin-left:-5%;
   background-color: $echo-lightblue;
   @include flex-column(space-between, center);
   padding: 15px 0;
@@ -678,8 +677,9 @@ footer {
   }
 
   .friend-menu-item {
-    width: 90%;
-    aspect-ratio: 5/1;
+    width: 300px;
+    min-width: 90%;
+    height: 82px;
     border-radius: 100px;
     background-color: $echo-lightgrey;
     @include flex-row(flex-start, center);
@@ -687,8 +687,8 @@ footer {
     cursor: pointer;
 
     .menu-item-avatar {
-      height: 100%;
-      width: 20%;
+      height: 80px;
+      width: 80px;
     }
 
     .MuiSvgIcon-root {
@@ -1308,9 +1308,10 @@ footer {
 
   .group-menu {
     height: 100%;
-    width: 25%;
-    padding: 1.5%;
+    width: 30%;
+    margin-left:-5%;
     h2 {
+      padding: 3% 3% 0 3%;
       font-size: 40px;
     }
     @include flex-column(space-between, flex-start);
@@ -1332,6 +1333,8 @@ footer {
   .group-options {
     width: 100%;
     height: fit-content;
+    max-height: 70%;
+    overflow: auto;
     padding: 10% 5%;
     @include flex-column(flex-start, center);
     gap: 20px;
@@ -1342,14 +1345,7 @@ footer {
       a {
         font-size: 20px;
         width: 100%;
-        text-align-last: justify;
       }
-      a::after {
-        content: "";
-        display: inline-block;
-        width: 80%;
-      }
-
       svg {
         font-size: 30px;
       }
@@ -1364,7 +1360,7 @@ footer {
 
   #group-bttns {
     gap: 10px;
-    padding: 0;
+    padding: 2% 2% 4% 2%;
   }
 
   #manage-members-icon {
@@ -1409,11 +1405,12 @@ footer {
 }
 
 .group-admin-flag {
-  width: 120% !important;
-  padding: 3% 2% 3% 9%;
-  @include flex-row(flex-start, center);
+  width: 110% !important;
+  padding: 3%;
+  @include flex-row(center, center);
   gap: 10%;
-  margin: -7% 0 5% -12%;
+  padding-left: 10%;
+  margin-left: -10%;
   background-color: $echo-darkgrey;
   color: rgb(251, 173, 7);
   img {

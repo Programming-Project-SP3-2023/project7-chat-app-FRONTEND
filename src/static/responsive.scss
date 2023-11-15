@@ -1,4 +1,396 @@
 //************** Responsive Design Stylesheet - SASS **************//
 
-// Before using, start compiler from terminal in the static folder with command
-// sass --watch responsive.scss:responsive.css
+// ******************************************* HD Laptop (1280 X 720) ***************************************** //
+
+@media (max-width: 1380px) {
+  .friends-menu,
+  .group-page .group-menu {
+    margin-left: -3%;
+  }
+}
+
+@media (max-width: 1280px) {
+  //------------------- General styling ------------------ //
+
+  #header-dark {
+    height: 100px;
+  }
+
+  .MuiDrawer-root .MuiDrawer-paper {
+    width: 500px;
+    height: 500px;
+  }
+
+  //------------------- Login ------------------ //
+
+  //------------------- Signup ------------------ //
+
+  //------------------- Dashboard ------------------ //
+
+  //------------------- Friends ------------------ //
+  .friends-menu {
+    width: 40%;
+    margin-left: -2%;
+
+    .friends-display {
+      width: 100%;
+      padding-left: 2%;
+    }
+
+    .friend-menu-item {
+      width: 90%;
+      height: 72px;
+
+      .menu-item-avatar {
+        height: 70px;
+        width: 70px;
+      }
+    }
+  }
+
+  .group-admin-flag {
+    width: 130% !important;
+    margin-left: -23%;
+    padding-left: 18%;
+    img {
+      width: 22px;
+    }
+    h4 {
+      width: 50%;
+      font-size: 14px;
+    }
+  }
+
+  //------------------- Groups ------------------ //
+
+  .group-page {
+    .group-menu {
+      width: 40%;
+      margin-left: 0;
+      h2 {
+        padding-left: 10%;
+      }
+      .group-options {
+        width: 95%;
+        padding-right: 2%;
+        padding-left: 10%;
+      }
+    }
+  }
+
+  //------------------- Modals ------------------ //
+}
+
+// ******************************************* TABLET ***************************************** //
+
+@media (max-width: 821px) {
+  //------------------- General styling ------------------ //
+
+  h1 {
+    font-size: 40px;
+  }
+
+  #header-dark #logo-container {
+    width: 20%;
+  }
+
+  #side-menu .MuiDrawer-paper {
+    width: 100px;
+    min-width: unset;
+
+    .side-menu-img-container {
+      width: 90px;
+      height: 90px;
+      min-width: unset;
+      min-height: unset;
+    }
+  }
+
+  //------------------- Login ------------------ //
+
+  .main-section {
+    padding: 0;
+  }
+
+  #login-screen {
+    padding-right: 0;
+    padding-top: 10%;
+    align-items: center;
+  }
+
+  //------------------- Signup ------------------ //
+
+  #sign-up-screen {
+    padding-top: 20%;
+  }
+
+  //------------------- Dashboard ------------------ //
+
+  .dashboard-main {
+    height: 100%;
+    padding-top: 100px;
+  }
+
+  #third-col {
+    display: none;
+  }
+
+  //------------------- Friends ------------------ //
+
+  .friends-menu {
+    margin-left: 0;
+
+    .friends-display {
+      width: 100%;
+      padding-left: 1%;
+    }
+
+    .friend-menu-item {
+      width: 90%;
+      height: 62px;
+
+      .friend-item-message {
+        max-width: 80%;
+      }
+
+      .menu-item-avatar {
+        height: 60px;
+        width: 60px;
+      }
+    }
+  }
+
+  //------------------- Groups ------------------ //
+  .group-page {
+    .group-menu {
+      h2 {
+        font-size: 30px;
+        padding-top: 20px;
+      }
+
+      .group-options {
+        .group-option {
+          a {
+            font-size: 18px;
+          }
+
+          svg {
+            font-size: 22px;
+          }
+        }
+      }
+    }
+  }
+
+  .group-button {
+    h3 {
+      font-size: 18px;
+    }
+
+    svg {
+      font-size: 22px;
+    }
+  }
+
+  //------------------- Modals ------------------ //
+}
+
+// ******************************************* MOBILE ***************************************** //
+
+@media (max-width: 481px) {
+  //------------------- General styling ------------------ //
+
+  #header {
+    height: 8vh;
+    min-height: 70px;
+    padding: 3%;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  #dropdown-menu-icon {
+    font-size: 25px !important;
+  }
+
+  // ---- SIDE MENU - NOW FOOTER MENU ----- //
+  #side-menu {
+    .MuiDrawer-paper {
+      width: fit-content;
+      max-width: 95vw;
+      bottom: 0;
+      top: unset;
+      height: 100px;
+      border: 0;
+      overflow: auto;
+      border-radius: 0 20px 0 0;
+    }
+
+    .MuiBox-root {
+      max-height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      overflow: auto !important;
+      .side-menu-item {
+        width: 100px;
+        min-width: 100px;
+        height: 100px;
+        transform: rotate(-90deg);
+
+        img,
+        svg {
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+
+  //------------------- Login ------------------ //
+
+  #login-form,
+  #login-link {
+    width: 80vw;
+  }
+
+  #login-link {
+    text-align: center;
+  }
+
+  //------------------- Signup ------------------ //
+
+  #sign-up-screen {
+    padding-top: 25%;
+    gap: 20px;
+    h1 {
+      font-size: 35px;
+    }
+  }
+
+  #sign-up-form {
+    width: 80vw;
+    gap: 8px;
+  }
+
+  //------------------- Dashboard ------------------ //
+
+  .dashboard-main {
+    padding-left: 0;
+    height: calc(100% - 100px);
+  }
+  .dashboard-main-menu {
+    width: 100%;
+    padding-left: 0;
+  }
+  .dashboard-main-column {
+    min-width: 150px;
+    width: 40vw;
+  }
+
+  //------------------- Friends ------------------ //
+
+  #friends {
+    height: calc(100% + 100px);
+    padding-bottom: 100px;
+  }
+  .friends-menu {
+    width: 20%;
+
+    .friends-display {
+      padding: 0;
+    }
+    .friend-menu-item {
+      flex-direction: column;
+      width: 60px;
+      min-width: unset;
+      height: 60px;
+      gap: 1%;
+      .friend-item-message {
+        display: none;
+      }
+      svg {
+        display: none;
+      }
+    }
+
+    .friends-bottombar {
+      .MuiAutocomplete-root {
+        display: none;
+      }
+      .add-friends-link a {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        p {
+          text-align: center;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+
+  .friends-chat-area {
+    width: 80%;
+
+    #chat-input-container {
+      width: 96%;
+      left: 2%;
+    }
+  }
+
+  //------------------- Groups ------------------ //
+
+  .group-admin-flag {
+    h4 {
+      display: none;
+    }
+  }
+
+  .group-page {
+    .group-menu {
+      h2 {
+        font-size: 20px;
+      }
+
+      .group-options {
+        .group-option {
+          a {
+            font-size: 13px;
+          }
+
+          svg{
+            font-size: 15px;
+          }
+        }
+      }
+    }
+
+    #group-bttns {
+        padding: 10px 1%;
+        margin-left: 2%;
+        height: 70px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+  }
+
+  .group-button {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    text-align: center;
+    h3 {
+      display: none;
+    }
+
+    svg {
+      font-size: 20px;
+    }
+  }
+
+  //------------------- Modals ------------------ //
+}

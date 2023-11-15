@@ -56,7 +56,7 @@ const DashboardMainColumn = ({
   };
 
   return (
-    <div className="dashboard-main-column">
+    <div className="dashboard-main-column" id={title === "Quick Actions" ? "third-col" : ""}>
       <div className="column-header">
         <h3>{title}</h3>
       </div>
