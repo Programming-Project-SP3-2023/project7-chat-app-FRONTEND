@@ -3,7 +3,8 @@
 // ******************************************* HD Laptop (1280 X 720) ***************************************** //
 
 @media (max-width: 1380px) {
-  .friends-menu {
+  .friends-menu,
+  .group-page .group-menu {
     margin-left: -3%;
   }
 }
@@ -47,7 +48,35 @@
     }
   }
 
+  .group-admin-flag {
+    width: 130% !important;
+    margin-left: -23%;
+    padding-left: 18%;
+    img {
+      width: 22px;
+    }
+    h4 {
+      width: 50%;
+      font-size: 14px;
+    }
+  }
+
   //------------------- Groups ------------------ //
+
+  .group-page {
+    .group-menu {
+      width: 40%;
+      margin-left: 0;
+      h2 {
+        padding-left: 10%;
+      }
+      .group-options {
+        width: 95%;
+        padding-right: 2%;
+        padding-left: 10%;
+      }
+    }
+  }
 
   //------------------- Modals ------------------ //
 }
@@ -132,6 +161,36 @@
   }
 
   //------------------- Groups ------------------ //
+  .group-page {
+    .group-menu {
+      h2 {
+        font-size: 30px;
+        padding-top: 20px;
+      }
+
+      .group-options {
+        .group-option {
+          a {
+            font-size: 18px;
+          }
+
+          svg {
+            font-size: 22px;
+          }
+        }
+      }
+    }
+  }
+
+  .group-button {
+    h3 {
+      font-size: 18px;
+    }
+
+    svg {
+      font-size: 22px;
+    }
+  }
 
   //------------------- Modals ------------------ //
 }
@@ -275,13 +334,63 @@
   .friends-chat-area {
     width: 80%;
 
-    #chat-input-container{
-        width: 96%;
-        left: 2%;
+    #chat-input-container {
+      width: 96%;
+      left: 2%;
     }
   }
 
   //------------------- Groups ------------------ //
+
+  .group-admin-flag {
+    h4 {
+      display: none;
+    }
+  }
+
+  .group-page {
+    .group-menu {
+      h2 {
+        font-size: 20px;
+      }
+
+      .group-options {
+        .group-option {
+          a {
+            font-size: 13px;
+          }
+
+          svg{
+            font-size: 15px;
+          }
+        }
+      }
+    }
+
+    #group-bttns {
+        padding: 10px 1%;
+        margin-left: 2%;
+        height: 70px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+  }
+
+  .group-button {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    text-align: center;
+    h3 {
+      display: none;
+    }
+
+    svg {
+      font-size: 20px;
+    }
+  }
 
   //------------------- Modals ------------------ //
 }
