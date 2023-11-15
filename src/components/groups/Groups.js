@@ -34,39 +34,44 @@ const Groups = ({
   setHeaderTitle,
   groupReload,
   setGroupReload,
+  socket,
 }) => {
+  // group id from url params
   const { groupId } = useParams();
+
+  // group related
   const [group, setGroup] = useState(null);
   const [friends, setFriends] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [members, setMembers] = useState([]);
-
+  // channel related
   const [channelList, setChannelList] = useState(null);
   const [selectChannelIdModal, setSelectChannelIdModal] = useState(null);
+  const navigate = useNavigate();
 
-  const [generalChat, setGeneralChat] = useState(null);
-  const [voiceChat, setVoiceChat] = useState(null);
-
+  // user related
   const user = getUser(); // user
   const userID = getUserID(); // userid
 
-  const { loginSocket, socket } = useSocket(); // socket
+  // socket.io functions
+  const { loginSocket } = useSocket();
+
   // state handler for groups settings modal
   const [manageMembersModalOpen, setManageMembersModalOpen] = useState(false);
   const [manageGroupSettingsModalOpen, setManageGroupSettingsModalOpen] =
     useState(false);
+
   // state handler for channel modal
   const [manageChannelsModalOpen, setManageChannelsModalOpen] = useState(false);
   const [manageAddChannelModalOpen, setManageAddChannelModalOpen] =
     useState(false);
-  const [joinChannelSuccess, setJoinChannelSuccess] = useState(false);
+
+  //const [joinChannelSuccess, setJoinChannelSuccess] = useState(false);
   const [loading, setloading] = useState(true);
 
-  const navigate = useNavigate();
-
+  // channel settings modal handler
   const handleOpenManageChannelsModal = (channelID) => {
     setSelectChannelIdModal(channelID);
-    //console.log("channelid", channelID);
     setManageChannelsModalOpen(true);
   };
 
@@ -74,12 +79,8 @@ const Groups = ({
   useEffect(() => {
     try {
       const fetchData = async () => {
-        // 1. find current group id
-        //const ID = window.location.pathname.split("/")[3];
-        console.log("..", groupId);
-
+        //temp
         let currentGroup;
-
         // 2. fetch groups data from local storage
         const groups = getGroups();
         // 3. extract group with current ID
@@ -90,11 +91,12 @@ const Groups = ({
             setMembers(currentGroup.GroupMembers);
           }
         });
-
+        //
         if (!currentGroup) {
           console.error("group not found with ID:", groupId);
           return;
         }
+
         // 4. Check if User is this group's admin
         members.forEach((m) => {
           if (m.AccountID === getUserID()) {
@@ -149,54 +151,50 @@ const Groups = ({
     } finally {
       setloading(false);
     }
-  }, [groupId]);
+  }, [groupId, socket]);
 
   // handles opening channel chat and relative functions
   const handleChannelNavigate = async (channelID, channelName) => {
-    navigate(`/dashboard/groups/${group.groupID}/${channelID}`);
+    // navigate(`/dashboard/groups/${group.groupID}/${channelID}`);
     // change header title to match channel
     if (channelName) {
       setHeaderTitle(channelName);
     }
-    /*
-  // connect chat promise
-  const joinChatPromise = new Promise((resolve, reject) => {
+    // connect chat promise
+    const joinChatPromise = new Promise((resolve, reject) => {
+      // ask to join channel
+      socket.emit("connectChannel", { channelID });
 
-    socket.off("connectChannelResponse");
-    socket.off("error");
-    // ask to join channel
-    //socket.emit("connectChannel", { channelID });
+      const connectChannelResponseHandler = () => {
+        socket.off("connectChannelResponse", connectChannelResponseHandler);
+        resolve();
+      };
 
-    const connectChannelResponseHandler = () => {
-      socket.off("connectChannelResponse", connectChannelResponseHandler);
-      resolve();
-    };
+      // listens for connectchannelResponse
+      socket.on("connectChannelResponse", connectChannelResponseHandler);
+      // if an error is returned it has failed to join
+      socket.on("error", (error) => {
+        reject(error);
+      });
 
-    // listens for connectchannelResponse
-    socket.on("connectChannelResponse", connectChannelResponseHandler);
-    // if an error is returned it has failed to join
-    socket.on("error", (error) => {
-      reject(error);
+      // timeout response
+      setTimeout(() => {
+        reject("Socket failed to join channel chat in time.");
+      }, 5000);
     });
-    // timeout response
-    setTimeout(() => {
-      reject("Socket failed to join channel chat in time.");
-    }, 5000);
-  });
 
-  try {
-    //if promise is resolved navigate to channel
-    await joinChatPromise;
-    // loading channel chat with a certain ID (which will be used to get the channel info)
-    navigate(`/dashboard/groups/${group.groupID}/${channelID}`);
-    // change header title to match channel
-    if (channelName) {
-      setHeaderTitle(channelName);
+    try {
+      //if promise is resolved navigate to channel
+      await joinChatPromise;
+      // loading channel chat with a certain ID (which will be used to get the channel info)
+      navigate(`/dashboard/groups/${group.groupID}/${channelID}`);
+      // change header title to match channel
+      if (channelName) {
+        setHeaderTitle(channelName);
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
-  }
-  */
   };
 
   // socket.emit("connectGroup", { groupID: 3 });
@@ -227,7 +225,6 @@ const Groups = ({
       };
       connectGroupAsync();
     }
-
     //is dependent on the group existing
   }, [group]);
 

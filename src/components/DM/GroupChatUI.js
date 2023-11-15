@@ -1,17 +1,18 @@
 /**
- * Homepage component
+ * Group Chat component
  */
 
 import {
   TextField,
   ButtonGroup,
   Box,
-  // Divider,
   Avatar,
   FormControl,
   Badge,
 } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
+
+// MUI components
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
@@ -27,15 +28,16 @@ import { getUserID, getUser } from "../../utils/localStorage";
 
 /**
  * Builds and renders the homepage component
- * @returns Homepage component render
+ * @returns GroupChat component render
  */
-const GroupChatUI = () => {
+const GroupChatUI = ({ socket }) => {
+  //gets the friends from outlet in groups component
   const friendsArray = Object.values(useOutletContext());
   const friends = friendsArray.flat();
-  // console.log("friends > ", friends);
 
-  // used for re-seating socket
-  const { loginSocket, socket } = useSocket();
+  // socket.io functions
+  const { loginSocket } = useSocket();
+  // loading used as state to get information first before displaying chat
   const [loading, setLoading] = useState(true); // set loading to true
 
   // loop through sender id(by friends) and find their avatar
@@ -46,7 +48,6 @@ const GroupChatUI = () => {
 
   // through the url params of -groupID and channelID return values
   const { groupId, channelId } = useParams(); // prefered method
-  console.log("inside group chat....");
 
   const groupID = groupId;
   const channelID = parseInt(channelId);
@@ -127,7 +128,7 @@ const GroupChatUI = () => {
       }
     };
     fetchData();
-  }, [channelID, socket]);
+  }, [channelID]);
 
   //handle auto-scrolling to latest message
   useEffect(() => {
@@ -189,6 +190,7 @@ const GroupChatUI = () => {
     return formatedDate;
   };
 
+  // NOT IMPLMENTED
   // //image file button click
   // const handleClick = (event) => {
   //   hiddenFileInput.current.click();
@@ -268,6 +270,7 @@ const GroupChatUI = () => {
                     <div id="message">{message.MessageBody}</div>
                   </div>
                 ) : (
+                  // renders avatar
                   <div className="message-other">
                     <Avatar
                       alt={`User ${message.SenderID}`}
