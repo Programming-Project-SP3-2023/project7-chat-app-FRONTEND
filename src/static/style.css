@@ -16,7 +16,7 @@ body {
   height: fit-content;
   min-height: 100vh;
   width: 100%;
-  padding: 100px 2% 0;
+  padding: 100px 0 0;
 }
 
 h1 {
@@ -426,15 +426,13 @@ footer {
 #side-menu .MuiSvgIcon-root {
   font-size: 250%;
 }
-#side-menu .MuiList-root {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-#side-menu .MuiListItem-root {
+#side-menu .side-menu-item {
+  display: flex;
   justify-content: center;
   text-align: center;
   width: 100%;
   cursor: pointer;
+  padding: 2%;
 }
 #side-menu .side-menu-img-container {
   width: 7vh;
@@ -492,8 +490,8 @@ footer {
 
 .dashboard-main {
   height: 100%;
-  width: 96%;
-  margin-left: 110px;
+  width: 100%;
+  padding-left: 13%;
 }
 
 #dashboard {
@@ -597,7 +595,8 @@ footer {
 
 .friends-menu {
   height: 100%;
-  width: 25%;
+  width: 30%;
+  margin-left: -5%;
   background-color: #a9bcd0;
   display: flex;
   flex-direction: column;
@@ -658,8 +657,9 @@ footer {
   box-shadow: 8px 8px 40px #456b9a;
 }
 .friends-menu .friend-menu-item {
-  width: 90%;
-  aspect-ratio: 5/1;
+  width: 300px;
+  min-width: 90%;
+  height: 82px;
   border-radius: 100px;
   background-color: #f0eff4;
   display: flex;
@@ -670,8 +670,8 @@ footer {
   cursor: pointer;
 }
 .friends-menu .friend-menu-item .menu-item-avatar {
-  height: 100%;
-  width: 20%;
+  height: 80px;
+  width: 80px;
 }
 .friends-menu .friend-menu-item .MuiSvgIcon-root {
   margin-left: 10px;

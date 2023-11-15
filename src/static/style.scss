@@ -71,7 +71,7 @@ body {
   height: fit-content;
   min-height: 100vh;
   width: 100%;
-  padding: 100px 2% 0;
+  padding: 100px 0 0;
 }
 
 h1 {
@@ -465,16 +465,13 @@ footer {
     font-size: 250%;
   }
 
-  .MuiList-root {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  .MuiListItem-root {
+  .side-menu-item  {
+    display: flex;
     justify-content: center;
     text-align: center;
     width: 100%;
     cursor: pointer;
+    padding: 2%;
   }
 
   .side-menu-img-container {
@@ -529,8 +526,8 @@ footer {
 
 .dashboard-main {
   height: 100%;
-  width: 96%;
-  margin-left: 110px;
+  width: 100%;
+  padding-left: 13%;
 }
 
 #dashboard {
@@ -627,7 +624,8 @@ footer {
 
 .friends-menu {
   height: 100%;
-  width: 25%;
+  width: 30%;
+  margin-left:-5%;
   background-color: $echo-lightblue;
   @include flex-column(space-between, center);
   padding: 15px 0;
@@ -679,8 +677,9 @@ footer {
   }
 
   .friend-menu-item {
-    width: 90%;
-    aspect-ratio: 5/1;
+    width: 300px;
+    min-width: 90%;
+    height: 82px;
     border-radius: 100px;
     background-color: $echo-lightgrey;
     @include flex-row(flex-start, center);
@@ -688,8 +687,8 @@ footer {
     cursor: pointer;
 
     .menu-item-avatar {
-      height: 100%;
-      width: 20%;
+      height: 80px;
+      width: 80px;
     }
 
     .MuiSvgIcon-root {
