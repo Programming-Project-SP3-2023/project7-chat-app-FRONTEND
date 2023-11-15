@@ -3,7 +3,7 @@
  */
 
 import { Outlet, useParams } from "react-router-dom";
-import { getGroups, getUserID } from "../../utils/localStorage";
+import { getUserID } from "../../utils/localStorage";
 import { useEffect, useState } from "react";
 import { getFriends } from "../../services/friendsAPI";
 import { getChannels } from "../../services/channelsAPI";
@@ -22,7 +22,7 @@ import ManageMembersModal from "./ManageMembersModal";
 import ManageGroupSettings from "./ManageGroupSettings";
 import AddChannelModal from "./AddChannelModal";
 import { UndoRounded } from "@mui/icons-material";
-import { getUser } from "../../utils/localStorage";
+import { getUser, getGroups } from "../../utils/localStorage";
 
 /**
  * Builds and renders the User groups component
@@ -79,32 +79,29 @@ const Groups = ({
   useEffect(() => {
     try {
       const fetchData = async () => {
-        //temp
-        let currentGroup;
-        // 2. fetch groups data from local storage
-        const groups = getGroups();
-        // 3. extract group with current ID
-        groups.forEach((g) => {
-          if (g.groupID === groupId) {
-            currentGroup = g;
-            setGroup(g);
-            setMembers(currentGroup.GroupMembers);
-          }
-        });
-        //
-        if (!currentGroup) {
-          console.error("group not found with ID:", groupId);
-          return;
-        }
+        // 1. fetch groups data from local storage
+        async function fetchGroups() {
+          let currentGroup = null;
+          const groups = await getGroups();
+          // I need this to wait for groups
+          // 2. extract group with current ID
+          console.log("groups exist during first render? ", groups);
 
-        // 4. Check if User is this group's admin
-        members.forEach((m) => {
-          if (m.AccountID === getUserID()) {
-            console.log("THIS is USERID:", m.AccountID);
-            console.log("THIS IS my role", m.Role);
-            if (m.Role === "Admin") setIsAdmin(true);
+          groups.forEach((g) => {
+            console.log("inside for each loop?", g);
+            if (g.groupID === groupId) {
+              currentGroup = g;
+              setGroup(g);
+              setMembers(currentGroup.GroupMembers);
+            }
+          });
+
+          // error
+          if (!currentGroup) {
+            console.error("group not found with ID:", groupId);
+            return;
           }
-        });
+        }
 
         // 4. define fetch friends function
         async function fetchFriends() {
@@ -112,21 +109,8 @@ const Groups = ({
           // console.log("FRIENDS: ", response);
           setFriends(response);
         }
-        // 5. Call function
-        await fetchFriends();
 
-        members.forEach((m) => {
-          if (m.AccountID === getUserID()) {
-            console.log("THIS is USERID:", m.AccountID);
-            console.log("THIS IS my role", m.Role);
-            if (m.Role === "Admin") setIsAdmin(true);
-          }
-        });
-
-        // if (group.groupID) {
-        //         console.log("groupid...", group.groupID);
-        // }
-        // 6 attempt to get channel list
+        // 5. attempt to get channel list
         async function fetchChannelList() {
           if (groupId) {
             const response = await getChannels(groupId);
@@ -141,7 +125,12 @@ const Groups = ({
             console.error("group or groupId is null...");
           }
         }
-        // 7 call channel list function
+
+        // 3. Check if User is this group's admin
+
+        // 6 call channel list function async functions
+        await fetchGroups();
+        await fetchFriends();
         await fetchChannelList();
       };
 
@@ -151,7 +140,23 @@ const Groups = ({
     } finally {
       setloading(false);
     }
-  }, [groupId, socket]);
+  }, [groupId]);
+
+  useEffect(() => {
+    async function fetchMembers() {
+      console.log("do I enter here?");
+      console.log(members);
+
+      members.forEach((m) => {
+        if (m.AccountID === getUserID()) {
+          console.log("THIS is USERID:", m.AccountID);
+          console.log("THIS IS my role", m.Role);
+          if (m.Role === "Admin") setIsAdmin(true);
+        }
+      });
+    }
+    fetchMembers();
+  }, [members]);
 
   // handles opening channel chat and relative functions
   const handleChannelNavigate = async (channelID, channelName) => {
