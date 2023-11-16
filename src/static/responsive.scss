@@ -241,19 +241,19 @@
     width: 60%;
   }
 
-  #manage-members-modal{
+  #manage-members-modal {
     width: 60%;
   }
 
-  #edit-profile-modal{
-   height: fit-content;
+  #edit-profile-modal {
+    height: fit-content;
 
-   #edit-profile-modal-body {
-    padding-top: 5%;
-   }
+    #edit-profile-modal-body {
+      padding-top: 5%;
+    }
   }
 
-  #password-update-modal{
+  #password-update-modal {
     width: 60%;
   }
 }
@@ -482,7 +482,7 @@
     width: 85%;
     aspect-ratio: 3/5;
 
-    h2{
+    h2 {
       font-size: 30px;
     }
 
@@ -536,7 +536,7 @@
     }
   }
 
-  #manage-members-modal{
+  #manage-members-modal {
     width: 80%;
     aspect-ratio: unset;
     height: 65%;
@@ -545,24 +545,30 @@
     }
   }
 
-  #group-delete-bttn{
+  #group-delete-bttn {
     width: 100%;
     border-radius: 20px;
-    h3{
+    h3 {
       display: initial;
     }
   }
 
-  #edit-profile-modal{
+  #edit-profile-modal {
     width: 80%;
- 
-    #edit-profile-modal-body {
-     padding-top: 8%;
-    }
-   }
 
-   #password-update-modal{
+    #edit-profile-modal-body {
+      padding-top: 8%;
+    }
+  }
+
+  #password-update-modal {
     width: 80%;
   }
 
+  #manage-channels-modal-background
+    #manage-channels-modal
+    #manage-channel-modal-header
+    h2 {
+    font-size: 30px;
+  }
 }

@@ -17,13 +17,19 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import { addGroupMember, createGroup } from "../../services/groupsAPI";
-import { useNavigate } from "react-router";
 /**
  * Builds and renders the Add Group component
  * @returns Add Group component render
  */
 
-const AddGroup = ({ groupModalOpen, setGroupModalOpen, friends, groupID, groupReload, setGroupReload }) => {
+const AddGroup = ({
+  groupModalOpen,
+  setGroupModalOpen,
+  friends,
+  groupID,
+  groupReload,
+  setGroupReload,
+}) => {
   // state variables for modal
   const [selectedImage, setSelectedImage] = useState(null);
   const [groupName, setGroupName] = useState("");
@@ -34,9 +40,8 @@ const AddGroup = ({ groupModalOpen, setGroupModalOpen, friends, groupID, groupRe
   const [friendOptions, setFriendOptions] = useState([]);
   const [processing, setProcessing] = useState(false);
   const [message, setMessage] = useState(null);
+  const [successMsg, setSuccesMsg] = useState(null);
   const loading = open && options.length === 0;
-
-  const navigate = useNavigate();
 
   // METHODS
 
@@ -137,8 +142,7 @@ const AddGroup = ({ groupModalOpen, setGroupModalOpen, friends, groupID, groupRe
       }
       setGroupReload(!groupReload);
       setProcessing(false);
-      setGroupModalOpen(false);
-      navigate('/dashboard');
+      setSuccesMsg("Group Successfully Created!")
     } catch (err) {
       console.log(err);
       setMessage("Something went wrong. We were unable to create the group.");
@@ -279,6 +283,7 @@ const AddGroup = ({ groupModalOpen, setGroupModalOpen, friends, groupID, groupRe
               Create Group
             </Button>
             {message && <p className="error-message">{message}</p>}
+            {successMsg && <p className="success">{successMsg}</p>}
           </form>
         )}
       </Box>

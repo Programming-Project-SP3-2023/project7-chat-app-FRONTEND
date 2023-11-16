@@ -400,4 +400,7 @@
   #password-update-modal {
     width: 80%;
   }
+  #manage-channels-modal-background #manage-channels-modal #manage-channel-modal-header h2 {
+    font-size: 30px;
+  }
 }/*# sourceMappingURL=responsive.css.map */

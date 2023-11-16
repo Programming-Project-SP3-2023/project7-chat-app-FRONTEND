@@ -323,12 +323,16 @@ const Groups = ({
                             >
                               {channel.ChannelName}
                             </a>
-                            <PersonAddOutlinedIcon
-                              id="manage-members-icon"
-                              onClick={() =>
-                                handleOpenManageChannelsModal(channel.ChannelID)
-                              }
-                            />
+                            {isAdmin && (
+                              <PersonAddOutlinedIcon
+                                id="manage-members-icon"
+                                onClick={() =>
+                                  handleOpenManageChannelsModal(
+                                    channel.ChannelID
+                                  )
+                                }
+                              />
+                            )}
                           </div>
                         ) : channel.ChannelType === "Voice" ? (
                           <div>
@@ -343,12 +347,16 @@ const Groups = ({
                             >
                               {channel.ChannelName}
                             </a>
-                            <PersonAddOutlinedIcon
-                              id="manage-members-icon"
-                              onClick={() =>
-                                handleOpenManageChannelsModal(channel.ChannelID)
-                              }
-                            />
+                            {isAdmin && (
+                              <PersonAddOutlinedIcon
+                                id="manage-members-icon"
+                                onClick={() =>
+                                  handleOpenManageChannelsModal(
+                                    channel.ChannelID
+                                  )
+                                }
+                              />
+                            )}
                           </div>
                         ) : null}
                         {/* manage channel modal */}

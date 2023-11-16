@@ -87,7 +87,7 @@ span {
   font-size: 18px;
 }
 
-.success{
+.success {
   color: green;
 }
 
@@ -1004,10 +1004,12 @@ footer {
   }
 
   #edit-profile-modal-body {
-    @include flex-column(flex-end, center);
-    width: 80%;
+    @include flex-column(flex-start, center);
+    width: 90%;
     height: 88%;
+    padding-top: 5%;
     padding-bottom: 5%;
+    overflow: auto;
   }
   #edit-avatar-img-input {
     display: none;
@@ -1122,7 +1124,7 @@ footer {
     padding-block: 1rem;
     width: 80%;
 
-    p{
+    p {
       margin: 10px 0 5px 0;
     }
   }
@@ -1160,12 +1162,18 @@ footer {
 }
 
 #add-friend-modal {
-  aspect-ratio: 5/2;
-  @include modal-styling(40%, 8%);
+  @include modal-styling(50%, 3%);
+  padding-bottom: 4%;
+  height: fit-content;
 
   #add-friend-modal-header {
     @include modal-header-styling();
     height: 25%;
+    margin-bottom: 4%;
+  }
+
+  .confirmation-modal-center {
+    width: 90%;
   }
 }
 
@@ -1924,8 +1932,10 @@ input[type="range"] {
   @include flex-row(center, center);
 
   #manage-channels-modal {
-    @include modal-styling(55%, 8%);
-    height: 70%;
+    @include modal-styling(65%, 5%);
+    height: 85%;
+    overflow: auto;
+
 
     #manage-channel-modal-header {
       @include modal-header-styling();
@@ -1934,19 +1944,23 @@ input[type="range"] {
   }
 
   #manage-channel-settings-textfield {
-    padding-inline: 5%;
+    width: 90%;
+    height: 20%;
+    min-height: fit-content;
+    button{
+      margin-top: 1%;
+    }
+
   }
 
   #manage-channels-modal-whitebox {
     width: 90%;
-    height: 45%;
-    max-height: 45%;
+    height: 40%;
     background-color: #ffffff;
     overflow: auto;
     padding-left: 5%;
     gap: 15px;
     padding-top: 20px;
-    min-height: 30%;
   }
 
   .manage-channels-link {
@@ -1958,6 +1972,10 @@ input[type="range"] {
     padding-left: 2%;
   }
 
+  .channel-delete-bttn-container{
+    padding-block: 0 !important;
+  }
+
   #manage-channel-submit-button {
     width: 100%;
     font-size: 19px;
@@ -1967,12 +1985,12 @@ input[type="range"] {
   .manage-channels-bottom {
     width: 100%;
     @include flex-column(center, center);
-    gap: 10px;
+    height: 25%;
+    margin-bottom: 10px;
   }
 
   .manage-channels-link {
     @include flex-row(flex-start, center);
-
     width: 90%;
     gap: 20px;
     text-decoration: none;

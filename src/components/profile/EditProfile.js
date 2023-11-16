@@ -1,7 +1,13 @@
 import { TextField, Avatar, Box, FormControl, Button } from "@mui/material";
 import { Modal } from "@mui/material";
-import { getUser } from "../../utils/localStorage";
-import { useState } from "react";
+import {
+  getAccessToken,
+  getUser,
+  getUserID,
+  resetUserSession,
+  setUserSession,
+} from "../../utils/localStorage";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -9,6 +15,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import {
+  getUserByID,
   updateAvatar,
   updateDisplayName,
   updateEmail,
@@ -30,11 +37,12 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   const [emailChange, setEmailChange] = useState(false);
   const [nameChange, setNameChange] = useState(false);
 
-  const [userImg, setUserImg] = useState(user ? user.image : null);
+  const [userImg, setUserImg] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [name, setName] = useState(user && user.displayName);
-  const [email, setEmail] = useState(user && user.email);
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
   const [message, setMessage] = useState(null);
+  const [successMsg, setSuccesMsg] = useState(null);
   // loading state handler
   const [loading, setLoading] = useState(false);
 
@@ -47,6 +55,14 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   const handleEmailDisabled = () => {
     setIsEmailDisabled(!isEmailDisabled);
   };
+
+  useEffect(() => {
+    if (user.image !== "NULL") {
+      setUserImg(user.image);
+    }
+    setName(user.displayName);
+    setEmail(user.email);
+  }, []);
 
   // Handles image upload and formats it to Base64
   const imageChange = (e) => {
@@ -63,7 +79,6 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   // update profile handler
   const updateProfile = async (event) => {
     event.preventDefault();
-    console.log("updating profile...");
     setLoading(true);
 
     // 1. validation checks
@@ -82,10 +97,11 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
       try {
         const updateAvatarResponse = await updateAvatar(selectedImage);
         console.log(updateAvatarResponse);
-        setMessage(updateAvatarResponse);
+        setSuccesMsg("Account details updated successfully!");
       } catch (error) {
         console.log(error);
         setMessage("Unable to update your avatar.");
+        setSuccesMsg(null);
       }
     }
 
@@ -94,10 +110,11 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
       try {
         const updateNameResponse = await updateDisplayName(name);
         console.log(updateNameResponse);
-        setMessage(updateNameResponse);
+        setSuccesMsg("Account details updated successfully!");
       } catch (error) {
         console.log(error);
         setMessage("Unable to update your display name");
+        setSuccesMsg(null);
       }
     }
 
@@ -106,16 +123,44 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
       try {
         const updateEmailResponse = await updateEmail(email);
         console.log(updateEmailResponse);
-        setMessage(updateEmailResponse);
+        setSuccesMsg("Account details updated successfully!");
       } catch (error) {
         console.log(error);
         setMessage("Unable to update your email address");
+        setSuccesMsg(null);
       }
+    }
+
+    // 5. Update user info
+    try {
+      const userDataResponse = await getUserByID(getUserID(), getAccessToken());
+
+      let updatedUser;
+      if (selectedImage) {
+        updatedUser = {
+          email: userDataResponse.email,
+          displayName: userDataResponse.displayName,
+          dob: userDataResponse.dob,
+          username: userDataResponse.username,
+          image: selectedImage,
+        };
+      } else {
+        updatedUser = {
+          email: userDataResponse.email,
+          displayName: userDataResponse.displayName,
+          dob: userDataResponse.dob,
+          username: userDataResponse.username,
+          image: userImg,
+        };
+      }
+      resetUserSession();
+      setUserSession(updatedUser);
+    } catch (error) {
+      console.log(error);
     }
 
     //Disable loading state
     setLoading(false);
-
     setIsNameDisabled(!isNameDisabled);
     setIsEmailDisabled(!isEmailDisabled);
   };
@@ -146,9 +191,11 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                   <div id="edit-avatar-upload-box">
                     {!selectedImage && !userImg && <PersonOutlineIcon />}
                     {!selectedImage && userImg && (
-                      <img src={userImg} alt="Profile" />
+                      <img src={userImg} alt="Profile - 2" />
                     )}
-                    {selectedImage && <img src={selectedImage} alt="Profile" />}
+                    {selectedImage && (
+                      <img src={selectedImage} alt="Profile - 3" />
+                    )}
                   </div>
                 </Avatar>
               </label>
@@ -237,12 +284,9 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                     Save changes
                   </Button>
                   {message && <p className="error-message">{message}</p>}
+                  {successMsg && <p className="success">{successMsg}</p>}
                 </FormControl>
               </form>
-              {/* change password button/modal/dialog box
-              <div id="edit-profile-modal-btn-container">
-                <PasswordUpdateModal />
-              </div> */}
             </div>
           </div>
         </Box>

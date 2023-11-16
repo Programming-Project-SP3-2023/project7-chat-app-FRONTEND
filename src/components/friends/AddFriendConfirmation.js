@@ -71,7 +71,7 @@ const AddFriendConfirmation = ({
         >
           Send request
         </Button>
-        {loading && <h2>Sending request...</h2>}
+        {loading && <p>Sending request...</p>}
       </Box>
     </Modal>
   );
