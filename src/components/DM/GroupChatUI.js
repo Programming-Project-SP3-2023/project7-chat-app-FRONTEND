@@ -258,7 +258,7 @@ const GroupChatUI = ({ socket }) => {
               }`}
             >
               {/* timestamp */}
-              <div>{message.SenderID}</div>
+              <div>{message.SenderUsername}</div>
 
               <div id="message-timestamp" className="message-timestamp">
                 {formatEpochTime(message.TimeSent)}
