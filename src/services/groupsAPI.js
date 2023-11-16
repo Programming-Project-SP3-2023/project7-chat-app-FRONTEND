@@ -13,14 +13,6 @@ const ADD_MEMBER_ENDPOINT = `${BASE_URL}groups/add-member`;
 const GET_MEMBERS_ENDPOINT = `${BASE_URL}groups/current-groups`;
 const REMOVE_MEMBER_ENDPOINT = `${BASE_URL}groups/remove-member`;
 
-// Auth setup
-const headers = {
-  headers: {
-    Authorization: getAccessToken(),
-    "Content-Type": "application/json",
-  },
-};
-
 /**
  * Create a new group
  * @param {*} requestBody group information
@@ -48,6 +40,13 @@ export const addGroupMember = async function (groupID, memberEmail) {
   const body = {
     email: memberEmail,
     groupId: groupID,
+  };
+
+  const headers = {
+    headers: {
+      Authorization: getAccessToken(),
+      "Content-Type": "application/json",
+    },
   };
 
   try {
@@ -211,6 +210,13 @@ export const updateGroupName = async function (groupID, groupName) {
     newGroupName: groupName
   };
 
+  const headers = {
+    headers: {
+      Authorization: getAccessToken(),
+      "Content-Type": "application/json",
+    },
+  };
+
   try {
     let response = await axios.post(`${BASE_URL}groups/edit-name/${groupID}`, body, headers);
 
@@ -240,6 +246,13 @@ export const updateGroupAvatar = async function (groupID, groupAvatar) {
   const body = {
     groupId: groupID,
     avatarData: groupAvatar
+  };
+
+  const headers = {
+    headers: {
+      Authorization: getAccessToken(),
+      "Content-Type": "application/json",
+    },
   };
 
   try {

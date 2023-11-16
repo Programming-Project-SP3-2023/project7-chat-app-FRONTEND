@@ -10,6 +10,7 @@ import { Modal } from "@mui/material";
 import { useState } from "react";
 
 import { getUser } from "../../utils/localStorage";
+import { updatePassword } from "../../services/userAPI";
 
 const PasswordUpdateModal = ({ pwdUpdateOpen, setPwdUpdateOpen }) => {
   const user = getUser();
@@ -19,7 +20,7 @@ const PasswordUpdateModal = ({ pwdUpdateOpen, setPwdUpdateOpen }) => {
   const [repeatPassword, setRepeatPassword] = useState("");
   const [message, setMessage] = useState(null);
 
-  const passwordUpdateHandler = (event) => {
+  const passwordUpdateHandler = async (event) => {
     event.preventDefault();
     console.log("Password Update Handler");
 
@@ -31,14 +32,16 @@ const PasswordUpdateModal = ({ pwdUpdateOpen, setPwdUpdateOpen }) => {
       setMessage("All Fields are required to update password");
     } else if (newPassword !== repeatPassword) {
       setMessage("New Password and repeat password do not match!");
-    } else if (currentPassword !== user.password) {
-      setMessage("Current Password does not match users password, try again.");
     } else {
       // update users password
-      // TODO include method to validate if password matches before
-      // allowing the user to update the password
-      user.password = newPassword;
-      setMessage("Users password has been updated.");
+      try {
+        const response = await updatePassword(currentPassword, newPassword);
+        console.log(response);
+        setMessage(response);
+      } catch (err) {
+        console.log("An error has occurred");
+        setMessage(err.response.data.message);
+      }
     }
   };
 

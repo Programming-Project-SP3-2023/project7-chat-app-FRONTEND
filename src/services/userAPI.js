@@ -15,13 +15,7 @@ const USER_INFO_ENDPOINT = BASE_URL + "profile/user-info";
 const EDIT_DISPLAY_NAME_ENDPOINT = BASE_URL + "profile/edit-displayname";
 const EDIT_EMAIL_ENDPOINT = BASE_URL + "profile/change-email";
 const UPDATE_AVATAR_ENDPOINT = BASE_URL + "avatar/upload";
-
-// Auth setup
-const headers = {
-  headers: {
-    Authorization: getAccessToken(),
-  },
-};
+const UPDATE_PWD_ENDPOINT = BASE_URL + "profile/update-password";
 
 /**
  * Register a new user
@@ -116,6 +110,12 @@ export const updateDisplayName = async function (newDisplayName) {
     newDisplayName: newDisplayName,
   };
 
+  const headers = {
+    headers: {
+      Authorization: getAccessToken(),
+    },
+  };
+
   try {
     let response = await axios.put(
       EDIT_DISPLAY_NAME_ENDPOINT,
@@ -148,6 +148,12 @@ export const updateEmail = async function (newEmail) {
     newEmail: newEmail,
   };
 
+  const headers = {
+    headers: {
+      Authorization: getAccessToken(),
+    },
+  };
+
   try {
     let response = await axios.post(EDIT_EMAIL_ENDPOINT, requestBody, headers);
 
@@ -178,6 +184,12 @@ export const updateAvatar = async function (avatarData) {
 
   const requestBody = {
     avatarData: avatarData,
+  };
+
+  const headers = {
+    headers: {
+      Authorization: getAccessToken(),
+    },
   };
 
   try {
@@ -240,5 +252,38 @@ export const getAvatarByID = async function (userID, token) {
     console.log(error.response.data.message);
   }
 
+  return;
+};
+
+/**
+ * Updates a user's email
+ * @param {*} currentPassword current user password
+ * @param {*} newPassword new password
+ * @returns confirmation/error message
+ */
+export const updatePassword = async function (currentPassword, newPassword) {
+  const requestBody = {
+    currentPassword: currentPassword,
+    newPassword: newPassword,
+  };
+
+  const headers = {
+    headers: {
+      Authorization: getAccessToken(),
+    },
+  };
+
+  try {
+    let response = await axios.put(UPDATE_PWD_ENDPOINT, requestBody, headers);
+
+    //Success!
+    if (response.status === 200) {
+      // return success message
+      console.log(response);
+      return response.data.message;
+    }
+  } catch (error) {
+    console.log(error.response.data.message);
+  }
   return;
 };
