@@ -4,14 +4,11 @@
 
 import DashboardMainColumn from "../partial/DashboardMainColumn";
 import ManageFriendsModal from "../friends/ManageFriendsModal";
+import AddFriendConfirmation from "../friends/AddFriendConfirmation";
 import AddGroup from "../groups/AddGroup";
 import { useState, useEffect } from "react";
 import { getUserByID, getAvatarByID } from "../../services/userAPI";
-import {
-  getUsers,
-  getFriends,
-  getFriendRequests,
-} from "../../services/friendsAPI";
+import { getFriends, getFriendRequests } from "../../services/friendsAPI";
 import {
   getAccessToken,
   getUserID,
@@ -19,20 +16,24 @@ import {
 } from "../../utils/localStorage";
 
 import { CircularProgress } from "@mui/material";
+import { getAccounts } from "../../services/adminAPI";
 
 /**
  * Builds and renders the Dashboard main menu component
  * @returns Dashboard Main Menu component render
  */
 
-const DashboardMain = ({groupReload, setGroupReload}) => {
+const DashboardMain = ({ groupReload, setGroupReload }) => {
   // state handler for create group modal
   const [groupModalOpen, setGroupModalOpen] = useState(false);
   // state handler for manage friends modal
   const [manageFriendsModalOpen, setManageFriendsModalOpen] = useState(false);
+  // state handler for add friend confirmation modal
+  const [addFriendModalOpen, setAddFriendModalOpen] = useState(false);
 
   const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([]);
+  const [friendToAdd, setFriendToAdd] = useState(null);
   const [friendRequests, setFriendRequests] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -50,9 +51,9 @@ const DashboardMain = ({groupReload, setGroupReload}) => {
 
     // 2. define fetch users function
     async function fetchUsers() {
-      const response = await getUsers("");
-      console.log("USERS: ", response[0]);
-      setUsers(response[0]);
+      const response = await getAccounts();
+      console.log("USERS: ", response);
+      setUsers(response);
     }
 
     // 3. define fetch friends function
@@ -131,10 +132,18 @@ const DashboardMain = ({groupReload, setGroupReload}) => {
           <ManageFriendsModal
             manageFriendsModalOpen={manageFriendsModalOpen}
             setManageFriendsModalOpen={setManageFriendsModalOpen}
-            friends={friends}
             users={users}
+            friends={friends}
             friendRequests={friendRequests}
             setRefresh={setRefresh}
+            setFriendToAdd={setFriendToAdd}
+            setAddFriendModalOpen={setAddFriendModalOpen}
+          />
+          {/* Add friends confirmation modal */}
+          <AddFriendConfirmation
+            addFriendModalOpen={addFriendModalOpen}
+            setAddFriendModalOpen={setAddFriendModalOpen}
+            friendToAdd={friendToAdd}
           />
           <article className="dashboard-main-menu">
             <DashboardMainColumn title="My Friends" friends={friends} />

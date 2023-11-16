@@ -21,7 +21,6 @@ import ManageFriendsModal from "./ManageFriendsModal";
 import { Outlet } from "react-router-dom";
 import {
   getFriends,
-  getUsers,
   getFriendRequests,
 } from "../../services/friendsAPI";
 import { getAccounts } from "../../services/adminAPI";
@@ -196,7 +195,6 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
     runFetch();
   }, [refresh]);
 
-  // console.log("selected: ", friends);
   return (
     <>
       {fetching && (

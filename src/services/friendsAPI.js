@@ -8,38 +8,10 @@ import { getAccessToken, getUserID } from "../utils/localStorage";
 
 // base URLs for API requests
 const BASE_URL = process.env.REACT_APP_BASEURL;
-const SEARCH_USER_ENDPOINT = BASE_URL + "friendships/search";
 const ADD_FRIEND_ENDPOINT = BASE_URL + "friendships/request";
 const GET_FRIENDSHIPS_ENDPOINT = BASE_URL + "friendships/friends";
 const ACCEPT_FRIENDSHIP_ENDPOINT = BASE_URL + "friendships/accept";
 const REMOVE_FRIENDSHIP_ENDPOINT = BASE_URL + "friendships/delete";
-
-/**
- * Get a list of users
- * * @param {*} filter any search filter option
- * @returns list of users
- */
-export const getUsers = async function (filter) {
-  const body = {
-    DisplayName: filter,
-  };
-
-  try {
-    let response = await axios.post(SEARCH_USER_ENDPOINT, body);
-
-    //Success!
-    if (response.status === 200) {
-      console.log("Users list fetched");
-      console.log(response.data.message);
-      return response.data.userList;
-    }
-  } catch (error) {
-    console.log("Failed to fetch users");
-    console.log(error.response.data.Message);
-  }
-
-  return;
-};
 
 /**
  * Sends a friend request

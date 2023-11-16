@@ -152,6 +152,7 @@ const Groups = ({
           console.log("THIS is USERID:", m.AccountID);
           console.log("THIS IS my role", m.Role);
           if (m.Role === "Admin") setIsAdmin(true);
+          else setIsAdmin(false);
         }
       });
     }
