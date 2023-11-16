@@ -83,10 +83,8 @@ const Groups = ({
         async function fetchGroups() {
           let currentGroup = null;
           const groups = await getGroups();
-          // I need this to wait for groups
-          // 2. extract group with current ID
-          console.log("groups exist during first render? ", groups);
 
+          // 2. extract group with current ID
           groups.forEach((g) => {
             console.log("inside for each loop?", g);
             if (g.groupID === groupId) {
@@ -103,14 +101,14 @@ const Groups = ({
           }
         }
 
-        // 4. define fetch friends function
+        // 3. define fetch friends function // potential group members
         async function fetchFriends() {
           const response = await getFriends();
           // console.log("FRIENDS: ", response);
           setFriends(response);
         }
 
-        // 5. attempt to get channel list
+        // 4. attempt to get channel list
         async function fetchChannelList() {
           if (groupId) {
             const response = await getChannels(groupId);
@@ -126,14 +124,12 @@ const Groups = ({
           }
         }
 
-        // 3. Check if User is this group's admin
-
-        // 6 call channel list function async functions
+        // 5 call channel list function async functions
         await fetchGroups();
         await fetchFriends();
         await fetchChannelList();
       };
-
+      // call for data
       fetchData();
     } catch (error) {
       console.log("error", error);
@@ -142,6 +138,7 @@ const Groups = ({
     }
   }, [groupId]);
 
+  // updates the users role when members are avaiable
   useEffect(() => {
     async function fetchMembers() {
       console.log("do I enter here?");
@@ -161,7 +158,6 @@ const Groups = ({
 
   // handles opening channel chat and relative functions
   const handleChannelNavigate = async (channelID, channelName) => {
-    // navigate(`/dashboard/groups/${group.groupID}/${channelID}`);
     // change header title to match channel
     if (channelName) {
       setHeaderTitle(channelName);
@@ -203,8 +199,6 @@ const Groups = ({
     }
   };
 
-  // socket.emit("connectGroup", { groupID: 3 });
-
   const handleVOIPJoin = (channelID, channelName) => {
     //console.log("Connecting to Voice Channel :)");
     navigate(`/dashboard/groups/${group.groupID}/v/${channelID}`);
@@ -234,8 +228,6 @@ const Groups = ({
     //is dependent on the group existing
   }, [group]);
 
-  // console.log("group info", group);
-  // console.log("channels info", channelList);
   return (
     <>
       {loading ? (
