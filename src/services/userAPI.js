@@ -45,22 +45,21 @@ export const verifyEmail = async function (emailToken) {
     if (response.status === 200) {
       return {
         message: response.data.Message,
-        status: response.data.Status
-        };
+        status: response.data.Status,
+      };
     }
     // Failed!
     else {
       return {
         message: response.data.Message,
-        status: 'Failed'
+        status: "Failed",
       };
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
   }
   return;
 };
-
 
 /**
  * Log the user in
@@ -99,15 +98,9 @@ export const getUserByID = async function (userID, token) {
       console.log(response.data);
       return response.data;
     }
-    //Failed!
-    else {
-      console.log("Failed to find user by id!");
-      console.log(response.data.message);
-      return response.data.message;
-    }
   } catch (error) {
     console.log("Failed to find user by id!");
-    console.log(error);
+    console.log(error.response.data.message);
   }
 
   return;
@@ -140,7 +133,7 @@ export const updateDisplayName = async function (newDisplayName) {
       return response.data.message;
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
   }
   return;
 };
@@ -170,7 +163,7 @@ export const updateEmail = async function (newEmail) {
       return response.data.message;
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
   }
   return;
 };
@@ -206,7 +199,7 @@ export const updateAvatar = async function (avatarData) {
       return response.data.message;
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
   }
   return;
 };
@@ -244,7 +237,7 @@ export const getAvatarByID = async function (userID, token) {
       return response.data.message;
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
   }
 
   return;

@@ -51,7 +51,7 @@ export const createChannel = async function (
       return response;
     }
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data.message);
   }
 
   return;
@@ -80,7 +80,7 @@ export const getChannels = async function (groupId) {
       return response.data;
     }
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data.message);
   }
 
   return;
@@ -110,7 +110,7 @@ export const getChannelInfo = async function (groupId, channelId) {
       return response.data;
     }
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data.message);
   }
 
   return;
@@ -154,7 +154,7 @@ export const updateChannelName = async function (
       return response.data.message;
     }
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data.message);
   }
 
   return;
@@ -204,7 +204,7 @@ export const addChannelMember = async function (
       return response.data.message;
     }
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data.message);
   }
 
   return;
@@ -242,7 +242,7 @@ export const removeChannelMember = async function (
       return response.data.message;
     }
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data.message);
   }
 
   return;
@@ -275,7 +275,7 @@ export const deleteChannel = async function (groupId, channelId) {
       return response.data.message;
     }
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data.message);
   }
 
   return;

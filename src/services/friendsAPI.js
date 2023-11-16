@@ -33,15 +33,9 @@ export const getUsers = async function (filter) {
       console.log(response.data.message);
       return response.data.userList;
     }
-    //Failed!
-    else if (response.status === 204) {
-      console.log("No Users");
-      console.log(response);
-      return response.data.message;
-    }
   } catch (error) {
     console.log("Failed to fetch users");
-    console.log(error);
+    console.log(error.response.data.Message);
   }
 
   return;
@@ -59,8 +53,6 @@ export const submitFriendRequest = async function (requesterID, requesteeID) {
     requesteeID: requesteeID,
   };
 
-  console.log("USER: ", requesterID, " requests to ", requesteeID);
-
   const headers = {
     headers: {
       Authorization: getAccessToken(),
@@ -77,7 +69,6 @@ export const submitFriendRequest = async function (requesterID, requesteeID) {
       console.log(response.data.Message);
       return response.data.Message;
     }
-
   } catch (error) {
     console.log("Error sending request");
     console.log(error.response.data.Message);
@@ -118,7 +109,7 @@ export const getFriendRequests = async function () {
     }
   } catch (error) {
     console.log("Error sending request");
-    console.log(error);
+    console.log(error.response.data.Message);
   }
 
   return;
@@ -157,7 +148,7 @@ export const getFriends = async function () {
     }
   } catch (error) {
     console.log("Error sending request");
-    console.log(error);
+    console.log(error.response.data.Message);
   }
 
   return;
@@ -190,14 +181,9 @@ export const acceptFriendRequest = async function (requesterID) {
       console.log(response.data.Message);
       return response.data.Message;
     }
-    //Failed!
-    else if (response.status === 401) {
-      console.log(response.data.Message);
-      return response.data.Message;
-    }
   } catch (error) {
     console.log("An error occured while attempting to accept request.");
-    console.log(error);
+    console.log(error.response.data.Message);
   }
 
   return;
@@ -229,14 +215,9 @@ export const removeFriendOrRequest = async function (requesterID) {
       console.log(response.data.Message);
       return response.data.Message;
     }
-    //Failed!
-    else if (response.status === 401) {
-      console.log(response.data.Message);
-      return response.data.Message;
-    }
   } catch (error) {
     console.log("An error occured while attempting to remove friendship.");
-    console.log(error);
+    console.log(error.response.data.Message);
   }
 
   return;

@@ -45,7 +45,7 @@ export const getAccounts = async function () {
     }
   } catch (error) {
     console.log("Error sending request");
-    console.log(error);
+    console.log(error.response.data.Message);
   }
 
   return;
@@ -79,7 +79,7 @@ export const updateAccount = async function (requestBody) {
       return response.data.Message;
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.Message);
   }
   return;
 };
@@ -106,7 +106,7 @@ export const deleteAccount = async function (AccountID) {
       return true;
     }
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data.Message);
   }
 
   return false;
@@ -146,7 +146,7 @@ export const updatePassword = async function (AccountID, password) {
       return response.data.Message;
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.Message);
   }
   return;
 };

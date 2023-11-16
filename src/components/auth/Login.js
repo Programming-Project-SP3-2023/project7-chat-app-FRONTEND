@@ -59,13 +59,11 @@ const Login = ({ setIsLoggedIn, setAccessTokenFast }) => {
       setLoading(false);
     } else {
       try {
-        console.log("THIS ATTEMPT");
 
         const requestBody = {
           username: username,
           password: password,
         };
-
         
         response = await login(requestBody);
         

@@ -61,7 +61,7 @@ export const addGroupMember = async function (groupID, memberEmail) {
     }
   } catch (error) {
     console.log("Error adding member");
-    console.log(error);
+    console.log(error.response.data.message);
   }
 
   return;
@@ -91,7 +91,7 @@ export const getGroupIDs = async function (token) {
     }
   } catch (error) {
     console.log("Error sending request");
-    console.log(error);
+    console.log(error.response.data.message);
   }
 
   return;
@@ -123,7 +123,7 @@ export const getGroupByID = async function (groupID, token) {
       return response.data;
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
   }
 
   return;
@@ -156,7 +156,7 @@ export const deleteGroupByID = async function (groupID, token) {
       return response.data.message;
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
   }
 
   return;
@@ -180,9 +180,6 @@ export const removeGroupMember = async function (groupId, accountId) {
     },
   };
 
-  console.log("Headers, ", deleteHeaders);
-  console.log("Body, ", body);
-
   try {
     let response = await axios.post(
       REMOVE_MEMBER_ENDPOINT,
@@ -195,7 +192,7 @@ export const removeGroupMember = async function (groupId, accountId) {
       return response.data.message;
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.message);
   }
 
   return;
@@ -225,7 +222,7 @@ export const updateGroupName = async function (groupID, groupName) {
     }
   } catch (error) {
     console.log("Error updating group name");
-    console.log(error);
+    console.log(error.response.data.message);
   }
 
   return;
@@ -256,7 +253,7 @@ export const updateGroupAvatar = async function (groupID, groupAvatar) {
     }
   } catch (error) {
     console.log("Error updating group avatar");
-    console.log(error);
+    console.log(error.response.data.message);
   }
 
   return;
