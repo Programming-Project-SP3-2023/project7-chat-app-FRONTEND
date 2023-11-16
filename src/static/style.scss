@@ -587,7 +587,7 @@ footer {
   .dashboard-menu-item {
     border: solid 3px $echo-darkblue;
     width: 100%;
-    aspect-ratio: 5/1;
+    height: 50px;
     border-radius: 100px;
     background-color: $echo-lightblue;
     @include flex-row(flex-start, center);
@@ -596,8 +596,8 @@ footer {
     cursor: pointer;
 
     .menu-item-avatar {
-      height: 100%;
-      width: 20%;
+      height: 50px;
+      width: 50px;
       border: solid 3px $echo-darkblue;
       margin-left: -3px;
     }

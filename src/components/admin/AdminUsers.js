@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { Box, Button, Stack, CircularProgress, Avatar } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import NoRowsOverlay from "../partial/NoRowsOverlay";
-import { getUsers } from "../../services/friendsAPI";
 import { getAccounts, deleteAccount } from "../../services/adminAPI";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import dayjs from "dayjs";

@@ -28,6 +28,12 @@
     height: 70px;
     width: 70px;
   }
+  .friends-chat-area h2 {
+    width: 80%;
+    font-size: 35px;
+    text-align: center;
+    padding-bottom: 5%;
+  }
   .group-admin-flag {
     width: 130% !important;
     margin-left: -23%;
@@ -69,6 +75,14 @@
     height: 90px;
     min-width: unset;
     min-height: unset;
+  }
+  #home-screen .home-btns {
+    position: unset;
+    margin-top: 70%;
+  }
+  #home-screen #home-bg-shape {
+    top: 40%;
+    left: -100%;
   }
   .main-section {
     padding: 0;
@@ -122,6 +136,30 @@
   .group-button svg {
     font-size: 22px;
   }
+  .add-group-modal {
+    width: 60%;
+  }
+  #manage-friends-modal {
+    width: 70%;
+  }
+  #add-friend-modal {
+    width: 60%;
+    aspect-ratio: unset;
+    height: 25%;
+  }
+  #add-friend-modal .confirmation-modal-center {
+    width: 90%;
+  }
+  #add-friend-modal .confirmation-modal-center .user-chip-avatar {
+    width: 100px;
+    height: 100px;
+  }
+  .add-channel-modal {
+    width: 60%;
+  }
+  #manage-members-modal {
+    width: 60%;
+  }
 }
 @media (max-width: 481px) {
   #header {
@@ -134,6 +172,17 @@
   }
   #dropdown-menu-icon {
     font-size: 25px !important;
+  }
+  .MuiDrawer-root .MuiDrawer-paper {
+    width: 90%;
+    height: 60%;
+  }
+  #home-screen .home-btns {
+    margin-top: 100%;
+  }
+  #home-screen #home-bg-shape {
+    top: 40%;
+    left: -140%;
   }
   #side-menu .MuiDrawer-paper {
     width: -moz-fit-content;
@@ -202,6 +251,7 @@
   }
   .friends-menu .friends-display {
     padding: 0;
+    gap: 35px;
   }
   .friends-menu .friend-menu-item {
     flex-direction: column;
@@ -230,6 +280,9 @@
   }
   .friends-chat-area {
     width: 80%;
+  }
+  .friends-chat-area h2 {
+    font-size: 25px;
   }
   .friends-chat-area #chat-input-container {
     width: 96%;
@@ -267,5 +320,65 @@
   }
   .group-button svg {
     font-size: 20px;
+  }
+  .add-group-modal {
+    width: 85%;
+    aspect-ratio: 3/5;
+  }
+  .add-group-modal h2 {
+    font-size: 30px;
+  }
+  .add-group-modal #img-upload-box {
+    width: 150px;
+    height: 150px;
+  }
+  #manage-friends-modal {
+    width: 85%;
+    height: 65%;
+  }
+  #manage-friends-modal #manage-friends-modal-header h2 {
+    font-size: 30px;
+  }
+  #manage-friends-modal .manage-friends-link p {
+    font-size: 15px;
+  }
+  #manage-friends-modal .manage-friends-link svg {
+    font-size: 20px;
+  }
+  #add-friend-modal {
+    width: 93%;
+    height: 30%;
+  }
+  #add-friend-modal #add-friend-modal-header {
+    height: 20%;
+  }
+  #add-friend-modal #add-friend-modal-header h2 {
+    font-size: 30px;
+  }
+  .add-channel-modal {
+    width: 80%;
+    aspect-ratio: unset;
+    height: 70%;
+  }
+  .add-channel-modal #add-channel-modal-header {
+    height: 12%;
+  }
+  .add-channel-modal #add-channel-modal-header h2 {
+    font-size: 30px;
+  }
+  #manage-members-modal {
+    width: 80%;
+    aspect-ratio: unset;
+    height: 65%;
+  }
+  #manage-members-modal h2 {
+    font-size: 30px;
+  }
+  #group-delete-bttn {
+    width: 100%;
+    border-radius: 20px;
+  }
+  #group-delete-bttn h3 {
+    display: initial;
   }
 }/*# sourceMappingURL=responsive.css.map */

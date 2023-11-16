@@ -557,7 +557,7 @@ footer {
 .dashboard-main-column .dashboard-menu-item {
   border: solid 3px #456b9a;
   width: 100%;
-  aspect-ratio: 5/1;
+  height: 50px;
   border-radius: 100px;
   background-color: #a9bcd0;
   display: flex;
@@ -569,8 +569,8 @@ footer {
   cursor: pointer;
 }
 .dashboard-main-column .dashboard-menu-item .menu-item-avatar {
-  height: 100%;
-  width: 20%;
+  height: 50px;
+  width: 50px;
   border: solid 3px #456b9a;
   margin-left: -3px;
 }

@@ -148,7 +148,7 @@ const ManageFriendsModal = ({
               <li>
                 <Chip
                   clickable
-                  key={option}
+                  key={option.DisplayName}
                   icon={<Avatar src={option.Avatar} />}
                   className="friend-search-chip"
                   label={option.DisplayName}

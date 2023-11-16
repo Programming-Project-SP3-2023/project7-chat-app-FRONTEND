@@ -24,6 +24,7 @@ import {
   getUsers,
   getFriendRequests,
 } from "../../services/friendsAPI";
+import { getAccounts } from "../../services/adminAPI";
 
 import { useSocket } from "../../services/SocketContext";
 import { getNonfriends } from "../../utils/utils";
@@ -160,9 +161,9 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
 
     // 2. define fetch users function
     async function fetchUsers() {
-      const response = await getUsers("");
-      console.log("USERS: ", response[0]);
-      setUsers(response[0]);
+      const response = await getAccounts();
+      console.log("USERS: ", response);
+      setUsers(response);
     }
 
     // 3. define fetch friends function

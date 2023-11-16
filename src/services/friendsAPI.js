@@ -59,6 +59,8 @@ export const submitFriendRequest = async function (requesterID, requesteeID) {
     requesteeID: requesteeID,
   };
 
+  console.log("USER: ", requesterID, " requests to ", requesteeID);
+
   const headers = {
     headers: {
       Authorization: getAccessToken(),
@@ -75,14 +77,10 @@ export const submitFriendRequest = async function (requesterID, requesteeID) {
       console.log(response.data.Message);
       return response.data.Message;
     }
-    //Failed!
-    else if (response.status === 401) {
-      console.log(response.data.Message);
-      return response.data.Message;
-    }
+
   } catch (error) {
     console.log("Error sending request");
-    console.log(error);
+    console.log(error.response.data.Message);
   }
 
   return;
@@ -175,7 +173,6 @@ export const acceptFriendRequest = async function (requesterID) {
     currentUserID: getUserID(),
     requesterID: requesterID,
   };
-
 
   const headers = {
     headers: {

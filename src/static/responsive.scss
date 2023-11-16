@@ -48,6 +48,15 @@
     }
   }
 
+  .friends-chat-area {
+    h2 {
+      width: 80%;
+      font-size: 35px;
+      text-align: center;
+      padding-bottom: 5%;
+    }
+  }
+
   .group-admin-flag {
     width: 130% !important;
     margin-left: -23%;
@@ -103,6 +112,18 @@
       height: 90px;
       min-width: unset;
       min-height: unset;
+    }
+  }
+
+  #home-screen {
+    .home-btns {
+      position: unset;
+      margin-top: 70%;
+    }
+
+    #home-bg-shape {
+      top: 40%;
+      left: -100%;
     }
   }
 
@@ -193,6 +214,36 @@
   }
 
   //------------------- Modals ------------------ //
+  .add-group-modal {
+    width: 60%;
+  }
+
+  #manage-friends-modal {
+    width: 70%;
+  }
+
+  #add-friend-modal {
+    width: 60%;
+    aspect-ratio: unset;
+    height: 25%;
+
+    .confirmation-modal-center {
+      width: 90%;
+
+      .user-chip-avatar {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
+
+  .add-channel-modal {
+    width: 60%;
+  }
+
+  #manage-members-modal{
+    width: 60%;
+  }
 }
 
 // ******************************************* MOBILE ***************************************** //
@@ -212,6 +263,22 @@
 
   #dropdown-menu-icon {
     font-size: 25px !important;
+  }
+
+  .MuiDrawer-root .MuiDrawer-paper {
+    width: 90%;
+    height: 60%;
+  }
+
+  #home-screen {
+    .home-btns {
+      margin-top: 100%;
+    }
+
+    #home-bg-shape {
+      top: 40%;
+      left: -140%;
+    }
   }
 
   // ---- SIDE MENU - NOW FOOTER MENU ----- //
@@ -299,6 +366,7 @@
 
     .friends-display {
       padding: 0;
+      gap: 35px;
     }
     .friend-menu-item {
       flex-direction: column;
@@ -334,6 +402,10 @@
   .friends-chat-area {
     width: 80%;
 
+    h2 {
+      font-size: 25px;
+    }
+
     #chat-input-container {
       width: 96%;
       left: 2%;
@@ -360,7 +432,7 @@
             font-size: 13px;
           }
 
-          svg{
+          svg {
             font-size: 15px;
           }
         }
@@ -368,13 +440,13 @@
     }
 
     #group-bttns {
-        padding: 10px 1%;
-        margin-left: 2%;
-        height: 70px;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+      padding: 10px 1%;
+      margin-left: 2%;
+      height: 70px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
     }
   }
 
@@ -393,4 +465,80 @@
   }
 
   //------------------- Modals ------------------ //
+
+  .add-group-modal {
+    width: 85%;
+    aspect-ratio: 3/5;
+
+    h2{
+      font-size: 30px;
+    }
+
+    #img-upload-box {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  #manage-friends-modal {
+    width: 85%;
+    height: 65%;
+    #manage-friends-modal-header {
+      h2 {
+        font-size: 30px;
+      }
+    }
+
+    .manage-friends-link {
+      p {
+        font-size: 15px;
+      }
+      svg {
+        font-size: 20px;
+      }
+    }
+  }
+
+  #add-friend-modal {
+    width: 93%;
+    height: 30%;
+
+    #add-friend-modal-header {
+      height: 20%;
+      h2 {
+        font-size: 30px;
+      }
+    }
+  }
+
+  .add-channel-modal {
+    width: 80%;
+    aspect-ratio: unset;
+    height: 70%;
+
+    #add-channel-modal-header {
+      height: 12%;
+      h2 {
+        font-size: 30px;
+      }
+    }
+  }
+
+  #manage-members-modal{
+    width: 80%;
+    aspect-ratio: unset;
+    height: 65%;
+    h2 {
+      font-size: 30px;
+    }
+  }
+
+  #group-delete-bttn{
+    width: 100%;
+    border-radius: 20px;
+    h3{
+      display: initial;
+    }
+  }
+
 }
