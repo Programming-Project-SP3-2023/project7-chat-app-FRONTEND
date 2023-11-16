@@ -139,13 +139,9 @@ function App() {
                 element={<GroupChatUI socket={socket} />}
               />
             </Route>
-
-            <Route path=":v" element={<VoiceChatRoom socket={socket} />}>
-              '
-              <Route
-                path=":groupId"
-                element={<VoiceChatRoom socket={socket} />}
-              >
+            '
+            <Route path=":groupId" element={<VoiceChatRoom socket={socket} />}>
+              <Route path=":v" element={<VoiceChatRoom socket={socket} />}>
                 <Route
                   path=":channelId"
                   element={<VoiceChatRoom socket={socket} />}
