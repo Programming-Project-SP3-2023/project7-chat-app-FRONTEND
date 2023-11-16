@@ -7,17 +7,17 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Modal } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { getUser } from "../../utils/localStorage";
 
-const PasswordUpdateModal = (event) => {
+const PasswordUpdateModal = ({ pwdUpdateOpen, setPwdUpdateOpen }) => {
   const user = getUser();
 
-  const [currentPassword, setCurrenPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
-  const [messsage, setMessage] = useState(null);
+  const [message, setMessage] = useState(null);
 
   const passwordUpdateHandler = (event) => {
     event.preventDefault();
@@ -42,25 +42,15 @@ const PasswordUpdateModal = (event) => {
     }
   };
 
-  // open and close
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
-    setOpen(false);
+    setPwdUpdateOpen(false);
   };
 
   return (
     <>
-      <Button fullWidth variant="contained" id="edit-profile-btn" onClick={handleOpen}>
-        <LockOutlinedIcon />
-        Change Password
-      </Button>
       <Modal
         id="password-update-modal-background"
-        open={open}
+        open={pwdUpdateOpen}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="parent-modal-description"
@@ -84,7 +74,7 @@ const PasswordUpdateModal = (event) => {
                 variant="outlined"
                 type="password"
                 value={currentPassword}
-                onChange={(event) => setCurrenPassword(event.target.value)}
+                onChange={(event) => setCurrentPassword(event.target.value)}
                 placeholder="Enter your current password."
                 InputProps={{
                   startAdornment: (
@@ -132,7 +122,7 @@ const PasswordUpdateModal = (event) => {
               />
               {/* change password button/modal/dialog box */}
               {/* if the message is defined, show it */}
-              {messsage && <p className="error-message">{messsage}</p>}
+              {message && <p className="error-message">{message}</p>}
               <div id="password-update-modal-btn-container">
                 <Button
                   variant="contained"

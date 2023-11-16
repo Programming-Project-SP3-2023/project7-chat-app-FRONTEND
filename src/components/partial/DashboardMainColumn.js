@@ -24,8 +24,9 @@ const DashboardMainColumn = ({
   setGroupModalOpen,
   setManageFriendsModalOpen,
   friends,
+  editProfileModalOpen,
+  setEditProfileModalOpen
 }) => {
-  const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
   // method for checking online friends
   const { socket, loginSocket } = useSocket();
   const [onlineFriends, setOnlineFriends] = useState([]);
@@ -93,7 +94,7 @@ const DashboardMainColumn = ({
               <div className="menu-item-icon-wrapper">
                 <AddCircleOutlineIcon />
               </div>
-              <span>Create a new Group</span>
+              <span>Create Group</span>
             </div>
             <div
               className="dashboard-menu-item"

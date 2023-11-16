@@ -8,7 +8,6 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
-import PasswordUpdateModal from "./PasswordUpdate";
 import {
   updateAvatar,
   updateDisplayName,
@@ -240,10 +239,10 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
                   {message && <p className="error-message">{message}</p>}
                 </FormControl>
               </form>
-              {/* change password button/modal/dialog box */}
+              {/* change password button/modal/dialog box
               <div id="edit-profile-modal-btn-container">
                 <PasswordUpdateModal />
-              </div>
+              </div> */}
             </div>
           </div>
         </Box>

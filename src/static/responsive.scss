@@ -244,6 +244,18 @@
   #manage-members-modal{
     width: 60%;
   }
+
+  #edit-profile-modal{
+   height: fit-content;
+
+   #edit-profile-modal-body {
+    padding-top: 5%;
+   }
+  }
+
+  #password-update-modal{
+    width: 60%;
+  }
 }
 
 // ******************************************* MOBILE ***************************************** //
@@ -539,6 +551,18 @@
     h3{
       display: initial;
     }
+  }
+
+  #edit-profile-modal{
+    width: 80%;
+ 
+    #edit-profile-modal-body {
+     padding-top: 8%;
+    }
+   }
+
+   #password-update-modal{
+    width: 80%;
   }
 
 }

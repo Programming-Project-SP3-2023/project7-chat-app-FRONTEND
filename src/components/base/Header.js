@@ -22,6 +22,10 @@ const Header = ({
   isLoggedIn,
   refresh,
   setRefresh,
+  pwdUpdateOpen,
+  setPwdUpdateOpen,
+  editProfileModalOpen,
+  setEditProfileModalOpen
 }) => {
   const [headerId, setHeaderId] = useState("header");
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -80,6 +84,10 @@ const Header = ({
             user={user}
             refresh={refresh}
             setRefresh={setRefresh}
+            pwdUpdateOpen={pwdUpdateOpen}
+            setPwdUpdateOpen={setPwdUpdateOpen}
+            editProfileModalOpen={editProfileModalOpen}
+            setEditProfileModalOpen={setEditProfileModalOpen}
           />
         }
       </Drawer>

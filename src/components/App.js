@@ -40,6 +40,11 @@ function App() {
   const [headerTitle, setHeaderTitle] = useState("Echo");
   const [adminTitle, setAdminTitle] = useState("Echo - Admin");
 
+  // password update modal control
+  const [pwdUpdateOpen, setPwdUpdateOpen] = useState(false);
+  // edit profile modal control
+  const [editProfileModalOpen, setEditProfileModalOpen] = useState(false);
+
   const [accessTokenFast, setAccessTokenFast] = useState(null);
   const { socket } = useSocket();
 
@@ -55,9 +60,16 @@ function App() {
         isLoggedIn={isLoggedIn}
         refresh={refresh}
         setRefresh={setRefresh}
+        pwdUpdateOpen={pwdUpdateOpen}
+        setPwdUpdateOpen={setPwdUpdateOpen}
+        editProfileModalOpen={editProfileModalOpen}
+        setEditProfileModalOpen={setEditProfileModalOpen}
       />
       <Routes>
-        <Route path="/" element={!isLoggedIn ? <Home /> : <Navigate to="/dashboard" />} />
+        <Route
+          path="/"
+          element={!isLoggedIn ? <Home /> : <Navigate to="/dashboard" />}
+        />
         <Route
           path="login"
           element={
@@ -86,6 +98,8 @@ function App() {
                 headerTitle={headerTitle}
                 setHeaderTitle={setHeaderTitle}
                 accessTokenFast={accessTokenFast}
+                pwdUpdateOpen={pwdUpdateOpen}
+                setPwdUpdateOpen={setPwdUpdateOpen}
               />
             ) : (
               <Navigate to="/login" />
@@ -98,6 +112,8 @@ function App() {
               <DashboardMain
                 groupReload={groupReload}
                 setGroupReload={setGroupReload}
+                editProfileModalOpen={editProfileModalOpen}
+                setEditProfileModalOpen={setEditProfileModalOpen}
               />
             }
           />
@@ -151,7 +167,13 @@ function App() {
           />
           <Route
             path="users"
-            element={adminIsLoggedIn ? <AdminUsers setAdminTitle={setAdminTitle} /> : <Navigate to="/admin" />}
+            element={
+              adminIsLoggedIn ? (
+                <AdminUsers setAdminTitle={setAdminTitle} />
+              ) : (
+                <Navigate to="/admin" />
+              )
+            }
           />
         </Route>
         <Route path="*" element={<NotFound />} />

@@ -23,7 +23,12 @@ import { getAccounts } from "../../services/adminAPI";
  * @returns Dashboard Main Menu component render
  */
 
-const DashboardMain = ({ groupReload, setGroupReload }) => {
+const DashboardMain = ({
+  groupReload,
+  setGroupReload,
+  editProfileModalOpen,
+  setEditProfileModalOpen,
+}) => {
   // state handler for create group modal
   const [groupModalOpen, setGroupModalOpen] = useState(false);
   // state handler for manage friends modal
@@ -154,6 +159,8 @@ const DashboardMain = ({ groupReload, setGroupReload }) => {
               setGroupModalOpen={setGroupModalOpen}
               manageFriendsModalOpen={manageFriendsModalOpen}
               setManageFriendsModalOpen={setManageFriendsModalOpen}
+              editProfileModalOpen={editProfileModalOpen}
+              setEditProfileModalOpen={setEditProfileModalOpen}
             />
           </article>
         </>

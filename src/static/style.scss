@@ -422,7 +422,7 @@ footer {
 
   gap: 15px;
   width: 500px;
-  padding-bottom: 10%;;
+  padding-bottom: 10%;
 
   .MuiTextField-root {
     margin-bottom: 3%;
@@ -465,7 +465,7 @@ footer {
     font-size: 250%;
   }
 
-  .side-menu-item  {
+  .side-menu-item {
     display: flex;
     justify-content: center;
     text-align: center;
@@ -625,7 +625,7 @@ footer {
 .friends-menu {
   height: 100%;
   width: 30%;
-  margin-left:-5%;
+  margin-left: -5%;
   background-color: $echo-lightblue;
   @include flex-column(space-between, center);
   padding: 15px 0;
@@ -975,12 +975,12 @@ footer {
 }
 
 #edit-profile-modal {
-  width: 35%;
-  height: fit-content;
-  min-height: 95%;
+  width: 50%;
+  height: 95%;
   background-color: $echo-lightblue;
   border-radius: 30px;
-  @include flex-column(flex-start, center);
+  @include flex-column(space-between, center);
+  overflow: auto;
 
   #edit-profile-modal-header {
     background-color: $echo-darkblue;
@@ -1000,10 +1000,10 @@ footer {
   }
 
   #edit-profile-modal-body {
-    @include flex-column(space-around, center);
+    @include flex-column(flex-end, center);
     width: 80%;
-    gap: 5px;
-    padding-top: 5%;
+    height: 88%;
+    padding-bottom: 5%;
   }
   #edit-avatar-img-input {
     display: none;
@@ -1061,7 +1061,7 @@ footer {
     width: 90%;
     padding-top: 4%;
     p {
-      margin: 10px 0 5px 0;
+      margin: 10px 0 2px 0;
     }
   }
 
@@ -1117,6 +1117,10 @@ footer {
     @include flex-column(center, unset);
     padding-block: 1rem;
     width: 80%;
+
+    p{
+      margin: 10px 0 5px 0;
+    }
   }
 
   a {
@@ -1309,7 +1313,7 @@ footer {
   .group-menu {
     height: 100%;
     width: 30%;
-    margin-left:-5%;
+    margin-left: -5%;
     h2 {
       padding: 3% 3% 0 3%;
       font-size: 40px;

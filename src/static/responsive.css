@@ -160,6 +160,16 @@
   #manage-members-modal {
     width: 60%;
   }
+  #edit-profile-modal {
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  #edit-profile-modal #edit-profile-modal-body {
+    padding-top: 5%;
+  }
+  #password-update-modal {
+    width: 60%;
+  }
 }
 @media (max-width: 481px) {
   #header {
@@ -380,5 +390,14 @@
   }
   #group-delete-bttn h3 {
     display: initial;
+  }
+  #edit-profile-modal {
+    width: 80%;
+  }
+  #edit-profile-modal #edit-profile-modal-body {
+    padding-top: 8%;
+  }
+  #password-update-modal {
+    width: 80%;
   }
 }/*# sourceMappingURL=responsive.css.map */

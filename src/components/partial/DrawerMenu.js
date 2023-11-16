@@ -16,13 +16,20 @@ import {
 } from "../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 
-
 /**
  * Builds and renders the Drawer Menu component
  * @returns Drawer Menu component render
  */
 
-const DrawerMenu = ({ setOpenDrawer, setRefresh, refresh }) => {
+const DrawerMenu = ({
+  setOpenDrawer,
+  setRefresh,
+  refresh,
+  pwdUpdateOpen,
+  setPwdUpdateOpen,
+  editProfileModalOpen,
+  setEditProfileModalOpen
+}) => {
   // instantiate navigation prop
   const navigate = useNavigate();
 
@@ -49,7 +56,7 @@ const DrawerMenu = ({ setOpenDrawer, setRefresh, refresh }) => {
       <div className="settings-header">
         {/* Should be user.name but we don't yet have a complete one at login */}
         <h2>{currentUser && currentUser.displayName}</h2>
-        {(currentUser && currentUser.image) ? (
+        {currentUser && currentUser.image ? (
           <Avatar src={currentUser.image} id="profile-avatar" />
         ) : (
           <Avatar id="profile-avatar" />
@@ -60,11 +67,11 @@ const DrawerMenu = ({ setOpenDrawer, setRefresh, refresh }) => {
           <GridViewIcon />
           <h3>Dashboard</h3>
         </div>
-        <div className="settings-option">
+        <div className="settings-option" onClick={() => setEditProfileModalOpen(true)}>
           <SettingsOutlinedIcon />
           <h3>Account Settings</h3>
         </div>
-        <div className="settings-option">
+        <div className="settings-option" onClick={() => setPwdUpdateOpen(true)}>
           <LockOutlinedIcon />
           <h3>Change Password</h3>
         </div>

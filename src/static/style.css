@@ -980,16 +980,15 @@ footer {
 }
 
 #edit-profile-modal {
-  width: 35%;
-  height: -moz-fit-content;
-  height: fit-content;
-  min-height: 95%;
+  width: 50%;
+  height: 95%;
   background-color: #a9bcd0;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
+  overflow: auto;
 }
 #edit-profile-modal #edit-profile-modal-header {
   background-color: #456b9a;
@@ -1008,11 +1007,11 @@ footer {
 #edit-profile-modal #edit-profile-modal-body {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-end;
   align-items: center;
   width: 80%;
-  gap: 5px;
-  padding-top: 5%;
+  height: 88%;
+  padding-bottom: 5%;
 }
 #edit-profile-modal #edit-avatar-img-input {
   display: none;
@@ -1071,7 +1070,7 @@ footer {
   padding-top: 4%;
 }
 #edit-profile-modal #edit-profile-modal-textfields-container p {
-  margin: 10px 0 5px 0;
+  margin: 10px 0 2px 0;
 }
 #edit-profile-modal #edit-profile-modal-btn-container {
   display: flex;
@@ -1130,6 +1129,9 @@ footer {
   align-items: unset;
   padding-block: 1rem;
   width: 80%;
+}
+#password-update-modal #password-update-modal-body p {
+  margin: 10px 0 5px 0;
 }
 #password-update-modal a {
   text-align: left;
