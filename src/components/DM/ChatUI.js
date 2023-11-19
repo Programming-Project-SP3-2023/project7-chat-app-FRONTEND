@@ -3,7 +3,7 @@
  */
 
 // react related
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
 
@@ -32,13 +32,13 @@ import { getUserID, getUser } from "../../utils/localStorage";
  * Builds and renders the homepage component
  * @returns Homepage component render
  */
-const ChatUI = ({ socket }) => {
+const ChatUI = () => {
   // gets friends list from friends outlet socket
   const friendsArray = Object.values(useOutletContext());
   const friends = friendsArray.flat();
 
   //socket related
-  const { loginSocket } = useSocket();
+  const { loginSocket, socket } = useSocket();
 
   // select id located in url
   const { id } = useParams();
@@ -92,19 +92,6 @@ const ChatUI = ({ socket }) => {
         setLoading(false); //set loading as false
       });
 
-      //open listener on message response. for data
-      socket.on("messageResponse", (data) => {
-        console.log("recieved message response", data);
-
-        // const messageRecieved = dayjs(new Date());
-        const formatMessage = {
-          SenderID: data.from,
-          MessageBody: data.message,
-          TimeSent: formatDateTime(data.timestamp),
-        };
-        // set messages
-        setMessages((messages) => [...messages, formatMessage]);
-      });
       // ask for messages
       socket.emit("getMessages", { chatID: chatID });
     } else {
@@ -118,8 +105,28 @@ const ChatUI = ({ socket }) => {
     };
   }, [chatID, socket]);
 
-  //handle auto-scrolling to latest message
   useEffect(() => {
+    //open listener on message response. for data
+    socket.on("messageResponse", (data) => {
+      console.log("recieved message response", data);
+
+      // const messageRecieved = dayjs(new Date());
+      const formatMessage = {
+        SenderID: data.from,
+        MessageBody: data.message,
+        TimeSent: formatDateTime(data.timestamp),
+      };
+      // set messages
+      setMessages((messages) => [...messages, formatMessage]);
+    });
+
+    return () => {
+      socket.off("messageResponse");
+    };
+  }, [socket, messages]);
+
+  //handle auto-scrolling to latest message
+  useLayoutEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -306,6 +313,7 @@ const ChatUI = ({ socket }) => {
               )}
             </div>
           ))}
+          <div ref={lastMessageRef} />
         </div>
       )}
 
