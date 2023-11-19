@@ -33,7 +33,10 @@ const VoiceChatRoom = ({ socket }) => {
   const currentUser = getUser();
 
 
+
   useEffect(() => {
+    handleLeaveChannel(channelID);
+
 
     const handleBeforeUnload = (e) => {
       closeCalls();
@@ -45,6 +48,7 @@ const VoiceChatRoom = ({ socket }) => {
       //e.returnValue = 'STOP! :P'; // This displays a browser-specific confirmation message
         handleLeaveChannel(channelID);
     };
+
 
     setButtonDisabled(true);
     const timeoutId = setTimeout(() => {
@@ -159,10 +163,19 @@ const VoiceChatRoom = ({ socket }) => {
       // Add your code here
     });
     return () => {
+      socket.off("userLeftVC");
+      socket.off("error");
+      socket.off('callAnswered');
+      socket.off("userJoinVC");
+      socket.off("connectionResponse");
+      peer.off('call');
+      peer.off('open');
+      socket.off("currentUsers");
+      handleLeaveChannel(channelID);
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
 
-  }, []);
+  }, [channelID]);
 
   const isRoomFull = users.length >= maxUsers;
 
