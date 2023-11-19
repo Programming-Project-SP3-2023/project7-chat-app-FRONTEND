@@ -15,7 +15,7 @@ const VoiceChatRoom = ({ socket }) => {
   const [loading, setLoading] = useState(true);
   const [showJoinOverlay, setShowJoinOverlay] = useState(false);
   const [isButtonDisabled, setButtonDisabled] = useState(true);
-  const maxUsers = 12;
+  const maxUsers = 6;
   const availableAudioElements = Array(maxUsers).fill(true);
 
   const [peerId, setPeerId] = useState('');
@@ -31,6 +31,10 @@ const VoiceChatRoom = ({ socket }) => {
   const route = currentRoute.split('/');
   const channelID = route[route.length - 1];
   const currentUser = getUser();
+
+  //join and leave sound
+  const [JoinSound] = useState(new Audio('/Join.wav'));
+  const [LeaveSound] = useState(new Audio('/Leave.wav'));
 
 
 
@@ -272,10 +276,11 @@ const VoiceChatRoom = ({ socket }) => {
   const handleJoinChannel = (channelID) => {
 
     console.log("Joining channel");
-    //remove overlay
+
+    playJoinSound();
     
     let myUser = {
-      username: "Me!",
+      username: currentUser.username,
       peerID: peerId,
       image: currentUser.image
     }
@@ -293,8 +298,14 @@ const VoiceChatRoom = ({ socket }) => {
     // Handle the logic for joining the channel, e.g., navigating to the channel page
   };
 
+  const handleLeaveButton = (channelID) => {
+    playLeaveSound();
+    handleLeaveChannel(channelID);
+  };
+
   const handleLeaveChannel = (channelID) => {
     try{
+
     closeCalls();
     socket.emit("leaveVC", { channelID: channelID });
     //remove my own user to disappear
@@ -317,6 +328,7 @@ const VoiceChatRoom = ({ socket }) => {
         return [...prevUsers, newUser];
       }
     });
+    playJoinSound();
   };
 
 
@@ -343,6 +355,7 @@ const VoiceChatRoom = ({ socket }) => {
 
   // Function to handle removing a user from the list
   const removeUser = (peerID) => {
+    playLeaveSound();
     setUsers((prevUsers) => prevUsers.filter((user) => user.peerID !== peerID));
   };
 
@@ -350,7 +363,8 @@ const VoiceChatRoom = ({ socket }) => {
     "It's just not the same without you! Click to join.",
     "What are you waiting for? The channel isn't going to join itself!",
     "Ready to chat? Join now!",
-    "C'mon... just one click. I NEED it...",
+    "You've been summoned! Click to join the channel."
+
   ];
 
   const getRandomMessage = () => {
@@ -367,8 +381,8 @@ const VoiceChatRoom = ({ socket }) => {
   const fullOverlayMessages = [
     "Sorry, channel is full. No room for you!",
     "Ah, shoot... no room in this one.",
-    "Sorry champ, you ain't getting in here. Channel full.",
-    "This channel ain't big enough fer the both of us!"
+    "My boss will fire me if I let any more in here. Sorry. (Channel full)",
+    "You're fashionably late, but the channel is fashionably full!"
   ];
 
   const getRandomFullMessage = () => {
@@ -412,16 +426,33 @@ const VoiceChatRoom = ({ socket }) => {
     }
   };
 
+  const playJoinSound = () =>{
+    JoinSound.play();
+  };
+
+  const playLeaveSound = () => {
+    LeaveSound.play()
+  };
+
+
+
   return (
     <div className="voice-chat-room">
-      <p>{channelID}</p>
+      <audio hidden></audio>
       {showJoinOverlay && (
         <div className="join-overlay">
           <div className="join-content">
-            <h2>{isRoomFull ? "Oops!" : "Join Channel?"}</h2>
+            <h2>Join Channel?</h2>
             <p className="overlay-message">{getOverlayMessage()}</p>
             {isRoomFull ? (
-              <p>Pick a different channel.</p>
+              <button 
+              disabled={true}
+              >
+                {isButtonDisabled ? 
+                <p>Connecting</p>
+                : 
+                <p>Sorry :(</p>
+                }</button>
             ) : (
               <button 
               disabled={isButtonDisabled}
@@ -442,7 +473,6 @@ const VoiceChatRoom = ({ socket }) => {
             <div
               key={user.peerID}
               className={`user-square ${speakingStatus[user.peerID] ? 'speaking' : ''}`}
-              onClick={() => toggleSpeakingStatus(user.peerID)}
             >
               {(user && user.image) ? (
                 <Avatar src={user.image} id="profile-avatar" />
@@ -482,7 +512,7 @@ const VoiceChatRoom = ({ socket }) => {
         
           className="leave-button"
           onClick={() => {
-            handleLeaveChannel(channelID);
+            handleLeaveButton(channelID);
           }}
         >
           Leave
