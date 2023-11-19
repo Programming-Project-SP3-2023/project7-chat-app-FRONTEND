@@ -33,8 +33,8 @@ const VoiceChatRoom = ({ socket }) => {
   const currentUser = getUser();
 
   //join and leave sound
-  const [JoinSound] = useState(new Audio('/Media/Join.wav'));
-  const [LeaveSound] = useState(new Audio('/Media/Leave.wav'));
+  const [JoinSound] = useState(new Audio('Media/Join.wav'));
+  const [LeaveSound] = useState(new Audio('Media/Leave.wav'));
 
 
 

@@ -78,7 +78,7 @@ const GroupChatUI = ({ socket }) => {
     await reconnect();
   };
 
-  const [NewMsgSound] = useState(new Audio('/Media/NewMsg.wav'));
+  const [NewMsgSound] = useState(new Audio('Media/NewMsg.wav'));
 
   const playSound = () =>{
     NewMsgSound.play();
