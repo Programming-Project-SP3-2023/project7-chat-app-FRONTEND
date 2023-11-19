@@ -19,10 +19,7 @@ import { useState, useEffect } from "react";
 import AddFriendConfirmation from "./AddFriendConfirmation";
 import ManageFriendsModal from "./ManageFriendsModal";
 import { Outlet } from "react-router-dom";
-import {
-  getFriends,
-  getFriendRequests,
-} from "../../services/friendsAPI";
+import { getFriends, getFriendRequests } from "../../services/friendsAPI";
 import { getAccounts } from "../../services/adminAPI";
 
 import { useSocket } from "../../services/SocketContext";
@@ -134,7 +131,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
     }
 
     (async () => {
-      await sleep(1e3); 
+      await sleep(1e3);
 
       if (active) {
         const notFriends = getNonfriends(users, friends);

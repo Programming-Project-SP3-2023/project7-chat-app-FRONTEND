@@ -61,9 +61,9 @@ const FriendItem = ({
     // let chatID = "";
     if (friend.RequesterID) userID = friend.RequesterID;
     if (friend.AddresseeID) userID = friend.AddresseeID;
-    console.log("friendshipID: ", friend.FriendshipID);
+
     const chatID = friend.FriendshipID;
-    setSelectedChat(userID);
+    setSelectedChat(friend.FriendshipID);
 
     // // const chatID = 10101013; // temp room
 
@@ -97,12 +97,7 @@ const FriendItem = ({
     <div
       className="friend-menu-item"
       onClick={handleSelect}
-      id={
-        selectedChat === friend.RequesterID ||
-        selectedChat === friend.AddresseeID
-          ? "friend-selected"
-          : null
-      }
+      id={selectedChat === friend.FriendshipID ? "friend-selected" : null}
     >
       <Avatar
         className="menu-item-avatar"
