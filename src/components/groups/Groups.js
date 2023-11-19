@@ -141,8 +141,8 @@ const Groups = ({
   // updates the users role when members are avaiable
   useEffect(() => {
     async function fetchMembers() {
-      console.log("do I enter here?");
-      console.log(members);
+      // console.log("do I enter here?");
+      // console.log(members);
 
       members.forEach((m) => {
         if (m.AccountID === getUserID()) {
@@ -215,11 +215,11 @@ const Groups = ({
         // check to see if accountID still conntected & groupID exists
         if (socket.accountID !== undefined && group.groupID !== null) {
           // attempt to connect to the group
-          console.log("attempting to connect to group...", group.groupID);
+          // console.log("attempting to connect to group...", group.groupID);
           await socket.emit("connectGroup", { groupID: group.groupID });
         } else {
           // re-establish socket info
-          console.log("WE ARE RELOGGING INTO SOCKET");
+          // console.log("WE ARE RELOGGING INTO SOCKET");
           await loginSocket(userID, user.username);
         }
       };
@@ -389,7 +389,7 @@ const Groups = ({
           <div className="group-chat-area">
             {/* By default it loads the general chat */}
             {/* if we want ^^^ to happen it would be required to navigate to the channel */}
-            <Outlet context={friends} />
+            <Outlet context={members} />
           </div>
         </section>
       )}

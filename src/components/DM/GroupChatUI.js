@@ -32,8 +32,8 @@ import { getUserID, getUser } from "../../utils/localStorage";
  */
 const GroupChatUI = ({ socket }) => {
   //gets the friends from outlet in groups component
-  const friendsArray = Object.values(useOutletContext());
-  const friends = friendsArray.flat();
+  const membersArray = Object.values(useOutletContext());
+  const members = membersArray.flat();
 
   // socket.io functions
   const { loginSocket } = useSocket();
@@ -42,18 +42,21 @@ const GroupChatUI = ({ socket }) => {
 
   // loop through sender id(by friends) and find their avatar
   const findAvatarBySenderID = (SenderID) => {
-    const friend = friends.find((friend) => friend.AccountID === SenderID);
-    return friend ? friend.Avatar : null;
+    const member = members.find((member) => member.AccountID === SenderID);
+
+    return member ? member.avatar : null;
   };
+
+  // console.log("memembers", members);
 
   // through the url params of -groupID and channelID return values
   const { groupId, channelId } = useParams(); // prefered method
 
   const groupID = groupId;
   const channelID = parseInt(channelId);
-  console.log("groupID...", groupID);
-  console.log("channelId...", channelID);
-  console.log("socket.accountID", socket.accountID);
+  // console.log("groupID...", groupID);
+  // console.log("channelId...", channelID);
+  // console.log("socket.accountID", socket.accountID);
   // messages
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
@@ -80,7 +83,7 @@ const GroupChatUI = ({ socket }) => {
     setLoading(true); // loading
     const fetchData = async () => {
       try {
-        console.log("channel...");
+        // console.log("channel...");
         // check socket user credentials are still in socket
         if (socket.accountID !== undefined && channelID !== undefined) {
           // connect to channel
@@ -89,6 +92,7 @@ const GroupChatUI = ({ socket }) => {
             // set messages recieved
             setMessages(messages.flat().reverse());
             setLoading(false); //set loading as false
+            // console.log("messages...", messages);
           });
 
           socket.emit("connectChannel", { channelID: channelID });
@@ -113,12 +117,13 @@ const GroupChatUI = ({ socket }) => {
   useEffect(() => {
     //open listener on message response. for data
     socket.on("channelMessageResponse", (data) => {
-      console.log("recieved message response", data);
+      // console.log("recieved message response", data);
 
       // const messageRecieved = dayjs(new Date());
       const formatMessage = {
         SenderID: data.from,
         MessageBody: data.message,
+        SenderUsername: data.username.displayName,
         TimeSent: formatDateTime(data.timestamp),
       };
       // set messages
@@ -138,7 +143,7 @@ const GroupChatUI = ({ socket }) => {
   //Message submit handling
   const handleMessageSubmit = (event) => {
     event.preventDefault();
-    console.log("Message Handler");
+    // console.log("Message Handler");
     const newTimestamp = new Date().getTime(); // converts to epoch time
     const messageText = messageInput.toString(); // convert user input to string
 
@@ -257,9 +262,9 @@ const GroupChatUI = ({ socket }) => {
                 message.SenderID === userId ? "user" : "other"
               }`}
             >
-              {/* timestamp */}
+              {/* SenderUsername */}
               <div>{message.SenderUsername}</div>
-
+              {/* timestamp */}
               <div id="message-timestamp" className="message-timestamp">
                 {formatEpochTime(message.TimeSent)}
               </div>
