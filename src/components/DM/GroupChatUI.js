@@ -85,32 +85,12 @@ const GroupChatUI = ({ socket }) => {
         if (socket.accountID !== undefined && channelID !== undefined) {
           // connect to channel
 
-          // open listener of messageHistory for messages
           socket.on("messageHistory", (messages) => {
             // set messages recieved
             setMessages(messages.flat().reverse());
             setLoading(false); //set loading as false
           });
 
-          //open listener on message response. for data
-          socket.on("channelMessageResponse", (data) => {
-            console.log("recieved message response", data);
-
-            // const messageRecieved = dayjs(new Date());
-            const formatMessage = {
-              SenderID: data.from,
-              MessageBody: data.message,
-              TimeSent: formatDateTime(data.timestamp),
-            };
-            // set messages
-            setMessages((messages) => [...messages, formatMessage]);
-          });
-
-          //ask for messages after delay
-          // const timeoutId = setTimeout(() => {
-          //   console.log("2 seconds later...");
-          // }, 2000);
-          console.log("attemtping to connect with channelID", channelID);
           socket.emit("connectChannel", { channelID: channelID });
           socket.emit("getChannelMessages", { channelID: channelID });
         } else {
@@ -129,6 +109,26 @@ const GroupChatUI = ({ socket }) => {
     };
     fetchData();
   }, [channelID]);
+
+  useEffect(() => {
+    //open listener on message response. for data
+    socket.on("channelMessageResponse", (data) => {
+      console.log("recieved message response", data);
+
+      // const messageRecieved = dayjs(new Date());
+      const formatMessage = {
+        SenderID: data.from,
+        MessageBody: data.message,
+        TimeSent: formatDateTime(data.timestamp),
+      };
+      // set messages
+      setMessages((messages) => [...messages, formatMessage]);
+    });
+
+    return () => {
+      socket.off("channelMessageResponse");
+    };
+  }, [socket, messages]);
 
   //handle auto-scrolling to latest message
   useEffect(() => {
@@ -325,6 +325,7 @@ const GroupChatUI = ({ socket }) => {
               )}
             </div>
           ))}
+          <div ref={lastMessageRef} />
         </div>
       )}
 
