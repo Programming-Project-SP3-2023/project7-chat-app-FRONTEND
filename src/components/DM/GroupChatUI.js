@@ -78,6 +78,13 @@ const GroupChatUI = ({ socket }) => {
     await reconnect();
   };
 
+  const [NewMsgSound] = useState(new Audio('/NewMsg.wav'));
+
+  const playSound = () =>{
+    NewMsgSound.play();
+  };
+
+
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
@@ -118,12 +125,13 @@ const GroupChatUI = ({ socket }) => {
     //open listener on message response. for data
     socket.on("channelMessageResponse", (data) => {
       // console.log("recieved message response", data);
+      playSound();
 
       // const messageRecieved = dayjs(new Date());
       const formatMessage = {
         SenderID: data.from,
         MessageBody: data.message,
-        SenderUsername: data.username.displayName,
+        SenderUsername: data.username,
         TimeSent: formatDateTime(data.timestamp),
       };
       // set messages

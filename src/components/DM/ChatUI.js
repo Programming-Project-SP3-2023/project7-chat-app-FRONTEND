@@ -61,6 +61,13 @@ const ChatUI = () => {
   const userId = getUserID();
   const username = getUser();
 
+  const [NewMsgSound] = useState(new Audio('/NewMsg.wav'));
+
+  const playSound = () =>{
+    NewMsgSound.play();
+  };
+
+
   // loop through SenderID to find friends avatar in friends list
   const findAvatarBySenderID = (SenderID) => {
     const friend = friends.find((friend) => friend.AccountID === SenderID);
@@ -108,6 +115,7 @@ const ChatUI = () => {
   useEffect(() => {
     //open listener on message response. for data
     socket.on("messageResponse", (data) => {
+      playSound();
       console.log("recieved message response", data);
 
       // const messageRecieved = dayjs(new Date());
@@ -360,6 +368,7 @@ const ChatUI = () => {
           </div>
         </FormControl>
       </form>
+      <audio hidden></audio>
     </Box>
   );
 };
