@@ -278,8 +278,6 @@ const VoiceChatRoom = ({ socket }) => {
   const handleJoinChannel = (channelID) => {
 
     console.log("Joining channel");
-
-    playJoinSound();
     
     let myUser = {
       username: currentUser.username,
@@ -357,7 +355,9 @@ const VoiceChatRoom = ({ socket }) => {
 
   // Function to handle removing a user from the list
   const removeUser = (peerID) => {
-    playLeaveSound();
+    if(peerID != peerId){
+      playLeaveSound();
+    }
     setUsers((prevUsers) => prevUsers.filter((user) => user.peerID !== peerID));
   };
 
@@ -429,10 +429,13 @@ const VoiceChatRoom = ({ socket }) => {
   };
 
   const playJoinSound = () =>{
+    console.log("playing join")
     JoinSound.play();
   };
 
   const playLeaveSound = () => {
+    console.log("playing leave")
+
     LeaveSound.play()
   };
 
