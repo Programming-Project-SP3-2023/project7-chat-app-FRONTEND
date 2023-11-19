@@ -61,7 +61,7 @@ const ChatUI = () => {
   const userId = getUserID();
   const username = getUser();
 
-  const [NewMsgSound] = useState(new Audio('NewMsg.wav'));
+  const [NewMsgSound] = useState(new Audio('/Media/NewMsg.wav'));
 
   const playSound = () =>{
     NewMsgSound.play();
