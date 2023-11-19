@@ -7,7 +7,8 @@ import {
   Avatar
 } from "@mui/material";
 import { getUser } from '../../utils/localStorage'
-
+import JoinFile from '../../assets/Join.wav'
+import LeaveFile from '../../assets/Leave.wav'
 
 const VoiceChatRoom = ({ socket }) => {
   const [speakingStatus, setSpeakingStatus] = useState({});
@@ -33,8 +34,9 @@ const VoiceChatRoom = ({ socket }) => {
   const currentUser = getUser();
 
   //join and leave sound
-  const [JoinSound] = useState(new Audio('Media/Join.wav'));
-  const [LeaveSound] = useState(new Audio('Media/Leave.wav'));
+  
+  const [JoinSound] = useState(new Audio(JoinFile));
+  const [LeaveSound] = useState(new Audio(LeaveFile));
 
 
 

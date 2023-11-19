@@ -25,6 +25,7 @@ import dayjs from "dayjs";
 import { useParams, useOutletContext } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
 import { getUserID, getUser } from "../../utils/localStorage";
+import SoundFile from '../../assets/NewMsg.wav'
 
 /**
  * Builds and renders the homepage component
@@ -78,7 +79,7 @@ const GroupChatUI = ({ socket }) => {
     await reconnect();
   };
 
-  const [NewMsgSound] = useState(new Audio('Media/NewMsg.wav'));
+  const [NewMsgSound] = useState(new Audio(SoundFile));
 
   const playSound = () =>{
     NewMsgSound.play();
