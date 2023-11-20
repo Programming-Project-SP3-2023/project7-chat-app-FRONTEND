@@ -9,6 +9,7 @@ import {
   Avatar,
   FormControl,
   Badge,
+  Button,
 } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 
@@ -25,7 +26,7 @@ import dayjs from "dayjs";
 import { useParams, useOutletContext } from "react-router-dom";
 import { useSocket } from "../../services/SocketContext";
 import { getUserID, getUser } from "../../utils/localStorage";
-import SoundFile from '../../assets/NewMsg.wav'
+import SoundFile from "../../assets/NewMsg.wav";
 
 /**
  * Builds and renders the homepage component
@@ -52,7 +53,7 @@ const GroupChatUI = ({ socket }) => {
 
   // through the url params of -groupID and channelID return values
   const { groupId, channelId } = useParams(); // prefered method
-
+  const [messagesAmmount, setMessagesAmmount] = useState(20);
   const groupID = groupId;
   const channelID = parseInt(channelId);
   // console.log("groupID...", groupID);
@@ -79,12 +80,17 @@ const GroupChatUI = ({ socket }) => {
     await reconnect();
   };
 
-  const [NewMsgSound] = useState(new Audio(SoundFile));
-
-  const playSound = () =>{
-    NewMsgSound.play();
+  const handleMoreMessages = async () => {
+    setMessagesAmmount((prevMessageAmmount) => prevMessageAmmount + 10);
+    console.log("message ammount...", messagesAmmount);
+    socket.emit("moreChannelMessages", { channelID, num: messagesAmmount });
   };
 
+  const [NewMsgSound] = useState(new Audio(SoundFile));
+
+  const playSound = () => {
+    NewMsgSound.play();
+  };
 
   // render on page chat
   useEffect(() => {
@@ -95,15 +101,16 @@ const GroupChatUI = ({ socket }) => {
         // check socket user credentials are still in socket
         if (socket.accountID !== undefined && channelID !== undefined) {
           // connect to channel
-
+          socket.emit("connectChannel", { channelID: channelID });
           socket.on("messageHistory", (messages) => {
             // set messages recieved
+            console.log("messages...", messages);
             setMessages(messages.flat().reverse());
             setLoading(false); //set loading as false
             // console.log("messages...", messages);
           });
+          setMessagesAmmount(20);
 
-          socket.emit("connectChannel", { channelID: channelID });
           socket.emit("getChannelMessages", { channelID: channelID });
         } else {
           // attempt to reconnect socket
@@ -120,7 +127,7 @@ const GroupChatUI = ({ socket }) => {
       }
     };
     fetchData();
-  }, [channelID]);
+  }, [socket, channelID]);
 
   useEffect(() => {
     //open listener on message response. for data
@@ -264,6 +271,7 @@ const GroupChatUI = ({ socket }) => {
         </div>
       ) : (
         <div className="chat-messages">
+          <Button onClick={handleMoreMessages}>more messages</Button>
           {messages.map((message, index) => (
             <div
               key={index}

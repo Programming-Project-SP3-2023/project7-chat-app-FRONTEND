@@ -16,12 +16,13 @@ import {
   Avatar,
   FormControl,
   Badge,
+  Button,
 } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
-import SoundFile from '../../assets/NewMsg.wav'
+import SoundFile from "../../assets/NewMsg.wav";
 
 // date time formatter
 import dayjs from "dayjs";
@@ -51,6 +52,7 @@ const ChatUI = () => {
   // for messages handling
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
+  const [messagesAmmount, setMessagesAmmount] = useState(20);
 
   // for image handling
   // const [selectedFile, setSelectedFile] = useState(null);
@@ -64,10 +66,9 @@ const ChatUI = () => {
 
   const [NewMsgSound] = useState(new Audio(SoundFile));
 
-  const playSound = () =>{
+  const playSound = () => {
     NewMsgSound.play();
   };
-
 
   // loop through SenderID to find friends avatar in friends list
   const findAvatarBySenderID = (SenderID) => {
@@ -82,6 +83,12 @@ const ChatUI = () => {
   const handleReconnect = async () => {
     setLoading(true);
     await reconnect();
+  };
+
+  const handleMoreMessages = async () => {
+    setMessagesAmmount((prevMessageAmmount) => prevMessageAmmount + 10);
+    console.log("message ammount...", messagesAmmount);
+    socket.emit("moreMessages", { chatID, num: messagesAmmount });
   };
 
   // render on page chat
@@ -99,7 +106,7 @@ const ChatUI = () => {
         setMessages(messages.flat().reverse());
         setLoading(false); //set loading as false
       });
-
+      setMessagesAmmount(20);
       // ask for messages
       socket.emit("getMessages", { chatID: chatID });
     } else {
@@ -250,6 +257,7 @@ const ChatUI = () => {
         </div>
       ) : (
         <div className="chat-messages">
+          <Button onClick={handleMoreMessages}>more messages</Button>
           {messages.map((message, index) => (
             <div
               key={index}
