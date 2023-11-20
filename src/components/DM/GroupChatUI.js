@@ -53,18 +53,18 @@ const GroupChatUI = ({ socket }) => {
 
   // through the url params of -groupID and channelID return values
   const { groupId, channelId } = useParams(); // prefered method
-  const [messagesAmmount, setMessagesAmmount] = useState(20);
+
   const groupID = groupId;
   const channelID = parseInt(channelId);
-  // console.log("groupID...", groupID);
-  // console.log("channelId...", channelID);
-  // console.log("socket.accountID", socket.accountID);
+
   // messages
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
+  const [messagesAmmount, setMessagesAmmount] = useState(20);
+  const [maxMessagesReached, setMaxMessagesReached] = useState(false);
+  const MAX_MESSAGE_COUNT = 50;
+  const messagesBetweenFetches = messagesAmmount - messages.length;
 
-  // const [selectedFile, setSelectedFile] = useState(null);
-  // const hiddenFileInput = useRef(null);
   const lastMessageRef = useRef(null); // for scrolling to latest message
 
   // getting local user
@@ -81,9 +81,17 @@ const GroupChatUI = ({ socket }) => {
   };
 
   const handleMoreMessages = async () => {
-    setMessagesAmmount((prevMessageAmmount) => prevMessageAmmount + 10);
-    console.log("message ammount...", messagesAmmount);
-    socket.emit("moreChannelMessages", { channelID, num: messagesAmmount });
+    if (maxMessagesReached) {
+      console.log("maximum ammount of messages reached");
+    } else {
+      setMessagesAmmount((prevMessageAmmount) => prevMessageAmmount + 10);
+      console.log("message ammount...", messagesAmmount);
+      socket.emit("moreChannelMessages", { channelID, num: messagesAmmount });
+    }
+    console.log("messages", messagesBetweenFetches);
+    if (messagesAmmount >= MAX_MESSAGE_COUNT || messagesBetweenFetches >= 11) {
+      setMaxMessagesReached(true);
+    }
   };
 
   const [NewMsgSound] = useState(new Audio(SoundFile));
@@ -91,6 +99,10 @@ const GroupChatUI = ({ socket }) => {
   const playSound = () => {
     NewMsgSound.play();
   };
+
+  useEffect(() => {
+    setMaxMessagesReached(false);
+  }, [channelID]);
 
   // render on page chat
   useEffect(() => {
@@ -271,7 +283,11 @@ const GroupChatUI = ({ socket }) => {
         </div>
       ) : (
         <div className="chat-messages">
-          <Button onClick={handleMoreMessages}>more messages</Button>
+          {maxMessagesReached ? (
+            <p>No more messages can be loaded</p>
+          ) : (
+            <Button onClick={handleMoreMessages}>more messages</Button>
+          )}
           {messages.map((message, index) => (
             <div
               key={index}
