@@ -16,12 +16,13 @@ import {
   Avatar,
   FormControl,
   Badge,
+  Button,
 } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
-import SoundFile from '../../assets/NewMsg.wav'
+import SoundFile from "../../assets/NewMsg.wav";
 
 // date time formatter
 import dayjs from "dayjs";
@@ -51,6 +52,11 @@ const ChatUI = () => {
   // for messages handling
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
+  const [messagesAmmount, setMessagesAmmount] = useState(20);
+  const [maxMessagesReached, setMaxMessagesReached] = useState(false);
+  const MAX_MESSAGE_COUNT = 50; // set limit
+
+  const messagesBetweenFetches = messagesAmmount - messages.length;
 
   // for image handling
   // const [selectedFile, setSelectedFile] = useState(null);
@@ -64,10 +70,9 @@ const ChatUI = () => {
 
   const [NewMsgSound] = useState(new Audio(SoundFile));
 
-  const playSound = () =>{
+  const playSound = () => {
     NewMsgSound.play();
   };
-
 
   // loop through SenderID to find friends avatar in friends list
   const findAvatarBySenderID = (SenderID) => {
@@ -84,6 +89,24 @@ const ChatUI = () => {
     await reconnect();
   };
 
+  const handleMoreMessages = async () => {
+    if (maxMessagesReached) {
+      console.log("maximum ammount of messages reached");
+    } else {
+      setMessagesAmmount((prevMessageAmmount) => prevMessageAmmount + 10);
+      console.log("message ammount...", messagesAmmount);
+      socket.emit("moreMessages", { chatID, num: messagesAmmount });
+    }
+    console.log("messages", messagesBetweenFetches);
+    if (messagesAmmount >= MAX_MESSAGE_COUNT || messagesBetweenFetches >= 11) {
+      setMaxMessagesReached(true);
+    }
+  };
+
+  useEffect(() => {
+    setMaxMessagesReached(false);
+  }, [chatID]);
+
   // render on page chat
   useEffect(() => {
     setLoading(true); // loading
@@ -99,7 +122,8 @@ const ChatUI = () => {
         setMessages(messages.flat().reverse());
         setLoading(false); //set loading as false
       });
-
+      // setMaxMessagesReached(false);
+      setMessagesAmmount(20);
       // ask for messages
       socket.emit("getMessages", { chatID: chatID });
     } else {
@@ -109,7 +133,6 @@ const ChatUI = () => {
     // close listeners
     return () => {
       socket.off("messageHistory");
-      socket.off("messageResponse");
     };
   }, [chatID, socket]);
 
@@ -250,6 +273,12 @@ const ChatUI = () => {
         </div>
       ) : (
         <div className="chat-messages">
+          {maxMessagesReached ? (
+            <p>No more messages can be fetched</p>
+          ) : (
+            <Button onClick={handleMoreMessages}>more messages</Button>
+          )}
+
           {messages.map((message, index) => (
             <div
               key={index}
