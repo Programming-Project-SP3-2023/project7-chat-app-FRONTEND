@@ -70,14 +70,12 @@ const VoiceChatRoom = ({ socket }) => {
         let currusers = [];
         if (users) {
           for (let i = 0; i < users.length; i++) {
-            if(typeof(users[i].username) == "string"){
             let user = {
-              username: users[i].username,
+              username: users[i].username.displayName,
               peerID: users[i].peerID,
               image: users[i].image,
             }
             currusers.push(user);
-          }
           }
         }
         setUsers(currusers);
@@ -130,7 +128,7 @@ const VoiceChatRoom = ({ socket }) => {
     socket.on("userJoinVC", (user) => {
       console.log("user incoming");
       let newuser = {
-        username: user.username,
+        username: user.username.displayName,
         image: user.image,
         peerID: user.peerID
       }
@@ -274,7 +272,7 @@ const VoiceChatRoom = ({ socket }) => {
     console.log("Joining channel");
     
     let myUser = {
-      username: currentUser.username,
+      username: currentUser.username.displayName,
       peerID: peerId,
       image: currentUser.image
     }
