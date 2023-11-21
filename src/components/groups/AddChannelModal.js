@@ -225,89 +225,98 @@ const AddChannelModal = ({
               value={channelName}
               onChange={(event) => setChannelName(event.target.value)}
             />
-            <div className="manage-channel-bottom">
-              {groupMembersOptions && groupMembersOptions.length > 0 ? (
-                <Autocomplete
-                  sx={{ width: "100%" }}
-                  open={open}
-                  onOpen={() => {
-                    setOpen(true);
-                  }}
-                  onClose={() => {
-                    setOpen(false);
-                  }}
-                  isOptionEqualToValue={(option, value) =>
-                    option.DisplayName === value.name
-                  }
-                  getOptionLabel={(option) => option.DisplayName}
-                  renderOption={(props, option) => (
-                    <li>
-                      <Chip
-                        clickable
-                        key={option}
-                        icon={<Avatar src={option.avatar} />}
-                        className="friend-search-chip"
-                        label={option.MemberName}
-                        sx={{
-                          width: "100%",
-                          height: "fit-content",
-                          borderRadius: "80px",
-                          padding: "10px",
-                        }}
-                        onClick={() => handleAddMember(option)}
-                      />
-                    </li>
-                  )}
-                  options={options}
-                  loading={loading}
-                  renderInput={(params) => (
+            {visibility === "Private" ? (
+              <div className="manage-channel-bottom-container">
+                <div className="manage-channel-bottom">
+                  {groupMembersOptions && groupMembersOptions.length > 0 ? (
+                    <Autocomplete
+                      sx={{ width: "100%" }}
+                      open={open}
+                      onOpen={() => {
+                        setOpen(true);
+                      }}
+                      onClose={() => {
+                        setOpen(false);
+                      }}
+                      isOptionEqualToValue={(option, value) =>
+                        option.DisplayName === value.name
+                      }
+                      getOptionLabel={(option) => option.DisplayName}
+                      renderOption={(props, option) => (
+                        <li>
+                          <Chip
+                            clickable
+                            key={option}
+                            icon={<Avatar src={option.avatar} />}
+                            className="friend-search-chip"
+                            label={option.MemberName}
+                            sx={{
+                              width: "100%",
+                              height: "fit-content",
+                              borderRadius: "80px",
+                              padding: "10px",
+                            }}
+                            onClick={() => handleAddMember(option)}
+                          />
+                        </li>
+                      )}
+                      options={options}
+                      loading={loading}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          id="manage-channel-searchbar"
+                          variant="outlined"
+                          placeholder="Add a new channel member..."
+                          value={searchString}
+                          onChange={(event) =>
+                            setSearchString(event.target.value)
+                          }
+                          InputProps={{
+                            ...params.InputProps,
+                            endAdornment: (
+                              <>
+                                {loading ? (
+                                  <CircularProgress color="inherit" size={20} />
+                                ) : (
+                                  <InputAdornment position="end">
+                                    <SearchIcon color="primary" />
+                                  </InputAdornment>
+                                )}
+                              </>
+                            ),
+                          }}
+                        />
+                      )}
+                    />
+                  ) : (
                     <TextField
-                      {...params}
+                      sx={{ width: "100%" }}
                       id="manage-channel-searchbar"
                       variant="outlined"
-                      placeholder="Add a new channel member..."
-                      value={searchString}
-                      onChange={(event) => setSearchString(event.target.value)}
-                      InputProps={{
-                        ...params.InputProps,
-                        endAdornment: (
-                          <>
-                            {loading ? (
-                              <CircularProgress color="inherit" size={20} />
-                            ) : (
-                              <InputAdornment position="end">
-                                <SearchIcon color="primary" />
-                              </InputAdornment>
-                            )}
-                          </>
-                        ),
-                      }}
+                      placeholder="All your Available group members have been added"
+                      inputProps={{ readOnly: true }}
                     />
                   )}
-                />
-              ) : (
-                <TextField
-                  sx={{ width: "100%" }}
-                  id="manage-channel-searchbar"
-                  variant="outlined"
-                  placeholder="All your Available group members have been added"
-                  inputProps={{ readOnly: true }}
-                />
-              )}
-            </div>
-            {newMembers.length > 0 && (
-              <>
-                <h3>Group members:</h3>
-                <div id="channel-members-container">
-                  {newMembers.map((member) => (
-                    <div className="channel-member-icon">
-                      <Avatar src={member.avatar} />
-                      <p>{member.MemberName}</p>
-                    </div>
-                  ))}
                 </div>
-              </>
+                {newMembers.length > 0 && (
+                  <>
+                    <h3>Channel members:</h3>
+                    <div id="channel-members-container">
+                      {newMembers.map((member) => (
+                        <div className="channel-member-icon">
+                          <Avatar src={member.avatar} />
+                          <p>{member.MemberName}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <div></div>
             )}
+
             <div className="toggle-buttons-group">
               <h3>Channel Type:</h3>
               <div className="channel-toggle-select">

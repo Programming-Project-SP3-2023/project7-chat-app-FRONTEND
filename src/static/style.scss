@@ -1954,7 +1954,7 @@ input[type="range"] {
   .manage-channels-bottom {
     width: 100%;
     @include flex-column(center, center);
-    height: 25%;
+    height: 40%;
     margin-bottom: 10px;
 
     #manage-channels-modal-private-container {
@@ -2042,6 +2042,9 @@ input[type="range"] {
     }
   }
 
+  .manage-channel-bottom-container {
+    width: 100%;
+  }
   .manage-channel-bottom {
     width: 100%;
     @include flex-column(center, center);

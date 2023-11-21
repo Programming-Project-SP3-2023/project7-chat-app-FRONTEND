@@ -2013,7 +2013,7 @@ input[type=range] {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 25%;
+  height: 40%;
   margin-bottom: 10px;
 }
 #manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container {
@@ -2124,6 +2124,9 @@ input[type=range] {
   background-color: #456b9a;
   width: 70%;
   height: 8%;
+}
+.add-channel-modal .manage-channel-bottom-container {
+  width: 100%;
 }
 .add-channel-modal .manage-channel-bottom {
   width: 100%;
