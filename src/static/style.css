@@ -2007,16 +2007,34 @@ input[type=range] {
 #manage-channels-modal-background #manage-channel-settings-textfield button {
   margin-top: 1%;
 }
-#manage-channels-modal-background #manage-channels-modal-whitebox {
-  width: 90%;
+#manage-channels-modal-background .manage-channels-bottom {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 40%;
+  margin-bottom: 10px;
+}
+#manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  min-width: 100%;
+  align-items: center;
+}
+#manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container #manage-channels-modal-whitebox {
+  width: 90%;
+  height: 50%;
   background-color: #ffffff;
   overflow: auto;
   padding-left: 5%;
   gap: 15px;
   padding-top: 20px;
 }
-#manage-channels-modal-background .manage-channels-link {
+#manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container .manage-channels-link {
   width: 90%;
   display: flex;
   flex-direction: row;
@@ -2027,24 +2045,15 @@ input[type=range] {
   color: #495057;
   padding-left: 2%;
 }
-#manage-channels-modal-background .channel-delete-bttn-container {
+#manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container .channel-delete-bttn-container {
   padding-block: 0 !important;
 }
-#manage-channels-modal-background #manage-channel-submit-button {
+#manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container #manage-channel-submit-button {
   width: 100%;
   font-size: 19px;
   background-color: #456b9a;
 }
-#manage-channels-modal-background .manage-channels-bottom {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 25%;
-  margin-bottom: 10px;
-}
-#manage-channels-modal-background .manage-channels-link {
+#manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container .manage-channels-link {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -2115,6 +2124,9 @@ input[type=range] {
   background-color: #456b9a;
   width: 70%;
   height: 8%;
+}
+.add-channel-modal .manage-channel-bottom-container {
+  width: 100%;
 }
 .add-channel-modal .manage-channel-bottom {
   width: 100%;

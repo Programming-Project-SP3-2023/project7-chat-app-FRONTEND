@@ -50,6 +50,7 @@ const ManageChannelModal = ({
   const [options, setOptions] = useState([]);
   const [channelOptions, setChannelOptions] = useState([]);
   const [open, setOpen] = useState(false);
+  const [visibility, setVisibility] = useState("");
   //const [friendToAdd, setFriendToAdd] = useState(null);
   const [members, setMembers] = useState([]);
   const loading = open && options.length === 0;
@@ -71,7 +72,8 @@ const ManageChannelModal = ({
     if (channelID !== null && group.groupID !== null) {
       try {
         const response = await getChannelInfo(group.groupID, channelID);
-        console.log(response); // seems to only return channelId, name channelType & visibility
+        console.log("response....", response.Visibility);
+        setVisibility(response.Visibility);
         setChannelName(response.ChannelName);
       } catch (err) {
         console.log("error getting channel info", err);
@@ -123,6 +125,7 @@ const ManageChannelModal = ({
         channelID,
         member.AccountID
       );
+      console.log("member to remove...", member.AccountID);
       console.log(response);
       setGroupReload(!groupReload);
       // Manually remove member for frontend view/func only.
@@ -285,98 +288,109 @@ const ManageChannelModal = ({
             </Button>
           </form>
         </div>
-
-        <div id="manage-channels-modal-whitebox">
-          {members &&
-            members.map((member, i) => {
-              return (
-                <MemberChip
-                  key={i}
-                  member={member}
-                  request={false}
-                  setRefresh={setRefresh}
-                  setManageChannelModalOpen={setManageChannelModalOpen}
-                  handleRemoveMember={() => handleRemoveMember(member, i)}
-                />
-              );
-            })}
-        </div>
         <div className="manage-channels-bottom">
-          <div className="manage-channels-link">
-            <PeopleAltOutlinedIcon />
-            <p>Add member</p>
-          </div>
-          {channelOptions.length > 0 ? (
-            <Autocomplete
-              disableCloseOnSelect
-              sx={{ width: "90%" }}
-              open={open}
-              onOpen={() => {
-                setOpen(true);
-              }}
-              onClose={() => {
-                setOpen(false);
-              }}
-              isOptionEqualToValue={(option, value) =>
-                option.DisplayName === value.name
-              }
-              getOptionLabel={(option) => option.DisplayName}
-              renderOption={(props, option) => (
-                <li>
-                  <Chip
-                    clickable
-                    key={option}
-                    icon={<Avatar src={option.avatar || option.MemberAvatar} />}
-                    className="friend-search-chip"
-                    label={option.MemberName}
-                    sx={{
-                      width: "100%",
-                      height: "fit-content",
-                      borderRadius: "80px",
-                      padding: "10px",
-                    }}
-                    deleteIcon={
-                      <PersonAddOutlinedIcon className="add-friend-icon" />
-                    }
-                    onDelete={() => handleAddMember(option)}
-                  />
-                </li>
-              )}
-              options={options}
-              loading={loading}
-              renderInput={(params) => (
+          {visibility === "Private" ? (
+            <div id="manage-channels-modal-private-container">
+              <div id="manage-channels-modal-whitebox">
+                {members &&
+                  members.map((member, i) => {
+                    return (
+                      <MemberChip
+                        key={i}
+                        member={member}
+                        request={false}
+                        setRefresh={setRefresh}
+                        setManageChannelModalOpen={setManageChannelModalOpen}
+                        handleRemoveMember={() => handleRemoveMember(member, i)}
+                      />
+                    );
+                  })}
+              </div>
+
+              <h3>Private Channel</h3>
+              <div className="manage-channels-link">
+                <PeopleAltOutlinedIcon />
+                <p>Add member</p>
+              </div>
+              {channelOptions.length > 0 ? (
+                <Autocomplete
+                  disableCloseOnSelect
+                  sx={{ width: "90%" }}
+                  open={open}
+                  onOpen={() => {
+                    setOpen(true);
+                  }}
+                  onClose={() => {
+                    setOpen(false);
+                  }}
+                  isOptionEqualToValue={(option, value) =>
+                    option.DisplayName === value.name
+                  }
+                  getOptionLabel={(option) => option.DisplayName}
+                  renderOption={(props, option) => (
+                    <li>
+                      <Chip
+                        clickable
+                        key={option}
+                        icon={
+                          <Avatar src={option.avatar || option.MemberAvatar} />
+                        }
+                        className="friend-search-chip"
+                        label={option.MemberName}
+                        sx={{
+                          width: "100%",
+                          height: "fit-content",
+                          borderRadius: "80px",
+                          padding: "10px",
+                        }}
+                        deleteIcon={
+                          <PersonAddOutlinedIcon className="add-friend-icon" />
+                        }
+                        onDelete={() => handleAddMember(option)}
+                      />
+                    </li>
+                  )}
+                  options={options}
+                  loading={loading}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      id="manage-friends-searchbar"
+                      variant="outlined"
+                      placeholder="Add a new Channel member..."
+                      value={searchString}
+                      onChange={(event) => setSearchString(event.target.value)}
+                      InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                          <>
+                            {loading ? (
+                              <CircularProgress color="inherit" size={20} />
+                            ) : (
+                              <InputAdornment position="end">
+                                <SearchIcon color="primary" />
+                              </InputAdornment>
+                            )}
+                          </>
+                        ),
+                      }}
+                    />
+                  )}
+                />
+              ) : (
                 <TextField
-                  {...params}
+                  sx={{ width: "90%" }}
                   id="manage-friends-searchbar"
                   variant="outlined"
-                  placeholder="Add a new Channel member..."
-                  value={searchString}
-                  onChange={(event) => setSearchString(event.target.value)}
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <>
-                        {loading ? (
-                          <CircularProgress color="inherit" size={20} />
-                        ) : (
-                          <InputAdornment position="end">
-                            <SearchIcon color="primary" />
-                          </InputAdornment>
-                        )}
-                      </>
-                    ),
-                  }}
+                  placeholder="All possible channel members have been added"
+                  inputProps={{ readOnly: true }}
                 />
               )}
-            />
+            </div>
           ) : (
-            <TextField
-              sx={{ width: "90%" }}
-              id="manage-friends-searchbar"
-              variant="outlined"
-              placeholder="All possible channel members have been added"
-              inputProps={{ readOnly: true }}
-            />
+            <div>
+              <h3>Public Channel</h3>
+            </div>
           )}
 
           <div className="channel-delete-bttn-container">

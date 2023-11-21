@@ -142,7 +142,7 @@ const AddGroup = ({
       }
       setGroupReload(!groupReload);
       setProcessing(false);
-      setSuccesMsg("Group Successfully Created!")
+      setSuccesMsg("Group Successfully Created!");
     } catch (err) {
       console.log(err);
       setMessage("Something went wrong. We were unable to create the group.");
@@ -150,7 +150,6 @@ const AddGroup = ({
     }
   };
 
-  console.log(selectedImage);
   return (
     <Modal
       id="add-group-modal-background"

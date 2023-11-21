@@ -1936,7 +1936,6 @@ input[type="range"] {
     height: 85%;
     overflow: auto;
 
-
     #manage-channel-modal-header {
       @include modal-header-styling();
       height: 15%;
@@ -1947,55 +1946,60 @@ input[type="range"] {
     width: 90%;
     height: 20%;
     min-height: fit-content;
-    button{
+    button {
       margin-top: 1%;
     }
-
-  }
-
-  #manage-channels-modal-whitebox {
-    width: 90%;
-    height: 40%;
-    background-color: #ffffff;
-    overflow: auto;
-    padding-left: 5%;
-    gap: 15px;
-    padding-top: 20px;
-  }
-
-  .manage-channels-link {
-    width: 90%;
-    @include flex-row(flex-start, center);
-    gap: 20px;
-    text-decoration: none;
-    color: $echo-darkgrey;
-    padding-left: 2%;
-  }
-
-  .channel-delete-bttn-container{
-    padding-block: 0 !important;
-  }
-
-  #manage-channel-submit-button {
-    width: 100%;
-    font-size: 19px;
-    background-color: $echo-darkblue;
   }
 
   .manage-channels-bottom {
     width: 100%;
     @include flex-column(center, center);
-    height: 25%;
+    height: 40%;
     margin-bottom: 10px;
-  }
 
-  .manage-channels-link {
-    @include flex-row(flex-start, center);
-    width: 90%;
-    gap: 20px;
-    text-decoration: none;
-    color: $echo-darkgrey;
-    padding-left: 2%;
+    #manage-channels-modal-private-container {
+      @include flex-column(center, center);
+      min-height: 100%;
+      min-width: 100%;
+      align-items: center;
+      #manage-channels-modal-whitebox {
+        width: 90%;
+        height: 50%;
+        background-color: #ffffff;
+        overflow: auto;
+        padding-left: 5%;
+        gap: 15px;
+        padding-top: 20px;
+      }
+
+      .manage-channels-link {
+        width: 90%;
+        @include flex-row(flex-start, center);
+        gap: 20px;
+        text-decoration: none;
+        color: $echo-darkgrey;
+        padding-left: 2%;
+      }
+
+      .channel-delete-bttn-container {
+        padding-block: 0 !important;
+      }
+
+      #manage-channel-submit-button {
+        width: 100%;
+        font-size: 19px;
+        background-color: $echo-darkblue;
+      }
+
+      .manage-channels-link {
+        @include flex-row(flex-start, center);
+        width: 90%;
+        gap: 20px;
+        text-decoration: none;
+        color: $echo-darkgrey;
+        padding-left: 2%;
+      }
+    }
   }
 }
 
@@ -2038,6 +2042,9 @@ input[type="range"] {
     }
   }
 
+  .manage-channel-bottom-container {
+    width: 100%;
+  }
   .manage-channel-bottom {
     width: 100%;
     @include flex-column(center, center);
