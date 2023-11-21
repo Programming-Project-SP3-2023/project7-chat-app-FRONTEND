@@ -19,7 +19,6 @@ const REMOVE_MEMBER_ENDPOINT = `${BASE_URL}groups/remove-member`;
  * @returns confirmation/error message
  */
 export const createGroup = async function (requestBody) {
-
   const myHeaders = {
     headers: {
       Authorization: getAccessToken(),
@@ -155,7 +154,7 @@ export const deleteGroupByID = async function (groupID, token) {
       return response.data.message;
     }
   } catch (error) {
-    console.log(error.response.data.message);
+    console.log("delete group response", error.response.data.message);
   }
 
   return;
@@ -207,7 +206,7 @@ export const removeGroupMember = async function (groupId, accountId) {
 export const updateGroupName = async function (groupID, groupName) {
   console.log(`${BASE_URL}groups/edit-name/${groupID}`);
   const body = {
-    newGroupName: groupName
+    newGroupName: groupName,
   };
 
   const headers = {
@@ -218,7 +217,11 @@ export const updateGroupName = async function (groupID, groupName) {
   };
 
   try {
-    let response = await axios.post(`${BASE_URL}groups/edit-name/${groupID}`, body, headers);
+    let response = await axios.post(
+      `${BASE_URL}groups/edit-name/${groupID}`,
+      body,
+      headers
+    );
 
     //Success!
     if (response.status === 200) {
@@ -234,7 +237,6 @@ export const updateGroupName = async function (groupID, groupName) {
   return;
 };
 
-
 /**
  * Updates a group's name
  * @param {*} groupID group ID
@@ -245,7 +247,7 @@ export const updateGroupName = async function (groupID, groupName) {
 export const updateGroupAvatar = async function (groupID, groupAvatar) {
   const body = {
     groupId: groupID,
-    avatarData: groupAvatar
+    avatarData: groupAvatar,
   };
 
   const headers = {
@@ -256,7 +258,11 @@ export const updateGroupAvatar = async function (groupID, groupAvatar) {
   };
 
   try {
-    let response = await axios.post(`${BASE_URL}avatar/upload-group-avatar`, body, headers);
+    let response = await axios.post(
+      `${BASE_URL}avatar/upload-group-avatar`,
+      body,
+      headers
+    );
 
     //Success!
     if (response.status === 200) {
