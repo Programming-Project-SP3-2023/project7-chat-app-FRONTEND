@@ -174,7 +174,7 @@ const AddChannelModal = ({
 
         console.log("channelID....", channelId);
 
-        if (newMembers.length > 0) {
+        if (newMembers.length > 0 && visibility === "Private") {
           newMembers.forEach(async (member) => {
             let newMemberRes = await addChannelMember(
               groupID,

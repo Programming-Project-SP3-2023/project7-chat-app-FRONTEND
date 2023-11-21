@@ -46,6 +46,8 @@ const GroupChatUI = ({ socket }) => {
   const findAvatarBySenderID = (SenderID) => {
     const member = members.find((member) => member.AccountID === SenderID);
 
+    console.log("member...", member);
+
     return member ? member.avatar : null;
   };
 
@@ -85,7 +87,7 @@ const GroupChatUI = ({ socket }) => {
       console.log("maximum ammount of messages reached");
     } else {
       setMessagesAmmount((prevMessageAmmount) => prevMessageAmmount + 10);
-      console.log("message ammount...", messagesAmmount);
+      // console.log("message ammount...", messagesAmmount);
       socket.emit("moreChannelMessages", { channelID, num: messagesAmmount });
     }
     console.log("messages", messagesBetweenFetches);
@@ -151,9 +153,12 @@ const GroupChatUI = ({ socket }) => {
       const formatMessage = {
         SenderID: data.from,
         MessageBody: data.message,
-        SenderUsername: data.username,
+        SenderUsername: data.username.displayName,
         TimeSent: formatDateTime(data.timestamp),
       };
+
+      // console.log(data.username.displayName);
+
       // set messages
       setMessages((messages) => [...messages, formatMessage]);
     });
@@ -177,6 +182,7 @@ const GroupChatUI = ({ socket }) => {
 
     if (messageText.trim() !== "") {
       // currently being used for local display
+
       const newMessage = {
         ChannelID: channelID,
         MessageBody: messageText,
