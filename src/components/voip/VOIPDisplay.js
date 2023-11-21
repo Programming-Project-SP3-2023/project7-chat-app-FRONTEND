@@ -70,12 +70,14 @@ const VoiceChatRoom = ({ socket }) => {
         let currusers = [];
         if (users) {
           for (let i = 0; i < users.length; i++) {
+            if(typeof(users[i].username) == "string"){
             let user = {
               username: users[i].username,
               peerID: users[i].peerID,
               image: users[i].image,
             }
             currusers.push(user);
+          }
           }
         }
         setUsers(currusers);
@@ -102,6 +104,8 @@ const VoiceChatRoom = ({ socket }) => {
 
     //listen for peers that are calling the user
     peer.on('call', (call) => {
+      console.log("inside call now")
+
       var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
       const remotePeerId = call.peer;
@@ -131,9 +135,11 @@ const VoiceChatRoom = ({ socket }) => {
         peerID: user.peerID
       }
       addUser(newuser);
+      console.log("add user done")
       call(user.peerID);
+      console.log("call done")
+
       let myPeerId = peer.id;
-      console.log("calling " + user.peerID);
       console.log("sending my peer ID to socket " + myPeerId);
       socket.emit("callResponse", ({
         socketID: user.socketID,
@@ -141,9 +147,9 @@ const VoiceChatRoom = ({ socket }) => {
       }));
     });
 
-    socket.on('callAnswered', ({ peerID }) => {
-      console.log("call answered, received peerID, calling " + peerID);
-      call(peerID);
+    socket.on('callAnswered', ( response ) => {
+      console.log("call answered, received peerID, calling " + response.peerID);
+      call(response.peerID);
     })
 
     socket.on("error", (error) => {
@@ -254,18 +260,6 @@ const VoiceChatRoom = ({ socket }) => {
     remoteCalls.splice(0, remoteCalls.length);
   }
 
-  // close a connection with a specific user
-  const closeCall = (peerID) => {
-
-    for (var i = 0; i < remoteCalls.length; i++) {
-      if (remoteCalls[i].peer === peerID) {
-        console.log("removed: " + peerID);
-        remoteCalls[i].close();
-        remoteCalls.splice(i, 1);
-        releaseAudioElement(peerID);
-      }
-    }
-  }
 
 
   const toggleSpeakingStatus = (peerID) => {
@@ -319,6 +313,7 @@ const VoiceChatRoom = ({ socket }) => {
 
 
   const addUser = (newUser) => {
+    console.log("does it do it here?")
     setUsers((prevUsers) => {
       if (!prevUsers) {
         // If the users array is empty, initialize it with the new user
@@ -479,6 +474,7 @@ const VoiceChatRoom = ({ socket }) => {
               key={user.peerID}
               className={`user-square ${speakingStatus[user.peerID] ? 'speaking' : ''}`}
             >
+              {console.log(user)}
               {(user && user.image) ? (
                 <Avatar src={user.image} id="profile-avatar" />
               ) : (
