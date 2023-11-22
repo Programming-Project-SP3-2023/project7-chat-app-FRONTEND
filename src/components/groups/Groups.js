@@ -247,6 +247,7 @@ const Groups = ({
                 setRefresh={setRefresh}
                 group={group}
                 channels={channelList}
+                members={members}
                 groupReload={groupReload}
                 setGroupReload={setGroupReload}
               />

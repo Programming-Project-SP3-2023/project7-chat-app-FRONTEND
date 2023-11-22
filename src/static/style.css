@@ -1806,9 +1806,6 @@ input[type=range] {
 }
 
 /* ---------------------------- channel page ---------------------------- */
-.channel-delete-bttn-container {
-  padding-block: 1%;
-}
 .channel-delete-bttn-container .channel-button {
   width: 100%;
   background-color: #f0eff4;
@@ -1970,6 +1967,7 @@ input[type=range] {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 2rem;
 }
 #manage-channels-modal-background #manage-channels-modal {
   width: 65%;
@@ -2000,7 +1998,7 @@ input[type=range] {
 }
 #manage-channels-modal-background #manage-channel-settings-textfield {
   width: 90%;
-  height: 20%;
+  height: 15%;
   min-height: -moz-fit-content;
   min-height: fit-content;
 }
@@ -2046,7 +2044,7 @@ input[type=range] {
   padding-left: 2%;
 }
 #manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container .channel-delete-bttn-container {
-  padding-block: 0 !important;
+  margin-bottom: 5%;
 }
 #manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container #manage-channel-submit-button {
   width: 100%;

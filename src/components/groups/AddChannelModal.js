@@ -35,6 +35,7 @@ const AddChannelModal = ({
   group,
   groupReload,
   setGroupReload,
+  members,
 }) => {
   // state variables for modal
   // const [selectedImage, setSelectedImage] = useState(null);
@@ -52,6 +53,8 @@ const AddChannelModal = ({
   // by default the channel type is text unless the user changes the toggle
   const [messageType, setMessageType] = React.useState("Chat");
   const [visibility, setVisibility] = useState("Public");
+
+  console.log("members...", members);
 
   // handle channel type selection
   const handleChange = (event, newMessageType) => {
@@ -81,7 +84,11 @@ const AddChannelModal = ({
   // Effects
   useEffect(() => {
     //console.log("groupmember options...", group.GroupMembers);
-    setGroupMemberOptions(group.GroupMembers);
+    setGroupMemberOptions(members);
+
+    return () => {
+      setOptions([]);
+    };
   }, [groupMembersOptions]);
 
   useEffect(() => {
@@ -139,13 +146,10 @@ const AddChannelModal = ({
     tempOpt.splice(indexToRemove, 1);
 
     setGroupMemberOptions(tempOpt);
-    //console.log("tempOpt", tempOpt);
+    console.log("tempOpt", tempOpt);
     // 3. close dropdown
     setOpen(false);
   };
-
-  //  console.log("message type: ", messageType);
-  //  console.log("channelName: ", channelName);
 
   // handle create channel
   const handleCreateChannel = async () => {
@@ -175,19 +179,21 @@ const AddChannelModal = ({
         console.log("channelID....", channelId);
 
         if (newMembers.length > 0 && visibility === "Private") {
+          console.log("newMembers...", newMembers);
           newMembers.forEach(async (member) => {
             let newMemberRes = await addChannelMember(
               groupID,
               channelId,
-              member.accountID
+              member.AccountID
             );
+            console.log("member.accountID", member.AccountID);
             console.log(newMemberRes);
           });
         }
         setGroupReload(!groupReload);
         setProcessing(false);
         setManageAddChannelModalOpen(false);
-        navigate(`/dashboard/groups/${group.groupdID}`);
+        navigate(`/dashboard/groups/${groupID}`);
         // clear fields after creation
         setNewMembers([]);
         setGroupMemberOptions([]);

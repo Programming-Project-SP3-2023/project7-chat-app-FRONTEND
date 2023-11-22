@@ -1781,7 +1781,6 @@ input[type="range"] {
 /* ---------------------------- channel page ---------------------------- */
 
 .channel-delete-bttn-container {
-  padding-block: 1%;
   .channel-button {
     width: 100%;
     background-color: $echo-lightgrey;
@@ -1930,6 +1929,7 @@ input[type="range"] {
 
 #manage-channels-modal-background {
   @include flex-row(center, center);
+  gap: 2rem;
 
   #manage-channels-modal {
     @include modal-styling(65%, 5%);
@@ -1944,7 +1944,7 @@ input[type="range"] {
 
   #manage-channel-settings-textfield {
     width: 90%;
-    height: 20%;
+    height: 15%;
     min-height: fit-content;
     button {
       margin-top: 1%;
@@ -1982,7 +1982,7 @@ input[type="range"] {
       }
 
       .channel-delete-bttn-container {
-        padding-block: 0 !important;
+        margin-bottom: 5%;
       }
 
       #manage-channel-submit-button {

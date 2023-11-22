@@ -20,6 +20,7 @@ import WorkspacesOutlinedIcon from "@mui/icons-material/WorkspacesOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import MemberChip from "../partial/MemberChip";
+import { useNavigate } from "react-router";
 import { getUserID } from "../../utils/localStorage";
 import {
   addChannelMember,
@@ -51,9 +52,11 @@ const ManageChannelModal = ({
   const [channelOptions, setChannelOptions] = useState([]);
   const [open, setOpen] = useState(false);
   const [visibility, setVisibility] = useState("");
-  //const [friendToAdd, setFriendToAdd] = useState(null);
+
   const [members, setMembers] = useState([]);
   const loading = open && options.length === 0;
+
+  const navigate = useNavigate();
 
   // Loading function (async)
   function sleep(delay = 0) {
@@ -62,18 +65,16 @@ const ManageChannelModal = ({
     });
   }
 
-  // console.log("group id...", group.groupID);
-  //console.log("channel id...", channelID);
-  // console.log("group info..", group);
-
-  console.log("channels...", channels);
-
+  // for setting / rendering channel infromation
   useEffect(() => async () => {
     if (channelID !== null && group.groupID !== null) {
       try {
+        // get the current channel info
         const response = await getChannelInfo(group.groupID, channelID);
-        console.log("response....", response.Visibility);
+
+        // set channel visibility for channel member management
         setVisibility(response.Visibility);
+        // setting the channel name in the input field
         setChannelName(response.ChannelName);
       } catch (err) {
         console.log("error getting channel info", err);
@@ -82,14 +83,10 @@ const ManageChannelModal = ({
   });
 
   // Methods
-  // Handle member add
+  // Handle channel member add
   const handleAddMember = async (option) => {
-    // console.log("step 1.... adding member...");
-    // console.log("group.groupid", group.groupID);
-    // console.log("channelId", channelID);
-    // console.log("option...", option.AccountID);
-
     try {
+      // attempt to add channel member option
       const response = await addChannelMember(
         parseInt(group.groupID),
         channelID,
@@ -114,7 +111,7 @@ const ManageChannelModal = ({
     }
   };
 
-  // Handle member remove
+  // Handle channel member remove
   const handleRemoveMember = async (member, i) => {
     console.log("removing member...");
     try {
@@ -155,11 +152,15 @@ const ManageChannelModal = ({
     }
   }
 
+  // delete channel handler method
   const deleteChannelHandler = async () => {
     try {
       const response = await deleteChannel(group.groupID, channelID);
+      const groupID = group.groupID;
       console.log(response);
       setGroupReload(!groupReload);
+      setManageChannelModalOpen(false);
+      navigate(`/dashboard/groups/${groupID}`);
       //not sure entirely what I'd update here
     } catch (err) {
       console.log(err);
@@ -174,17 +175,11 @@ const ManageChannelModal = ({
   // TODO fix continous loop of fetch channel members
   useEffect(() => {
     const fetchChannelMembers = async () => {
-      // console.log("groupd id...", group.groupID);
-      // console.log("channelid right?", channelID);
       if (group.groupID !== null && channelID !== null) {
         try {
           const response = await getChannelInfo(group.groupID, channelID);
-          //console.log("channel info response...", response);
-
           if (response.members) {
             setMembers(response.members);
-            //console.log("response...", response.members);
-            //console.log(members);
           }
 
           setGroupReload(!groupReload);
@@ -200,30 +195,34 @@ const ManageChannelModal = ({
   useEffect(() => {
     console.log("TRIGGERED");
     // get only members who are not friends
-    const possibleOptions = [];
     const notPossible = [];
-
-    //console.log("group members....", group.GroupMembers);
-
     const groupMemberTemp = group.GroupMembers;
-    //console.log("group Member.. temp", groupMemberTemp);
+
+    // loop through groupmember temp and search for members
     groupMemberTemp.forEach((groupMember) => {
       members.forEach((member) => {
         if (groupMember.AccountID === member.AccountID) {
-          notPossible.push(member.AccountID);
+          notPossible.push(member);
         }
       });
     });
 
-    groupMemberTemp.forEach((groupMember) => {
-      if (!notPossible.includes(groupMember.AccountID))
-        possibleOptions.push(groupMember);
+    // if members were found in notPossibleTemp
+    const notPossibleTemp = groupMemberTemp.filter((groupMember) => {
+      return !notPossible.some(
+        (member) => member.AccountID === groupMember.AccountID
+      );
     });
-
-    setChannelOptions(possibleOptions);
-    //console.log("OPTIONS", channelOptions);
-    //console.log("MEMBERS", members);
-  }, [manageChannelModalOpen, setMembers, groupReload]);
+    // set the not possible temp
+    setChannelOptions(notPossibleTemp);
+  }, [
+    manageChannelModalOpen,
+    setMembers,
+    groupReload,
+    channelID,
+    members,
+    group.GroupMembers,
+  ]);
 
   useEffect(() => {
     let active = true;
