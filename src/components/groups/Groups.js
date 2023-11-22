@@ -84,16 +84,17 @@ const Groups = ({
           let currentGroup = null;
           const groups = await getGroups();
 
-          // 2. extract group with current ID
-          groups.forEach((g) => {
-            console.log("inside for each loop?", g);
-            if (g.groupID === groupId) {
-              currentGroup = g;
-              setGroup(g);
-              setMembers(currentGroup.GroupMembers);
-            }
-          });
-
+          if (groups !== null) {
+            // 2. extract group with current ID
+            groups.forEach((g) => {
+              console.log("inside for each loop?", g);
+              if (g.groupID === groupId) {
+                currentGroup = g;
+                setGroup(g);
+                setMembers(currentGroup.GroupMembers);
+              }
+            });
+          }
           // error
           if (!currentGroup) {
             console.error("group not found with ID:", groupId);
