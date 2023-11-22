@@ -1806,9 +1806,6 @@ input[type=range] {
 }
 
 /* ---------------------------- channel page ---------------------------- */
-.channel-delete-bttn-container {
-  padding-block: 1%;
-}
 .channel-delete-bttn-container .channel-button {
   width: 100%;
   background-color: #f0eff4;
@@ -2046,8 +2043,8 @@ input[type=range] {
   color: #495057;
   padding-left: 2%;
 }
-#manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container #channel-delete-bttn-container {
-  padding-block: 0 !important;
+#manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container .channel-delete-bttn-container {
+  margin-bottom: 5%;
 }
 #manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container #manage-channel-submit-button {
   width: 100%;

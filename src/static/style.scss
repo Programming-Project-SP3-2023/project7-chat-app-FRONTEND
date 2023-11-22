@@ -1781,7 +1781,6 @@ input[type="range"] {
 /* ---------------------------- channel page ---------------------------- */
 
 .channel-delete-bttn-container {
-  padding-block: 1%;
   .channel-button {
     width: 100%;
     background-color: $echo-lightgrey;
@@ -1982,8 +1981,8 @@ input[type="range"] {
         padding-left: 2%;
       }
 
-      #channel-delete-bttn-container {
-        padding-block: 0 !important;
+      .channel-delete-bttn-container {
+        margin-bottom: 5%;
       }
 
       #manage-channel-submit-button {

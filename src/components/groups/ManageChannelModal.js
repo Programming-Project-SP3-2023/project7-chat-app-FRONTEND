@@ -65,14 +65,16 @@ const ManageChannelModal = ({
     });
   }
 
-  // console.log("channels...", channels);
-
+  // for setting / rendering channel infromation
   useEffect(() => async () => {
     if (channelID !== null && group.groupID !== null) {
       try {
+        // get the current channel info
         const response = await getChannelInfo(group.groupID, channelID);
-        console.log("response....", response.Visibility);
+
+        // set channel visibility for channel member management
         setVisibility(response.Visibility);
+        // setting the channel name in the input field
         setChannelName(response.ChannelName);
       } catch (err) {
         console.log("error getting channel info", err);
@@ -81,9 +83,10 @@ const ManageChannelModal = ({
   });
 
   // Methods
-  // Handle member add
+  // Handle channel member add
   const handleAddMember = async (option) => {
     try {
+      // attempt to add channel member option
       const response = await addChannelMember(
         parseInt(group.groupID),
         channelID,
@@ -108,7 +111,7 @@ const ManageChannelModal = ({
     }
   };
 
-  // Handle member remove
+  // Handle channel member remove
   const handleRemoveMember = async (member, i) => {
     console.log("removing member...");
     try {
@@ -149,14 +152,13 @@ const ManageChannelModal = ({
     }
   }
 
+  // delete channel handler method
   const deleteChannelHandler = async () => {
     try {
       const response = await deleteChannel(group.groupID, channelID);
       const groupID = group.groupID;
       console.log(response);
       setGroupReload(!groupReload);
-      // setGroupReload(!groupReload);
-
       setManageChannelModalOpen(false);
       navigate(`/dashboard/groups/${groupID}`);
       //not sure entirely what I'd update here
@@ -193,35 +195,26 @@ const ManageChannelModal = ({
   useEffect(() => {
     console.log("TRIGGERED");
     // get only members who are not friends
-    const possibleOptions = [];
     const notPossible = [];
-
-    console.log("group members....", group.GroupMembers);
-
     const groupMemberTemp = group.GroupMembers;
-    // console.log("members....", members);
-    // console.log("group Member.. temp", groupMemberTemp);
+
+    // loop through groupmember temp and search for members
     groupMemberTemp.forEach((groupMember) => {
       members.forEach((member) => {
-        if (groupMember.AcountID === member.AccountID) {
+        if (groupMember.AccountID === member.AccountID) {
           notPossible.push(member);
-          // console.log("groupmember....", groupMember.AccountID);
-          // console.log("notpossible person...", member.AccountID);
         }
       });
     });
 
-    console.log("not possible....", notPossible);
-
-    console.log("groupMemberTemp....", groupMemberTemp);
-    groupMemberTemp.forEach((groupMember) => {
-      if (!notPossible.includes(groupMember.AccountID))
-        possibleOptions.push(groupMember);
+    // if members were found in notPossibleTemp
+    const notPossibleTemp = groupMemberTemp.filter((groupMember) => {
+      return !notPossible.some(
+        (member) => member.AccountID === groupMember.AccountID
+      );
     });
-
-    setChannelOptions(possibleOptions);
-    //  console.log("possible", possibleOptions);
-    //  console.log("not possible", notPossible);
+    // set the not possible temp
+    setChannelOptions(notPossibleTemp);
   }, [
     manageChannelModalOpen,
     setMembers,
