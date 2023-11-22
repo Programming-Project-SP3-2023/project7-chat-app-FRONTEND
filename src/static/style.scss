@@ -1930,6 +1930,7 @@ input[type="range"] {
 
 #manage-channels-modal-background {
   @include flex-row(center, center);
+  gap: 2rem;
 
   #manage-channels-modal {
     @include modal-styling(65%, 5%);
@@ -1944,7 +1945,7 @@ input[type="range"] {
 
   #manage-channel-settings-textfield {
     width: 90%;
-    height: 20%;
+    height: 15%;
     min-height: fit-content;
     button {
       margin-top: 1%;
@@ -1981,7 +1982,7 @@ input[type="range"] {
         padding-left: 2%;
       }
 
-      .channel-delete-bttn-container {
+      #channel-delete-bttn-container {
         padding-block: 0 !important;
       }
 

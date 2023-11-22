@@ -35,6 +35,7 @@ const AddChannelModal = ({
   group,
   groupReload,
   setGroupReload,
+  members,
 }) => {
   // state variables for modal
   // const [selectedImage, setSelectedImage] = useState(null);
@@ -52,6 +53,8 @@ const AddChannelModal = ({
   // by default the channel type is text unless the user changes the toggle
   const [messageType, setMessageType] = React.useState("Chat");
   const [visibility, setVisibility] = useState("Public");
+
+  console.log("members...", members);
 
   // handle channel type selection
   const handleChange = (event, newMessageType) => {
@@ -81,7 +84,11 @@ const AddChannelModal = ({
   // Effects
   useEffect(() => {
     //console.log("groupmember options...", group.GroupMembers);
-    setGroupMemberOptions(group.GroupMembers);
+    setGroupMemberOptions(members);
+
+    return () => {
+      setOptions([]);
+    };
   }, [groupMembersOptions]);
 
   useEffect(() => {

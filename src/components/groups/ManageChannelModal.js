@@ -173,17 +173,11 @@ const ManageChannelModal = ({
   // TODO fix continous loop of fetch channel members
   useEffect(() => {
     const fetchChannelMembers = async () => {
-      // console.log("groupd id...", group.groupID);
-      // console.log("channelid right?", channelID);
       if (group.groupID !== null && channelID !== null) {
         try {
           const response = await getChannelInfo(group.groupID, channelID);
-          //console.log("channel info response...", response);
-
           if (response.members) {
             setMembers(response.members);
-            //console.log("response...", response.members);
-            //console.log(members);
           }
 
           setGroupReload(!groupReload);
@@ -202,27 +196,40 @@ const ManageChannelModal = ({
     const possibleOptions = [];
     const notPossible = [];
 
-    //console.log("group members....", group.GroupMembers);
+    console.log("group members....", group.GroupMembers);
 
     const groupMemberTemp = group.GroupMembers;
-    //console.log("group Member.. temp", groupMemberTemp);
+    // console.log("members....", members);
+    // console.log("group Member.. temp", groupMemberTemp);
     groupMemberTemp.forEach((groupMember) => {
       members.forEach((member) => {
-        if (groupMember.AccountID === member.AccountID) {
-          notPossible.push(member.AccountID);
+        if (groupMember.AcountID === member.AccountID) {
+          notPossible.push(member);
+          // console.log("groupmember....", groupMember.AccountID);
+          // console.log("notpossible person...", member.AccountID);
         }
       });
     });
 
+    console.log("not possible....", notPossible);
+
+    console.log("groupMemberTemp....", groupMemberTemp);
     groupMemberTemp.forEach((groupMember) => {
       if (!notPossible.includes(groupMember.AccountID))
         possibleOptions.push(groupMember);
     });
 
     setChannelOptions(possibleOptions);
-    //console.log("OPTIONS", channelOptions);
-    //console.log("MEMBERS", members);
-  }, [manageChannelModalOpen, setMembers, groupReload]);
+    //  console.log("possible", possibleOptions);
+    //  console.log("not possible", notPossible);
+  }, [
+    manageChannelModalOpen,
+    setMembers,
+    groupReload,
+    channelID,
+    members,
+    group.GroupMembers,
+  ]);
 
   useEffect(() => {
     let active = true;

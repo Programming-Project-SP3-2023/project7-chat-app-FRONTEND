@@ -1970,6 +1970,7 @@ input[type=range] {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 2rem;
 }
 #manage-channels-modal-background #manage-channels-modal {
   width: 65%;
@@ -2000,7 +2001,7 @@ input[type=range] {
 }
 #manage-channels-modal-background #manage-channel-settings-textfield {
   width: 90%;
-  height: 20%;
+  height: 15%;
   min-height: -moz-fit-content;
   min-height: fit-content;
 }
@@ -2045,7 +2046,7 @@ input[type=range] {
   color: #495057;
   padding-left: 2%;
 }
-#manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container .channel-delete-bttn-container {
+#manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container #channel-delete-bttn-container {
   padding-block: 0 !important;
 }
 #manage-channels-modal-background .manage-channels-bottom #manage-channels-modal-private-container #manage-channel-submit-button {
