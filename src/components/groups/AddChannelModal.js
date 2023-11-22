@@ -139,13 +139,10 @@ const AddChannelModal = ({
     tempOpt.splice(indexToRemove, 1);
 
     setGroupMemberOptions(tempOpt);
-    //console.log("tempOpt", tempOpt);
+    console.log("tempOpt", tempOpt);
     // 3. close dropdown
     setOpen(false);
   };
-
-  //  console.log("message type: ", messageType);
-  //  console.log("channelName: ", channelName);
 
   // handle create channel
   const handleCreateChannel = async () => {
@@ -175,19 +172,21 @@ const AddChannelModal = ({
         console.log("channelID....", channelId);
 
         if (newMembers.length > 0 && visibility === "Private") {
+          console.log("newMembers...", newMembers);
           newMembers.forEach(async (member) => {
             let newMemberRes = await addChannelMember(
               groupID,
               channelId,
-              member.accountID
+              member.AccountID
             );
+            console.log("member.accountID", member.AccountID);
             console.log(newMemberRes);
           });
         }
         setGroupReload(!groupReload);
         setProcessing(false);
         setManageAddChannelModalOpen(false);
-        navigate(`/dashboard/groups/${group.groupdID}`);
+        navigate(`/dashboard/groups/${groupID}`);
         // clear fields after creation
         setNewMembers([]);
         setGroupMemberOptions([]);

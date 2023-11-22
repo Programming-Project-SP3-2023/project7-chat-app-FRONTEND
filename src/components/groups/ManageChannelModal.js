@@ -20,6 +20,7 @@ import WorkspacesOutlinedIcon from "@mui/icons-material/WorkspacesOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import MemberChip from "../partial/MemberChip";
+import { useNavigate } from "react-router";
 import { getUserID } from "../../utils/localStorage";
 import {
   addChannelMember,
@@ -51,9 +52,11 @@ const ManageChannelModal = ({
   const [channelOptions, setChannelOptions] = useState([]);
   const [open, setOpen] = useState(false);
   const [visibility, setVisibility] = useState("");
-  //const [friendToAdd, setFriendToAdd] = useState(null);
+
   const [members, setMembers] = useState([]);
   const loading = open && options.length === 0;
+
+  const navigate = useNavigate();
 
   // Loading function (async)
   function sleep(delay = 0) {
@@ -62,11 +65,7 @@ const ManageChannelModal = ({
     });
   }
 
-  // console.log("group id...", group.groupID);
-  //console.log("channel id...", channelID);
-  // console.log("group info..", group);
-
-  console.log("channels...", channels);
+  // console.log("channels...", channels);
 
   useEffect(() => async () => {
     if (channelID !== null && group.groupID !== null) {
@@ -84,11 +83,6 @@ const ManageChannelModal = ({
   // Methods
   // Handle member add
   const handleAddMember = async (option) => {
-    // console.log("step 1.... adding member...");
-    // console.log("group.groupid", group.groupID);
-    // console.log("channelId", channelID);
-    // console.log("option...", option.AccountID);
-
     try {
       const response = await addChannelMember(
         parseInt(group.groupID),
@@ -158,8 +152,13 @@ const ManageChannelModal = ({
   const deleteChannelHandler = async () => {
     try {
       const response = await deleteChannel(group.groupID, channelID);
+      const groupID = group.groupID;
       console.log(response);
       setGroupReload(!groupReload);
+      // setGroupReload(!groupReload);
+
+      setManageChannelModalOpen(false);
+      navigate(`/dashboard/groups/${groupID}`);
       //not sure entirely what I'd update here
     } catch (err) {
       console.log(err);
