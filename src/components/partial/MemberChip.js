@@ -4,13 +4,22 @@
 
 import { Avatar } from "@mui/material";
 import PersonRemoveAlt1OutlinedIcon from "@mui/icons-material/PersonRemoveAlt1Outlined";
-
+import { getUserID } from "../../utils/localStorage";
 /**
  * Builds and renders the Member Chip Item component
  * @returns Member Chip Item component render
  */
 
-const MemberChip = ({ member, setRefresh, setManageMemberModalOpen, handleRemoveMember }) => {
+const MemberChip = ({
+  member,
+  setRefresh,
+  setManageMemberModalOpen,
+  handleRemoveMember,
+}) => {
+  const userID = getUserID();
+
+  console.log("user...id", userID);
+  console.log("member...", member);
 
   return (
     <div className="user-chip">
@@ -21,10 +30,13 @@ const MemberChip = ({ member, setRefresh, setManageMemberModalOpen, handleRemove
       />
       <div className="user-chip-main">
         <span>{member.MemberName}</span>
-        <PersonRemoveAlt1OutlinedIcon
-          className="remove-friends-icon"
-          onClick={handleRemoveMember}
-        />
+        {/* based on that the user is the admin and should not be able to remove himself */}
+        {userID !== member.AccountID && (
+          <PersonRemoveAlt1OutlinedIcon
+            className="remove-friends-icon"
+            onClick={handleRemoveMember}
+          />
+        )}
       </div>
     </div>
   );
