@@ -231,8 +231,8 @@ const GroupChatUI = ({ socket }) => {
       id="chat-ui-container"
     >
       {loading ? (
-        <div>
-          <p>Please Select a Channel...</p>
+        <div id="please-select-div">
+          <p>Please select a channel...</p>
         </div>
       ) : (
         <div className="chat-messages">

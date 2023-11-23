@@ -305,7 +305,7 @@ const Groups = ({
               )}
               {/* Channels */}
               <h2>Channels</h2>
-              <div className="group-options">
+              <div className="group-options" id="channel-list">
                 {channelList &&
                   channelList.map((channel) => (
                     <div className="group-option" key={channel.ChannelID}>

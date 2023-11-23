@@ -550,6 +550,7 @@ footer {
   height: 100px;
   @include flex-column(center, center);
   z-index: 2;
+  text-align: center;
 }
 
 // *** Dashboard Main *** //
@@ -1347,10 +1348,14 @@ footer {
     margin-top: 30px;
   }
 
+  #channel-list{
+    max-height: 50vh;
+    border-bottom: 2px solid $echo-lightgrey;
+  }
+
   .group-options {
     width: 100%;
     height: fit-content;
-    max-height: 70%;
     overflow: auto;
     padding: 10% 5%;
     @include flex-column(flex-start, center);
@@ -1819,6 +1824,20 @@ input[type="range"] {
 #channel-name-header {
   @include flex-row(flex-start, center);
   padding: 5px;
+}
+
+
+#please-select-div{
+  width: 100%;
+  height: 100%;
+  @include flex-column(center, center);
+
+  p{
+    color: $echo-darkblue;
+    font-weight: 500;
+    width: 90%;
+    text-align: center;
+  }
 }
 
 /* ---------------------------- ADMIN HOME ---------------------------- */
