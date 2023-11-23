@@ -39,6 +39,7 @@ function App() {
   const [groupReload, setGroupReload] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("Echo");
   const [adminTitle, setAdminTitle] = useState("Echo - Admin");
+  const [sideRefresh, setSideRefresh] = useState(false);
 
   // password update modal control
   const [pwdUpdateOpen, setPwdUpdateOpen] = useState(false);
@@ -64,6 +65,8 @@ function App() {
         setPwdUpdateOpen={setPwdUpdateOpen}
         editProfileModalOpen={editProfileModalOpen}
         setEditProfileModalOpen={setEditProfileModalOpen}
+        sideRefresh={sideRefresh}
+        setSideRefresh={setSideRefresh}
       />
       <Routes>
         <Route
@@ -102,6 +105,7 @@ function App() {
                 setPwdUpdateOpen={setPwdUpdateOpen}
                 editProfileModalOpen={editProfileModalOpen}
                 setEditProfileModalOpen={setEditProfileModalOpen}
+                sideRefresh={sideRefresh}
               />
             ) : (
               <Navigate to="/login" />

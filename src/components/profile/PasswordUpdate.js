@@ -8,12 +8,9 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Modal } from "@mui/material";
 import { useState } from "react";
-
-import { getUser } from "../../utils/localStorage";
 import { updatePassword } from "../../services/userAPI";
 
 const PasswordUpdateModal = ({ pwdUpdateOpen, setPwdUpdateOpen }) => {
-  const user = getUser();
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");

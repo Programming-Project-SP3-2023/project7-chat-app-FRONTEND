@@ -2,7 +2,7 @@
  * Delete Confirmation Modal component
  */
 
-import { Modal, Box, Button, setRef } from "@mui/material";
+import { Modal, Box, Button } from "@mui/material";
 
 /**
  * Builds and renders the Add Group component

@@ -13,6 +13,7 @@ import {
   resetUserSession,
   getUser,
   resetGroupsSession,
+  setSideMenuOption,
 } from "../../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 
@@ -25,10 +26,10 @@ const DrawerMenu = ({
   setOpenDrawer,
   setRefresh,
   refresh,
-  pwdUpdateOpen,
   setPwdUpdateOpen,
-  editProfileModalOpen,
-  setEditProfileModalOpen
+  setEditProfileModalOpen,
+  sideRefresh,
+  setSideRefresh
 }) => {
   // instantiate navigation prop
   const navigate = useNavigate();
@@ -44,6 +45,12 @@ const DrawerMenu = ({
     await resetUserID();
     await setRefresh(!refresh);
     navigate("/");
+  };
+
+  const handleNavDashboard = () => {
+    setSideMenuOption(0);
+    setSideRefresh(!sideRefresh);
+    navigate("/dashboard");
   };
 
   return (
@@ -63,11 +70,14 @@ const DrawerMenu = ({
         )}
       </div>
       <div className="settings-options">
-        <div className="settings-option" onClick={() => navigate("/dashboard")}>
+        <div className="settings-option" onClick={() => handleNavDashboard()}>
           <GridViewIcon />
           <h3>Dashboard</h3>
         </div>
-        <div className="settings-option" onClick={() => setEditProfileModalOpen(true)}>
+        <div
+          className="settings-option"
+          onClick={() => setEditProfileModalOpen(true)}
+        >
           <SettingsOutlinedIcon />
           <h3>Account Settings</h3>
         </div>

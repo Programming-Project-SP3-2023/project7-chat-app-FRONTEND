@@ -31,7 +31,8 @@ const Dashboard = ({
   pwdUpdateOpen,
   setPwdUpdateOpen,
   editProfileModalOpen,
-  setEditProfileModalOpen
+  setEditProfileModalOpen,
+  sideRefresh
 }) => {
   const [loading, setLoading] = useState(true);
   const [selectedOpt, setSelectedOpt] = useState(0);
@@ -114,7 +115,7 @@ const Dashboard = ({
     const selected = getSideMenuOption();
     if (selected) setSelectedOpt(selected);
     handleSelectOption(selected);
-  }, [selectedOpt, groupReload]);
+  }, [selectedOpt, groupReload, sideRefresh]);
 
   return (
     <section className="main-section" id="dashboard">

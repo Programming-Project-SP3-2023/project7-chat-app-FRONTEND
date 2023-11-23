@@ -21,7 +21,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import MemberChip from "../partial/MemberChip";
 import { useNavigate } from "react-router";
-import { getUserID } from "../../utils/localStorage";
 import {
   addChannelMember,
   removeChannelMember,

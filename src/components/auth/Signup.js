@@ -18,10 +18,6 @@ import { register } from "../../services/userAPI";
  * @returns Signup component render
  */
 
-// need further validation
-// question ? can a use have the same name in the system?
-// check if users email already exists
-
 const Signup = () => {
   // //const handle submit
   const [name, setName] = useState("");

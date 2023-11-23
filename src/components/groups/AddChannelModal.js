@@ -19,7 +19,6 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
-import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 
 import { addChannelMember, createChannel } from "../../services/channelsAPI";
 import { useNavigate } from "react-router";

@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useSocket } from "../../services/SocketContext";
 import Peer from 'peerjs';
-import webRTCAdapter_import from "webrtc-adapter"
 import { useLocation } from 'react-router-dom';
 import {
   Avatar

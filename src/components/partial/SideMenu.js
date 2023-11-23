@@ -2,7 +2,7 @@
  * Side Menu component
  */
 
-import { Drawer, ListItem, Box, List } from "@mui/material";
+import { Drawer, Box } from "@mui/material";
 import GridViewIcon from "@mui/icons-material/GridView";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";

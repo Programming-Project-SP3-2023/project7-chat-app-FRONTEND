@@ -12,16 +12,12 @@ import {
   TextField,
   ButtonGroup,
   Box,
-  // Divider,
   Avatar,
   FormControl,
-  Badge,
   Button,
 } from "@mui/material";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
-import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
 import SoundFile from "../../assets/NewMsg.wav";
 
 // date time formatter
