@@ -46,8 +46,6 @@ const GroupChatUI = ({ socket }) => {
   const findAvatarBySenderID = (SenderID) => {
     const member = members.find((member) => member.AccountID === SenderID);
 
-    console.log("member...", member);
-
     return member ? member.avatar : null;
   };
 
@@ -111,17 +109,14 @@ const GroupChatUI = ({ socket }) => {
     setLoading(true); // loading
     const fetchData = async () => {
       try {
-        // console.log("channel...");
         // check socket user credentials are still in socket
         if (socket.accountID !== undefined && channelID !== undefined) {
           // connect to channel
           socket.emit("connectChannel", { channelID: channelID });
           socket.on("messageHistory", (messages) => {
             // set messages recieved
-            console.log("messages...", messages);
             setMessages(messages.flat().reverse());
             setLoading(false); //set loading as false
-            // console.log("messages...", messages);
           });
           setMessagesAmmount(20);
 
@@ -149,15 +144,12 @@ const GroupChatUI = ({ socket }) => {
       // console.log("recieved message response", data);
       playSound();
 
-      // const messageRecieved = dayjs(new Date());
       const formatMessage = {
         SenderID: data.from,
         MessageBody: data.message,
         SenderUsername: data.username.displayName,
-        TimeSent: formatDateTime(data.timestamp),
+        TimeSent: data.timestamp,
       };
-
-      // console.log(data.username.displayName);
 
       // set messages
       setMessages((messages) => [...messages, formatMessage]);
@@ -229,51 +221,6 @@ const GroupChatUI = ({ socket }) => {
     return formatedDate;
   };
 
-  // NOT IMPLMENTED
-  // //image file button click
-  // const handleClick = (event) => {
-  //   hiddenFileInput.current.click();
-  // };
-
-  // TODO update image handling into base64
-
-  // //Image submit handling
-  // const handleFileSubmit = (event) => {
-  //   event.preventDefault();
-
-  //   const newTimestamp = dayjs(new Date());
-  //   const file = event.target.files[0];
-
-  //   if (file) {
-  //     if (file.type && file.type.startsWith("image/")) {
-  //       console.log("image");
-
-  //       const newImage = {
-  //         MessageID: messageId,
-  //         Image: file,
-  //         SenderID: userId,
-  //         TimeSent: newTimestamp,
-  //       };
-  //       socket.emit("privateMessage", { message: newImage });
-  //     } else {
-  //       console.log("randomfile");
-
-  //       const newFile = {
-  //         MessageID: messageId,
-  //         File: file,
-  //         FileName: file.name,
-  //         FileType: file.type.split("/")[1], // file type is not currently simple name
-  //         FileSize: file.size, // currently passing file size in bytes
-  //         SenderID: userId,
-  //         TimeSent: newTimestamp,
-  //       };
-  //       socket.emit("privateMessage", { message: newFile });
-  //     }
-  //   }
-
-  //   setSelectedFile(null);
-  // };
-
   return (
     <Box
       sx={{
@@ -329,44 +276,6 @@ const GroupChatUI = ({ socket }) => {
                   </div>
                 )}
               </div>
-              {/* renders image if available */}
-              {message.Image && (
-                <div
-                  id="message-image-container"
-                  className={`message-image-container ${
-                    message.sender === userId ? "user" : "other"
-                  }`}
-                >
-                  <img
-                    id="message-image"
-                    className={`message-image ${
-                      message.sender === userId ? "user" : "other"
-                    }`}
-                    src={message.Image}
-                    alt={message.Image}
-                  />
-                </div>
-              )}
-              {/* renders file if available */}
-              {message.file_name && (
-                <div id="message-file">
-                  <div>
-                    <Badge
-                      id="message-file-mui"
-                      fontsize="large"
-                      anchorOrigin={{
-                        vertical: "center",
-                        horizontal: "center",
-                      }}
-                      badgeContent={message.file_type}
-                    >
-                      <InsertDriveFileOutlinedIcon fontSize="large" />
-                    </Badge>
-                  </div>
-                  <div>{message.file_name}</div>
-                  <div>{message.file_size}</div>
-                </div>
-              )}
             </div>
           ))}
           <div ref={lastMessageRef} />
@@ -388,23 +297,6 @@ const GroupChatUI = ({ socket }) => {
               InputProps={{
                 endAdornment: (
                   <ButtonGroup>
-                    <IconButton
-                      className="image-select-button"
-                      // onClick={handleClick}
-                    >
-                      <input
-                        hidden
-                        // types of files that are accepted
-                        // add to include .pdf, .doc, .txt
-                        accept="image/*"
-                        id="file-input"
-                        type="file"
-                        // ref={hiddenFileInput}
-                        style={{ display: "none" }}
-                        // onChange={handleFileSubmit}
-                      />
-                      <AttachFileIcon />
-                    </IconButton>
                     <IconButton onClick={handleMessageSubmit} type="submit">
                       <SendIcon />
                     </IconButton>
