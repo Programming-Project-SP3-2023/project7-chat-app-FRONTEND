@@ -110,29 +110,9 @@ const Groups = ({
           setFriends(response);
         }
 
-        // 4. attempt to get channel list
-        async function fetchChannelList() {
-          if (groupId) {
-            try {
-              const response = await getChannels(groupId);
-              console.log("Channels List: ", response);
-              response.forEach((ch) => {
-                socket.emit("connectChannel", ch.ChannelID);
-              }, 2000);
-
-              setChannelList(response);
-            } catch (err) {
-              console.log(err);
-            }
-          } else {
-            console.error("group or groupId is null...");
-          }
-        }
-
         // 5 call channel list function async functions
         await fetchGroups();
         await fetchFriends();
-        await fetchChannelList();
       };
       // call for data
       fetchData();
@@ -155,7 +135,29 @@ const Groups = ({
       });
     }
     fetchMembers();
-  }, [members]);
+  }, [members, refresh]);
+
+  useEffect(() => {
+    // 4. attempt to get channel list
+    async function fetchChannelList() {
+      if (groupId) {
+        try {
+          const response = await getChannels(groupId);
+          console.log("Channels List: ", response);
+          response.forEach((ch) => {
+            socket.emit("connectChannel", ch.ChannelID);
+          }, 2000);
+
+          setChannelList(response);
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        console.error("group or groupId is null...");
+      }
+    }
+    fetchChannelList();
+  }, [groupId, refresh]);
 
   // handles opening channel chat and relative functions
   const handleChannelNavigate = async (channelID, channelName) => {

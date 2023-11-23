@@ -17,10 +17,6 @@ const MemberChip = ({
   handleRemoveMember,
 }) => {
   const userID = getUserID();
-
-  console.log("user...id", userID);
-  console.log("member...", member);
-
   return (
     <div className="user-chip">
       <Avatar
