@@ -21,12 +21,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 
-// TODO channel member services api
 import { addChannelMember, createChannel } from "../../services/channelsAPI";
 import { useNavigate } from "react-router";
 /**
- * Builds and renders the Add Group component
- * @returns Add Group component render
+ * Builds and renders the Add channel component
+ * @returns Add channel component render
  */
 
 const AddChannelModal = ({
@@ -38,41 +37,42 @@ const AddChannelModal = ({
   members,
 }) => {
   // state variables for modal
-  // const [selectedImage, setSelectedImage] = useState(null);
-  const [channelName, setChannelName] = useState("");
   const [searchString, setSearchString] = useState("");
   const [options, setOptions] = useState([]);
   const [open, setOpen] = useState(false);
 
-  const [newMembers, setNewMembers] = useState([]);
-  const [groupMembersOptions, setGroupMemberOptions] = useState([]);
   const [processing, setProcessing] = useState(false);
   const [message, setMessage] = useState(null);
   const loading = open && options.length === 0;
 
-  // by default the channel type is text unless the user changes the toggle
+  //group member options
+  const [groupMembersOptions, setGroupMemberOptions] = useState([]);
+  // channel related
+  const [channelName, setChannelName] = useState("");
+  const [newMembers, setNewMembers] = useState([]);
+  // default channel type
   const [messageType, setMessageType] = React.useState("Chat");
   const [visibility, setVisibility] = useState("Public");
+  //nav
+  const navigate = useNavigate();
 
-  console.log("members...", members);
+  // METHODS
 
   // handle channel type selection
   const handleChange = (event, newMessageType) => {
-    // prevent the user from selecting a null type of channel
+    // prevent message type being unselected / null
     if (newMessageType !== null) {
       setMessageType(newMessageType);
     }
   };
 
+  // handle visibility
   const handleVisibility = (event, newVisibilityType) => {
+    // prevent visibility type being unselected / null
     if (newVisibilityType !== null) {
       setVisibility(newVisibilityType);
     }
   };
-
-  const navigate = useNavigate();
-
-  // METHODS
 
   // Loading function (async)
   function sleep(delay = 0) {
@@ -82,10 +82,9 @@ const AddChannelModal = ({
   }
 
   // Effects
+  // set group member options based on the group member options
   useEffect(() => {
-    //console.log("groupmember options...", group.GroupMembers);
     setGroupMemberOptions(members);
-
     return () => {
       setOptions([]);
     };
@@ -124,14 +123,11 @@ const AddChannelModal = ({
     setGroupMemberOptions([]);
   };
 
-  //console.log("groupdMember options...", groupMembersOptions);
-  // Handle friend add
+  // Handle add channel member
   const handleAddMember = (option) => {
     // 1. add member to new members array
-
     let temp = newMembers;
     temp.push(option);
-    console.log("NEW MEMBERS", temp);
     setNewMembers(temp);
 
     // 2. remove members from the potential members array
@@ -144,9 +140,8 @@ const AddChannelModal = ({
     }
     let tempOpt = groupMembersOptions;
     tempOpt.splice(indexToRemove, 1);
-
+    //set updated member options
     setGroupMemberOptions(tempOpt);
-    console.log("tempOpt", tempOpt);
     // 3. close dropdown
     setOpen(false);
   };
@@ -154,14 +149,16 @@ const AddChannelModal = ({
   // handle create channel
   const handleCreateChannel = async () => {
     if (channelName.trim() === "") {
+      // channel names cannot be empty
       setMessage("Channel Name cannot be empty");
-
-      // TODO add method to loop through channel list for same name
+      // channel names cannot be default General chat or Meetings
+    } else if (channelName === "General Chat" || channelName === "Meetings") {
+      setMessage("Channel Name cannot be default channel name");
     } else {
       setProcessing(true);
       try {
         const groupId = group.groupID;
-
+        // attempt to create channel
         const response = await createChannel(
           groupId,
           messageType,
@@ -170,24 +167,18 @@ const AddChannelModal = ({
         );
         console.log("the Response", response.data.message);
 
-        //TODO verify what information is required for the create
-
         const groupID = group.groupID;
-
         const channelId = response.data.channelId;
 
-        console.log("channelID....", channelId);
-
+        // if channelType is Private // add members
         if (newMembers.length > 0 && visibility === "Private") {
-          console.log("newMembers...", newMembers);
           newMembers.forEach(async (member) => {
             let newMemberRes = await addChannelMember(
               groupID,
               channelId,
               member.AccountID
             );
-            console.log("member.accountID", member.AccountID);
-            console.log(newMemberRes);
+            console.log("member added to new channel", newMemberRes);
           });
         }
         setGroupReload(!groupReload);

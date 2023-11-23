@@ -41,9 +41,10 @@ const Groups = ({
 
   // group related
   const [group, setGroup] = useState(null);
-  const [friends, setFriends] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [members, setMembers] = useState([]);
+  // potential members
+  const [friends, setFriends] = useState([]);
   // channel related
   const [channelList, setChannelList] = useState(null);
   const [selectChannelIdModal, setSelectChannelIdModal] = useState(null);
@@ -66,7 +67,6 @@ const Groups = ({
   const [manageAddChannelModalOpen, setManageAddChannelModalOpen] =
     useState(false);
 
-  //const [joinChannelSuccess, setJoinChannelSuccess] = useState(false);
   const [loading, setloading] = useState(true);
 
   // channel settings modal handler
@@ -87,7 +87,6 @@ const Groups = ({
           if (groups !== null) {
             // 2. extract group with current ID
             groups.forEach((g) => {
-              console.log("inside for each loop?", g);
               if (g.groupID === groupId) {
                 currentGroup = g;
                 setGroup(g);
@@ -105,7 +104,6 @@ const Groups = ({
         // 3. define fetch friends function // potential group members
         async function fetchFriends() {
           const response = await getFriends();
-          // console.log("FRIENDS: ", response);
           setFriends(response);
         }
 
@@ -142,13 +140,9 @@ const Groups = ({
   // updates the users role when members are avaiable
   useEffect(() => {
     async function fetchMembers() {
-      // console.log("do I enter here?");
-      // console.log(members);
-
+      //check for member roles
       members.forEach((m) => {
         if (m.AccountID === getUserID()) {
-          console.log("THIS is USERID:", m.AccountID);
-          console.log("THIS IS my role", m.Role);
           if (m.Role === "Admin") setIsAdmin(true);
           else setIsAdmin(false);
         }
@@ -200,8 +194,8 @@ const Groups = ({
     }
   };
 
+  // handle voip join
   const handleVOIPJoin = (channelID, channelName) => {
-    //console.log("Connecting to Voice Channel :)");
     navigate(`/dashboard/groups/${group.groupID}/v/${channelID}`);
     if (channelName) {
       setHeaderTitle(channelName);
@@ -216,7 +210,6 @@ const Groups = ({
         // check to see if accountID still conntected & groupID exists
         if (socket.accountID !== undefined && group.groupID !== null) {
           // attempt to connect to the group
-          // console.log("attempting to connect to group...", group.groupID);
           await socket.emit("connectGroup", { groupID: group.groupID });
         } else {
           // re-establish socket info

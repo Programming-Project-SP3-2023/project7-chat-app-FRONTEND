@@ -54,13 +54,9 @@ const ChatUI = () => {
   const [messageInput, setMessageInput] = useState("");
   const [messagesAmmount, setMessagesAmmount] = useState(20);
   const [maxMessagesReached, setMaxMessagesReached] = useState(false);
-  const MAX_MESSAGE_COUNT = 50; // set limit
+  const MAX_MESSAGE_COUNT = 50; // set message fetch limit
 
   const messagesBetweenFetches = messagesAmmount - messages.length;
-
-  // for image handling
-  // const [selectedFile, setSelectedFile] = useState(null);
-  // const hiddenFileInput = useRef(null);
 
   const lastMessageRef = useRef(null); // for scrolling to latest message // currently broken
 
@@ -80,29 +76,34 @@ const ChatUI = () => {
     return friend ? friend.Avatar : null;
   };
 
+  // handle socket reconnect method
   const reconnect = async () => {
     await loginSocket(userId, username);
   };
-
   const handleReconnect = async () => {
     setLoading(true);
     await reconnect();
   };
 
+  // handle fetch more message method
   const handleMoreMessages = async () => {
+    //max messages is determined by either the maximum limit or
+    // there is no longer any more messages to fetch
     if (maxMessagesReached) {
       console.log("maximum ammount of messages reached");
     } else {
+      // set the next ammount of messages to fetch
       setMessagesAmmount((prevMessageAmmount) => prevMessageAmmount + 10);
-      console.log("message ammount...", messagesAmmount);
+      // ask for more messages
       socket.emit("moreMessages", { chatID, num: messagesAmmount });
     }
-    console.log("messages", messagesBetweenFetches);
+    // if there isn't enough messages to fetch the message ammount has been reached
     if (messagesAmmount >= MAX_MESSAGE_COUNT || messagesBetweenFetches >= 11) {
       setMaxMessagesReached(true);
     }
   };
 
+  // effects
   useEffect(() => {
     setMaxMessagesReached(false);
   }, [chatID]);
@@ -122,7 +123,7 @@ const ChatUI = () => {
         setMessages(messages.flat().reverse());
         setLoading(false); //set loading as false
       });
-      // setMaxMessagesReached(false);
+      // reset message ammount based on page render
       setMessagesAmmount(20);
       // ask for messages
       socket.emit("getMessages", { chatID: chatID });
@@ -142,11 +143,10 @@ const ChatUI = () => {
       playSound();
       console.log("recieved message response", data);
 
-      // const messageRecieved = dayjs(new Date());
       const formatMessage = {
         SenderID: data.from,
         MessageBody: data.message,
-        TimeSent: formatDateTime(data.timestamp),
+        TimeSent: data.timestamp,
       };
       // set messages
       setMessages((messages) => [...messages, formatMessage]);
@@ -169,7 +169,7 @@ const ChatUI = () => {
     const newTimestamp = new Date().getTime(); // converts to epoch time
     const messageText = messageInput.toString(); // convert user input to string
 
-    console.log("message submit timestamp: ", newTimestamp);
+    // check if message is empty
     if (messageText.trim() !== "") {
       // currently being used for local display
       const newMessage = {
@@ -181,6 +181,8 @@ const ChatUI = () => {
       // sending > emit message of chatID and string of message
       socket.emit("sendMessage", { chatID, message: messageText });
 
+      //as the messages are broadcasted to other members the user won't
+      //see his own messages unless set here
       setMessages((messages) => [...messages, newMessage]); //set local messages
       setMessageInput("");
     }
@@ -214,50 +216,6 @@ const ChatUI = () => {
     return formatedDate;
   };
 
-  //image file button click
-  // const handleClick = (event) => {
-  //   hiddenFileInput.current.click();
-  // };
-
-  // TODO update image handling into base64
-
-  // Image submit handling
-  // const handleFileSubmit = (event) => {
-  //   event.preventDefault();
-
-  //   const newTimestamp = dayjs(new Date());
-  //   const file = event.target.files[0];
-
-  //   if (file) {
-  //     if (file.type && file.type.startsWith("image/")) {
-  //       console.log("image");
-
-  //       const newImage = {
-  //         ChatID: chatID,
-  //         Image: file,
-  //         SenderID: userId,
-  //         TimeSent: newTimestamp,
-  //       };
-  //       socket.emit("privateMessage", { chatID, message: newImage });
-  //       } else {
-  //         console.log("randomfile");
-
-  //         const newFile = {
-  //           MessageID: messageId,
-  //           File: file,
-  //           FileName: file.name,
-  //           FileType: file.type.split("/")[1], // file type is not currently simple name
-  //           FileSize: file.size, // currently passing file size in bytes
-  //           SenderID: userId,
-  //           TimeSent: newTimestamp,
-  //         };
-  //         socket.emit("privateMessage", { message: newFile });
-  //     }
-  //   }
-
-  //   setSelectedFile(null);
-  // };
-
   return (
     <Box
       sx={{
@@ -278,7 +236,7 @@ const ChatUI = () => {
           ) : (
             <Button onClick={handleMoreMessages}>more messages</Button>
           )}
-
+          {/* dynamically display users / other messages */}
           {messages.map((message, index) => (
             <div
               key={index}
@@ -291,7 +249,7 @@ const ChatUI = () => {
                 {formatEpochTime(message.TimeSent)}
               </div>
               <div className="message-content">
-                {/* renders chat message */}
+                {/* renders avatar message */}
                 {message.SenderID === userId ? (
                   <div className="message-user">
                     <div id="message">{message.MessageBody}</div>
@@ -305,50 +263,13 @@ const ChatUI = () => {
                     <div id="message">{message.MessageBody}</div>
                   </div>
                 )}
+                {/* messages body */}
                 {message.MessageBody === userId && (
                   <div className="message-user">
                     <div id="message">{message.MessageBody}</div>
                   </div>
                 )}
               </div>
-              {/* renders image if available */}
-              {message.Image && (
-                <div
-                  id="message-image-container"
-                  className={`message-image-container ${
-                    message.sender === userId ? "user" : "other"
-                  }`}
-                >
-                  <img
-                    id="message-image"
-                    className={`message-image ${
-                      message.sender === userId ? "user" : "other"
-                    }`}
-                    src={message.Image}
-                    alt={message.Image}
-                  />
-                </div>
-              )}
-              {/* renders file if available */}
-              {message.file_name && (
-                <div id="message-file">
-                  <div>
-                    <Badge
-                      id="message-file-mui"
-                      fontsize="large"
-                      anchorOrigin={{
-                        vertical: "center",
-                        horizontal: "center",
-                      }}
-                      badgeContent={message.file_type}
-                    >
-                      <InsertDriveFileOutlinedIcon fontSize="large" />
-                    </Badge>
-                  </div>
-                  <div>{message.file_name}</div>
-                  <div>{message.file_size}</div>
-                </div>
-              )}
             </div>
           ))}
           <div ref={lastMessageRef} />
@@ -370,24 +291,6 @@ const ChatUI = () => {
               InputProps={{
                 endAdornment: (
                   <ButtonGroup>
-                    <IconButton
-                      className="image-select-button"
-                      // onClick={handleClick}
-                    >
-                      <input
-                        hidden
-                        // types of files that are accepted
-                        // add to include .pdf, .doc, .txt
-                        // value={selectedFile}
-                        accept="image/*"
-                        id="file-input"
-                        type="file"
-                        // ref={hiddenFileInput}
-                        style={{ display: "none" }}
-                        // onChange={handleFileSubmit}
-                      />
-                      <AttachFileIcon />
-                    </IconButton>
                     <IconButton onClick={handleMessageSubmit} type="submit">
                       <SendIcon />
                     </IconButton>
