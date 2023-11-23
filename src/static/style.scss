@@ -1165,6 +1165,7 @@ footer {
   @include modal-styling(50%, 3%);
   padding-bottom: 4%;
   height: fit-content;
+  min-height: 300px;
 
   #add-friend-modal-header {
     @include modal-header-styling();

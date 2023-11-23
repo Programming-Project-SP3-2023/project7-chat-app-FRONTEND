@@ -113,7 +113,8 @@ const Dashboard = ({
   useEffect(() => {
     const selected = getSideMenuOption();
     if (selected) setSelectedOpt(selected);
-  }, [selectedOpt]);
+    handleSelectOption(selected);
+  }, [selectedOpt, groupReload]);
 
   return (
     <section className="main-section" id="dashboard">

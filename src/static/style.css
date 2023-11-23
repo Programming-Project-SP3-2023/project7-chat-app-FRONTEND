@@ -1184,6 +1184,7 @@ footer {
   padding-bottom: 4%;
   height: -moz-fit-content;
   height: fit-content;
+  min-height: 300px;
 }
 #add-friend-modal #add-friend-modal-header {
   background-color: #456b9a;

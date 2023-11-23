@@ -36,8 +36,6 @@ const SideMenu = ({
     }
   };
 
-  console.log("CHECK OUT", options);
-
   return (
     <Drawer variant="permanent" id="side-menu">
       <Box sx={{ overflow: "auto", width: "100%", maxHeight:"82vh" }}>

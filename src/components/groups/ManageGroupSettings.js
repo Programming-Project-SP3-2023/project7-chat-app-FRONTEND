@@ -6,13 +6,8 @@ import { Modal, Box, TextField, Button, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import {
-  deleteGroupByID,
-  updateGroupAvatar,
-  updateGroupName,
-} from "../../services/groupsAPI";
-import { getAccessToken } from "../../utils/localStorage";
-import { useNavigate } from "react-router";
+import { updateGroupAvatar, updateGroupName } from "../../services/groupsAPI";
+
 /**
  * Builds and renders the Manage Group Settings Modal component
  * @returns Manage Group Settings Modal component render
@@ -24,6 +19,7 @@ const ManageGroupSettings = ({
   group,
   groupReload,
   setGroupReload,
+  setDeleteGroupModalOpen,
 }) => {
   // state variables for form
   const [selectedImage, setSelectedImage] = useState(null);
@@ -32,11 +28,14 @@ const ManageGroupSettings = ({
   const [groupID, setGroupID] = useState("");
   const [processing, setProcessing] = useState(false);
 
-  const navigate = useNavigate();
-
   // METHODS
   // handle modal closing
   const handleClose = () => setManageGroupSettingsModalOpen(false);
+
+  const handleStartDelete = () => {
+    setDeleteGroupModalOpen(true);
+    handleClose();
+  };
 
   useEffect(() => {
     setGroupName(group.groupName);
@@ -81,21 +80,6 @@ const ManageGroupSettings = ({
 
     setGroupReload(!groupReload);
     setProcessing(false);
-  };
-
-  // handles group delete
-  const deleteGroupHandler = async (e) => {
-    e.preventDefault();
-    console.log(groupID);
-    try {
-      const response = await deleteGroupByID(groupID, getAccessToken());
-      console.log(response);
-      setGroupReload(!groupReload);
-      handleClose();
-      navigate("/dashboard");
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   return (
@@ -158,7 +142,7 @@ const ManageGroupSettings = ({
               <button
                 id="group-delete-bttn"
                 className="group-button"
-                onClick={deleteGroupHandler}
+                onClick={handleStartDelete}
               >
                 <DeleteOutlineOutlinedIcon />
                 <h3>Delete group</h3>

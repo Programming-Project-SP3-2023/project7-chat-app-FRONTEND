@@ -17,6 +17,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import { addGroupMember, createGroup } from "../../services/groupsAPI";
+import { setSideMenuOption } from "../../utils/localStorage";
 /**
  * Builds and renders the Add Group component
  * @returns Add Group component render
@@ -26,9 +27,8 @@ const AddGroup = ({
   groupModalOpen,
   setGroupModalOpen,
   friends,
-  groupID,
   groupReload,
-  setGroupReload,
+  setGroupReload
 }) => {
   // state variables for modal
   const [selectedImage, setSelectedImage] = useState(null);
@@ -91,7 +91,6 @@ const AddGroup = ({
     // 1. add member to new members array
     const temp = newMembers;
     temp.push(option);
-    console.log("NEW MEMBERS", temp);
     setNewMembers(temp);
 
     // 2. remove members from the potential members array
@@ -131,18 +130,23 @@ const AddGroup = ({
 
     try {
       const response = await createGroup(requestBody);
-      console.log(response.data.message);
       const groupID = response.data.groupID;
 
       if (newMembers.length > 0) {
         newMembers.forEach(async (member) => {
-          let newMemberRes = await addGroupMember(groupID, member.Email);
-          console.log(newMemberRes);
+          try{
+            await addGroupMember(groupID, member.Email);
+          } catch (err){
+            console.log(err);
+            setMessage("Something went wrong. We were unable to create the group.");
+          }
         });
       }
+      setSuccesMsg("Group Successfully Created!");
+      setSideMenuOption(0);
       setGroupReload(!groupReload);
       setProcessing(false);
-      setSuccesMsg("Group Successfully Created!");
+      handleClose();
     } catch (err) {
       console.log(err);
       setMessage("Something went wrong. We were unable to create the group.");

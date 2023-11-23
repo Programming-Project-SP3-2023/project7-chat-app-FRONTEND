@@ -20,8 +20,8 @@ import { useSocket } from "../../services/SocketContext";
 import ManageChannelModal from "./ManageChannelModal";
 import ManageMembersModal from "./ManageMembersModal";
 import ManageGroupSettings from "./ManageGroupSettings";
+import DeleteGroupModal from "./DeleteGroupConfirmation";
 import AddChannelModal from "./AddChannelModal";
-import { UndoRounded } from "@mui/icons-material";
 import { getUser, getGroups } from "../../utils/localStorage";
 
 /**
@@ -75,6 +75,9 @@ const Groups = ({
     setManageChannelsModalOpen(true);
   };
 
+  // delete group confirmation modal
+  const [deleteGroupModalOpen, setDeleteGroupModalOpen] = useState(false);
+
   // fetch current group information + users
   useEffect(() => {
     try {
@@ -110,14 +113,17 @@ const Groups = ({
         // 4. attempt to get channel list
         async function fetchChannelList() {
           if (groupId) {
-            const response = await getChannels(groupId);
-            console.log("Channels List: ", response);
+            try {
+              const response = await getChannels(groupId);
+              console.log("Channels List: ", response);
+              response.forEach((ch) => {
+                socket.emit("connectChannel", ch.ChannelID);
+              }, 2000);
 
-            response.forEach((ch) => {
-              socket.emit("connectChannel", ch.ChannelID);
-            }, 2000);
-
-            setChannelList(response);
+              setChannelList(response);
+            } catch (err) {
+              console.log(err);
+            }
           } else {
             console.error("group or groupId is null...");
           }
@@ -267,7 +273,6 @@ const Groups = ({
                 groupReload={groupReload}
                 setGroupReload={setGroupReload}
               />
-
               <ManageGroupSettings
                 manageGroupSettingsModalOpen={manageGroupSettingsModalOpen}
                 setManageGroupSettingsModalOpen={
@@ -276,6 +281,14 @@ const Groups = ({
                 group={group}
                 groupReload={groupReload}
                 setGroupReload={setGroupReload}
+                setDeleteGroupModalOpen={setDeleteGroupModalOpen}
+              />
+              <DeleteGroupModal
+                group={group}
+                groupReload={groupReload}
+                setGroupReload={setGroupReload}
+                deleteGroupModalOpen={deleteGroupModalOpen}
+                setDeleteGroupModalOpen={setDeleteGroupModalOpen}
               />
             </>
           )}

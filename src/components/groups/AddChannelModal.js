@@ -1,5 +1,5 @@
 /**
- * Add Group component
+ * Add Channel component
  */
 
 import React from "react";

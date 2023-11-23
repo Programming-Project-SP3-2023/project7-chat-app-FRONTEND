@@ -56,7 +56,7 @@ const AddFriendConfirmation = ({
         <div className="confirmation-modal-center">
           <Avatar
             className="user-chip-avatar"
-            alt="Sample profile"
+            alt={friendToAdd ? friendToAdd.DisplayName : "User"}
             src={friendToAdd ? friendToAdd.Avatar : null}
           />
           <span>
