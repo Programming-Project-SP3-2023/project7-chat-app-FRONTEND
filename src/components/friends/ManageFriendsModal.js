@@ -33,7 +33,8 @@ const ManageFriendsModal = ({
   friendRequests,
   setRefresh,
   setFriendToAdd,
-  setAddFriendModalOpen
+  setAddFriendModalOpen,
+  setIsAdd
 }) => {
   // Loading function (async)
   function sleep(delay = 0) {
@@ -79,9 +80,9 @@ const ManageFriendsModal = ({
   // Methods
   // Handle friend add
   const handleAddFriend = (option) => {
+    setIsAdd(true);
     setFriendToAdd(option);
     setAddFriendModalOpen(true);
-    console.log("Add friend function triggered");
   };
 
   // handle modal closing
@@ -121,6 +122,9 @@ const ManageFriendsModal = ({
                   request={false}
                   setRefresh={setRefresh}
                   setManageFriendsModalOpen={setManageFriendsModalOpen}
+                  setIsAdd={setIsAdd}
+                  setFriendToAdd={setFriendToAdd}
+                  setAddFriendModalOpen={setAddFriendModalOpen}
                 />
               );
             })}

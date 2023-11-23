@@ -17,22 +17,36 @@ import {
  * @returns User Chip Item component render
  */
 
-const UserChip = ({ user, request, setRefresh, setManageFriendsModalOpen }) => {
+const UserChip = ({
+  user,
+  request,
+  setRefresh,
+  setManageFriendsModalOpen,
+  setIsAdd,
+  setFriendToAdd,
+  setAddFriendModalOpen,
+}) => {
   // Accept a friend request
   const acceptRequest = async () => {
     // 1. get userID
     let userID = user.RequesterID;
-    
-    console.log("THIS USER", user);
-    console.log("Accepting request by ", userID);
 
     // 2. Send request to endpoint
-    const response = await acceptFriendRequest(userID);
-    console.log(response);
+    try {
+      await acceptFriendRequest(userID);
+      alert("Friend accepted!");
+      setRefresh(true);
+      setManageFriendsModalOpen(false);
+    } catch (err) {
+      console.log(err);
+      alert("An issue occurred. Try again later.");
+    }
+  };
 
-    // 3. notify user and refresh data
-    alert("Friend accepted!");
-    setRefresh(true);
+  const handleRemoveFriend = (option) => {
+    setIsAdd(false);
+    setFriendToAdd(option);
+    setAddFriendModalOpen(true);
     setManageFriendsModalOpen(false);
   };
 
@@ -45,13 +59,15 @@ const UserChip = ({ user, request, setRefresh, setManageFriendsModalOpen }) => {
     console.log(userID);
 
     // 2. Send request to endpoint
-    const response = await removeFriendOrRequest(userID);
-    console.log(response);
-
-    // 3. notify user and refresh data
-    alert("Friend removed");
-    setRefresh(true);
-    setManageFriendsModalOpen(false);
+    try {
+      await removeFriendOrRequest(userID);
+      alert("Friend removed");
+      setRefresh(true);
+      setManageFriendsModalOpen(false);
+    } catch (err) {
+      console.log(err);
+      alert("An issue occurred. Try again later.");
+    }
   };
 
   return (
@@ -81,7 +97,7 @@ const UserChip = ({ user, request, setRefresh, setManageFriendsModalOpen }) => {
         ) : (
           <PersonRemoveAlt1OutlinedIcon
             className="remove-friends-icon"
-            onClick={removeFriend}
+            onClick={() => handleRemoveFriend(user)}
           />
         )}
       </div>

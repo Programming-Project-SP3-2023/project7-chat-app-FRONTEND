@@ -52,6 +52,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [friendToAdd, setFriendToAdd] = useState(null);
+  const [isAdd, setIsAdd] = useState(true);
   const [friendRequests, setFriendRequests] = useState([]);
   const [requestNo, setRequestNo] = useState(0);
   const loading = open && options.length === 0;
@@ -205,7 +206,9 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
           <AddFriendConfirmation
             addFriendModalOpen={addFriendModalOpen}
             setAddFriendModalOpen={setAddFriendModalOpen}
-            friendToAdd={friendToAdd}
+            friend={friendToAdd}
+            isAdd={isAdd}
+            setRefresh={setRefresh}
           />
           {/* Manage Friends Modal */}
           <ManageFriendsModal
@@ -217,6 +220,7 @@ const Friends = ({ friends_list, setFriendsOpt, selectedFriend, socket }) => {
             setRefresh={setRefresh}
             setFriendToAdd={setFriendToAdd}
             setAddFriendModalOpen={setAddFriendModalOpen}
+            setIsAdd={setIsAdd}
           />
           <div className="friends-menu">
             <div className="friends-display">

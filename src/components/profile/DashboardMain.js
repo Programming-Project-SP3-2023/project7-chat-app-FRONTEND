@@ -38,6 +38,7 @@ const DashboardMain = ({
 
   const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([]);
+  const [isAdd, setIsAdd] = useState(true);
   const [friendToAdd, setFriendToAdd] = useState(null);
   const [friendRequests, setFriendRequests] = useState([]);
 
@@ -143,12 +144,15 @@ const DashboardMain = ({
             setRefresh={setRefresh}
             setFriendToAdd={setFriendToAdd}
             setAddFriendModalOpen={setAddFriendModalOpen}
+            setIsAdd={setIsAdd}
           />
           {/* Add friends confirmation modal */}
           <AddFriendConfirmation
             addFriendModalOpen={addFriendModalOpen}
             setAddFriendModalOpen={setAddFriendModalOpen}
-            friendToAdd={friendToAdd}
+            friend={friendToAdd}
+            isAdd={isAdd}
+            setRefresh={setRefresh}
           />
           <article className="dashboard-main-menu">
             <DashboardMainColumn title="My Friends" friends={friends} />
