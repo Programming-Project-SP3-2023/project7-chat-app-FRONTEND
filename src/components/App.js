@@ -100,6 +100,8 @@ function App() {
                 accessTokenFast={accessTokenFast}
                 pwdUpdateOpen={pwdUpdateOpen}
                 setPwdUpdateOpen={setPwdUpdateOpen}
+                editProfileModalOpen={editProfileModalOpen}
+                setEditProfileModalOpen={setEditProfileModalOpen}
               />
             ) : (
               <Navigate to="/login" />

@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 
 import { useSocket } from "../../services/SocketContext";
 import { getUser, getUserID } from "../../utils/localStorage";
-import EditProfile from "../profile/EditProfile";
 const user = getUser();
 const accountID = getUserID();
 
@@ -114,11 +113,6 @@ const DashboardMainColumn = ({
           </>
         )}
       </div>
-      {/* EditProfile Modal */}
-      <EditProfile
-        editProfileModalOpen={editProfileModalOpen}
-        setEditProfileModalOpen={setEditProfileModalOpen}
-      />
     </div>
   );
 };

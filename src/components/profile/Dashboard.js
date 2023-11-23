@@ -14,6 +14,7 @@ import AddGroup from "../groups/AddGroup";
 import { getFriends } from "../../services/friendsAPI";
 import { getGroupByID, getGroupIDs } from "../../services/groupsAPI";
 import PasswordUpdateModal from "../profile/PasswordUpdate";
+import EditProfile from "../profile/EditProfile";
 
 /**
  * Builds and renders the dashboard component
@@ -29,8 +30,9 @@ const Dashboard = ({
   setGroupReload,
   pwdUpdateOpen,
   setPwdUpdateOpen,
+  editProfileModalOpen,
+  setEditProfileModalOpen
 }) => {
-  
   const [loading, setLoading] = useState(true);
   const [selectedOpt, setSelectedOpt] = useState(0);
   const [friends, setFriends] = useState([]);
@@ -127,6 +129,10 @@ const Dashboard = ({
           <PasswordUpdateModal
             pwdUpdateOpen={pwdUpdateOpen}
             setPwdUpdateOpen={setPwdUpdateOpen}
+          />
+          <EditProfile
+            editProfileModalOpen={editProfileModalOpen}
+            setEditProfileModalOpen={setEditProfileModalOpen}
           />
         </>
       )}
