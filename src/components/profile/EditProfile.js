@@ -57,11 +57,14 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
   };
 
   useEffect(() => {
-    if (user.image !== "NULL") {
+    if (user && user.image !== "NULL") {
       setUserImg(user.image);
     }
-    setName(user.displayName);
-    setEmail(user.email);
+
+    if (user) {
+      setName(user.displayName);
+      setEmail(user.email);
+    }
   }, []);
 
   // Handles image upload and formats it to Base64
