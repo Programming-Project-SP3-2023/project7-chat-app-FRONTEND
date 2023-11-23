@@ -450,6 +450,53 @@ footer {
   color: $echo-darkblue;
 }
 
+.modal-paper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 2px solid $echo-lightgrey;
+  border-radius: 10px;
+  outline: none; 
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  max-width: 400px; 
+  width: 100%;
+  text-align: center;
+}
+
+/* Add additional styling for the modal container if needed */
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#modal-okay-button {
+  margin-top: 20px; 
+  display: inline-block;
+  background-color: $echo-darkblue;
+}
+
+#transition-modal-title {
+  /* Add styling for the title */
+  font-size: 24px;
+  color: $echo-darkgrey; 
+  font-family: 'Roboto', sans-serif; /* Specify the desired font type */
+  padding-top: 5px;
+}
+
+#transition-modal-description {
+  /* Add styling for the description */
+  font-size: 16px;
+  color: $echo-darkgrey;
+  font-family: 'Roboto', sans-serif; /* Specify the desired font type */
+  padding-top: 5px;
+}
+
+
 /* ---------------------------- SIDE MENU ---------------------------- */
 
 #side-menu {

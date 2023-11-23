@@ -7,6 +7,7 @@ import ContactMailIcon from "@mui/icons-material/ContactMail";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { Modal, Fade } from "@mui/material";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -28,9 +29,22 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
 
   // loading flag
   const [loading, setLoading] = useState(false);
+
+  // Open modal when registration is successful
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  // Close modal
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    // Redirect to the login page after closing the modal
+    navigate("/login");
+  };
 
   /**
    * Registration request handler
@@ -66,11 +80,12 @@ const Signup = () => {
       await register(newUser)
         .then((response) => {
           console.log("Registration Succesful");
-          navigate("/login");
+          // Open the modal on successful registration
+          handleOpenModal();
         })
         .catch((error) => {
           setMessage(
-            "Sorry, the backend server is down! Please try again later."
+            "Sorry, an error has occurred during registration, please try again later!"
           );
         })
         .finally(() => {
@@ -206,6 +221,27 @@ const Signup = () => {
               Cancel
             </Button>
           </div>
+
+          {/* Modal component */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            className="modal-container"
+          >
+            <Fade in={openModal}>
+              <div className="modal-paper">
+                <h2 id="transition-modal-title">Check your email</h2>
+                <p id="transition-modal-description">
+                  An email has been sent to your email address. Please check your
+                  email before logging in and verify your account!
+                </p>
+                <Button variant="contained" id="modal-okay-button" onClick={handleCloseModal}>
+                  Okay
+                </Button>
+              </div>
+            </Fade>
+          </Modal>
         </FormControl>
       </form>
     </section>
