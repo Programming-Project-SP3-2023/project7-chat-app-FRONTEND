@@ -105,6 +105,7 @@ const ManageChannelModal = ({
       };
       members.push(newMember);
       setMembers(tempMembers);
+      setOpen(false);
     } catch (err) {
       console.log(err);
     }

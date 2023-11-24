@@ -33,14 +33,14 @@ const ManageMembersModal = ({
   setRefresh,
   groupID,
   groupReload,
-  setGroupReload
+  setGroupReload,
 }) => {
   // Component state objects
   const [searchString, setSearchString] = useState("");
   const [options, setOptions] = useState([]);
-  const [friendOptions, setFriendOptions] = useState([]);
+  const [memberOptions, setMemberOptions] = useState([]);
   const [open, setOpen] = useState(false);
-  const [friendToAdd, setFriendToAdd] = useState(null);
+
   const loading = open && options.length === 0;
 
   // Loading function (async)
@@ -69,6 +69,7 @@ const ManageMembersModal = ({
       };
       members.push(newMember);
       setMembers(tempMembers);
+      setOpen(false);
     } catch (err) {
       console.log(err);
     }
@@ -113,9 +114,9 @@ const ManageMembersModal = ({
       if (!notPossible.includes(friend.AccountID)) possibleOptions.push(friend);
     });
 
-    setFriendOptions(possibleOptions);
-    console.log("OPTIONS", friendOptions);
-    console.log("MEMBERS", members);
+    setMemberOptions(possibleOptions);
+    // console.log("OPTIONS", friendOptions);
+    // console.log("MEMBERS", members);
   }, [manageMembersModalOpen, setMembers, groupReload]);
 
   useEffect(() => {
@@ -129,20 +130,20 @@ const ManageMembersModal = ({
       await sleep(1e3); // For demo purposes.
 
       if (active) {
-        setOptions([...friendOptions]);
+        setOptions([...memberOptions]);
       }
     })();
 
     return () => {
       active = false;
     };
-  }, [loading]);
+  }, [loading, memberOptions]);
 
   useEffect(() => {
     if (!open) {
       setOptions([]);
     }
-  }, [open]);
+  }, [open, memberOptions]);
 
   return (
     <Modal
@@ -176,7 +177,7 @@ const ManageMembersModal = ({
             <PeopleAltOutlinedIcon />
             <p>Add member</p>
           </div>
-          {friendOptions.length > 0 ? (
+          {memberOptions.length > 0 ? (
             <Autocomplete
               disableCloseOnSelect
               sx={{ width: "90%" }}
