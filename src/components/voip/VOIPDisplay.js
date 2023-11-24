@@ -245,7 +245,6 @@ const VoiceChatRoom = ({ socket }) => {
     setTimeout("2000");
 
     setShowJoinOverlay(false);
-    // Handle the logic for joining the channel, e.g., navigating to the channel page
   };
 
   const handleLeaveButton = (channelID) => {
@@ -302,7 +301,6 @@ const VoiceChatRoom = ({ socket }) => {
   };
 
 
-  // Function to handle removing a user from the list
   const removeUser = (peerID) => {
     if(peerID != peerId){
       playLeaveSound();
@@ -337,7 +335,6 @@ const VoiceChatRoom = ({ socket }) => {
   ];
 
   const getRandomFullMessage = () => {
-    // Get a random message from the array
     if(!isButtonDisabled){
     const randomIndex = Math.floor(Math.random() * fullOverlayMessages.length);
     return fullOverlayMessages[randomIndex];
