@@ -137,7 +137,6 @@ const AddGroup = ({
           try{
             await addGroupMember(groupID, member.Email);
           } catch (err){
-            console.log(err);
             setMessage("Something went wrong. We were unable to create the group.");
           }
         });
@@ -148,7 +147,6 @@ const AddGroup = ({
       setProcessing(false);
       handleClose();
     } catch (err) {
-      console.log(err);
       setMessage("Something went wrong. We were unable to create the group.");
       setProcessing(false);
     }

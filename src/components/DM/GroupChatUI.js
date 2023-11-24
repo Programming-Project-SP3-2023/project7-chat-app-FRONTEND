@@ -46,7 +46,6 @@ const GroupChatUI = ({ socket }) => {
     return member ? member.avatar : null;
   };
 
-  // console.log("memembers", members);
 
   // through the url params of -groupID and channelID return values
   const { groupId, channelId } = useParams(); // prefered method
@@ -79,13 +78,10 @@ const GroupChatUI = ({ socket }) => {
 
   const handleMoreMessages = async () => {
     if (maxMessagesReached) {
-      console.log("maximum ammount of messages reached");
     } else {
       setMessagesAmmount((prevMessageAmmount) => prevMessageAmmount + 10);
-      // console.log("message ammount...", messagesAmmount);
       socket.emit("moreChannelMessages", { channelID, num: messagesAmmount });
     }
-    console.log("messages", messagesBetweenFetches);
     if (messagesAmmount >= MAX_MESSAGE_COUNT || messagesBetweenFetches >= 11) {
       setMaxMessagesReached(true);
     }
@@ -138,7 +134,6 @@ const GroupChatUI = ({ socket }) => {
   useEffect(() => {
     //open listener on message response. for data
     socket.on("channelMessageResponse", (data) => {
-      // console.log("recieved message response", data);
       playSound();
 
       const formatMessage = {
@@ -165,7 +160,6 @@ const GroupChatUI = ({ socket }) => {
   //Message submit handling
   const handleMessageSubmit = (event) => {
     event.preventDefault();
-    // console.log("Message Handler");
     const newTimestamp = new Date().getTime(); // converts to epoch time
     const messageText = messageInput.toString(); // convert user input to string
 

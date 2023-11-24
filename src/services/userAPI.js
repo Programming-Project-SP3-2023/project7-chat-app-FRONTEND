@@ -50,7 +50,6 @@ export const verifyEmail = async function (emailToken) {
       };
     }
   } catch (error) {
-    console.log(error.response.data.message);
   }
   return;
 };
@@ -88,13 +87,11 @@ export const getUserByID = async function (userID, token) {
 
     //Success!
     if (response.status === 200) {
-      console.log("User found by id!");
-      console.log(response.data);
+      
       return response.data;
     }
   } catch (error) {
-    console.log("Failed to find user by id!");
-    console.log(error.response.data.message);
+    
   }
 
   return;
@@ -133,7 +130,6 @@ export const updateDisplayName = async function (newDisplayName) {
       return response.data.message;
     }
   } catch (error) {
-    console.log(error.response.data.message);
   }
   return;
 };
@@ -160,16 +156,13 @@ export const updateEmail = async function (newEmail) {
     //Success!
     if (response.status === 200) {
       // return success message
-      console.log(response);
       return response.data.message;
     }
     //Failed!
     else {
-      console.log(response);
       return response.data.message;
     }
   } catch (error) {
-    console.log(error.response.data.message);
   }
   return;
 };
@@ -180,7 +173,6 @@ export const updateEmail = async function (newEmail) {
  * @returns confirmation/error message
  */
 export const updateAvatar = async function (avatarData) {
-  console.log(avatarData, UPDATE_AVATAR_ENDPOINT);
 
   const requestBody = {
     avatarData: avatarData,
@@ -202,16 +194,13 @@ export const updateAvatar = async function (avatarData) {
     //Success!
     if (response.status === 200) {
       // return success message
-      console.log(response);
       return response.data.message;
     }
     //Failed!
     else {
-      console.log(response);
       return response.data.message;
     }
   } catch (error) {
-    console.log(error.response.data.message);
   }
   return;
 };
@@ -222,7 +211,6 @@ export const updateAvatar = async function (avatarData) {
  * @returns The user's avatar in Base64
  */
 export const getAvatarByID = async function (userID, token) {
-  console.log(`${BASE_URL}avatar/${userID}`);
 
   let avatarHeaders = {
     headers: {
@@ -238,18 +226,13 @@ export const getAvatarByID = async function (userID, token) {
 
     //Success!
     if (response.status === 200) {
-      console.log("Avatar found by id!");
-      console.log(response.data);
       return response.data;
     }
     //Failed!
     else if (response.status === 204) {
-      console.log("Failed to find avatar by id - 1");
-      console.log(response);
       return response.data.message;
     }
   } catch (error) {
-    console.log(error.response.data.message);
   }
 
   return;
@@ -279,11 +262,9 @@ export const updatePassword = async function (currentPassword, newPassword) {
     //Success!
     if (response.status === 200) {
       // return success message
-      console.log(response);
       return response.data.message;
     }
   } catch (error) {
-    console.log(error.response.data.message);
   }
   return;
 };

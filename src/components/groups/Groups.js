@@ -117,7 +117,6 @@ const Groups = ({
       // call for data
       fetchData();
     } catch (error) {
-      console.log("error", error);
     } finally {
       setloading(false);
     }
@@ -143,17 +142,14 @@ const Groups = ({
       if (groupId) {
         try {
           const response = await getChannels(groupId);
-          console.log("Channels List: ", response);
           response.forEach((ch) => {
             socket.emit("connectChannel", ch.ChannelID);
           }, 2000);
 
           setChannelList(response);
         } catch (err) {
-          console.log(err);
         }
       } else {
-        console.error("group or groupId is null...");
       }
     }
     fetchChannelList();
@@ -221,7 +217,6 @@ const Groups = ({
           await socket.emit("connectGroup", { groupID: group.groupID });
         } else {
           // re-establish socket info
-          // console.log("WE ARE RELOGGING INTO SOCKET");
           await loginSocket(userID, user.username);
         }
       };

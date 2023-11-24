@@ -49,10 +49,8 @@ const Dashboard = ({
     async function fetchFriends() {
       try {
         const response = await getFriends();
-        console.log("FRIENDS: ", response);
         setFriends(response);
       } catch (err) {
-        console.log(err);
         setFriends([]);
       }
     }
@@ -61,10 +59,8 @@ const Dashboard = ({
     async function fetchGroups() {
       try {
         const response = await getGroupIDs(accessTokenFast);
-        console.log("MY GROUP IDs: ", response);
         return response;
       } catch (err) {
-        console.log(err);
       }
     }
 
@@ -80,7 +76,6 @@ const Dashboard = ({
         setGroups(tempGroups);
         setGroupsSession(tempGroups);
       } catch (err) {
-        console.log(err);
       }
     }
 
@@ -91,11 +86,8 @@ const Dashboard = ({
       const groupIDs = await fetchGroups();
       await fetchGroupsInfo(groupIDs);
 
-      console.log(groupIDs);
-      console.log(groups);
       mainOptions.push("Add Group");
       setOptions(mainOptions);
-      console.log("OPTIONS", mainOptions);
       setLoading(false);
     }
 

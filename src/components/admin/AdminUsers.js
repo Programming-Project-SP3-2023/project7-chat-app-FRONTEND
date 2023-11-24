@@ -42,13 +42,11 @@ const AdminUsers = ({ setAdminTitle }) => {
     async function fetchAccounts() {
       try {
         const response = await getAccounts();
-        console.log("ACCOUNTS", response);
         if (response) {
           setUsers(response);
         }
         setLoading(false);
       } catch (err) {
-        console.log(err);
         setLoading(false);
       }
     }
@@ -61,7 +59,6 @@ const AdminUsers = ({ setAdminTitle }) => {
   const handleEdit = (params) => {
     const currentRow = params.row;
     setSelectedUser(currentRow);
-    console.log(currentRow);
     setAdminEditProfileModalOpen(true);
   };
 
@@ -69,7 +66,6 @@ const AdminUsers = ({ setAdminTitle }) => {
   const handleEditPwd = (params) => {
     const currentRow = params.row;
     setSelectedUser(currentRow);
-    console.log(currentRow);
     setPasswordUpdateOpen(true);
   };
 
@@ -77,15 +73,11 @@ const AdminUsers = ({ setAdminTitle }) => {
   const handleDelete = async (params) => {
     const currentRow = params.row;
     await setSelectedUser(currentRow);
-    console.log(currentRow);
 
     try {
-      console.log("Deleting....", currentRow.AccountID);
       const response = await deleteAccount(currentRow.AccountID);
-      console.log(response);
       await setDeleteOutcome(true);
     } catch (err) {
-      console.log(err);
       await setDeleteOutcome(false);
     }
 

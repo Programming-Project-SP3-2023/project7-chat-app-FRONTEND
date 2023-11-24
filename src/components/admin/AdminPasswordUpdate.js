@@ -33,7 +33,6 @@ const AdminPasswordUpdate = ({
   };
 
   const passwordUpdateHandler = async () => {
-    console.log("Password Update Handler");
 
     // 1. validate
     if (newPassword === "" || repeatPassword === "") {
@@ -47,13 +46,10 @@ const AdminPasswordUpdate = ({
 
     // 2. update user password
     try {
-      console.log("NEW", newPassword, user.AccountID);
       const response = await updatePassword(user.AccountID, newPassword);
-      console.log(response);
       setMessage("Users password has been updated.");
       handleClose();
     } catch (err) {
-      console.log(err);
       setMessage("An error occurred while trying to update this password.");
     }
   };

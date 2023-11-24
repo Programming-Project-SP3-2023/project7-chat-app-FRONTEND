@@ -52,7 +52,6 @@ const Signup = () => {
    */
   const registrationHandler = async (event) => {
     event.preventDefault();
-    console.log("Registration Handler");
     setLoading(true);
 
     // check if any field is empty
@@ -79,7 +78,6 @@ const Signup = () => {
 
       await register(newUser)
         .then((response) => {
-          console.log("Registration Succesful");
           // Open the modal on successful registration
           handleOpenModal();
         })

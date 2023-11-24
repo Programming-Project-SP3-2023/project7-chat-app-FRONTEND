@@ -40,7 +40,6 @@ const Header = ({
 
   // dropdown menu functions
   const openDrawerMenu = () => {
-    console.log("open dropdown");
     setOpenDrawer(true);
   };
 

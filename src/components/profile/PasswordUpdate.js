@@ -19,7 +19,6 @@ const PasswordUpdateModal = ({ pwdUpdateOpen, setPwdUpdateOpen }) => {
 
   const passwordUpdateHandler = async (event) => {
     event.preventDefault();
-    console.log("Password Update Handler");
 
     if (
       (currentPassword === "") |
@@ -33,10 +32,8 @@ const PasswordUpdateModal = ({ pwdUpdateOpen, setPwdUpdateOpen }) => {
       // update users password
       try {
         const response = await updatePassword(currentPassword, newPassword);
-        console.log(response);
         setMessage(response);
       } catch (err) {
-        console.log("An error has occurred");
         setMessage(err.response.data.message);
       }
     }

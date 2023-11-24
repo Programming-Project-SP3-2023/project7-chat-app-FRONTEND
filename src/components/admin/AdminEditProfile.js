@@ -44,7 +44,6 @@ const AdminEditProfile = ({
 
   // Handles image upload and formats it to Base64
   const imageChange = (e) => {
-    console.log(e.target.files);
     if (e.target.files && e.target.files.length > 0) {
       const data = new FileReader();
       data.addEventListener("load", () => {
@@ -57,7 +56,6 @@ const AdminEditProfile = ({
   // update profile handler
   const updateProfile = async (event) => {
     event.preventDefault();
-    console.log("updating profile...");
     setLoading(true);
 
     // 1. validation checks
@@ -87,10 +85,8 @@ const AdminEditProfile = ({
 
     try {
       const response = await updateAccount(requestBody);
-      console.log(response);
       setRefresh(!refresh);
     } catch (err) {
-      console.log(err);
     }
 
     //Disable loading state

@@ -40,7 +40,6 @@ const DeleteGroupModal = ({
       setGroupReload(!groupReload);
       navigate("/dashboard");
     } catch (err) {
-      console.log(err);
       setMessage("Something went wrong. We couldn't delete the group.");
     } finally {
       setLoading(false);

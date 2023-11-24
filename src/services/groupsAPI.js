@@ -53,13 +53,9 @@ export const addGroupMember = async function (groupID, memberEmail) {
 
     //Success!
     if (response.status === 200) {
-      console.log("Member added");
-      console.log(response.data.message);
       return response.data.message;
     }
   } catch (error) {
-    console.log("Error adding member");
-    console.log(error.response.data.message);
   }
 
   return;
@@ -83,13 +79,11 @@ export const getGroupIDs = async function (token) {
 
     //Success!
     if (response.status === 200) {
-      console.log("Group IDs fetched.");
-      console.log(response.data.groupIds);
+      
       return response.data.groupIds;
     }
   } catch (error) {
-    console.log("Error sending request");
-    console.log(error.response.data.message);
+    
   }
 
   return;
@@ -101,7 +95,6 @@ export const getGroupIDs = async function (token) {
  * @returns The group's info
  */
 export const getGroupByID = async function (groupID, token) {
-  console.log(`${BASE_URL}groups/${groupID}`);
 
   const getGroupsHeader = {
     headers: {
@@ -121,7 +114,6 @@ export const getGroupByID = async function (groupID, token) {
       return response.data;
     }
   } catch (error) {
-    console.log(error.response.data.message);
   }
 
   return;
@@ -134,7 +126,6 @@ export const getGroupByID = async function (groupID, token) {
  */
 
 export const deleteGroupByID = async function (groupID, token) {
-  console.log(`${BASE_URL}groups/delete/${groupID}`);
 
   const deleteHeader = {
     headers: {
@@ -154,7 +145,6 @@ export const deleteGroupByID = async function (groupID, token) {
       return response.data.message;
     }
   } catch (error) {
-    console.log("delete group response", error.response.data.message);
   }
 
   return;
@@ -190,7 +180,6 @@ export const removeGroupMember = async function (groupId, accountId) {
       return response.data.message;
     }
   } catch (error) {
-    console.log(error.response.data.message);
   }
 
   return;
@@ -204,7 +193,6 @@ export const removeGroupMember = async function (groupId, accountId) {
  */
 
 export const updateGroupName = async function (groupID, groupName) {
-  console.log(`${BASE_URL}groups/edit-name/${groupID}`);
   const body = {
     newGroupName: groupName,
   };
@@ -225,13 +213,11 @@ export const updateGroupName = async function (groupID, groupName) {
 
     //Success!
     if (response.status === 200) {
-      console.log("Group name updated");
-      console.log(response.data.message);
+      
       return response.data.message;
     }
   } catch (error) {
-    console.log("Error updating group name");
-    console.log(error.response.data.message);
+    
   }
 
   return;
@@ -266,13 +252,11 @@ export const updateGroupAvatar = async function (groupID, groupAvatar) {
 
     //Success!
     if (response.status === 200) {
-      console.log("Group avatar updated");
-      console.log(response.data.message);
+      
       return response.data.message;
     }
   } catch (error) {
-    console.log("Error updating group avatar");
-    console.log(error.response.data.message);
+    
   }
 
   return;

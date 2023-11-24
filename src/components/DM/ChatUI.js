@@ -86,7 +86,6 @@ const ChatUI = () => {
     //max messages is determined by either the maximum limit or
     // there is no longer any more messages to fetch
     if (maxMessagesReached) {
-      console.log("maximum ammount of messages reached");
     } else {
       // set the next ammount of messages to fetch
       setMessagesAmmount((prevMessageAmmount) => prevMessageAmmount + 10);
@@ -137,7 +136,6 @@ const ChatUI = () => {
     //open listener on message response. for data
     socket.on("messageResponse", (data) => {
       playSound();
-      console.log("recieved message response", data);
 
       const formatMessage = {
         SenderID: data.from,
@@ -161,7 +159,6 @@ const ChatUI = () => {
   //Message submit handling
   const handleMessageSubmit = (event) => {
     event.preventDefault();
-    console.log("Message Handler");
     const newTimestamp = new Date().getTime(); // converts to epoch time
     const messageText = messageInput.toString(); // convert user input to string
 

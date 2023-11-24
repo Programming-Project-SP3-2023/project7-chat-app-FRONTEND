@@ -59,22 +59,16 @@ const ManageGroupSettings = ({
     e.preventDefault();
     setProcessing(true);
     if (selectedImage) {
-      console.log(selectedImage);
       try {
         const response = await updateGroupAvatar(groupID, selectedImage);
-        console.log(response);
       } catch (err) {
-        console.log(err);
       }
     }
 
     if (groupName !== "") {
-      console.log(groupName);
       try {
         const response = await updateGroupName(groupID, groupName);
-        console.log(response);
       } catch (err) {
-        console.log(err);
       }
     }
 

@@ -69,7 +69,6 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
 
   // Handles image upload and formats it to Base64
   const imageChange = (e) => {
-    console.log(e.target.files);
     if (e.target.files && e.target.files.length > 0) {
       const data = new FileReader();
       data.addEventListener("load", () => {
@@ -99,10 +98,8 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
     if (selectedImage) {
       try {
         const updateAvatarResponse = await updateAvatar(selectedImage);
-        console.log(updateAvatarResponse);
         setSuccesMsg("Account details updated successfully!");
       } catch (error) {
-        console.log(error);
         setMessage("Unable to update your avatar.");
         setSuccesMsg(null);
       }
@@ -112,10 +109,8 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
     if (nameChange) {
       try {
         const updateNameResponse = await updateDisplayName(name);
-        console.log(updateNameResponse);
         setSuccesMsg("Account details updated successfully!");
       } catch (error) {
-        console.log(error);
         setMessage("Unable to update your display name");
         setSuccesMsg(null);
       }
@@ -125,10 +120,8 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
     if (emailChange) {
       try {
         const updateEmailResponse = await updateEmail(email);
-        console.log(updateEmailResponse);
         setSuccesMsg("Account details updated successfully!");
       } catch (error) {
-        console.log(error);
         setMessage("Unable to update your email address");
         setSuccesMsg(null);
       }
@@ -159,7 +152,6 @@ const EditProfile = ({ editProfileModalOpen, setEditProfileModalOpen }) => {
       resetUserSession();
       setUserSession(updatedUser);
     } catch (error) {
-      console.log(error);
     }
 
     //Disable loading state

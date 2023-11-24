@@ -37,12 +37,10 @@ const AddFriendConfirmation = ({
 
     try {
       const response = await submitFriendRequest(requesterID, requesteeID);
-      console.log(response);
       handleClose();
       alert("Friend request sent!");
       setRefresh(true);
     } catch (err) {
-      console.log(err);
       setMessage("An error occurred. Try again later.");
     } finally {
       setLoading(false);
@@ -57,7 +55,6 @@ const AddFriendConfirmation = ({
       alert("Friend removed");
       setRefresh(true);
     } catch (err) {
-      console.log(err);
       setMessage("An error occurred. Try again later.");
     } finally {
       setLoading(false);

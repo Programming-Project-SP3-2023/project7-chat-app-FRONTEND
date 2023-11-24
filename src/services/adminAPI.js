@@ -39,13 +39,9 @@ export const getAccounts = async function () {
 
     //Success!
     if (response.status === 200) {
-      console.log("Accounts list fetched.");
-      console.log(response.data.Message);
       return response.data.userList[0];
     }
   } catch (error) {
-    console.log("Error sending request");
-    console.log(error.response.data.Message);
   }
 
   return;
@@ -79,7 +75,6 @@ export const updateAccount = async function (requestBody) {
       return response.data.Message;
     }
   } catch (error) {
-    console.log(error.response.data.Message);
   }
   return;
 };
@@ -101,12 +96,9 @@ export const deleteAccount = async function (AccountID) {
     });
     //Success!
     if (response.status === 200) {
-      console.log("Account Deleted!");
-      console.log(response.data.Message);
       return true;
     }
   } catch (err) {
-    console.log(err.response.data.Message);
   }
 
   return false;
@@ -146,7 +138,6 @@ export const updatePassword = async function (AccountID, password) {
       return response.data.Message;
     }
   } catch (error) {
-    console.log(error.response.data.Message);
   }
   return;
 };

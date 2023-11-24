@@ -58,23 +58,19 @@ const DashboardMain = ({
     // 2. define fetch users function
     async function fetchUsers() {
       const response = await getAccounts();
-      console.log("USERS: ", response);
       setUsers(response);
     }
 
     // 3. define fetch friends function
     async function fetchFriends() {
       const response = await getFriends();
-      console.log("FRIENDS: ", response);
       setFriends(response);
     }
 
     // 4. define fetch friends requests function
     async function fetchFriendRequests() {
       setLoading(true);
-      console.log("RUNNING");
       const response = await getFriendRequests();
-      console.log("REQUESTS: ", response);
 
       setFriendRequests(response);
     }

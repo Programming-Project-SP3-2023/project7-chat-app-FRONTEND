@@ -37,13 +37,9 @@ export const submitFriendRequest = async function (requesterID, requesteeID) {
 
     //Success!
     if (response.status === 200) {
-      console.log("Request sent");
-      console.log(response.data.Message);
       return response.data.Message;
     }
   } catch (error) {
-    console.log("Error sending request");
-    console.log(error.response.data.Message);
   }
 
   return;
@@ -71,17 +67,13 @@ export const getFriendRequests = async function () {
 
     //Success!
     if (response.status === 200) {
-      console.log(response.data.Message);
       return response.data.friendships;
     }
     // No friend requests
     else if (response.status === 204) {
-      console.log(response.data.Message);
       return [];
     }
   } catch (error) {
-    console.log("Error sending request");
-    console.log(error.response.data.Message);
   }
 
   return;
@@ -109,18 +101,13 @@ export const getFriends = async function () {
 
     //Success!
     if (response.status === 200) {
-      console.log("Request sent");
-      console.log(response.data.Message);
       return response.data.friendships;
     }
     //Failed!
     else if (response.status === 204) {
-      console.log(response.data.Message);
       return response.data.Message;
     }
   } catch (error) {
-    console.log("Error sending request");
-    console.log(error.response.data.Message);
   }
 
   return;
@@ -149,13 +136,9 @@ export const acceptFriendRequest = async function (requesterID) {
 
     //Success!
     if (response.status === 200) {
-      console.log("Friendship confirmed!");
-      console.log(response.data.Message);
       return response.data.Message;
     }
   } catch (error) {
-    console.log("An error occured while attempting to accept request.");
-    console.log(error.response.data.Message);
   }
 
   return;
@@ -183,13 +166,10 @@ export const removeFriendOrRequest = async function (requesterID) {
 
     //Success!
     if (response.status === 200) {
-      console.log("Friendship removed!");
-      console.log(response.data.Message);
       return response.data.Message;
     }
   } catch (error) {
-    console.log("An error occured while attempting to remove friendship.");
-    console.log(error.response.data.Message);
+    
   }
 
   return;

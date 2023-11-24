@@ -38,7 +38,6 @@ const UserChip = ({
       setRefresh(true);
       setManageFriendsModalOpen(false);
     } catch (err) {
-      console.log(err);
       alert("An issue occurred. Try again later.");
     }
   };
@@ -56,7 +55,6 @@ const UserChip = ({
     let userID = "";
     if (user.RequesterID) userID = user.RequesterID;
     if (user.AddresseeID) userID = user.AddresseeID;
-    console.log(userID);
 
     // 2. Send request to endpoint
     try {
@@ -65,7 +63,6 @@ const UserChip = ({
       setRefresh(true);
       setManageFriendsModalOpen(false);
     } catch (err) {
-      console.log(err);
       alert("An issue occurred. Try again later.");
     }
   };

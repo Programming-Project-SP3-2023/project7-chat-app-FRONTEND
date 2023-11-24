@@ -76,7 +76,6 @@ const ManageChannelModal = ({
         // setting the channel name in the input field
         setChannelName(response.ChannelName);
       } catch (err) {
-        console.log("error getting channel info", err);
       }
     }
   });
@@ -91,7 +90,6 @@ const ManageChannelModal = ({
         channelID,
         option.AccountID
       );
-      console.log(response.data);
       setGroupReload(!groupReload);
 
       // set up additional temp member for frontend view/func only.
@@ -106,13 +104,11 @@ const ManageChannelModal = ({
       members.push(newMember);
       setMembers(tempMembers);
     } catch (err) {
-      console.log(err);
     }
   };
 
   // Handle channel member remove
   const handleRemoveMember = async (member, i) => {
-    console.log("removing member...");
     try {
       const groupId = group.groupID;
 
@@ -121,8 +117,6 @@ const ManageChannelModal = ({
         channelID,
         member.AccountID
       );
-      console.log("member to remove...", member.AccountID);
-      console.log(response);
       setGroupReload(!groupReload);
       // Manually remove member for frontend view/func only.
       // Next time the modal is open it will have the exact elements pulled from backend
@@ -130,24 +124,20 @@ const ManageChannelModal = ({
       tempMembers.splice(i, 1);
       setMembers(tempMembers);
     } catch (err) {
-      console.log(err);
     }
   };
 
   // handle updating the channel name
   async function updateChannelInfo(e) {
     e.preventDefault();
-    console.log("attempting to update...", channelName);
     try {
       const response = await updateChannelName(
         group.groupID,
         channelID,
         channelName
       );
-      console.log(response);
       setGroupReload(!groupReload);
     } catch (err) {
-      console.log(err);
     }
   }
 
@@ -156,13 +146,11 @@ const ManageChannelModal = ({
     try {
       const response = await deleteChannel(group.groupID, channelID);
       const groupID = group.groupID;
-      console.log(response);
       setGroupReload(!groupReload);
       setManageChannelModalOpen(false);
       navigate(`/dashboard/groups/${groupID}`);
       //not sure entirely what I'd update here
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -183,7 +171,6 @@ const ManageChannelModal = ({
 
           setGroupReload(!groupReload);
         } catch (err) {
-          console.log(err);
         }
       }
     };
@@ -192,7 +179,6 @@ const ManageChannelModal = ({
 
   // calculate friend options
   useEffect(() => {
-    console.log("TRIGGERED");
     // get only members who are not friends
     const notPossible = [];
     const groupMemberTemp = group.GroupMembers;

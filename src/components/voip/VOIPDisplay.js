@@ -45,12 +45,7 @@ const VoiceChatRoom = ({ socket }) => {
     const handleBeforeUnload = (e) => {
       closeCalls();
       clearTimeout(timeoutId);
-      // Your code to execute on refresh goes here
-      // You can use this event to ask the user for confirmation
-      console.log("handling unload scenario")
-      //e.preventDefault();
-      //e.returnValue = 'STOP! :P'; // This displays a browser-specific confirmation message
-        handleLeaveChannel(channelID);
+      handleLeaveChannel(channelID);
     };
 
 
@@ -100,7 +95,6 @@ const VoiceChatRoom = ({ socket }) => {
 
     //listen for peers that are calling the user
     peer.on('call', (call) => {
-      console.log("inside call now")
 
       var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
@@ -119,24 +113,19 @@ const VoiceChatRoom = ({ socket }) => {
     //socket handlers
 
     socket.on("connectionResponse", ({ connectionResponse }) => {
-      console.log(connectionResponse);
     });
 
     //will receive a peerID whenever someone joins a channel you are in and calls them
     socket.on("userJoinVC", (user) => {
-      console.log("user incoming");
       let newuser = {
         username: user.username.displayName,
         image: user.image,
         peerID: user.peerID
       }
       addUser(newuser);
-      console.log("add user done")
       call(user.peerID);
-      console.log("call done")
 
       let myPeerId = peer.id;
-      console.log("sending my peer ID to socket " + myPeerId);
       socket.emit("callResponse", ({
         socketID: user.socketID,
         myPeerID: myPeerId
@@ -144,16 +133,13 @@ const VoiceChatRoom = ({ socket }) => {
     });
 
     socket.on('callAnswered', ( response ) => {
-      console.log("call answered, received peerID, calling " + response.peerID);
       call(response.peerID);
     })
 
     socket.on("error", (error) => {
-      console.log(error);
     })
 
     socket.on("userLeftVC", ({ peerID }) => {
-      console.log("user going " + peerID);
       releaseAudioElement(peerID);
       removeUser(peerID);
     })
@@ -165,10 +151,7 @@ const VoiceChatRoom = ({ socket }) => {
 
     window.addEventListener('beforeunload', handleBeforeUnload);
     window.addEventListener('popstate', function(event) {
-      // Your code to execute when the back button is clicked
-      // You can access the event object for more details about the navigation
-      console.log('Back button clicked');
-      // Add your code here
+
     });
     return () => {
       socket.off("userLeftVC");
@@ -193,7 +176,6 @@ const VoiceChatRoom = ({ socket }) => {
     const index = availableAudioElements.findIndex((available) => available);
 
     if (index !== -1) {
-      console.log("There is an available element at index " + index)
       const audioElement = remoteAudioRefs.current[index].current;
       audioElement.srcObject = remoteStream;
 
@@ -203,7 +185,6 @@ const VoiceChatRoom = ({ socket }) => {
       audioElement.setAttribute('data-audio-id', peerID);
     }
     else {
-      console.log("There is no avail element");
 
     }
   };
@@ -215,7 +196,6 @@ const VoiceChatRoom = ({ socket }) => {
       const index = availableAudioElements.findIndex((available, i) => !available && remoteAudioRefs.current[i].current === audioElement);
       if (index !== -1) {
       audioElement.srcObject = null;
-      console.log("making element for peerID " + peerID + " available at element "+index)
 
       // Mark the audio element as available
       availableAudioElements[index] = true;
@@ -240,16 +220,12 @@ const VoiceChatRoom = ({ socket }) => {
 
   //close connections with all users in the room
   const closeCalls = () => {
-    console.log("remoteCalls:")
 
-    console.log(remoteCalls)
     //close the peer connection for each user.
     for (var i = 0; i < remoteCalls.length; i++) {
-      console.log("closing call "+ i);
       remoteCalls[i].close();
     }
     for (var i = 0; i < remotePeers.length; i++) {
-      console.log("dropping peer "+ i);
       releaseAudioElement(remotePeers[i]);
     }
     //clear the remote calls array
@@ -267,7 +243,6 @@ const VoiceChatRoom = ({ socket }) => {
 
   const handleJoinChannel = (channelID) => {
 
-    console.log("Joining channel");
     
     let myUser = {
       username: currentUser.username.displayName,
@@ -303,13 +278,11 @@ const VoiceChatRoom = ({ socket }) => {
     setShowJoinOverlay(true);
     }
     catch(err){
-      console.log(err);
     }
   };
 
 
   const addUser = (newUser) => {
-    console.log("does it do it here?")
     setUsers((prevUsers) => {
       if (!prevUsers) {
         // If the users array is empty, initialize it with the new user
@@ -411,8 +384,6 @@ const VoiceChatRoom = ({ socket }) => {
   };
 
   const handleVolumeChange = (event) => {
-    console.log("changing vol");
-    console.log(event.target.value);
     const audio = remoteAudioRef;
     if (audio) {
       audio.volume = event.target.value;
@@ -420,12 +391,10 @@ const VoiceChatRoom = ({ socket }) => {
   };
 
   const playJoinSound = () =>{
-    console.log("playing join")
     JoinSound.play();
   };
 
   const playLeaveSound = () => {
-    console.log("playing leave")
 
     LeaveSound.play()
   };
@@ -470,7 +439,6 @@ const VoiceChatRoom = ({ socket }) => {
               key={user.peerID}
               className={`user-square ${speakingStatus[user.peerID] ? 'speaking' : ''}`}
             >
-              {console.log(user)}
               {(user && user.image) ? (
                 <Avatar src={user.image} id="profile-avatar" />
               ) : (

@@ -164,7 +164,6 @@ const AddChannelModal = ({
           visibility,
           channelName
         );
-        console.log("the Response", response.data.message);
 
         const groupID = group.groupID;
         const channelId = response.data.channelId;
@@ -177,7 +176,6 @@ const AddChannelModal = ({
               channelId,
               member.AccountID
             );
-            console.log("member added to new channel", newMemberRes);
           });
         }
         setGroupReload(!groupReload);
@@ -187,9 +185,7 @@ const AddChannelModal = ({
         // clear fields after creation
         setNewMembers([]);
         setGroupMemberOptions([]);
-        console.log("the Response", response);
       } catch (err) {
-        console.log(err);
         setMessage(
           "Something went wrong. We were unable to create the channel."
         );

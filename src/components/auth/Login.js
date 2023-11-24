@@ -44,7 +44,6 @@ const Login = ({ setIsLoggedIn, setAccessTokenFast }) => {
 
   const loginHandler = async (event) => {
     event.preventDefault();
-    console.log("LOGIN HANDLER");
     // set loading flag to true
     setLoading(true);
 
@@ -122,7 +121,6 @@ const Login = ({ setIsLoggedIn, setAccessTokenFast }) => {
           setMessage('An error has occurred on the server! Please try again later');
         }     
       } catch (error) {
-        console.log(error);
         setMessage("An error has occurred on the server! Please try again later");
       } finally {
         //Disable loading state

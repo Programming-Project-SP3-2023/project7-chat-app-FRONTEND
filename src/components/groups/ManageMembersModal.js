@@ -55,7 +55,6 @@ const ManageMembersModal = ({
   const handleAddMember = async (option) => {
     try {
       const response = await addGroupMember(groupID, option.Email);
-      console.log(response);
       setGroupReload(!groupReload);
 
       // set up additional temp member for frontend view/func only.
@@ -70,7 +69,6 @@ const ManageMembersModal = ({
       members.push(newMember);
       setMembers(tempMembers);
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -78,7 +76,6 @@ const ManageMembersModal = ({
   const handleRemoveMember = async (member, i) => {
     try {
       const response = await removeGroupMember(groupID, member.AccountID);
-      console.log(response);
       setGroupReload(!groupReload);
       // Manually remove member for frontend view/func only.
       // Next time the modal is open it will have the exact elements pulled from backend
@@ -86,7 +83,6 @@ const ManageMembersModal = ({
       tempMembers.splice(i, 1);
       setMembers(tempMembers);
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -97,7 +93,6 @@ const ManageMembersModal = ({
 
   // calculate friend options
   useEffect(() => {
-    console.log("TRIGGERED");
     // get only members who are not friends
     const possibleOptions = [];
     const notPossible = [];
@@ -114,8 +109,6 @@ const ManageMembersModal = ({
     });
 
     setFriendOptions(possibleOptions);
-    console.log("OPTIONS", friendOptions);
-    console.log("MEMBERS", members);
   }, [manageMembersModalOpen, setMembers, groupReload]);
 
   useEffect(() => {

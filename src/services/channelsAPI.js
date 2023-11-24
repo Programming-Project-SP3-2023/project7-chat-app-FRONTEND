@@ -32,7 +32,6 @@ export const createChannel = async function (
       "Content-Type": "application/json",
     },
   };
-  console.log("step 2....", groupId, channelType, visibility, channelName);
   const body = {
     groupId: groupId,
     channelType: channelType,
@@ -46,12 +45,9 @@ export const createChannel = async function (
     const response = await axios.post(CREATE_CHANNEL_ENDPOINT, body, headers);
     //Success!
     if (response.status === 201) {
-      console.log("Channel Created!");
-      console.log(response.data.message);
       return response;
     }
   } catch (err) {
-    console.log(err.response.data.message);
   }
 
   return;
@@ -76,11 +72,9 @@ export const getChannels = async function (groupId) {
     const response = await axios.get(GET_CHANNELS_ENDPOINT, headers);
     //Success!
     if (response.status === 200) {
-      console.log("Channels fetched!");
       return response.data;
     }
   } catch (err) {
-    console.log(err.response.data.message);
   }
 
   return;
@@ -106,11 +100,9 @@ export const getChannelInfo = async function (groupId, channelId) {
     const response = await axios.get(GET_CHANNEL_INFO_ENDPOINT, headers);
     //Success!
     if (response.status === 200) {
-      console.log("Channel Info fetched!");
       return response.data;
     }
   } catch (err) {
-    console.log(err.response.data.message);
   }
 
   return;
@@ -150,11 +142,9 @@ export const updateChannelName = async function (
     );
     //Success!
     if (response.status === 200) {
-      console.log("Channel Name Updated");
       return response.data.message;
     }
   } catch (err) {
-    console.log(err.response.data.message);
   }
 
   return;
@@ -172,10 +162,7 @@ export const addChannelMember = async function (
   channelId,
   userIdToAdd
 ) {
-  console.log("step 2..... attempting to push member");
-  console.log("group ID", groupId);
-  console.log("channelId", channelId);
-  console.log("user to add", userIdToAdd);
+  
   const headers = {
     headers: {
       Authorization: getAccessToken(),
@@ -187,7 +174,6 @@ export const addChannelMember = async function (
     channelId: channelId,
     userIdToAdd: userIdToAdd,
   };
-  console.log("body...", body);
   //                                                              /groups/:groupId/channels/:channelId/members
   const ADD_MEMBER_CHANNEL_ENDPOINT = `${CHANNELS_BASE_ENDPOINT}${groupId}/channels/${channelId}/members`;
 
@@ -199,12 +185,9 @@ export const addChannelMember = async function (
     );
     //Success!
     if (response.status === 200) {
-      console.log("Channel Member Created!");
-      console.log(response.data.message);
       return response.data.message;
     }
   } catch (err) {
-    console.log(err.response.data.message);
   }
 
   return;
@@ -237,12 +220,9 @@ export const removeChannelMember = async function (
     );
     //Success!
     if (response.status === 200) {
-      console.log("Channel Member Removed!");
-      console.log(response.data.message);
       return response.data.message;
     }
   } catch (err) {
-    console.log(err.response.data.message);
   }
 
   return;
@@ -262,7 +242,6 @@ export const deleteChannel = async function (groupId, channelId) {
     },
   };
 
-  console.log("step 2 to delete channel....", channelId, "group", groupId);
 
   const REMOVE_CHANNEL_ENDPOINT = `${CHANNELS_BASE_ENDPOINT}${groupId}/channels/${channelId}`;
 
@@ -270,12 +249,9 @@ export const deleteChannel = async function (groupId, channelId) {
     const response = await axios.delete(REMOVE_CHANNEL_ENDPOINT, headers);
     //Success!
     if (response.status === 200) {
-      console.log("Channel Deleted!");
-      console.log(response.data.message);
       return response.data.message;
     }
   } catch (err) {
-    console.log(err.response.data.message);
   }
 
   return;

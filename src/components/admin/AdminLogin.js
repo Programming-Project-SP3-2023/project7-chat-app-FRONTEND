@@ -43,7 +43,6 @@ const AdminLogin = ({ setAdminIsLoggedIn, setAdminTitle }) => {
 
   const loginHandler = async (event) => {
     event.preventDefault();
-    console.log("LOGIN HANDLER");
     // set loading flag to true
     setLoading(true);
 
@@ -83,7 +82,6 @@ const AdminLogin = ({ setAdminIsLoggedIn, setAdminTitle }) => {
           );
         }
       } catch (error) {
-        console.log(error);
         setMessage(
           "An error has occurred on the server! Please try again later"
         );
