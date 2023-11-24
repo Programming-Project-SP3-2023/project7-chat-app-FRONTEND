@@ -79,13 +79,6 @@ const VoiceChatRoom = ({ socket }) => {
 
     getCurrentUsers();
 
-    //this was used to refresh the userlist, but it seems to have unintended consequences.
-    /* const refreshInterval = setInterval(() => {
-      if (showJoinOverlay) {
-        getCurrentUsers();
-      }
-    }, 10000); */
-
 
     const peer = new Peer();
 
@@ -233,14 +226,6 @@ const VoiceChatRoom = ({ socket }) => {
   }
 
 
-
-  const toggleSpeakingStatus = (peerID) => {
-    setSpeakingStatus((prevStatus) => ({
-      ...prevStatus,
-      [peerID]: !prevStatus[peerID], // Toggle the status for the user
-    }));
-  };
-
   const handleJoinChannel = (channelID) => {
 
     
@@ -366,30 +351,6 @@ const VoiceChatRoom = ({ socket }) => {
     return isRoomFull ? getRandomFullMessage() : getRandomMessage();
   };
 
-  // Function to handle audio play/pause events
-  const handleAudioPlayPause = (userId, isPlaying) => {
-    if (isPlaying) {
-      // Audio is playing, indicating the user is speaking
-      toggleSpeakingStatus(userId);
-    } else {
-      // Audio is paused, indicating the user is not speaking
-      toggleSpeakingStatus(userId);
-    }
-  };
-
-  // Function to handle audio ended event
-  const handleAudioEnded = (userId) => {
-    // Audio has ended, indicating the user is not speaking
-    toggleSpeakingStatus(userId);
-  };
-
-  const handleVolumeChange = (event) => {
-    const audio = remoteAudioRef;
-    if (audio) {
-      audio.volume = event.target.value;
-    }
-  };
-
   const playJoinSound = () =>{
     JoinSound.play();
   };
@@ -445,19 +406,7 @@ const VoiceChatRoom = ({ socket }) => {
                 ""
               )}
               <span>{user.username} {user.peerID === peerId ? ' (Me!)' : ''} </span>
-{/*               {user.peerID === peerId ?
-                <input type="hidden"></input>
-                :
-                <input
-                  className="user-audio-slider"
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.1"
-                  value={remoteAudioRef.volume || 1}
-                  onChange={(e) => handleVolumeChange(e)}
-                />
-              } */}
+
               <div>
               </div>
             </div>
