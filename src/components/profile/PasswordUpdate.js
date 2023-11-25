@@ -16,6 +16,8 @@ const PasswordUpdateModal = ({ pwdUpdateOpen, setPwdUpdateOpen }) => {
   const [newPassword, setNewPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [message, setMessage] = useState(null);
+  const [successMsg, setsuccessMsg] = useState(null);
+
 
   const passwordUpdateHandler = async (event) => {
     event.preventDefault();
@@ -32,7 +34,7 @@ const PasswordUpdateModal = ({ pwdUpdateOpen, setPwdUpdateOpen }) => {
       // update users password
       try {
         const response = await updatePassword(currentPassword, newPassword);
-        setMessage(response);
+        setsuccessMsg(response);
       } catch (err) {
         setMessage(err.response.data.message);
       }
@@ -120,6 +122,7 @@ const PasswordUpdateModal = ({ pwdUpdateOpen, setPwdUpdateOpen }) => {
               {/* change password button/modal/dialog box */}
               {/* if the message is defined, show it */}
               {message && <p className="error-message">{message}</p>}
+              {successMsg && <p className="success">{successMsg}</p>}
               <div id="password-update-modal-btn-container">
                 <Button
                   variant="contained"
